@@ -38,7 +38,7 @@ function MODE:HUDPaint()
 		surface.SetTextPos(sw * 0.5 - (w + w2) * 0.5, sh * 0.1 - h * 0.5)
 		surface.SetTextColor(Color(0,162,255, 255))
 		surface.DrawText("Awaiting players: ")
-		
+
 		surface.SetTextPos(sw * 0.5 + (w - w2) * 0.5, sh * 0.1 - h * 0.5)
 		surface.DrawText(string.FormattedTime(startTimer - CurTime(), "%02i:%02i"))
 	end
@@ -106,7 +106,6 @@ CreateEndMenu = function()
 
 	hmcdEndMenu:SetPos(posX,posY)
 	hmcdEndMenu:SetSize(sizeX,sizeY)
-	--hmcdEndMenu:SetBackgroundColor(colGray)
 	hmcdEndMenu:MakePopup()
 	hmcdEndMenu:SetKeyboardInputEnabled(false)
 	hmcdEndMenu:ShowCloseButton(false)
@@ -115,7 +114,7 @@ CreateEndMenu = function()
 	closebutton:SetPos(5,5)
 	closebutton:SetSize(ScrW() / 20,ScrH() / 30)
 	closebutton:SetText("")
-	
+
 	closebutton.DoClick = function()
 		if IsValid(hmcdEndMenu) then
 			hmcdEndMenu:Close()
@@ -171,7 +170,7 @@ CreateEndMenu = function()
             local col = ply:GetPlayerColor():ToColor()
 			surface.SetFont( "ZB_InterfaceMediumLarge" )
 			local lengthX, lengthY = surface.GetTextSize( ply:GetPlayerName() or "He quited..." )
-			
+
 			surface.SetTextColor(0,0,0,255)
 			surface.SetTextPos(w / 2 + 1,h/2 - lengthY/2 + 1)
 			surface.DrawText(ply:GetPlayerName() or "He quited...")
@@ -180,7 +179,7 @@ CreateEndMenu = function()
 			surface.SetTextPos(w / 2,h/2 - lengthY/2)
 			surface.DrawText(ply:GetPlayerName() or "He quited...")
 
-            
+
 			local col = colSpect2
 			surface.SetFont( "ZB_InterfaceMediumLarge" )
 			surface.SetTextColor(col.r,col.g,col.b,col.a)

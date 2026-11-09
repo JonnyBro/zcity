@@ -115,7 +115,7 @@ function SWEP:HurtOwner()
 	local lost_blood = old_blood - new_blood
 	ent.Abnormalties_Blood = (ent.Abnormalties_Blood or 0) + (lost_blood / max_blood_take) * 200
 	ent.organism.blood = new_blood
-	
+
 	if(hg.Abnormalties)then
 		hg.Abnormalties.ShowMessage(ent, tostring(math.Round(ent.Abnormalties_Blood)))
 	end
@@ -129,64 +129,50 @@ function SWEP:CustomBlockAnim(addPosLerp, addAngLerp)
     return true
 end
 
--- function SWEP:StartHurtingSelf()
-	-- self.HurtSelf = self:GetOwner()
-	
-	-- self:SetOwner(game.GetWorld())
--- end
-
--- function SWEP:StopHurtingSelf()
-	-- if(IsValid(self.HurtSelf))then
-		-- self:SetOwner(self.HurtSelf)
-	-- end
-
-	-- self.HurtSelf = nil
--- end
-
 function SWEP:CanSecondaryAttack()
     self.DamageType = DMG_SLASH
-	
+
 	self:SetAttackLength(self.AttackLen2)
     return true
 end
 
 function SWEP:CanPrimaryAttack()
     self.DamageType = DMG_CLUB
-	
+
 	if(self:GetOwner():KeyDown(IN_RELOAD) and self:GetOwner():KeyPressed(IN_ATTACK))then
 		if(SERVER)then
 			self:HurtOwner()
 		end
-		
+
 		return false
 	else
 		self:SetAttackLength(self.AttackLen1)
 	end
-	
+
     return true
 end
 
 hook.Add("EntityTakeDamage", "Abnormalties_Weapon", function(ent, dmg)
 	local attacker = dmg:GetAttacker()
-	
+
 	if(IsValid(attacker) and attacker:IsPlayer())then
 		local wep = attacker:GetActiveWeapon()
-		
+
 		if(IsValid(wep) and wep:GetClass() == weapon_class and dmg:GetDamage() <= 3)then
 			if((ent:IsPlayer() or ent:GetClass() == "prop_ragdoll") and ent.organism)then
 				local max_blood_take = 100
 				local blood_take = 300
-				
+
 				if(ent:IsPlayer())then
 					blood_take = 100
 				end
-				
+
 				local old_blood = ent.organism.blood
 				local new_blood = math.max(ent.organism.blood - blood_take, 0)
 				local lost_blood = old_blood - new_blood
 				attacker.Abnormalties_Blood = (attacker.Abnormalties_Blood or 0) + (lost_blood / max_blood_take) * 200
 				ent.organism.blood = new_blood
-				
+
 				if(hg.Abnormalties)then
 					hg.Abnormalties.ShowMessage(attacker, tostring(math.Round(attacker.Abnormalties_Blood)))
 				end

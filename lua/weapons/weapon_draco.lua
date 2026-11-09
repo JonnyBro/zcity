@@ -14,8 +14,6 @@ SWEP.WepSelectIcon2 = Material("entities/zcity/drako.png")
 SWEP.IconOverride = "entities/zcity/drako.png"
 
 SWEP.CustomShell = "762x39"
---SWEP.EjectPos = Vector(0,10,5)
---SWEP.EjectAng = Angle(-55,80,0)
 
 SWEP.weight = 3
 SWEP.addweight = -1.5
@@ -72,9 +70,7 @@ function SlipWeapon(self, bullet)
 				owner:DropWeapon(self, nil, force)
 				self:SetPos(pos)
 				owner:SelectWeapon(owner:GetWeapon("weapon_hands_sh"))
-				//owner:ChatPrint("Your hand hurts really bad.")
 				if owner.organism then
-					//owner.organism.pain = owner.organism.pain + 20
 					local dmgInfo = DamageInfo()
 					dmgInfo:SetDamage(0.5)
 					dmgInfo:SetDamageType(DMG_CLUB)
@@ -133,15 +129,6 @@ SWEP.availableAttachments = {
 }
 
 function SWEP:ModelCreated(model)
-	/*if SERVER then
-		if math.random(100) <= 5 then
-			net.Start("gdraco")
-			net.WriteEntity(self)
-			net.Broadcast()
-			self.WorldModel = "models/draco/w_gdraco.mdl"
-			self.ViewModel = "models/draco/w_gdraco.mdl"
-		end
-	end*/
 
 	model:SetBodyGroups("01")
 end
@@ -167,7 +154,6 @@ else
 	net.Receive("send_huyhuy2", function(len)
 		local self = net.ReadEntity()
 		local twohands = net.ReadBool()
-		--print(twohands)
 		self.HoldType = twohands and "ar2" or "revolver"
 		self.SprayRand = twohands and recoilAng1 or recoilAng2
 		self.AnimShootHandMul = twohands and 0.25 or 1
@@ -193,7 +179,7 @@ function SWEP:Step()
 				self.AnimShootHandMul = twohands and 0.25 or 1
 				self.RHPos = not twohands and Vector(9,-5,3) or Vector(3,-5.5,3.5)
 				self.RHAng = not twohands and Angle(0,0,90) or Angle(0,-5,90)
-		
+
 				self.LHPos = not twohands and Vector(-1,-2,-3) or Vector(14,0.1,-3.9)
 				self.LHAng = not twohands and Angle(-0,0,-100) or Angle(-110,-90,-90)
 				net.Start("send_huyhuy2")

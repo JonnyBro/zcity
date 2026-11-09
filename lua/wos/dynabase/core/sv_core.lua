@@ -11,5 +11,5 @@ hook.Add( "PlayerInitialSpawn", "wOS.DynaBase.NetworkRegisteredAnimations", func
         for name, _ in pairs( wOS.DynaBase:GetAllSources() ) do
             net.WriteString( name )
         end
-    net.Send( ply )   
+    net.Send( ply )
 end )

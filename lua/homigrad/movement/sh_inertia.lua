@@ -1,13 +1,6 @@
 local Angle, Vector, AngleRand, VectorRand, math, hook, util, game = Angle, Vector, AngleRand, VectorRand, math, hook, util, game
 --\\ Inertia & stuff
 	--\\ Antibhop accelerate (not used anyway)
-		--[[hook.Add("OnPlayerHitGround", "Movement", function(ply, inWater, onFloater, speed)
-			local vel = ply:GetVelocity()
-
-			if (ply.MovementInertia and vel:LengthSqr() > 10000) then
-				ply.MovementInertia = ply.MovementInertia + (vel / vel:Length() * math.abs(vel[3])) * 0.75
-			end
-		end)]]
 	--//
 
 	--\\ Side movement calculation
@@ -25,7 +18,6 @@ local Angle, Vector, AngleRand, VectorRand, math, hook, util, game = Angle, Vect
 
 		local function calc_forward_side_moves_to_vector2d(fm, sm, ply_angles)
 			local ply_angle = ply_angles.y
-			--ply_angle = ply_angle + (CLIENT and offsetView[2] or 0)
 
 			local vec = Vector(fm * math.cos(math.rad(ply_angle)) - sm * math.cos(math.rad(ply_angle + 90)), fm * math.sin(math.rad(ply_angle)) - sm * math.sin(math.rad(ply_angle + 90)), 0)
 
@@ -105,12 +97,6 @@ local Angle, Vector, AngleRand, VectorRand, math, hook, util, game = Angle, Vect
 
 		local runnin = ply:KeyDown(IN_SPEED) and not ply:Crouching() and ply:KeyDown(IN_FORWARD)
 
-		--[[if runnin then
-			mv:SetSideSpeed(0) --meh
-			cmd:SetSideMove(0)
-			cmd:RemoveKey(IN_BACK)
-		end]]
-
 		if not IsValid(ply.FakeRagdoll) and ply:KeyDown(IN_SPEED) and not ply:Crouching() and ply:KeyDown(IN_BACK) then
 			cmd:RemoveKey(IN_SPEED)
 		end
@@ -132,12 +118,6 @@ local Angle, Vector, AngleRand, VectorRand, math, hook, util, game = Angle, Vect
 		weightmul = math.max(weightmul > 0.9 and 1 or weightmul / 0.9, 0.1)
 
 		--\\ Experimental pz-like sprint code
-			--[[ply:SetRunSpeed((IsValid(wep) and wep ~= NULL and wep:GetClass() == "weapon_hands_sh" and slow_walking) and 390 or 230)
-			if IsValid(wep) and wep ~= NULL and wep:GetClass() == "weapon_hands_sh" and runnin and slow_walking then
-				mv:SetSideSpeed(0)
-				cmd:SetSideMove(0)
-				cmd:RemoveKey(IN_BACK)
-			end]]
 		--//
 
 		--ply:SetRunSpeed(350)
@@ -196,25 +176,11 @@ local Angle, Vector, AngleRand, VectorRand, math, hook, util, game = Angle, Vect
 		ply.SpeedSharpLoseMul = 0.007
 		ply.InertiaBlend = 2000 * weightmul * (ply.organism.superfighter and 100 or 1)
 		ply.DuckingSlowdown = ply.DuckingSlowdown or 0
-		-- ply.InertiaBlend = 15 * weightmul * ply.CurrentFrictionMul
 		local inertia_blend_mul = 1
 
 		if(velLen <= slow_walk_speed)then
 			inertia_blend_mul = 1
 		end
-
-		--[[
-		if ply.WasDucking and not ply:KeyDown(IN_DUCK) then
-			ply.WasDucking = false
-			ply.DuckingSlowdown = math.Approach(ply.DuckingSlowdown,5,delta_time * 5000)
-		end
-
-		ply:SetDuckSpeed(0.4 * (5 - ply.DuckingSlowdown) / 5)
-		ply:SetUnDuckSpeed(0.4 * (5 - ply.DuckingSlowdown) / 5)
-
-		ply.WasDucking = ply:KeyDown(IN_DUCK)
-		ply.DuckingSlowdown = math.Approach(ply.DuckingSlowdown,0,-delta_time * 1)
-		--]]
 
 		ply.InertiaBlend = ply.InertiaBlend * inertia_blend_mul
 
@@ -296,7 +262,6 @@ local Angle, Vector, AngleRand, VectorRand, math, hook, util, game = Angle, Vect
 
 			--if(CLIENT)then
 				speed = speed / movement_penalty
-			--end
 		--//
 
 		local inertia_to = calc_forward_side_moves_to_vector2d(fm, sm, ply_angles) * speed
@@ -320,7 +285,6 @@ local Angle, Vector, AngleRand, VectorRand, math, hook, util, game = Angle, Vect
 
 					--if(CLIENT)then
 						speed = speed / movement_penalty
-					--end
 
 					inertia_to = calc_forward_side_moves_to_vector2d(fm, sm, ply_angles) * speed
 				end
@@ -337,21 +301,11 @@ local Angle, Vector, AngleRand, VectorRand, math, hook, util, game = Angle, Vect
 
 			local consmul = math.Clamp(((consciousness - 1) * 4 + 1), 0.1, 1)
 
-			//if(water_level > 0)then
-			//	ply.CurrentFrictionMul = math.Approach(ply.CurrentFrictionMul, 0.2, delta_time * ply.FrictionLoseMul * water_level)
-			//else
-				// ply.CurrentFrictionMul = math.Approach(ply.CurrentFrictionMul, consmul, delta_time * ply.FrictionGainMul * (consmul < ply.CurrentFrictionMul and 100 or 10))
-			//end
-
 			ply.CurrentFrictionMul = 0.5 / hg_inertiamul:GetFloat()
 			ply.InertiaBlend = ply.InertiaBlend * ply.CurrentFrictionMul
 
-			-- local new_inertia = LerpVector(0.5^(delta_time * ply.InertiaBlend), ply.MovementInertia, inertia_to)
-			-- local new_inertia = LerpVector(1 - 0.5^(delta_time * ply.InertiaBlend), ply.MovementInertia, inertia_to)
-			//local new_inertia = approach_vector(ply.MovementInertia, inertia_to, 1000)//SERVER and delta_time * ply.InertiaBlend * ply:Ping() / 100 or delta_time * ply.InertiaBlend)
-			//local new_inertia = approach_vector_smooth(ply.MovementInertia, inertia_to, hg.lerpFrameTime2(0.075, delta_time))
 			if !ply:OnGround() then
-				ply.MovementInertia = ply.LastVelocity	
+				ply.MovementInertia = ply.LastVelocity
 			end
 
 			local new_inertia = approach_vector(ply.MovementInertia, inertia_to, delta_time * ply.InertiaBlend)
@@ -359,11 +313,6 @@ local Angle, Vector, AngleRand, VectorRand, math, hook, util, game = Angle, Vect
 			ply.MovementInertia = new_inertia
 
 			local inertia_len = math.sqrt(ply.MovementInertia.x * ply.MovementInertia.x + ply.MovementInertia.y * ply.MovementInertia.y)
-
-			/*if (SERVER or (ply.huy or 0) < SysTime()) and inertia_len > 10 then
-				if CLIENT then ply.huy = SysTime() + engine.ServerFrameTime() end
-				print(new_inertia, inertia_to)
-			end*/
 
 			local forward_move, side_move = calc_forward_side_moves(ply.MovementInertia, ply_angles)
 
@@ -389,13 +338,9 @@ local Angle, Vector, AngleRand, VectorRand, math, hook, util, game = Angle, Vect
 		k = k * (org.pelvis == 1 and 0.4 or 1)
 		k = k * ((IsValid(ply:GetNetVar("carryent")) or IsValid(ply:GetNetVar("carryent2"))) and math.Clamp(50 / math.max(ply:GetNetVar("carrymass", 0) + ply:GetNetVar("carrymass2", 0), 1), 0.5, 1) or 1)
 		k = k * math.Clamp(20 / ((org.pain or 0) + 1), 0.01, 1)
-		//k = k * (ishgweapon(wep) and not wep:IsPistolHoldType() and not wep:ReadyStance() and 0.75 or 1)
 
 		local slwdwn = ply:GetNetVar("slowDown", 0)
 		if(slwdwn > 0)then
-			//if(SERVER)then
-				//ply:SetNetVar("slowDown", math.Approach(slwdwn, 0, delta_time * 250))
-			//end
 			k = k * math.Clamp((250 - slwdwn) / 250, 0.75, 1)
 		end
 
@@ -499,9 +444,6 @@ local Angle, Vector, AngleRand, VectorRand, math, hook, util, game = Angle, Vect
 			end
 		end
 
-		--print(speed.." "..(CLIENT and "c" or "s"))
-		--speed = SERVER and speed + 50 or speed
-
 		if ply:GetMoveType() == MOVETYPE_LADDER or ply:GetMoveType() == MOVETYPE_NONE then
 			inertia_len = 100
 		end
@@ -509,7 +451,7 @@ local Angle, Vector, AngleRand, VectorRand, math, hook, util, game = Angle, Vect
 		if org.noradrenaline and org.noradrenaline > 0 and inertia_len > 0 then
 			inertia_len = inertia_len + 200 * math.Round(org.noradrenaline, 1)
 		end
-		
+
 		mv:SetMaxSpeed(inertia_len)
 		mv:SetMaxClientSpeed(inertia_len)
 		ply:SetMaxSpeed(math.max(100, inertia_len))

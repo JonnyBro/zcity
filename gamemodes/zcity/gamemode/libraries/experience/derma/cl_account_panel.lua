@@ -12,7 +12,7 @@ local Statics = {
 function PANEL:Init()
     self:SetSize(ScrW()/2,ScrH()*0.6)
     self:Center()
-    
+
     self.MainInfo = vgui.Create("ZB_ExpPanel",self)
     local MInfo = self.MainInfo
     MInfo:Dock(LEFT)
@@ -28,9 +28,6 @@ function PANEL:Init()
 
     SInfo:AddSheet( "Statistics", panel1, "icon16/chart_bar.png" )
 
-    --local panel1 = vgui.Create( "DPanel", SInfo )
-    --function panel1:Paint() end
-    --SInfo:AddSheet( "Achievements", panel1, "icon16/award_star_silver_3.png" )
 end
 
 function PANEL:SetPlayer(ply)
@@ -77,11 +74,9 @@ local function PaintFrame(self,w,h)
     surface.DrawOutlinedRect( 0, 0, w, h, 2.5 )
 end
 
-function PANEL:Paint( w, h )  
+function PANEL:Paint( w, h )
     PaintFrame( self, w, h )
 end
 
 vgui.Register( "ZB_AccountFrame", PANEL, "ZFrame" )
 
-
---vgui.Create("ZB_AccountFrame"):MakePopup()

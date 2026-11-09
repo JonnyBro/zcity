@@ -7,38 +7,6 @@ hg.DynamicMusicV2 = hg.DynamicMusicV2 or {}
 hg.DynamicMusicV2.Player = hg.DynamicMusicV2.Player or {}
 
 
---[[
-    ["условный трек"] = {
-        ["SelectPreset"] = function(ply)
-            local intens = 0
-            local org = ply.organism
-            if org.adrenaline > 0.2 then
-                intens = intens + 1
-            end
-
-            -- и так далее...
-        end,
-
-        ["Presets"] = {
-            [1] = {"Название для слоев1"}
-            [2] = {
-                ["Название для слоев2"] = {volume = 1}, 
-                ["Название для слоев4"] = {volume = 1}
-            }
-
-            -- думаю понятно...
-        },
-
-        ["Layers"] = {
-            ["Название для слоев1"] = ".wav .mp3 путь к любому файлу который может сожрать игра",
-            ["Название для слоев2"] = ".wav .mp3 путь к любому файлу который может сожрать игра",
-            ["Название для слоев3"] = ".wav .mp3 путь к любому файлу который может сожрать игра",
-            ["Название для слоев4"] = ".wav .mp3 путь к любому файлу который может сожрать игра",
-            ["Название для слоев5"] = ".wav .mp3 путь к любому файлу который может сожрать игра",
-        }
-    }
---]]
-
 DYNAMIC_MUSIC_PAUSE = 0
 DYNAMIC_MUSIC_STOP = -1
 DYNAMIC_MUSIC_PLAY = 1
@@ -51,7 +19,6 @@ hg.DynamicMusicV2.Player.Layers = hg.DynamicMusicV2.Player.Layers or {}
 local layers = hg.DynamicMusicV2.Player.Layers
 local function SetupMusicFile(name, path, callback)
     sound.PlayFile("sound/" .. path, "noplay noblock", function(Channel, Err, ErrStr)
-        --print(Channel, Err, ErrStr)
         if IsValid( Channel ) then
             Channel:EnableLooping( true )
             layers[#layers + 1] = {name, Channel}
@@ -69,15 +36,14 @@ hg.DynamicMusicV2.Player.GetTrack = GetTrack
 function hg.DynamicMusicV2.Player.SetupLayers()
     if !IsValid(lply) then return end
     local Track = GetTrack()
-    
+
     if !Track then return end
-    
+
     hg.DynamicMusicV2.Player.Stop(true)
     local amount = table.Count(Track.Layers)
     for k,v in pairs(Track.Layers) do
         SetupMusicFile(k, v, function()
             amount = amount - 1
-            --print(amount)
             if amount <= 0 then hg.DynamicMusicV2.Player.Play() end
         end)
     end
@@ -127,9 +93,6 @@ function hg.DynamicMusicV2.Player.Start( strTrackName )
     hg.DynamicMusicV2.Player.CurrentTrack = strTrackName or hg.DynamicMusicV2.Player.CurrentTrack
     hg.DynamicMusicV2.Player.SetupLayers()
 end
-
---hg.DynamicMusicV2.Player.Start( "overdose" )
---hg.DynamicMusicV2.Player.Start( "final_heartbeat" )
 
 function hg.DynamicMusicV2.Player.Think()
     if !IsValid(lply) then return end

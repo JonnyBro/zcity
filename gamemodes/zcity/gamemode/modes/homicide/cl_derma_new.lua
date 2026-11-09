@@ -20,14 +20,6 @@ local gradient_u = Material("vgui/gradient-u")
 local gradient_l = Material("vgui/gradient-l")
 local gradient_r = Material("vgui/gradient-r")
 
-/*function PANEL:PostPaintPanel(w, h)
-	if rolesmaterials[self.Role] then
-		surface.SetDrawColor(vgui_color_main)
-		surface.SetMaterial(rolesmaterials[self.Role])
-		surface.DrawTexturedRect(0, -100, w, h + 200)
-	end
-end*/
-
 local PANEL = {}
 
 local sw, sh = ScrW(), ScrH()

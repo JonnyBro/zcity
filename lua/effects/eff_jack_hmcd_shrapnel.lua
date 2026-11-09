@@ -5,11 +5,11 @@ local parts = {}
 
 function EFFECT:Init(data)
 	local vOffset = data:GetOrigin()
-	
+
 	local Scayul=data:GetScale()
 	self.Scale=Scayul
 	self.Position=vOffset
-	
+
 	self.Pos=vOffset
 	self.Scayul=Scayul
 	local Normal=data:GetNormal()
@@ -17,9 +17,9 @@ function EFFECT:Init(data)
 	self.DieTime=CurTime()+.1
 	self.Opacity=1
 	self.TimeToDie=CurTime()+0.015*self.Scale
-	
+
 	if(self:WaterLevel()==3)then return end
-	
+
 	local Emitter=ParticleEmitter(vOffset)
 	for i=0,400*Scayul do
 		local sprite="sprites/mat_jack_nsmokethick"
@@ -53,7 +53,7 @@ function EFFECT:Init(data)
 				part:SetCollide(false)
 				util.Decal("ExplosiveGunshot",hitpos+hitnormal,hitpos-hitnormal)
 				part:SetCollideCallback(function(part) part:SetCollide(true) end)
-				if math.random(1,3) == 3 then 
+				if math.random(1,3) == 3 then
 					part:SetDieTime(0.1)
 				else
 					parts[#parts + 1] = part

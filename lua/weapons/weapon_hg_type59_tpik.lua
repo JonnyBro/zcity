@@ -1,7 +1,7 @@
 ﻿if SERVER then AddCSLuaFile() end
 SWEP.Base = "weapon_hg_grenade_tpik"
 SWEP.PrintName = "Type-59 Grenade"
-SWEP.Instructions = 
+SWEP.Instructions =
 [[This is a cheap Chinese clone of an old Soviet RGD-5 offensive hand grenade. It has a lethality radius of 3 meters and casualty radius of 9 meters. It has a pyrotechnic delay of 3.5-4.4 seconds.
 
 Reload looking on surface will set tripwire
@@ -52,14 +52,11 @@ SWEP.DrawAmmo = false
 SWEP.DrawCrosshair = false
 
 SWEP.AnimList = {
-    -- self:PlayAnim( anim,time,cycling,callback,reverse,sendtoclient )
 	["deploy"] = { "base_draw", 1, false },
     ["attack"] = { "throw", 0.8, false, false, function(self)
 
 		if CLIENT then return end
-		--local tr = self:GetEyeTrace()
-		--self:Tie(tr)
-		
+
 		self:Throw(1200, self.SpoonTime or CurTime(),nil,Vector(2,4,0),Angle(-40,0,0))
 		self.InThrowing = false
 		self.ReadyToThrow = false
@@ -81,8 +78,6 @@ SWEP.AnimList = {
 		end)
 	end, 0.65 },
 	["attack2"] = { "lowthrow", 0.8, false, false, function(self)
-		--local tr = self:GetEyeTrace()
-		--self:Tie(tr)
 		if CLIENT then return end
 		self:Throw(600, self.SpoonTime or CurTime(),nil,Vector(0,4,-6),Angle(40,0,0))
 		self.InThrowing = false
@@ -106,13 +101,11 @@ SWEP.AnimList = {
 			self:SetShowPin(true)
 		end)
 	end, 0.6 },
-	["pullbackhigh"] = {"pullbackhigh", 1.5, false, false, function(self) 
+	["pullbackhigh"] = {"pullbackhigh", 1.5, false, false, function(self)
 		self:SetShowPin(false)
-		--self:PlayAnim("attack")
 		self.ReadyToThrow = true
 	end,0.8},
-	["pullbacklow"] = {"pullbacklow", 1.5, false, false, function(self) 
-		--self:PlayAnim("attack2")
+	["pullbacklow"] = {"pullbacklow", 1.5, false, false, function(self)
 		self:SetShowPin(false)
 		self.IsLowThrow = true
 		self.ReadyToThrow = true

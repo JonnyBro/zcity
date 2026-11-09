@@ -31,7 +31,7 @@ PLUGIN.PossibleCharInfo = {
 	--; Thanks to noaccess, for pointing me to more performance-friendly approach described in https://github.com/Be1zebub/Small-GLua-Things/blob/master/sh_utf8.lua
 	--; https://www.charset.org/utf-8
 	--; TODO; actually check perfomances
-	
+
 	PLUGIN.String = PLUGIN.String or {}
 	PLUGIN.String.StringPattern = utf8.charpattern --; "[%z\x01-\x7F\xC2-\xF4][\x80-\xBF]*"
 
@@ -62,11 +62,11 @@ PLUGIN.PossibleCharInfo = {
 
 		for code = start, stop do
 			local char = utf8.char(code)
-			
+
 			if(!PLUGIN.HotChars[char] or PLUGIN.HotChars[char] <= CurTime())then
 				PLUGIN.HotChars[char] = nil
 				PLUGIN.CharInfo[char] = {}
-				
+
 				for i = 1, possible_char_info_count do
 					PLUGIN.CharInfo[char][#PLUGIN.CharInfo[char] + 1] = {PLUGIN.PossibleCharInfo[i], math.random(-1, 1)}
 				end

@@ -21,7 +21,7 @@ function ENT:Initialize()
 	local phys = self:GetPhysicsObject()
 	if IsValid(phys) then
 		phys:Wake()
-		phys:EnableMotion(false) 
+		phys:EnableMotion(false)
 	end
 end
 
@@ -128,11 +128,10 @@ function ENT:ActivateExplosive()
 	local blastdist = self.BlastDis
 	timer.Simple(0.3,function()
 		ParticleEffect("pcf_jack_groundsplode_medium",selfPos+vector_up*1,-normal:Angle())
-		--hg.ExplosionEffect(selfPos, blastdist, 80)
 	end)
 
 	local attacker = IsValid(self.owner) and self.owner or Entity(0)
-	
+
 	for _, ply in ipairs(ents.FindInSphere(selfPos,self.ConcussionDis)) do
 		if not ply:IsPlayer() then continue end
 		local tr = hg.ExplosionTrace(selfPos,ply:GetPos(),{self})
@@ -141,10 +140,8 @@ function ENT:ActivateExplosive()
 		local tinnitusDuration = math.Clamp(10 * (1 - dist/self.ConcussionDis), 2, 10)
 		ply:AddTinnitus(math.max(tinnitusDuration,1.5), true)
 	end
-	   
-	--util.BlastDamage(self, attacker, selfPos, self.ShrapnelDis, self.BlastDamage)
+
 	util.BlastDamage(self, attacker, selfPos, self.BlastDis, self.ShrapnelDamage)
-	--util.BlastDamage(self, attacker, selfPos, self.ConcussionDis, self.ConcussionDamage)
 end
 
 function ENT:OnTakeDamage(dmginfo)

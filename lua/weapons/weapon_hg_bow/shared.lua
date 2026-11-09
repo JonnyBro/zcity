@@ -45,7 +45,7 @@ SWEP.AnimList = {
 
 	["idle"] = {"idle01", 0.5, false},
 	["idle_empty"] = {"idle01dry", 0.5, false},
-	
+
 	["meleeattack"] = {"shove", 0.9, false, false, function(self)
 		self.CurState = -1
 	end},
@@ -54,7 +54,6 @@ SWEP.AnimList = {
 	end},
 	["attack"] = {"fire_iron", 2, false, false, function(self)
 		self.CurState = 1
-		--self.DisableWalkBob = true
 		self:PlayAnim("iron_streched")
 	end},
 	["attack_last"] = {"fire_iron_last", 1, false, false, function(self)
@@ -73,15 +72,12 @@ SWEP.AnimList = {
 	end},
 	["aim_to_idle_empty"] = {"iron_to_idledry", 0.6, false, false, function(self)
 		self.CurState = -1
-		--self.DisableWalkBob = false
 	end},
 	["iron_streched"] = {"Iron_Idle_Stretched_Relaxed",4,true,false,nil},
 }
 SWEP.AnimsEvents = {
 	["fire_iron"] = {
 		[0.2] = function(self)
-			--self.DisableWalkBob = false
-			--PrintAnims(self:GetWM())
 			self:EmitSound("weapons/bow_deerhunter/arrow_fetch_0"..math.random(4)..".wav", 60, math.random(95, 105), 1, CHAN_BODY)
 		end,
 		[0.6] = function(self)
@@ -100,7 +96,6 @@ SWEP.AnimsEvents = {
 	["iron_to_idle"] = {
 		[0.01] = function(self)
 			self.DisableWalkBob = false
-			--self:EmitSound("weapons/bow_deerhunter/bow_pullback_0".. (math.random(2) == 2 and 3 or 1) ..".wav")
 		end
 	}
 }
@@ -126,9 +121,9 @@ end
 SWEP.Initialzed = false
 function SWEP:Deploy()
 	local owner = self:GetOwner()
-    
+
 	if SERVER and self.Initialzed and not owner.noSound then owner:EmitSound(self.DeploySnd, 65) end
-	
+
 	if not self.Initialzed then
 		owner:SetAmmo((owner:GetAmmoCount("Arrow") or 0) + 1, "Arrow")
 	end -- no nab

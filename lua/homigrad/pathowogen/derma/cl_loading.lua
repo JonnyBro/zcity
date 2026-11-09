@@ -48,12 +48,6 @@ surface.CreateFont("ZB_ProotOSMatrix2", {
 	weight = 400,
 })
 
--- local tbl = vgui.GetAll()
-
--- for _, v in pairs(tbl) do
---     v:Remove()
--- end
-
 local bluewhite = Color(187, 187, 255)
 local bluewhite2 = Color(213, 43, 43)
 
@@ -144,9 +138,6 @@ function PANEL:Init()
 
 	self:SetSize(sw, sh)
 	self:RequestFocus()
-
-	-- sound.PlayFile("sound/zbattle/boot.ogg", "", function()
-	-- end)
 
 	sound.PlayFile("sound/zbattle/startup2.ogg", "", function()
 	end)
@@ -448,16 +439,6 @@ function PANEL:Paint()
 	//grid sweep
 	surface.SetDrawColor(0, 0, 0, init * 255)
 	surface.DrawRect(-10, -10, sw + 10, sh + 10)
-
-	-- surface.SetDrawColor(4, 19, 22, self.alphagrid * init)
-
-	-- for i = 1, (ybars + 1) do
-	-- 	surface.DrawRect((sw / ybars) * i - (CurTime() * 30 % (sw / ybars)), 0, ScreenScale(1), sh)
-	-- end
-
-	-- for i = 1, (xbars + 1) do
-	-- 	surface.DrawRect(0, (sh / xbars) * (i - 1) + (CurTime() * 30 % (sh / xbars)), sw, ScreenScale(1))
-	-- end
 
 	self:DrawMatrix()
 

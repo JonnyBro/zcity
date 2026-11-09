@@ -57,7 +57,6 @@ function ENT:Initialize()
     self:SetModel( self.modelSlow )
     self:SetSolid( SOLID_NONE )
     self:SetMoveType( MOVETYPE_VPHYSICS )
-    --self:DrawShadow( false )
     self:Repair()
 end
 

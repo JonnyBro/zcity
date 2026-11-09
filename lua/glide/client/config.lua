@@ -514,7 +514,7 @@ function Config:OpenFrame()
 
     self.frame = frame
 
-    ----- Go back to last open tab ----- 
+    ----- Go back to last open tab -----
 
     timer.Simple( 0, function()
         if IsValid( self.frame ) then

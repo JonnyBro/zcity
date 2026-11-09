@@ -72,7 +72,6 @@ SWEP.SupressedSound = {"mosin/mosin_suppressed_fp.wav", 80, 90, 100}
 SWEP.availableAttachments = {
 	barrel = {
 		[1] = {"supressor1", Vector(25.55,1,-0.5), {}},
-		--[2] = {"supressor6", Vector(22.55,1,-0.5), {}},
 		[2] = {"supressor7", Vector(26.5,0.4,-0.8), {}},
 		["mountAngle"]=Angle(0,0,37.5),
 	},
@@ -246,7 +245,7 @@ local function cock(self,time)
 	net.Broadcast()
 
 	self.Primary.Next = CurTime() + self.AnimDraw + self.Primary.Wait
-	
+
 
 	local ply = self:GetOwner()
 
@@ -268,14 +267,13 @@ local function reloadFunc(self)
 		self:GetWM():ManipulateBoneScale(self.MagIndex, vector_full)
 	end
 
-	self:PlayAnim(self.AnimList["insert"] or "reload_insert", 1, false, function() 
-		self:InsertAmmo(1) 
+	self:PlayAnim(self.AnimList["insert"] or "reload_insert", 1, false, function()
+		self:InsertAmmo(1)
 		if self.MagIndex then
 			self:GetWM():ManipulateBoneScale(self.MagIndex, vector_origin)
 		end
 
 		local key = hg.KeyDown(self:GetOwner(), IN_RELOAD)
-		--print("reload",key)
 
 		if key and self:CanReload() then
 			reloadFunc(self)
@@ -284,9 +282,9 @@ local function reloadFunc(self)
 
 		if !self.drawBullet then
 			cock(self,1)
-			self:PlayAnim(self.AnimList["finish_empty"] or "bolt_close_0", 1, false, function(self) self:SetNetVar("shootgunReload", 0) end, false, true) 
+			self:PlayAnim(self.AnimList["finish_empty"] or "bolt_close_0", 1, false, function(self) self:SetNetVar("shootgunReload", 0) end, false, true)
 		else
-			self:PlayAnim(self.AnimList["finish"] or "bolt_close_0", 1, false, function(self) self:SetNetVar("shootgunReload", 0) end, false, true) 
+			self:PlayAnim(self.AnimList["finish"] or "bolt_close_0", 1, false, function(self) self:SetNetVar("shootgunReload", 0) end, false, true)
 		end
 	end, false, true)
 end
@@ -294,9 +292,7 @@ end
 SWEP.FakeEjectBrassATT = "shell"
 
 function SWEP:Reload(time)
-	--print(self:GetNetVar("shootgunReload",0))
 	local ply = self:GetOwner()
-	--if ply.organism and (ply.organism.larmamputated or ply.organism.rarmamputated) then return end
 	if self.AnimStart_Draw > CurTime() - 0.5 then return end
 	if not self:CanUse() then return end
 	if self.reloadCoolDown > CurTime() then return end

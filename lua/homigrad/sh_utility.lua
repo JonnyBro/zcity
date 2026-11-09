@@ -120,35 +120,6 @@ end
 	end
 --//
 
---\\ BoneMatrix func
-	local function setbonematrix(self, bone, matrix)
-		do return end
-		local parent = self:GetBoneParent(bone)
-		parent = parent ~= -1 and parent or 0
-
-		local matp = self.unmanipulated[parent] or self:GetBoneMatrix(parent)
-		--print(matp:GetAngles(),parent)
-		local new_matrix = matrix
-		local old_matrix = self.unmanipulated[bone]
-
-		local lmat = old_matrix:GetInverse() * new_matrix
-		local ang = lmat:GetAngles()
-		local vec, _ = WorldToLocal(new_matrix:GetTranslation(), angle_zero, old_matrix:GetTranslation(), matp:GetAngles())
-
-		--self:ManipulateBonePosition(bone, vec)
-		--self:ManipulateBoneAngles(bone, lmat:GetAngles())
-		hg.bone.Set(self, bone, vector_origin, lmat:GetAngles(), "huy1")
-	end
-
-	function PLAYER:SetBoneMatrix2(boneID, matrix)
-		setbonematrix(self, boneID, matrix)
-	end
-
-	function ENTITY:SetBoneMatrix2(boneID, matrix)
-		setbonematrix(self, boneID, matrix)
-	end
---//
-
 --\\ Weighted Random Select
 	function hg.WeightedRandomSelect(tab, mul)
 		if not tab or not istable(tab) then return end
@@ -164,7 +135,6 @@ end
 
 		for i = 1, #tab do
 			current_weight = current_weight + tab[i][1]
-			--print(current_weight,random_weight,current_weight <= random_weight)
 			if(current_weight >= random_weight)then
 				return i, tab[i][2]
 			end
@@ -393,7 +363,6 @@ end
 						tooNearPlayer = true
 					end
 				end
-				//print(target, penetrating, tooNearPlayer, target:GetCollisionGroup())
 
 				if (!penetrating and !tooNearPlayer) or i >= (math.Round(time / checkdtime) - 1) then
 					if target:GetCollisionGroup() == COLLISION_GROUP_PASSABLE_DOOR then -- if it somehow changed, we shouldn't touch it
@@ -471,8 +440,6 @@ end
 
 		ply:SetNWEntity("spect", NULL)
 
-		-- if CLIENT and ply:Alive() then ply:BoneScaleChange() end
-
 		ply:SetHull(HullMins, HullMaxs)
 		ply:SetHullDuck(HullDuckMins, HullDuckMaxs)
 		ply:SetViewOffset(ViewOffset)
@@ -530,8 +497,6 @@ end
 			ply.posture = 0
 		end
 
-		--hg.addbonecallback(ply)
-
 		if IsValid(ply) and ply:Alive() and not IsValid(ply.bull) and SERVER then
 			timer.Simple(1, function()
 				if not IsValid(ply) or not ply:Alive() then return end
@@ -551,8 +516,6 @@ end
 				bull:Spawn()
 				bull:Activate()
 				bull:SetNotSolid(true)
-				--bull:SetSolidFlags(FSOLID_TRIGGER)
-				--bull:SetCollisionGroup(COLLISION_GROUP_PLAYER)
 
 				bull.ply = ply
 				for i, ent in ipairs(ents.FindByClass("npc_*")) do
@@ -589,8 +552,6 @@ end
 		v = v + newang:Right() * offset.x
 		v = v + newang:Forward() * offset.y
 		v = v + newang:Up() * offset.z
-
-		-- v:Rotate(offset_ang)
 
 		v = v - (point.x * newang:Right())
 		v = v - (point.y * newang:Forward())
@@ -635,7 +596,7 @@ local IsValid = IsValid
 		local ply, ent
 
 		if self:IsRagdoll() then
-			ply = self:GetNWEntity("ply")		
+			ply = self:GetNWEntity("ply")
 			ent = self
 		else
 			ply = self
@@ -658,13 +619,9 @@ local IsValid = IsValid
 		if ent:GetMaterial() == "NULL" then ent:DrawShadow( false ) return end
 		if not IsValid(ent) then return end
 
-		--local drawornot = hook_Run("PreDrawPlayer2", ent, self) // true means nodraw
-		--if drawornot then return end
-
 		DrawPlayerRagdoll(ent, self)
 		RenderAccessoriesCool(ent, self)
 		hook_Run("CoolPostDrawAppearance", ent, self)
-		//hg.HomigradBones(self, CurTime(), FrameTime())
 
 		if IsValid(self.OldRagdoll) then DrawAppearance(ent, self, true) end
 		if !hg.converging[self] then
@@ -749,8 +706,6 @@ local IsValid = IsValid
 	local util_TraceHull = util.TraceHull
 
 	function hg.hullCheck(startpos, endpos, ply)
-		//if ply.lasthulltrace == CurTime() and ply.cachedhulltrace then return ply.cachedhulltrace end
-		//ply.lasthulltrace = CurTime()
 		if ply:InVehicle() then return {HitPos = endpos} end
 		traceBuilder.start = IsValid(ply.FakeRagdoll) and endpos or startpos
 		traceBuilder.endpos = endpos
@@ -800,49 +755,17 @@ local IsValid = IsValid
 			return ply:EyePos(), aim_vector * (dist or 60), ply//util.TraceLine(tr)
 		end
 
-		/*if (ply.InVehicle and ply:InVehicle() and IsValid(ply:GetVehicle())) then
-			local veh = ply:GetVehicle()
-			local vehang = veh:GetAngles()
-			local tr = {
-				start = ply:EyePos() + vehang:Right() * -6 + vehang:Up() * 4,
-				endpos = ply:EyePos() + aim_vector * (dist or 60),
-				filter = ply
-			}
-			return util.TraceLine(tr), nil, headm
-		end*/
-
 		local headm = ent:GetBoneMatrix(bon)
-
-		//if CLIENT and IsValid(ply.OldRagdoll) then
-		//	headm = ply.headm or headm
-		//end
-		//ply.headm = nil
-		--local att_ang = ply:GetAttachment(ply:LookupAttachment("eyes")).Ang
-		--ply.lerp_angle = LerpFT(0.1, ply.lerp_angle or Angle(0,0,0), ply:GetNWBool("TauntStopMoving", false) and att_ang or aim_vector:Angle())
-		--aim_vector = ply.lerp_angle:Forward()
 
 		local eyeAng = aim_vector:Angle()
 		eyeAng.r = isangle(aimvec) and aimvec.r or ply:EyeAngles().r
 
 		local eyeang2 = aim_vector:Angle()
-		--eyeang2.p = 0
 		eyeang2.r = isangle(aimvec) and aimvec.r or ply:EyeAngles().r
 
-		//local pos = startpos or headm:GetTranslation() + (fakeCam and (headm:GetAngles():Forward() * 5 + headm:GetAngles():Up() * 0 + headm:GetAngles():Right() * 6) or (eyeAng:Up() * 1 + eyeang2:Forward() * 4))
 		local pos = startpos or headm:GetTranslation() + (fakeCam and (headm:GetAngles():Forward() * 2 + headm:GetAngles():Up() * -2 + headm:GetAngles():Right() * 3) or (eyeAng:Up() * 2 + headm:GetAngles():Right() * 4 + headm:GetAngles():Up() * 0  + headm:GetAngles():Forward() * (4 + (ply.PlayerClassName == "Combine" and 4 or 0))))
 
 		local trace = hg.hullCheck(ply:EyePos() - vector_up * 10, pos, ply)
-
-		--[[if CLIENT then
-			cam.Start3D()
-				render.DrawWireframeBox(trace.HitPos,angle_zero,traceBuilder.mins,traceBuilder.maxs,color_white)
-			cam.End3D()
-		end--]]
-
-		//local tr = {}
-		//tr.start = trace.HitPos
-		//tr.endpos = tr.start + aim_vector * (dist or 60)
-		//tr.filter = {ply,ent}
 
 		return trace.HitPos, aim_vector * (dist or 60), {ply, ent, ply.OldRagdoll}, trace, headm//util.TraceLine(tr), trace, headm
 	end
@@ -850,9 +773,6 @@ local IsValid = IsValid
 	function hg.eyeTrace(ply, dist, ent, aim_vector, startpos, fFilter)
 		local start, aim, filter, trace, headm = hg.eye(ply, dist, ent, aim_vector, startpos)
 		if not start then return end
-		--if ply.lasteyetrace == RealTime() and ply.cachedeyetrace and (ply.lasteyetracedist == dist) then return ply.cachedeyetrace, trace, headm end
-		--ply.lasteyetrace = RealTime()
-		--ply.lasteyetracedist = dist
 
 		--why this shit doesnt work
 
@@ -892,7 +812,7 @@ local IsValid = IsValid
 		return ishgweapon(wep) and wep.CanSuicide and not wep.reload
 	end
 --//
---\\ Calculate Weight 
+--\\ Calculate Weight
 	function hg.CalculateWeight(ply,maxweight)
 		local weight = 0
 
@@ -1067,12 +987,12 @@ local IsValid = IsValid
 	-- 		if (ply.change_posture_cooldown or 0) > CurTime() then return end
 	-- 		ply.change_posture_cooldown = CurTime() + 0.1
 
-	-- 		if pos ~= -1 then 
+	-- 		if pos ~= -1 then
 	-- 			if pos == ply.standposture then
 	-- 				ply.standposture = 0
 	-- 				pos = 0
 	-- 			else
-	-- 				ply.standposture = pos 
+	-- 				ply.standposture = pos
 	-- 			end
 	-- 		else
 	-- 			ply.standposture = ply.standposture or 0
@@ -1108,7 +1028,7 @@ local IsValid = IsValid
 		ply.AddForceRag[physbone][1] = CurTime() + 0.25
 	end
 --//
---\\ Precache Sounds 
+--\\ Precache Sounds
 	function hg.PrecacheSoundsSWEP(self)
 		if self.HolsterSnd and self.HolsterSnd[1] then util.PrecacheSound(self.HolsterSnd[1]) end
 		if self.DeploySnd and self.DeploySnd[1] then util.PrecacheSound(self.DeploySnd[1]) end
@@ -1120,13 +1040,6 @@ local IsValid = IsValid
 	end
 --//
 --\\ Disable drive (driving is fixed so i don't think that we need this)
-	--[[hook.Add("StartEntityDriving", "disabledriving", function(ent, ply)
-		return false
-	end)
-
-	hook.Add("PlayerDriveAnimate", "disabledriving", function(ent, ply)
-		return false
-	end)]]
 --//
 --\\ timescale pitch change
 	local cheats = GetConVar( "sv_cheats" )
@@ -1192,7 +1105,6 @@ local IsValid = IsValid
 
 				hg.GetCurrentCharacter(ply):EmitSound("items/flashlight1.wav", 65, flashvar and 110 or 130)
 				ply:SetNetVar("flashlight",not flashvar)
-				--return true
 				if IsValid(ply.flashlight) then ply.flashlight:Remove() end
 			else
 				ply:SetNetVar("flashlight",false)
@@ -1209,7 +1121,6 @@ local IsValid = IsValid
 		["Rig_Buggy.Steer_Wheel"] = {Vector(8,-2.5,0),Angle(0,-90,0),Vector(-8,-2.5,0),Angle(180,90,0)},
 		["car.steeringwheel"] = {Vector(15,-10,0),Angle(0,180,0),Vector(15,10,0),Angle(180,0,0)},
 		["Airboat.Steer"] = {Vector(-11,-1.5,10),Angle(70,50,50),Vector(11,-1.5,10),Angle(70,50,50)},
-		--["steeringwheel"] = {Vector(8.2,4,0),Angle(-5,-45,0),Vector(-8.2,4,0),Angle(-45,-35,90)},
 		["handlebars"] = {
 			Vector(10,-6,-19),
 			Angle(-15,60,-90),
@@ -1367,7 +1278,7 @@ local IsValid = IsValid
 		if ( ply:IsPlayingTaunt() ) then return end
 
 		local wep = ply:GetActiveWeapon()
-		
+
 		if ( ply:IsTyping() ) or ( ply:GetNetVar("flashlight", false) and ( !wep.IsPistolHoldType or wep:IsPistolHoldType() or ply.PlayerClassName == "Gordon") ) then
 			plyTable.ChatGestureWeight = math.Approach( plyTable.ChatGestureWeight, 1, FrameTime() * 3.0 )
 		else
@@ -1401,7 +1312,7 @@ local IsValid = IsValid
 				bullet.Dir = (ent:GetEnemy().rag:GetBonePosition(ent:GetEnemy().rag:LookupBone("ValveBiped.Bip01_Spine1")) + VectorRand(-20, 20) - bullet.Src):GetNormalized()
 			end
 			bullet.AmmoType = tbl.AmmoType or bullet.AmmoType
-			if bullet.AmmoType then 
+			if bullet.AmmoType then
 				bullet.Damage = (hg.ammotypeshuy[bullet.AmmoType] and hg.ammotypeshuy[bullet.AmmoType].BulletSettings.Damage or game.GetAmmoPlayerDamage(game.GetAmmoID(bullet.AmmoType)))// * npcs[ent:GetClass()].multi
 				bullet.Force = (hg.ammotypeshuy[bullet.AmmoType] and hg.ammotypeshuy[bullet.AmmoType].BulletSettings.Force or game.GetAmmoPlayerDamage(game.GetAmmoID(bullet.AmmoType))) * (npcs[ent:GetClass()].force or 1)
 				bullet.Penetration = (hg.ammotypeshuy[bullet.AmmoType] and hg.ammotypeshuy[bullet.AmmoType].BulletSettings.Penetration or game.GetAmmoPlayerDamage(game.GetAmmoID(bullet.AmmoType))) * (npcs[ent:GetClass()].PenetrationMul or 1)
@@ -1413,7 +1324,7 @@ local IsValid = IsValid
 			ent.weapon = ent
 
 			bullet.IgnoreEntity = ent
-		
+
 			bullet.Filter = {ent}
 			bullet.Inflictor = ent
 
@@ -1452,7 +1363,6 @@ local IsValid = IsValid
 			if PhysObj and PhysObj.GetMass and PhysObj:GetMass() > 14 then return false end
 		end
 
-		--if IsValid(ply.FakeRagdoll) then return false end
 		if ply.PickUpCooldown > CurTime() and not IsValid(ply.FakeRagdoll) then return false end
 
 		ply.PickUpCooldown = CurTime() + 0.15
@@ -1473,7 +1383,6 @@ local IsValid = IsValid
 --//
 --\\ custom equip
 	hook.Add("WeaponEquip","pickupHuy",function(wep,ply)
-		--if not wep.init then return end
 		timer.Simple(0,function()
 			if wep.DontEquipInstantly then wep.DontEquipInstantly = nil return end
 			if not ply.noSound and IsValid(wep) then
@@ -1516,7 +1425,7 @@ local IsValid = IsValid
 			local tr = {}
 			tr.start = eyetr.HitPos
 			tr.endpos = eyetr.HitPos
-			tr.filter = checkUse	
+			tr.filter = checkUse
 			tr.mins = -hullVec
 			tr.maxs = hullVec
 			tr.mask = MASK_SOLID + CONTENTS_DEBRIS + CONTENTS_PLAYERCLIP
@@ -1564,8 +1473,8 @@ duplicator.Allow( "homigrad_base" )
 
 --\\ Fireworks effects? why so many, we use only one lol
     --Firework trails
-    game.AddParticles( "particles/gf2_trails_firework_rocket_01.pcf") 
-    
+    game.AddParticles( "particles/gf2_trails_firework_rocket_01.pcf")
+
     PrecacheParticleSystem("gf2_firework_trail_main")
     --Firework Large Explosions
     game.AddParticles( "particles/gf2_large_rocket_01.pcf" )
@@ -1574,62 +1483,62 @@ duplicator.Allow( "homigrad_base" )
     game.AddParticles( "particles/gf2_large_rocket_04.pcf" )
     game.AddParticles( "particles/gf2_large_rocket_05.pcf" )
     game.AddParticles( "particles/gf2_large_rocket_06.pcf" )
-    
+
     PrecacheParticleSystem( "gf2_rocket_large_explosion_01" )
     PrecacheParticleSystem( "gf2_rocket_large_explosion_02" )
     PrecacheParticleSystem( "gf2_rocket_large_explosion_03" )
     PrecacheParticleSystem( "gf2_rocket_large_explosion_04" )
     PrecacheParticleSystem( "gf2_rocket_large_explosion_05" )
     PrecacheParticleSystem( "gf2_rocket_large_explosion_06" )
-    
+
     --Battery stuff
-    game.AddParticles( "particles/gf2_battery_generals.pcf" ) 
+    game.AddParticles( "particles/gf2_battery_generals.pcf" )
     game.AddParticles( "particles/gf2_battery_01_effects.pcf" )
     game.AddParticles( "particles/gf2_battery_02_effects.pcf" )
     game.AddParticles( "particles/gf2_battery_03_effects.pcf" )
     game.AddParticles( "particles/gf2_battery_mine_01_effects.pcf" )
-    
+
     --Cakes stuff
     game.AddParticles( "particles/gf2_cake_01_effects.pcf" )
-    
+
     --Firecrackers stuff
     game.AddParticles( "particles/gf2_firecracker_m80.pcf" )
-    
+
     --Misc
     game.AddParticles( "particles/gf2_misc_neighborhater.pcf" )
     game.AddParticles( "particles/gf2_matchhead_light.pcf" )
-    
+
     --Fountains
-    
+
     game.AddParticles( "particles/gf2_fountain_01_effects.pcf")
     game.AddParticles( "particles/gf2_fountain_02_effects.pcf")
     game.AddParticles( "particles/gf2_fountain_03_effects.pcf")
     game.AddParticles( "particles/gf2_fountain_04_effects.pcf")
     game.AddParticles( "particles/gf2_fountain_05_effects.pcf")
-    
+
     --Mortars
     game.AddParticles( "particles/gf2_mortar_shells_effects.pcf")
     game.AddParticles( "particles/gf2_mortar_shells_big_01.pcf")
     game.AddParticles( "particles/gf2_mortar_shells_big_02.pcf")
     game.AddParticles( "particles/gf2_mortar_shells_big_03.pcf")
-    
+
     --Wheels
-    
+
     game.AddParticles( "particles/gf2_wheel_01.pcf")
-    
+
     -- Flares
     game.AddParticles( "particles/gf2_flare_multicoloured_effects.pcf")
-    
+
     -- Giga rockets
-    
+
     game.AddParticles( "particles/gf2_gigantic_rocket_01.pcf" )
     game.AddParticles( "particles/gf2_gigantic_rocket_02.pcf" )
-    
+
     -- Roman Candles
     game.AddParticles( "particles/gf2_romancandle_01_effect.pcf" )
     game.AddParticles( "particles/gf2_romancandle_02_effect.pcf" )
     game.AddParticles( "particles/gf2_romancandle_03_effect.pcf" )
-    
+
     --Small Fireworks
     game.AddParticles( "particles/gf2_firework_small_01.pcf" )
 --//
@@ -1645,10 +1554,8 @@ duplicator.Allow( "homigrad_base" )
 			start = start,
 			endpos = endpos,
 			filter = function(ent) -- i think this too shit, need edit...
-				--print(ent:GetModel())
-				if filter1[ent] then return false end 
+				if filter1[ent] then return false end
 				local phys = ent:GetPhysicsObject()
-				--print(ent:GetModel(),phys:GetMass())
 				if not ent:IsPlayer() and IsValid(phys) and phys:GetMass() > 50 then return true end
 				return true
 			end,
@@ -1658,7 +1565,7 @@ duplicator.Allow( "homigrad_base" )
 --//
 
 --\\ Just shared freelook limits
-	hg.MaxLookX,hg.MinLookX = 55,-55 
+	hg.MaxLookX,hg.MinLookX = 55,-55
 	hg.MaxLookY,hg.MinLookY = 45,-45
 --//
 --\\ Give ammo on weapon spawn
@@ -1738,25 +1645,12 @@ end
 hg.OldScreenShake = hg.OldScreenShake or util.ScreenShake
 
 local ScreenShakers = {} -- Shake your a... don't :3
---[[
-	ScreenShakers[#ScreenShakers + 1] = {
-		vPos = vPos,
-		nAmplitude = nAmplitude,
-		nFrequency = nFrequency,
-		nDuration = nDuration or 1,
-		nRadius = nRadius,
-		bAirshake = bAirshake,
-		tCreated = CurTime()
-	}
---]]
 function util.ScreenShake(vPos, nAmplitude, nFrequency, nDuration, nRadius, bAirshake, crfFilter)
 	if SERVER then -- SERVER SIDE
 		vPos = vPos or Vector(0,0,0)
 		nRadius = nRadius or (nAmplitude * 100)
 		local tEnts = ents.FindInSphere(vPos, nRadius * nRadius)
-		--PrintTable(tEnts)
 		local crf = RecipientFilter()
-		--print(#tEnts)
 		for i = 1, #tEnts do
 			local eEnt = tEnts[i]
 			if !IsValid(eEnt) then continue end
@@ -1764,7 +1658,6 @@ function util.ScreenShake(vPos, nAmplitude, nFrequency, nDuration, nRadius, bAir
 			crf:AddPlayer(eEnt)
 		end
 		crf = crf or crfFilter
-		--print(crf)
 		net.Start("util.ScreenShake")
 			net.WriteVector(vPos)
 			net.WriteFloat(nAmplitude)
@@ -1847,7 +1740,6 @@ if CLIENT then
 					+ angles:Up() * vShake.z
 
 				angles[1] = angles[1] + vShake.z
-				--angles[2] = angles[2] + vShake.x
 				angles[3] = angles[3] + vShake.y
 
 				if timeMul <= 0 then

@@ -57,14 +57,14 @@ if CLIENT then
 				self:GetWM():ManipulateBoneScale(72, vecPochtiZero)
 				self:GetWM():ManipulateBoneScale(73, vecPochtiZero)
 
-			end 
+			end
 		end,
 		[0.4] = function( self, timeMul )
 			if self:Clip1() < 1 then
 				self:GetWM():ManipulateBoneScale(71, vector_full)
 				self:GetWM():ManipulateBoneScale(72, vector_full)
 				self:GetWM():ManipulateBoneScale(73, vector_full)
-			end 
+			end
 		end,
 	}
 end
@@ -78,8 +78,6 @@ SWEP.WepSelectIcon2 = Material("vgui/inventory/weapon_hk416c")
 SWEP.IconOverride = "vgui/inventory/weapon_hk416c"
 
 SWEP.CustomShell = "556x45"
---SWEP.EjectPos = Vector(-5,0,-5)
---SWEP.EjectAng = Angle(-45,-80,0)
 SWEP.ShockMultiplier = 3
 
 SWEP.weight = 3

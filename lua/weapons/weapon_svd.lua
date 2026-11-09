@@ -20,17 +20,12 @@ SWEP.AttachmentAng = Angle(0,0,0)
 
 SWEP.FakeReloadSounds = {
 	[0.32] = "weapons/tfa_nam_svd/svd_magout.wav",
-	--[0.37] = "weapons/m4a1/m4a1_magrelease.wav",
 	[0.85] = "weapons/tfa_nam_svd/svd_magin.wav",
-	--[0.91] = "weapons/tfa_nam_svd/svd_boltback.wav",
-	--[0.92] = "weapons/tfa_nam_svd/svd_boltrelease.wav",
 	[1] = "",
 }
 
 SWEP.FakeEmptyReloadSounds = {
-	--[0.22] = "weapons/m4a1/m4a1_magrelease.wav",
 	[0.32] = "weapons/tfa_nam_svd/svd_magout.wav",
-	--[0.37] = "weapons/m4a1/m4a1_magrelease.wav",
 	[0.76] = "weapons/tfa_nam_svd/svd_magin.wav",
 	[0.91] = "weapons/tfa_nam_svd/svd_boltback.wav",
 	[0.97] = "weapons/tfa_nam_svd/svd_boltrelease.wav",
@@ -59,7 +54,7 @@ if CLIENT then
 				hg.CreateMag( self, Vector(0,0,-50), "111111")
 				self:GetWM():ManipulateBoneScale(67, vecPochtiZero)
 
-			end 
+			end
 		end,
 		[0.6] = function( self, timeMul )
 			if self:Clip1() < 1 then
@@ -205,7 +200,6 @@ local lfang0 = Angle(-0, -5, 0)
 local vec_zero = Vector(0,0,0)
 local ang_zero = Angle(0,0,0)
 function SWEP:AnimHoldPost()
-	--self:BoneSet("l_finger0", vec_zero, lfang0)
 
 end
 

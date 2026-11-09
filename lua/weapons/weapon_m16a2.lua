@@ -76,7 +76,7 @@ SWEP.FakeMagDropBone = 52
 if CLIENT then
 	local vector_full = Vector(1,1,1)
 	SWEP.MagModel = "models/weapons/arccw/c_ud_m16.mdl"
-	SWEP.FakeReloadEvents = {	
+	SWEP.FakeReloadEvents = {
 		[0.15] = function(self,timeMul)
 			if self:Clip1() > 1 then
 				self:GetWM():ManipulateBoneScale(52, vector_origin)
@@ -101,7 +101,6 @@ if CLIENT then
 
 				self:GetWM():ManipulateBoneScale(52, vector_origin)
 				self:GetWM():ManipulateBoneScale(55, vector_origin)
-				--self:GetOwner():PullLHTowards("ValveBiped.Bip01_L_Thigh", 0.5 * timeMul)
 			end
 		end,
 		[0.50] = function(self,timeMul)
@@ -242,21 +241,21 @@ function SWEP:CanPrimaryAttack()
 	local time = CurTime()
 
 	if self.BurstNum >= 3 then
-		self.Primary.Automatic = false  
-		self.BurstNum = 0             
-		self.Primary.Next = time + 0.2  
+		self.Primary.Automatic = false
+		self.BurstNum = 0
+		self.Primary.Next = time + 0.2
 		return false
 	end
-	
+
 	self.Primary.Automatic = true
-	
+
 	return self.BaseClass.CanPrimaryAttack(self)
 end
 
 
 function SWEP:PrimaryShootPost()
 	self.BurstNum = self.BurstNum + 1
-	
+
 	if self.BaseClass.PrimaryShootPost then
 		self.BaseClass.PrimaryShootPost(self)
 	end

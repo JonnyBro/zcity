@@ -32,11 +32,11 @@ local function restartMusic()
 		dmmusic:Stop()
 		dmmusic = nil
 	end
-	
+
 	sound.PlayURL(snd, "mono noblock noplay", function(station, errID, err)
 		if IsValid(station) then
 			station:SetVolume(0.1)
-			
+
 			dmmusic = station
 		else
 			print(errID, err)
@@ -50,9 +50,8 @@ net.Receive("scugarena_start", function()
 	restartMusic()
 
 	zb.RemoveFade()
-	
+
     StartTime = CurTime()
-	--surface.PlaySound("snd_jack_hmcd_deathmatch.mp3")
 end)
 
 local slugcat = {
@@ -63,7 +62,7 @@ local slugcat = {
 
 function MODE:RenderScreenspaceEffects()
     if not zb.ROUND_START or zb.ROUND_START + 7.5 < CurTime() then return end
-	
+
     local fade = math.Clamp(zb.ROUND_START + 7.5 - CurTime(),0,1)
 
     surface.SetDrawColor(0,0,0,255 * fade)
@@ -84,7 +83,7 @@ function MODE:HUDPaint()
 
 			if dmmusic:GetState() != GMOD_CHANNEL_PLAYING then
 				dmmusic:Play()
-				
+
 				return
 			end
 
@@ -96,13 +95,13 @@ function MODE:HUDPaint()
 			dmmusic:SetVolume(vol*musicVolume)
 		end
 	end
-	
-	 
+
+
 	if not lply:Alive() then return end
     if zb.ROUND_START + 8.5 < CurTime() then return end
 	zb.RemoveFade()
     local fade = math.Clamp(zb.ROUND_START + 8 - CurTime(),0,1)
-    
+
     draw.SimpleText("Slug Arena", "ZB_HomicideMediumLarge", sw * 0.5, sh * 0.1, Color(0,162,255, 255 * fade), TEXT_ALIGN_CENTER, TEXT_ALIGN_CENTER)
     local Rolename = slugcat.name
 	local ColorRole = slugcat.color1
@@ -125,7 +124,7 @@ net.Receive("scugarena_end", function()
 		ent.won = true
 		wonply = ent
 	end
-	
+
 	roundend = CurTime()
 
     CreateEndMenu()
@@ -170,7 +169,6 @@ CreateEndMenu = function()
 
 	hmcdEndMenu:SetPos(posX,posY)
 	hmcdEndMenu:SetSize(sizeX,sizeY)
-	--hmcdEndMenu:SetBackgroundColor(colGray)
 	hmcdEndMenu:MakePopup()
 	hmcdEndMenu:SetKeyboardInputEnabled(false)
 	hmcdEndMenu:ShowCloseButton(false)
@@ -179,7 +177,7 @@ CreateEndMenu = function()
 	closebutton:SetPos(5,5)
 	closebutton:SetSize(ScrW() / 20,ScrH() / 30)
 	closebutton:SetText("")
-	
+
 	closebutton.DoClick = function()
 		if IsValid(hmcdEndMenu) then
 			hmcdEndMenu:Close()
@@ -209,7 +207,7 @@ CreateEndMenu = function()
 		surface.SetDrawColor( 255, 0, 0, 128)
         surface.DrawOutlinedRect( 0, 0, w, h, 2.5 )
 	end
-	
+
 	local DScrollPanel = vgui.Create("DScrollPanel", hmcdEndMenu)
 	DScrollPanel:SetPos(10, 80)
 	DScrollPanel:SetSize(sizeX - 20, sizeY - 90)
@@ -230,7 +228,7 @@ CreateEndMenu = function()
 		but.Paint = function(self,w,h)
 			local col1 = (ply.won and colRed) or (ply:Alive() and colBlue) or colGray
             local col2 = (ply.won and colRedUp) or (ply:Alive() and colBlueUp) or colSpect1
-			
+
 			surface.SetDrawColor(col1.r,col1.g,col1.b,col1.a)
 			surface.DrawRect(0,0,w,h)
 			surface.SetDrawColor(col2.r,col2.g,col2.b,col2.a)
@@ -239,7 +237,7 @@ CreateEndMenu = function()
             local col = ply:GetPlayerColor():ToColor()
 			surface.SetFont( "ZB_InterfaceMediumLarge" )
 			local lengthX, lengthY = surface.GetTextSize( ply:GetPlayerName() or "He quited..." )
-			
+
 			surface.SetTextColor(0,0,0,255)
 			surface.SetTextPos(w / 2 + 1,h/2 - lengthY/2 + 1)
 			surface.DrawText(ply:GetPlayerName() or "He quited...")
@@ -248,7 +246,7 @@ CreateEndMenu = function()
 			surface.SetTextPos(w / 2,h/2 - lengthY/2)
 			surface.DrawText(ply:GetPlayerName() or "He quited...")
 
-            
+
 			local col = colSpect2
 			surface.SetFont( "ZB_InterfaceMediumLarge" )
 			surface.SetTextColor(col.r,col.g,col.b,col.a)

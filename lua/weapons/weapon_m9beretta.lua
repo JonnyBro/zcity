@@ -97,7 +97,6 @@ SWEP.availableAttachments = {
 	barrel = {
 		[1] = {"supressor4", Vector(0,0,0), {}},
 		[2] = {"supressor6", Vector(0,0,0), {}},
-		--[3] = {"supressor3", Vector(0,0.2,0), {}},
 		["mount"] = Vector(-0.1,0.4,0.03),
 	},
 	underbarrel = {

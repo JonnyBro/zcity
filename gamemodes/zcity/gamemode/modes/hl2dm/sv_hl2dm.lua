@@ -35,7 +35,6 @@ end
 
 function MODE:ShouldRoundEnd()
 	local endround, winner = zb:CheckWinner(self:CheckAlivePlayers())
-	--print("ShouldRoundEnd", endround, winner)
 	return endround
 end
 
@@ -108,7 +107,7 @@ function MODE:GiveEquipment()
 					end
 				end
 			end
-			
+
 			local inv = ply:GetNetVar("Inventory",{})
 			inv["Weapons"]["hg_sling"] = true
 			ply:SetNetVar("Inventory",inv)
@@ -153,7 +152,6 @@ function MODE:EndRound()
 	elseif team0 == 0 and team1 == 0 then
 		winnerteam = 3 -- everybody died
 	end
-	--print("Endround winnerteam ", winnerteam)
 	self:ClearPlayerRoles()
 	timer.Simple(2,function()
 		net.Start("hl2dm_roundend")
@@ -166,19 +164,13 @@ end
 
 function MODE:CanLaunch()
 	return true
-    --[[local TPoints = zb.GetMapPoints("HMCD_TDM_T")
-    local CTPoints = zb.GetMapPoints("HMCD_TDM_CT")
-    if TPoints and #TPoints > 0 and CTPoints and #CTPoints > 0 then
-        return true
-    end
-    return false]]
 end
 
 util.AddNetworkString("ZB_RequestAirStrike")
 
-local ACD_NextAirstrikeTime = 0 
-local ACD_MaxStrikes = 2 
-local ACD_StrikesLeft = {} 
+local ACD_NextAirstrikeTime = 0
+local ACD_MaxStrikes = 2
+local ACD_StrikesLeft = {}
 
 
 local function FindAccessibleAngle(pos)
@@ -196,7 +188,7 @@ end
 local function FindCanisterPos(pos, normal, dist)
     local offsetPos = pos + normal * 10
     local trace = util.QuickTrace(offsetPos, -normal * dist * 2)
-    
+
     if trace.Hit and util.PointContents(offsetPos) ~= CONTENTS_SOLID then
         local ang = FindAccessibleAngle(trace.HitPos + normal * 7)
         if ang then
@@ -211,9 +203,9 @@ end
 
 
 local function AirStrike(pos, normal, ply)
-    if CurTime() < ACD_NextAirstrikeTime then return end 
+    if CurTime() < ACD_NextAirstrikeTime then return end
     local canisterData = FindCanisterPos(pos, normal, 1000)
-    
+
     if canisterData then
         local ent = ents.Create("env_headcrabcanister")
         ent:SetPos(canisterData.Pos)
@@ -253,8 +245,8 @@ net.Receive("ZB_RequestAirStrike", function(len, ply)
 end)
 
 hook.Add("PostCleanupMap", "ACD_ResetAirstrikes", function()
-    ACD_StrikesLeft = {} 
-    ACD_NextAirstrikeTime = 0 
+    ACD_StrikesLeft = {}
+    ACD_NextAirstrikeTime = 0
 end)
 
 

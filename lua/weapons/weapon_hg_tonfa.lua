@@ -80,21 +80,6 @@ SWEP.Attack2HitFlesh = "Flesh.ImpactHard"
 SWEP.DeploySnd = "Plastic_Box.ImpactSoft"
 
 SWEP.AttackPos = Vector(0,0,0)
---[[
-function SWEP:CanSecondaryAttack()
-    self.DamageType = DMG_CLUB
-    self.AttackHit = "Canister.ImpactHard"
-    self.Attack2Hit = "Canister.ImpactHard"
-    return true
-end
-
-function SWEP:CanPrimaryAttack()
-    self.DamageType = DMG_CLUB
-    self.AttackHit = "Concrete.ImpactHard"
-    self.Attack2Hit = "Concrete.ImpactHard"
-    return true
-end
-]]
 
 function SWEP:CanSecondaryAttack()
     return false

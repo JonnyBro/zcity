@@ -11,9 +11,6 @@ ENT.Model = "models/props_junk/cardboard_box003a.mdl"
 ENT.IconOverride = ""
 
 ENT.SlotOccupation = {
-    --[ZC_CLOTHES_SLOT_TORSO] = true,
-    --[ZC_CLOTHES_SLOT_PANTS] = true,
-    --[ZC_CLOTHES_SLOT_BOOTS] = true,
 }
 
 ENT.Male = {}
@@ -89,7 +86,6 @@ ENT.NameAng = Angle(0,-90,0)
             if !Equip.WarmSave then continue end
             MaxWarmMul = MaxWarmMul + (Equip.WarmSave / 1.5)
             changeRate = changeRate * math.max(1 - Equip.WarmSave, 0.1)
-            --warmLoseMul = warmLoseMul * math.max(1 - Equip.WarmSave / 2.5, 0.1)
         end
 
         return changeRate, MaxWarmMul, warmLoseMul

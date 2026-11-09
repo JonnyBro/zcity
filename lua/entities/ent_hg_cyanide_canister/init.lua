@@ -37,13 +37,13 @@ function ENT:Think()
 		if not tbl then continue end
 		local pos,vel,time = tbl[1],tbl[2],tbl[3]
 		if time < CurTime() then self.particles[i] = false continue end
-		
+
 		tbl[2] = vel - vector_up * 0.2
 
 		local tr = util.TraceLine({start = pos,endpos = pos + vel,filter = self,mask = bit.bor(MASK_SOLID_BRUSHONLY,CONTENTS_WATER)})
-		
+
 		tbl[1] = (tr.Hit and tr.HitPos or pos + vel)
-		
+
 		local velLen = vel:Length()
 		if tr.Hit then
 			local vec = vel:Angle()
@@ -55,23 +55,22 @@ function ENT:Think()
 			if (not ent.organism) or ent.organism.poison3 or ent.organism.holdingbreath then continue end
 			if not ent.organism.owner:IsPlayer() then continue end
 			if util.TraceLine({start = pos,endpos = ent:GetPos(),filter = {self,ent},mask = MASK_SOLID_BRUSHONLY}).Hit then continue end
-			
+
 			if (ent.organism.owner.armors["face"] != "mask2") and ent.PlayerClassName ~= "Combine" and (math.random(2) == 1) then
 				local mode_hmcd = (zb and zb.modes) and zb.modes["hmcd"]
-				
+
 				if mode_hmcd then
 					if(ent.SubRole == "traitor_chemist")then
 						local ply_cyanide_accumulated = AddChemicalToPlayer(ent, "HCN", 10)
-						
+
 						if(ply_cyanide_accumulated > 100)then
 							ent.organism.poison3 = CurTime()
 						end
-						
+
 						MODE.NetworkChemicalResistanceOfPlayer(ent)
-						
+
 						ent.PassiveAbility_ChemicalAccumulation_NextNetworkTime = CurTime() + 1
-						
-						-- ent:ChatPrint("cyanide = " .. math.Round(ply_cyanide_accumulated) .. " / " .. "10")
+
 					else
 						ent.organism.poison3 = CurTime()
 					end

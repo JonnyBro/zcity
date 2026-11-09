@@ -4,7 +4,6 @@ concommand.Add("fake", function(ply)
 	if not ply:Alive() then return end
 	if ply.fakecd and ply.fakecd > CurTime() then return end
 	if ply:IsFlagSet( FL_FROZEN ) then return end
-	--ply.fakecd = CurTime() + cooldown
 	if not IsValid(ply.FakeRagdoll) then
 		hg.Fake(ply)
 	else
@@ -52,7 +51,6 @@ hook.Add("OnPlayerHitGround","fallStun",function(ply,inwater,onfloater,speed)
 	if (ply.PlayerClassName == "furry" and speed > 350 or speed > 250) and tr.Entity:IsPlayer() then
 		hg.drop(tr.Entity)
 		hg.LightStunPlayer(tr.Entity,2)
-		--tr.Entity:TakeDamage(speed / 5,ply,ply)
 	end
 
 	if speed > 600 then

@@ -1,5 +1,4 @@
 hg.organism = hg.organism or {}
---local Organism = hg.organism
 hg.organism.list = hg.organism.list or {}
 local hook_Run = hook.Run
 function hg.organism.Add(ent)
@@ -30,7 +29,7 @@ hook.Add("Player Spawn", "homigrad-organism", function(ply) hg.organism.Clear(pl
 hook.Add("PlayerDisconnected", "homigrad-organism", function(ply) hg.organism.Remove(ply) end)
 hook.Add("PostPlayerDeath", "homigrad-organism", function(ply)
 	local ragdoll = ply:GetNWEntity("RagdollDeath")
-	
+
 	if not IsValid(ragdoll) then ragdoll = ply.FakeRagdoll end
 
 	if IsValid(ragdoll) then
@@ -61,7 +60,6 @@ local SysTime = SysTime
 hook.Add("Think", "homigrad-organism", function()
 	time = CurTime()
 	local tickrate2 = tickrate// / math.max(game.GetTimeScale(), 0.01)
-	//print(delay ,time + tickrate)
 	if delay + tickrate2 > time then return end
 
 	delay = time
@@ -70,12 +68,11 @@ hook.Add("Think", "homigrad-organism", function()
 		start = SysTime()
 		return
 	end
-	
+
 	mulTime = (SysTime() - start) * game.GetTimeScale()
 
 	start = SysTime()
 	for owner, org in pairs(hg.organism.list) do -- теперь ясно почему от трупов лагает...
-		--if org.godmode then continue end
 		hook_Run("Org Think", owner, org, mulTime)
 	end
 end)
@@ -90,5 +87,4 @@ end)
 
 hook.Add("Fake", "organism", function(ply, ragdoll)
 	ragdoll.organism = ply.organism
-	--zb.net.list[ragdoll] = zb.net.list[ply]
 end)

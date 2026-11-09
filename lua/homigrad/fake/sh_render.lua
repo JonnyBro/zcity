@@ -28,7 +28,6 @@ local IsValid, math_Clamp = IsValid, math.Clamp
 
 				if i == ent:LookupBone("ValveBiped.Bip01_Head1") and lply == GetViewEntity() and lply == ply then
 					newmat:SetScale(vecSmall)
-					//ply.headm = newmat
 				end
 
 				ent:SetBoneMatrix(i, newmat)
@@ -39,11 +38,11 @@ local IsValid, math_Clamp = IsValid, math.Clamp
 --//
 --\\ DrawPlayerRagdoll
 	local hg_ragdollcombat = ConVarExists("hg_ragdollcombat") and GetConVar("hg_ragdollcombat") or CreateConVar("hg_ragdollcombat", 0, {FCVAR_ARCHIVE, FCVAR_NOTIFY, FCVAR_REPLICATED}, "Toggle ragdoll combat-like ragdoll mode (walking, running in ragdoll, etc.)", 0, 1)
-	
+
 	function hg.RagdollCombatInUse(ply)
 		return hg_ragdollcombat:GetBool() and IsValid(ply.FakeRagdoll)
 	end
-	
+
 	local hg_firstperson_ragdoll = ConVarExists("hg_firstperson_ragdoll") and GetConVar("hg_firstperson_ragdoll") or CreateConVar("hg_firstperson_ragdoll", "0", FCVAR_ARCHIVE, "Toggle first-person ragdoll camera view", 0, 1) --!! unused??
 	local hg_firstperson_death = ConVarExists("hg_firstperson_death") and GetConVar("hg_firstperson_death") or CreateClientConVar("hg_firstperson_death", "0", true, false, "Toggle first-person death camera view", 0, 1)
 	local hg_thirdperson = ConVarExists("hg_thirdperson") and GetConVar("hg_thirdperson") or CreateConVar("hg_thirdperson", 0, {FCVAR_ARCHIVE, FCVAR_NOTIFY, FCVAR_REPLICATED}, "Toggle third-person camera view", 0, 1)
@@ -56,7 +55,6 @@ local IsValid, math_Clamp = IsValid, math.Clamp
 
 	function DrawPlayerRagdoll(ent, ply) --// actually not only ragdoll render but player too
 		if ply.prevragdoll_index != nil and ply.prevragdoll_index != ply.ragdoll_index and ply.ragdoll_index == 0 then
-			//print(ply.ragdoll_index, ply.prevragdoll_index, Entity(ply.ragdoll_index))
 
 			ply.gettingup = CurTime()
 			ply.OldRagdoll = Entity(ply.prevragdoll_index)
@@ -86,8 +84,6 @@ local IsValid, math_Clamp = IsValid, math.Clamp
 		if ply:GetNetVar("handcuffed", false) then hg.CuffedAnim(ent, ply) end
 
 		if IsValid(wep) then
-			//if wep.isTPIKBase then hg.RenderTPIKBase(ent, ply, wep) end
-			//if wep.ismelee then hg.RenderMelees(ent, ply, wep) end
 			if wep.DrawWorldModel2 then wep:DrawWorldModel2() end
 		end
 
@@ -103,27 +99,16 @@ local IsValid, math_Clamp = IsValid, math.Clamp
 
 		hg.GoreCalc(ent, ply)
 
-		--local current = ent:GetManipulateBoneScale(lkp)
 		local fountains = GetNetVar("fountains") or {}
 		local wawanted = (GetViewEntity() != ply) and !fountains[ent] and (!(!lply:Alive() and lply:GetNWEntity("spect") == ply and viewmode == 1) and !(hg_firstperson_death:GetBool() and follow == ent)) and vector_full or vector_small
-		--print(ent, wawanted, GetViewEntity(), ply, (GetViewEntity() != ply), !fountains[ent], !(!lply:Alive() and lply:GetNWEntity("spect") == ply and viewmode == 1))
-		--if !current:IsEqualTol(wawanted, 0.01) then
-			--ent:ManipulateBoneScale(lkp, wawanted)
 			local mat = ent:GetBoneMatrix(lkp)
 			if !(Glide and Glide.Camera and !Glide.Camera.isInFirstPerson and lply == ply and lply:InVehicle() and hg.NoCameraInCar(lply:GetVehicle())) then
 				if (!hg_thirdperson:GetBool() and !hg_gopro:GetBool() and (ent == ply or (!hg_ragdollcombat:GetBool() or hg_firstperson_ragdoll:GetBool()))) or (hg_firstperson_death:GetBool() and follow == ent) then
 					mat:SetScale(wawanted)
 				end
 			end
-			--angfuck[3] = -GetViewPunchAngles2()[2] - GetViewPunchAngles3()[2]
-
-			--local _, ang = LocalToWorld(vector_origin, angfuck, vector_origin, mat:GetAngles())
-			--mat:SetAngles(ang)
 
 			hg.bone_apply_matrix(ent, lkp, mat)
-		--end
-
-		--hg.CoolGloves(ent, ply, wep)
 
 		hg.ProjectilesDraw(ent, ply)
 

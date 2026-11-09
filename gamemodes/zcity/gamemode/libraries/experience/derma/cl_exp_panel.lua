@@ -34,7 +34,7 @@ function PANEL:Init()
     self.MedalPanel.Band = nil
     self.MedalPanel.Medal = nil
 
-    function self:Paint( w, h )  
+    function self:Paint( w, h )
         PaintPanel1( self, w, h )
     end
 
@@ -61,7 +61,7 @@ end
 function PANEL:SetPlayer( ply )
     self.Player = ply
     local Band, Medal = ply:GetAwards()
-    
+
     self.MedalPanel.Band = Band
     self.MedalPanel.Medal = Medal
     self.PlyLabel:SetText( ply:Nick().."'s medal" )

@@ -31,8 +31,6 @@ SWEP.AnimList = {
 			if not IsValid(self) then return end
 			self:GetOwner():SelectWeapon("weapon_hands_sh")
 			self:Remove()
-			--[[self:PlayAnim("deploy")
-			self:SetShowGrenade(true)]]
 		end)
 	end, 0.65 },
 	["attack2"] = { "throw", 0.6, false, false, function(self)
@@ -47,10 +45,6 @@ SWEP.AnimList = {
 			if not IsValid(self) then return end
 			self:GetOwner():SelectWeapon("weapon_hands_sh")
 			self:Remove()
-			--[[self:PlayAnim("deploy")
-			self:SetShowSpoon(true)
-			self:SetShowGrenade(true)
-			self:SetShowPin(true)]]
 		end)
 	end, 0.6 },
 	["pullbackhigh"] = {"drawback", 0.2, false, false, function(self)

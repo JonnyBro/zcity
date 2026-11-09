@@ -62,7 +62,7 @@ end
 
 --- Add a VSWEP to this vehicle's weapon slots.
 --- `data` is a optional key-value table for the server-side
---- properties of the weapon, like `FireDelay` and `MaxAmmo`. 
+--- properties of the weapon, like `FireDelay` and `MaxAmmo`.
 function ENT:CreateWeapon( class, data )
     local weapon = Glide.CreateVehicleWeapon( class, data )
     local index = self.weaponCount + 1

@@ -16,11 +16,10 @@ function EFFECT:Init(data)
 
     for i = 1,8*intensity do
         local smoke = emitter:Add(smoke_mats[math.random(#smoke_mats)], pos)
-        
+
         smoke:SetStartAlpha(math.Rand(5, 10))
         smoke:SetEndAlpha(0)
         smoke:SetColor(150,115,0)
-        --smoke:SetLighting(true)
         smoke:SetGravity(Vector(0,0,-math.Rand(33, 66)))
         smoke:SetRollDelta(math.random(0, 0.5*math.pi))
         smoke:SetAirResistance(175)
@@ -38,7 +37,6 @@ function EFFECT:Init(data)
         droplett:SetEndAlpha(0)
         droplett:SetCollide(true)
         droplett:SetColor(125,100,0)
-        --droplett:SetLighting(true)
         droplett:SetGravity(Vector(0,0,-600))
         droplett:SetStartLength(10)
         droplett:SetEndLength(0)

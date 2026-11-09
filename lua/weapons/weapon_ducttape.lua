@@ -27,21 +27,14 @@ SWEP.sprint_ang = Angle(20, 0, 0)
 SWEP.sprint_pos = Vector(-5, 0, -5)
 local clr, mat = Color(100, 100, 100, 255), "models/shiny"
 function SWEP:Initialize()
-	--self:SetModelScale(0.15)
-	--self:SetColor(clr)
-	--self:SetMaterial(mat)
 	self:Activate()
 	if IsValid(self:GetPhysicsObject()) then self:GetPhysicsObject():SetMass(5) end
 end
 
 function SWEP:InitializeAdd()
-	--self:PhysicsInit(SOLID_VPHYSICS)
 end
 
 function SWEP:OwnerChanged()
-	--self:SetModelScale(0.15)
-	--self:SetColor(clr)
-	--self:SetMaterial(mat)
 	self:Activate()
 	self:SetHoldType(self.HoldType)
 	if IsValid(self:GetPhysicsObject()) then self:GetPhysicsObject():SetMass(5) end
@@ -88,34 +81,6 @@ end
 function SWEP:GetEyeTrace()
 	return hg.eyeTrace(self:GetOwner())
 end
-
---function SWEP:DrawWorldModel()
---	self.model = IsValid(self.model) and self.model or ClientsideModel(self.WorldModel)
---	local WorldModel = self.model
---	local owner = self:GetOwner()
---	WorldModel:SetNoDraw(true)
---	--WorldModel:SetModelScale(0.15)
---	if IsValid(owner) then
---		local offsetVec = self.offsetVec
---		local offsetAng = self.offsetAng
---		local boneid = owner:LookupBone(((owner.organism and owner.organism.rarmamputated) or (owner.zmanipstart ~= nil and owner.zmanipseq == "interact" and not owner.organism.larmamputated)) and "ValveBiped.Bip01_L_Hand" or "ValveBiped.Bip01_R_Hand")
---		if not boneid then return end
---		local matrix = owner:GetBoneMatrix(boneid)
---		if not matrix then return end
---		local newPos, newAng = LocalToWorld(offsetVec, offsetAng, matrix:GetTranslation(), matrix:GetAngles())
---		WorldModel:SetPos(newPos)
---		WorldModel:SetAngles(newAng)
---		WorldModel:SetupBones()
---	else
---		WorldModel:SetPos(self:GetPos())
---		WorldModel:SetAngles(self:GetAngles())
---	end
---
---	--WorldModel:SetColor(clr) -- поч не робит
---	--WorldModel:SetMaterial(mat)
---	
---	WorldModel:DrawModel()
---end
 
 local bone, name
 function SWEP:BoneSet(lookup_name, vec, ang)
@@ -325,7 +290,6 @@ function SWEP:PrimaryAttack()
 				Owner:ViewPunch(Angle(3, 0, 0))
 				util.Decal("hmcd_jackatape", TrOne.HitPos + TrOne.HitNormal, TrOne.HitPos - TrOne.HitNormal)
 				util.Decal("hmcd_jackatape", TrTwo.HitPos + TrTwo.HitNormal, TrTwo.HitPos - TrTwo.HitNormal)
-				--Owner:PrintMessage(HUD_PRINTCENTER,"Bond strength: "..tostring(Strength))
 				Owner:ChatPrint("Bond strength: " .. tostring(Strength))
 				timer.Simple(.1, function() if self.TapeAmount <= 0 then self:Remove() end end)
 				self:SetHolding(25)
@@ -333,7 +297,6 @@ function SWEP:PrimaryAttack()
 		end
 	end
 
-	--self:SetNextPrimaryFire(CurTime() + 1.5)
 end
 
 function SWEP:SecondaryAttack()

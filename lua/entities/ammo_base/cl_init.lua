@@ -27,7 +27,7 @@ end
 	t.mask = MASK_PLAYERSOLID
 
 	local tr = util.TraceLine( t )
-	
+
 	if not tr.Hit then
 		local t = {}
 		t.start = startpos + offset
@@ -37,7 +37,7 @@ end
 		t.filter = ent--{Entity(1),Entity(1).FakeRagdoll,self}
 		t.mask = MASK_PLAYERSOLID
 		local tr = util.TraceHull( t )
-		
+
 		local clr = color_white
 		if ( not tr.Hit ) then
 			render.DrawWireframeBox( tr.HitPos, Angle( 0, 0, 0 ), mins, maxs, clr, true )

@@ -1,12 +1,12 @@
 --[[
-  _____        __                        _____             __ _       
- |  __ \      / _|                      / ____|           / _(_)      
- | |  | | ___| |_ ___ _ __  ___  ___   | |     ___  _ __ | |_ _  __ _ 
+  _____        __                        _____             __ _
+ |  __ \      / _|                      / ____|           / _(_)
+ | |  | | ___| |_ ___ _ __  ___  ___   | |     ___  _ __ | |_ _  __ _
  | |  | |/ _ \  _/ _ \ '_ \/ __|/ _ \  | |    / _ \| '_ \|  _| |/ _` |
  | |__| |  __/ |  __/ | | \__ \  __/   | |___| (_) | | | | | | | (_| |
  |_____/ \___|_|\___|_| |_|___/\___|    \_____\___/|_| |_|_| |_|\__, |
                                                                   __/ |
-                                                                 |___/ 
+                                                                 |___/
 ]]--
 
 
@@ -156,18 +156,18 @@ DEFENSE_WAVE_DEFINITIONS = {
         },
         [5] = {
             {type = "npc_combine_s", weapon = "weapon_osipr", health = 90, count = 4, default_weapon = false},
-            {type = "npc_combine_s", weapon = "weapon_spas12", health = 90, count = 3, default_weapon = false, 
+            {type = "npc_combine_s", weapon = "weapon_spas12", health = 90, count = 3, default_weapon = false,
              relationship = {class = "npc_metropolice", disposition = D_LI}}
         },
         [6] = {
-            {type = "npc_combine_s", weapon = "weapon_osipr", health = 200, count = 4, model = "models/Combine_Super_Soldier.mdl", 
+            {type = "npc_combine_s", weapon = "weapon_osipr", health = 200, count = 4, model = "models/Combine_Super_Soldier.mdl",
              default_weapon = false, relationship = {class = "npc_metropolice", disposition = D_LI},
              keyvalues = {SquadName = "overwatch", NumGrenades = "3", spawnflags = "260"}},
             {type = "npc_metropolice", weapon = "", health = 50, count = 2, default_weapon = true,
              relationship = {class = "npc_combine_s", disposition = D_LI}}
         }
     },
-    
+
     EXTENDED = {
         [1] = {
             {type = "npc_metropolice", weapon = "weapon_hk_usp", health = 90, count = 4, default_weapon = false},
@@ -226,7 +226,7 @@ DEFENSE_WAVE_DEFINITIONS = {
             {type = "npc_turret_floor", count = 2, no_target = true, health = 220}
         }
     },
-    
+
     ZOMBIE = {
         [1] = {
             {type = "npc_zombie", weapon = "", health = 120, count = 8, aggressive = true},

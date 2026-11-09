@@ -113,7 +113,7 @@ if SERVER then
 			self:SpawnGarbage(nil, nil, "snd_jack_hmcd_foodbounce.wav")
 			self:Remove()
 		end
-		
+
 		return true
 	end
 end

@@ -113,7 +113,7 @@ if SERVER then
 		org.naloxoneadd = math.min(org.naloxoneadd + self.modeValues[1], 1)
 
 		self.modeValues[1] = 0
-		
+
 		if self.poisoned2 then
 			org.poison4 = CurTime()
 

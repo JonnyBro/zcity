@@ -1,7 +1,6 @@
 util.AddNetworkString("HGNotificate")
 util.AddNetworkString("HGNotificateBerserk")
 
---local hg_old_notificate = ConVarExists("hg_old_notificate") and GetConVar("hg_old_notificate") or CreateConVar("hg_old_notificate",0,FCVAR_SERVER_CAN_EXECUTE,"enable old notifications (chatprints)",0,1)
 local hev_color = Color(255,125,0)
 local function CreateNotification(ply, msg, delay, msgKey, showTime, func, clr)
     if ply.organism and ply.organism.otrub then return end
@@ -34,7 +33,7 @@ local function CreateNotification(ply, msg, delay, msgKey, showTime, func, clr)
             end
         end
     end
-    
+
     showTime = showTime or 0
 
     local clr = clr or color_white
@@ -58,7 +57,6 @@ local function CreateNotification(ply, msg, delay, msgKey, showTime, func, clr)
 
         net.Start("HGNotificate")
         net.WriteString(msg)
-        //net.WriteFloat(showTime or 3)
         net.WriteColor(clr2)
         net.Send(ply)
     end)
@@ -101,7 +99,7 @@ local function CreateNotificationBerserk(ply, msg, delay, msgKey, showTime, func
             end
         end
     end
-    
+
     showTime = showTime or 0
 
     local clr = clr or color_white
@@ -121,7 +119,6 @@ local function CreateNotificationBerserk(ply, msg, delay, msgKey, showTime, func
 
         net.Start("HGNotificateBerserk")
         net.WriteString(msg)
-        //net.WriteFloat(showTime or 3)
         net.WriteColor(clr2)
         net.Send(ply)
     end)

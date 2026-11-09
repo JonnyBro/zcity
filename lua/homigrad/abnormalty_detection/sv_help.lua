@@ -160,10 +160,10 @@ net.Receive("Abnormalties(SendOpenedPage)", function(len, ply)
 		if(page_info)then
 			local knowledge = ply.AbnormaltiesKnowledge
 			ply.AbnormaltiesLastPagesUpdates = ply.AbnormaltiesLastPagesUpdates or {}
-			
+
 			if(knowledge[page_info.Requirement] and ply.AbnormaltiesLastPagesUpdates[page] != ABNORMALTIESHELP.LastUpdate)then
 				ply.AbnormaltiesLastPagesUpdates[page] = ABNORMALTIESHELP.LastUpdate
-				
+
 				net.Start("Abnormalties(SendOpenedPage)")
 					net.WriteUInt(page, 8)
 					net.WriteString(page_info.Name)
@@ -173,7 +173,7 @@ net.Receive("Abnormalties(SendOpenedPage)", function(len, ply)
 		end
 	else
 		PLUGIN.LoadConsequences(ply)
-		
+
 		return false
 	end
 end)

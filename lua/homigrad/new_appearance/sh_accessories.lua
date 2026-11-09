@@ -319,7 +319,6 @@ hg.Accessories = {
         norender = true,
         placement = "face",
         ScreenSpaceEffects = function()
-            -- DrawColorModify(AviatorColor)
             surface.SetMaterial(bandanamat)
             surface.SetDrawColor(255,255,255)
             surface.DrawTexturedRect(-1,0,ScrW()*1.01,ScrH()*1.2)
@@ -340,7 +339,6 @@ hg.Accessories = {
         norender = true,
         placement = "face",
         ScreenSpaceEffects = function()
-            -- DrawColorModify(AviatorColor)
             surface.SetMaterial(bandanamat)
             surface.SetDrawColor(255,255,255)
             surface.DrawTexturedRect(-1,0,ScrW()*1.01,ScrH()*1.2)
@@ -377,20 +375,6 @@ hg.Accessories = {
         bonemerge = true,
         name = "Phoenix Balaclava"
     },
-   	--[[
-	["hood_balaclava"] = {
-        model = "models/balaclava_hood/balaclava_hood.mdl",
-        femmodel = "models/distac/feminine_mask.mdl",
-        bone = "ValveBiped.Bip01_Head1",
-        malepos = {Vector(-27,-5,0),Angle(180,100,90),1},
-		fempos = {Vector(-0.6,-0.6,0),Angle(180,100,90),0.95},
-        skin = 0,
-        norender = true,
-		placement = "head",
-		vpos = Vector(-45,-45,0),
-        name = "Hood Balaclava"
-    },
-	]]
     ["terrorist_band"] = {
         model = "models/distac/band_team.mdl",
         femmodel = "models/distac/band_team_f.mdl",
@@ -1102,36 +1086,6 @@ hg.Accessories = {
         vpos = Vector(0,0,69),
         name = "MF Doom Mask"
     },
-    -- ["anon mask"] = {
-    --     model = "models/rawjesus/wear/anon.mdl",
-    --     femmodel = "models/rawjesus/wear/anon.mdl",
-    --     bone = "ValveBiped.Bip01_Head1",
-    --     malepos = {Vector(0,-0.8,0),Angle(180,100,90),1},
-    --     fempos = {Vector(-1.2,-0.8,0),Angle(180,100,90),1},
-    --     skin = 0,
-    --     placement = "face",
-    --     norender = true,
-    --     bonemerge = true,
-    --     bPointShop = true,
-    --     price = 6500,
-    --     vpos = Vector(0,0,0),
-    --     name = "Anonymous Mask"
-    -- },
-    -- ["hockey mask"] = {
-    --     model = "models/rawjesus/wear/jason.mdl",
-    --     femmodel = "models/rawjesus/wear/jason.mdl",
-    --     bone = "ValveBiped.Bip01_Head1",
-    --     malepos = {Vector(0.5,-0.8,0),Angle(180,100,90),1},
-    --     fempos = {Vector(-0.5,-0.8,0),Angle(180,100,90),1},
-    --     skin = 0,
-    --     placement = "face",
-    --     norender = true,
-    --     bonemerge = true,
-    --     bPointShop = true,
-    --     price = 7500,
-    --     vpos = Vector(0,0,0),
-    --     name = "Hockey Mask"
-    -- },
 
     ["hood"] = {
         model = "models/distac/kapishon2.mdl",
@@ -1139,9 +1093,8 @@ hg.Accessories = {
         bone = "ValveBiped.Bip01_Head1",
         malepos = {Vector(0.2,4.8,0),Angle(0,90,90),1},
         fempos = {Vector(-1.2,3.5,0),Angle(0,90,90),1},
-        skin = function(ent) 
+        skin = function(ent)
             local colthes = IsValid(ent) and ent.GetNWString and ent:GetNWString("Colthesmain","normal") or ""
-            --print(colthes == "cold" and 0 or 1)
             return colthes == "cold" and 0 or 1
         end,
         placement = "head",
@@ -1155,7 +1108,6 @@ hg.Accessories = {
         modelPreRenderCallback = function(ply,ent,model,accessories) -- я не знаю почему, но почему-то флексы начинают уходить в минус бесконечность, поэтому приходится менять флекс каждый кадр... изивините
             local accessories1 = accessories or ent.PredictedAccessories
             model.mfdoom = ((accessories1 and accessories1[2] == "mfdoom mask") and true or false)
-            --print(model.mfdoom)
             model.flex = model.flex or model:GetFlexIDByName("M")
             model:SetFlexWeight(model.flex, model.mfdoom and 1 or 0)
         end,

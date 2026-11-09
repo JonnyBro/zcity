@@ -86,7 +86,6 @@ function TABBED_FRAME:Init()
     self.tabList:Dock( LEFT )
     self.tabList:DockPadding( 0, 0, 0, 0 )
     self.tabList:SetPaintBackground( false )
-    --StyledTheme.Apply( self.tabList )
 
     self.contentContainer = vgui.Create( "DPanel", self )
     self.contentContainer:Dock( FILL )

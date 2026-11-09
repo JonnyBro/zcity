@@ -92,7 +92,7 @@ function SWEP:ThinkAdd()
 	if SERVER and ply.suiciding then
 		self:SetNetVar("AttackMode", 1)
 	end
-	
+
 	if self:GetNetVar("AttackMode", 1) == 1 then
 		self.DamagePrimary = 15
 		self.DamageType = DMG_CLUB
@@ -115,7 +115,6 @@ function SWEP:ThinkAdd()
 		self.StaminaPrimary = 25
 	end
 
-	--if CLIENT then return end
 	if IsValid(ply) then
 		if hg.KeyDown(ply, IN_ATTACK) and hg.KeyDown(ply, IN_RELOAD) and self:GetNextPrimaryFire() < CurTime() and not self:GetInAttack() and (self:GetAttackTime() - CurTime()) < 0 and ((self:GetLastBlocked() + 3) < CurTime()) then
 			if not self.setmode then
@@ -138,14 +137,10 @@ end
 local function BindObjects(ent1, pos1, ent2, pos2, power, bone1, bone2)
 	ent1.Nails = ent1.Nails or {}
 	ent2.Nails = ent2.Nails or {}
-	--ent2.Nails[bone2] = ent2.Nails[bone2] or {}
-	--ent1.Nails[bone1] = ent1.Nails[bone1] or {}
-	--ent2.Nails[bone2][2] = ent2.Nails[bone2][2] or 0
-	--ent1.Nails[bone1][2] = ent1.Nails[bone1][2] or 0
 	if not ent1.Nails[bone1] then
 			local weld =
 			(
-				not ent1:IsRagdoll() and not ent2:IsRagdoll() 
+				not ent1:IsRagdoll() and not ent2:IsRagdoll()
 				and constraint.Ballsocket(ent1, ent2, bone1 or 0, bone2 or 0, ent1:WorldToLocal(pos1), (500 + 1 * 100) * 5)
 			)
 			or constraint.Weld(ent1, ent2, bone1 or 0, bone2 or 0, (500 + 1 * 100) * 15, false, false)
@@ -155,7 +150,7 @@ local function BindObjects(ent1, pos1, ent2, pos2, power, bone1, bone2)
 			weld:CallOnRemove("removefromtbl", function() ent1.Nails[bone1] = nil end)
 		end
 	else
-		if not ent1:IsRagdoll() and not ent2:IsRagdoll() then 
+		if not ent1:IsRagdoll() and not ent2:IsRagdoll() then
 			local weld = constraint.Ballsocket(ent1, ent2, bone1 or 0, bone2 or 0, ent2:WorldToLocal(pos2), (500 + 1 * 100) * 5)
 		end
 		local weld = ent1.Nails[bone1][1]
@@ -177,7 +172,7 @@ local function BindObjects(ent1, pos1, ent2, pos2, power, bone1, bone2)
 			weld:CallOnRemove("removefromtbl", function() ent2.Nails[bone2] = nil end)
 		end
 	else
-		if not ent1:IsRagdoll() and not ent2:IsRagdoll() then 
+		if not ent1:IsRagdoll() and not ent2:IsRagdoll() then
 			local weld = constraint.Ballsocket(ent1, ent2, bone1 or 0, bone2 or 0, ent2:WorldToLocal(pos2), (500 + 1 * 100) * 5)
 		end
 		local weld = ent2.Nails[bone2][1]
@@ -185,7 +180,7 @@ local function BindObjects(ent1, pos1, ent2, pos2, power, bone1, bone2)
 			weld:SetKeyValue("forcelimit", tostring( tonumber(weld:GetInternalVariable("forcelimit")) + ((500 + 1 * 100) * 5) ))
 		end
 		ent2.Nails[bone2][2] = ent2.Nails[bone2][2] + 1
-		
+
 	end
 
 	if ent2.Nails[bone2] then ent2.Nails[bone2][3] = ent1.Nails[bone1] and ent1.Nails[bone1][1] end
@@ -214,7 +209,6 @@ if SERVER then
 							ply.Penetration = nil
 						end
 
-						--ply.FakeRagdoll:EmitSound("tape_friction"..math.random(3)..".mp3",65)
 						if tbl[2] <= 0 then
 							if IsValid(Nails[i][1]) then
 								Nails[i][1]:Remove()
@@ -368,14 +362,13 @@ function SWEP:SecondaryAttack()
 						end
 
 						local Strength, Weld = BindObjects(Tr.Entity, Tr.HitPos, NewEnt, NewTr.HitPos, 3.5, Tr.PhysicsBone or 0, NewTr.PhysicsBone or 0)
-						--print(Tr.Entity,Weld)
 						if Weld or Weld == nil then Owner:SetAmmo(Owner:GetAmmoCount(self.Ammo) - 1, self.Ammo) end
 						sound.Play("snd_jack_hmcd_hammerhit.wav", Tr.HitPos, 65, math.random(90, 110))
 						util.Decal("hmcd_jackanail", Tr.HitPos + Tr.HitNormal, Tr.HitPos - Tr.HitNormal)
 						Owner:ChatPrint("Bond strength: " .. tostring(Strength))
 						Owner:ViewPunch(vpang)
 						self:PlayAnim("attack", 0.6, false, nil, false, true)
-						
+
 						self:SetNextSecondaryFire(CurTime() + 2.5)
 						self:SetNextPrimaryFire(CurTime() + 2.5)
 						self:SetLastBlocked(CurTime())

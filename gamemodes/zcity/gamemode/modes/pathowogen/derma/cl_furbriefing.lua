@@ -65,7 +65,6 @@ function PANEL:Paint(w, h)
 	surface.SetDrawColor(0, 0, 0, self.alpha)
 	surface.DrawRect(0, 0, w, h)
 
-	-- RunConsoleCommand("soundfade", "100", "999")
 end
 
 vgui.Register("ZB_FurFurBriefing", PANEL, "EditablePanel")

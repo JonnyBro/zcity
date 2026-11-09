@@ -13,5 +13,5 @@ if SERVER then
 else
     net.Receive("ZB_GiveRole",function()
         LocalPlayer().role = net.ReadTable() or false
-    end)    
+    end)
 end

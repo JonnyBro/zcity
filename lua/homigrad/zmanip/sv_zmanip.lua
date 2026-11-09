@@ -11,15 +11,12 @@ function hg.RunZManipAnim(ply, anim, revers, timeOveride, additionalTbl)
 end
 
 hook.Add("PlayerUse", "ZManipUseAnim", function(ply, ent)
-	--print(ent,ent.Use)
 	if IsValid(ent) and !ent:IsRagdoll() and ent.Use and (!ply.ZManipInteractCD or ply.ZManipInteractCD < CurTime()) and !hgIsDoor(ent) then
 		if string.find(ent:GetClass(), "prop") or string.find(ent:GetClass(), "breakable") or string.find(ent:GetClass(), "ladder") then return end
 		ply.ZManipInteractCD = CurTime() + 0.95
 		ply.ZManipOldUse = ply:KeyDown(IN_USE)
 		local anim = (ent:IsWeapon() or ent.IsZPickup) and "interact" or "use"
-		--if ent:IsWeapon() then hg.RunZManipAnim(ply, anim) return end
 		timer.Simple(0,function()
-			--print(anim)w
 			hg.RunZManipAnim(ply, anim, nil, nil, {ent})
 		end)
 	end
@@ -46,10 +43,6 @@ local gestures = {
 	["fuckyou"] = {"fuckyou", false},
 	["thumb_up"] = {"thump_up", false},
 	["point"] = {"point", false},
-	--["door_open_back"] = {"door_open_back", false},
-	--["door_open_forward"] = {"door_open_forward", false},
-	--["usedoor"] = "usedoor",
-	--["visordown"] = "visordown"
 }
 
 concommand.Add("hg_hand_gesture",function( ply, cmd, args )

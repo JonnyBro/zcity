@@ -13,17 +13,6 @@ zb.Points.HMCD_TDM_T.Name = "HMCD_TDM_T"
 
 MODE.PrintName = "Team Deathmatch"
 
---[[
-    ["weapon_hk_usp"] = {
-        Type = "Weapon",
-        Price = "600",
-        Category = "Pistols",
-        Attachments = {
-            "supressor3", "supressor4"
-        }
-    },
-]]
-
 MODE.BuyItems = {}
 
 local priority = 1
@@ -107,7 +96,7 @@ AddItemToBUY( "Ballistic Mask", "Armor", "ent_armor_mask1", 650, "Equipment", {}
 AddItemToBUY( "NVG-GPNVG-18", "Armor", "ent_armor_nightvision1", 450, "Equipment", {} )
 AddItemToBUY( "Flashlight", "Armor", "hg_flashlight", 250, "Equipment", {} )
 
--- Melee 
+-- Melee
 AddItemToBUY( "Machete", "Weapon", "weapon_hg_machete", 300, "Melee", {}, nil, 0 )
 AddItemToBUY( "Hatchet", "Weapon", "weapon_hatchet", 300, "Melee", {}, nil, 0 )
 AddItemToBUY( "Tomahawk", "Weapon", "weapon_tomahawk", 300, "Melee", {}, nil, 1 )
@@ -203,7 +192,7 @@ function MODE:HG_MovementCalc_2( mul, ply, cmd, mv )
             cmd:SelectWeapon(ply:GetWeapon("weapon_hands_sh"))
             if SERVER then ply:SelectWeapon("weapon_hands_sh") end
         end
-        
+
         mul[1] = 0
     end
 end

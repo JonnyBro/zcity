@@ -15,10 +15,6 @@ function EFFECT:Init(data)
 	self.DieTime = CurTime() + .1
 	self.Opacity = 1
 	self.TimeToDie = CurTime() + 0.015 * self.Scale
-	--local Spl = EffectData()
-	--Spl:SetOrigin(vOffset)
-	--Spl:SetScale(1)
-	--util.Effect("Explosion", Spl, true, true)
 
 	if self:WaterLevel() == 3 then
 		self.Underwater = true

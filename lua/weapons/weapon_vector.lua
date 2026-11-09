@@ -43,7 +43,7 @@ SWEP.FakeEmptyReloadSounds = {
 	[0.95] = "weapons/tfa_ins2/krissv/krisschargerelease.wav"
 }
 
-SWEP.MagModel = "models/weapons/zcity/glock/a_magazine_glock_extended.mdl" 
+SWEP.MagModel = "models/weapons/zcity/glock/a_magazine_glock_extended.mdl"
 SWEP.lmagpos = Vector(-21,4.3,4)
 SWEP.lmagang = Angle(-15,0,0)
 SWEP.lmagpos2 = Vector(4,18.5,10)
@@ -66,7 +66,6 @@ if CLIENT then
 			if self:Clip1() < 1 then
 				self:GetWM():ManipulateBoneScale(71, vector_origin)
 			end
-			--self:GetOwner():PullLHTowards("ValveBiped.Bip01_Spine2", 0.58 * timeMul)
 		end,
 		[0.33] = function (self)
 			if self:Clip1() < 1 then
@@ -75,16 +74,11 @@ if CLIENT then
 		end,
 		[0.35] = function( self, timeMul )
 			if self:Clip1() < 1 then
-			--	hg.CreateMag( self, Vector(0,0,-20) )
-			--end
 			self:GetWM():ManipulateBoneScale(71, vector_origin)
 				self:GetWM():ManipulateBoneScale(70, vector_origin)
-				self:GetOwner():PullLHTowards("ValveBiped.Bip01_Spine2", 1.2 * timeMul,nil,nil,function() 
+				self:GetOwner():PullLHTowards("ValveBiped.Bip01_Spine2", 1.2 * timeMul,nil,nil,function()
 					self:GetWM():ManipulateBoneScale(70, vector_full)
 					self:GetWM():ManipulateBoneScale(71, vector_full)
-					--self:GetWM():ManipulateBoneScale(44, vector_full)
-					--self:GetWM():ManipulateBoneScale(45, vector_full)
-					--self:GetWM():ManipulateBoneScale(46, vector_full)
 				end)
 			end
 		end,
@@ -92,12 +86,9 @@ if CLIENT then
 			if self:Clip1() > 0 then
 				self:GetWM():ManipulateBoneScale(71, vector_origin)
 				self:GetWM():ManipulateBoneScale(70, vector_origin)
-				self:GetOwner():PullLHTowards("ValveBiped.Bip01_Spine2", 1 * timeMul,nil,nil,function() 
+				self:GetOwner():PullLHTowards("ValveBiped.Bip01_Spine2", 1 * timeMul,nil,nil,function()
 					self:GetWM():ManipulateBoneScale(70, vector_full)
 					self:GetWM():ManipulateBoneScale(71, vector_full)
-					--self:GetWM():ManipulateBoneScale(44, vector_full)
-					--self:GetWM():ManipulateBoneScale(45, vector_full)
-					--self:GetWM():ManipulateBoneScale(46, vector_full)
 				end)
 			end
 		end
@@ -121,8 +112,6 @@ SWEP.weight = 2.5
 SWEP.ScrappersSlot = "Primary"
 SWEP.weaponInvCategory = 1
 SWEP.CustomShell = "9x19"
---SWEP.EjectPos = Vector(-4,0,-9)
---SWEP.EjectAng = Angle(0,0,0)
 SWEP.WorldPos = Vector(1, -0.8, 0)
 SWEP.WorldAng = Angle(0, 0, 0)
 SWEP.UseCustomWorldModel = true
@@ -181,8 +170,6 @@ SWEP.RHandPos = Vector(-2, -2, 0)
 SWEP.LHandPos = Vector(7, -2, -2)
 SWEP.Spray = {}
 SWEP.randmul = 0.25
-//SWEP.norand = true
---SWEP.addSprayMul = 0.5
 for i = 1, 33 do
 	SWEP.Spray[i] = Angle(0, math.cos(i * i) * 0.07, 0) * 1
 end
@@ -194,8 +181,6 @@ local ang1 = Angle(25, 0, 0)
 local ang2 = Angle(0, 60, 0)
 
 function SWEP:AnimHoldPost(model)
-	--self:BoneSet("l_finger0", vector_origin, ang1)
-	--self:BoneSet("l_finger02", vector_origin, ang2)
 end
 
 function SWEP:DrawPost()
@@ -203,7 +188,6 @@ function SWEP:DrawPost()
 	if CLIENT and IsValid(wep) then
 		self.shooanim = LerpFT(0.4,self.shooanim or 0,self:Clip1() > 0 and 0 or 0)
 		wep:ManipulateBonePosition(72,Vector(0 ,1.8*self.shooanim ,0 ),false)
-		--wep:ManipulateBonePosition(1,Vector(-0.5*self.ReloadSlideOffset ,0 ,0.1*self.ReloadSlideOffset),false)
 	end
 end
 

@@ -98,7 +98,7 @@ function SWEP:CustomBlockAnim(addPosLerp, addAngLerp)
     addPosLerp.y = addPosLerp.y + (check and 3 or 0)
     addAngLerp.r = addAngLerp.r + (check and -15 or 0)
     addAngLerp.y = addAngLerp.y + (check and 8 or 0)
-    
+
     return true
 end
 

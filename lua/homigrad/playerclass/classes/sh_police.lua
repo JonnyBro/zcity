@@ -58,7 +58,6 @@ function CLASS.Guilt(self, Victim)
     if CLIENT then return end
 
     if Victim:GetPlayerClass() == self:GetPlayerClass() then
-        --self:ChatPrint("You killed your teammate!")
         return 1
     end
 

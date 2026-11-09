@@ -33,8 +33,6 @@ function PLAYER:LegAttack()
     local dmg = anim == "curbstomp_base" and 22 or 10 * (2 - speedmul)
     dmg = dmg * (self:IsBerserk() and org.berserk * 5 or 1)
     dmg = dmg * (org.legstrength or 1)
-    --print(dmg)
-    --print(speedmul)
     self:PlayCustomAnims(anim, true, speed, true, animstopAdjust, {
         [0.12] = function(self)
             if hg.GetCurrentCharacter(self):IsRagdoll() then return end
@@ -42,7 +40,6 @@ function PLAYER:LegAttack()
             local ang = self:EyeAngles()
             ang[1] = 0
 
-            --self:SetVelocity(ang:Forward() * -120)
             local reportPos = self:GetPos() + self:OBBCenter()
             local tr = util.TraceLine({
                 start = reportPos,
@@ -71,7 +68,6 @@ function PLAYER:LegAttack()
                 filter = {hg.GetCurrentCharacter(self),self}
             })
             if tr.Hit and self:IsOnGround() then
-                --self:EmitSound("weapons/melee/blunt_light" .. math.random(1,8) .. ".wav")
                 self:SetVelocity(ang:Forward() * -150)
             end
         end,
@@ -101,7 +97,7 @@ function PLAYER:LegAttack()
             if org.rleg == 1 or org.rlegdislocation then
                 org.painadd = org.painadd + 20
             end
-            
+
             local entss = {}--ents.FindInBox( tr.HitPos + rad, tr.HitPos - rad )
             if !table.HasValue(entss, tr.Entity) then
                 entss[#entss+1] = tr.Entity
@@ -119,7 +115,7 @@ function PLAYER:LegAttack()
             if tr.Entity.fires then
             local key, fire = next(tr.Entity.fires)
 
-                if key then 
+                if key then
                     tr.Entity.fires[key] = nil
 
                     if IsValid(key) then
@@ -157,7 +153,7 @@ function PLAYER:LegAttack()
 					MaxPenLenGlobal = 1
                     hg.AddForceRag(ent, tr.PhysicsBone or 0, normal * dmg * 1000, 0.25)
                     ent:TakeDamageInfo(dmginfo)
-                    
+
                     if IsValid(phys) then
                         phys:ApplyForceOffset(normal * dmg * 200, tr.HitPos)
                     end
@@ -179,11 +175,10 @@ function PLAYER:LegAttack()
                         ent.HP = ent.HP or 200
                         ent.HP = ent.HP - dmg * (tr.MatType == MAT_METAL and 1 or 2)
                         ent:EmitSound( "physics/wood/wood_crate_impact_hard" .. math.random(1,4) .. ".wav" )
-                        
+
                         if DoorIsOpen(ent) then
                             if !DoorIsOpen2(ent) then
                                 ent:FastOpenDoor(self, 5, true)
-                                --ent:Use(self)
                                 local oldname = self:GetName()
                                 self:SetName(oldname..self:EntIndex())
                                 if ent:GetClass() == "func_door_rotating" then

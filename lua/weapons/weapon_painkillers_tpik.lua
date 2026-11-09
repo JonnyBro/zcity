@@ -37,7 +37,6 @@ SWEP.setlh = true
 SWEP.setrh = true
 SWEP.HoldAng = Angle(0,0,0)
 SWEP.AnimList = {
-    -- self:PlayAnim( anim,time,cycling,callback,reverse,sendtoclient )
 	["deploy"] = { "anim_draw", 1, false },
     ["attack"] = { "pills", 5, false, false, function(self)
 		if CLIENT then return end
@@ -62,12 +61,6 @@ SWEP.FallSnd = "snd_jack_hmcd_pillsbounce.wav"
 
 local lang1, lang2 = Angle(0, -10, 0), Angle(0, 10, 0)
 function SWEP:Animation()
-	--local hold = self:GetHolding()
-    --self:BoneSet("r_upperarm", vector_origin, Angle(0, -10 -hold / 2, 10))
-    --self:BoneSet("r_forearm", vector_origin, Angle(-5, -hold / 2.5, -hold / 1.5))
---
-    --self:BoneSet("l_upperarm", vector_origin, lang1)
-    --self:BoneSet("l_forearm", vector_origin, lang2)
 end
 
 if SERVER then
@@ -88,7 +81,7 @@ if SERVER then
 		org.analgesiaAdd = math.min(org.analgesiaAdd + self.modeValues[1] * 0.3, 4)
 		owner:SelectWeapon("weapon_hands_sh")
 		self:Remove()
-		
+
 		return true
 	end
 end

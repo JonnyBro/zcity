@@ -120,7 +120,7 @@ function ENT:Detonate()
 		effectdata:SetNormal(-self:GetAngles():Forward())
 		util.Effect("eff_jack_genericboom", effectdata)
 	end
-	
+
 	hg.ExplosionEffect(SelfPos, self.BlastDis / 0.2, 80)
 
 	timer.Simple(.01, function()
@@ -135,9 +135,9 @@ function ENT:Detonate()
 
 	timer.Simple(0, function()
 		if not IsValid(self) then return end
-		if self.Oskole then 
+		if self.Oskole then
 			local vecCone = Vector(5, 5, 0)
-			
+
 			for i = 1, self.Fragmentation do
 				local bullet = {}
 				bullet.Src = SelfPos

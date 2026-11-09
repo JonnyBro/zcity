@@ -36,15 +36,9 @@ hook.Add("DrawDeathNotice", "homigrad", function()
 end)
 
 hook.Add("HUDWeaponPickedUp", "HidePickedStuff", function(wep)
-	--if not IsValid(lply) or not lply:Alive() then return end
 	if IsValid(lply) and lply.PlayerClassName and lply.PlayerClassName == "Gordon" then
 		return
 	end
-
-	--[[if not IsValid(wep) then return end
-	if not wep.GetPrintName then return end
-	
-	lply:Notify("+ " .. wep:GetPrintName(), 0)]]
 
 	return false
 end)
@@ -73,7 +67,6 @@ hook.Add("HUDDrawPickupHistory", "HidePickedStuff", function()
 	return false
 end)
 
---local hg_coolvetica = ConVarExists("hg_coolvetica") and GetConVar("hg_coolvetica") or CreateClientConVar("hg_coolvetica", "0", true, false, "changes every text to coolvetica because its good", 0, 1)
 local hg_font = ConVarExists("hg_font") and GetConVar("hg_font") or CreateClientConVar("hg_font", "Bahnschrift", true, false, "Change UI text font")
 local font = function() -- hg_coolvetica:GetBool() and "Coolvetica" or "Bahnschrift"
     local usefont = "Bahnschrift"
@@ -151,7 +144,6 @@ hook.Add("HUDPaint", "homigrad-dev", function()
 	w, h = ScrW(), ScrH()
 end)
 
---draw.SimpleText(lply:Health(),"HomigradFontBig",100,h - 50,white,TEXT_ALIGN_CENTER,TEXT_ALIGN_CENTER)
 function draw.CirclePart(x, y, radius, seg, parts, pos)
 	local cir = {}
 	table.insert(cir, {
@@ -169,11 +161,8 @@ function draw.CirclePart(x, y, radius, seg, parts, pos)
 			u = math.sin(a) / 2 + 0.5,
 			v = math.cos(a) / 2 + 0.5
 		})
-		--draw.DrawText("asd","HomigradFontBig",x + math.sin(a) * radius,y + math.cos(a) * radius)
 	end
 
-	--local a = math.rad(0)
-	--table.insert(cir, {x = x + math.sin(a) * radius, y = y + math.cos(a) * radius, u = math.sin(a) / 2 + 0.5, v = math.cos(a) / 2 + 0.5})
 	render.PushFilterMin(TEXFILTER.ANISOTROPIC)
 	surface.DrawPoly(cir)
 	render.PopFilterMin()
@@ -210,7 +199,7 @@ local function CreateRadialMenu(options_arg, bAutoClose)
 	local sizeX, sizeY = ScrW(), ScrH()
 	hg.radialOptions = {}
 	local paining = lply.organism and lply.organism.pain and (lply.organism.pain > 100 or lply.organism.brain > 0.2) or false
-	
+
 	if !options_arg then
 		local functions = hook.GetTable()["radialOptions"]
 		for i, func in SortedPairs(functions) do
@@ -218,11 +207,10 @@ local function CreateRadialMenu(options_arg, bAutoClose)
 		end
 	end
 
-	//hook_Run("radialOptions")
 	local options1 = options_arg or hg.radialOptions
 
 	hg.radialOptions = options1
-	
+
 	if IsValid(MENUPANELHUYHUY) then
 		MENUPANELHUYHUY:Remove()
 		MENUPANELHUYHUY = nil
@@ -259,14 +247,13 @@ local function CreateRadialMenu(options_arg, bAutoClose)
 			thinkwait = CurTime() + 0.25
 			table.Empty(hg.radialOptions)
 			local functions = hook.GetTable()["radialOptions"]
-			
+
 			for i, func in SortedPairs(functions) do
-				//if i == "zmeyka_test" then continue end
 				func()
 			end
 		end
 	end
-	
+
 	local sizePan = 0
 	local optionSelected = {}
 	menuPanel.Paint = function(self, w, h)
@@ -276,9 +263,8 @@ local function CreateRadialMenu(options_arg, bAutoClose)
 		vecXY.x = x
 		vecXY.y = y
 		local deg = (vecXY:GetNormalized() - vecDown):Angle()
-		//deg[2] = deg[2] - 180
 		deg = math.NormalizeAngle((deg[2] - 180) * 2) + 180
-		
+
 		local options = {}
 		if paining then
 			options[#options + 1] = {function() RunConsoleCommand("hg_phrase") end, ""}
@@ -307,9 +293,9 @@ local function CreateRadialMenu(options_arg, bAutoClose)
 				surface.SetDrawColor(isMouseIntersecting and colBlack or colBlack)
 				draw.CirclePart(w / 2, h / 2, r, 40, #options, num)
 				local count = #option[4]
-				
+
 				local selectedPart = count - (math.floor((r - sqrt) / (r / count)))
-				
+
 				current_option_select = selectedPart
 				for i, opt in pairs(option[4]) do
 					local selected = selectedPart == i
@@ -330,8 +316,7 @@ local function CreateRadialMenu(options_arg, bAutoClose)
 
 				continue
 			end
-			
-			--print(options_arg ~= nil and true or false)
+
 			surface.SetMaterial(matHuy)
 			if option[6] and IsColor(option[6]) then --// Custom color
 				if option[7] and IsColor(option[7]) then --// Custom select color
@@ -351,7 +336,6 @@ local function CreateRadialMenu(options_arg, bAutoClose)
 			local a = -partDeg * num - partDeg / 2
 			a = math.rad(a) + math.pi
 
-			--PrintTable(option)
 			if option[5] then --// Icon
 				local a = -partDeg * num - partDeg / 2
 				a = math.rad(a) + math.pi
@@ -360,7 +344,7 @@ local function CreateRadialMenu(options_arg, bAutoClose)
 				surface.SetDrawColor(color_white)
 				local sizeW = scrW / 2.25 + math.sin(a) * r * 0.7
 				local sizeH = scrH / 2.2 + math.cos(a) * r * 0.7
-		
+
 				surface.DrawTexturedRect(sizeW, sizeH, scrW * 0.1, scrH * 0.1)
 			else
 				local txt = option[2] --// Text
@@ -390,16 +374,6 @@ end
 
 local function PressRadialMenu(mouseClick)
 	local options = hg.radialOptions
-	--print(options[current_option][1])
-	--[[if lply.organism and lply.organism.pain and lply.organism.pain > 100 then
-		hook_Run("RadialMenuPressed")
-
-		if IsValid(menuPanel) then
-			menuPanel:Close()
-		end
-
-		return
-	end--]]
 
 	hook_Run("RadialMenuPressed")
 
@@ -467,18 +441,16 @@ hook.Add("Think", "hg-radial-menu", function()
 
 		return
 	end
-	
+
 	if (engine.ActiveGamemode() ~= "sandbox" and input.IsKeyDown(KEY_Q)) or (engine.ActiveGamemode() == "sandbox" and input.IsKeyDown(KEY_C)) then
 		if firstTime then
 			firstTime = false
-			--CreateRadialMenu()
 		end
 
 		firstTime4 = true
 	else
 		if firstTime4 then
 			firstTime4 = false
-			--PressRadialMenu()
 		end
 
 		firstTime = true
@@ -487,14 +459,12 @@ hook.Add("Think", "hg-radial-menu", function()
 	if input.IsMouseDown(MOUSE_LEFT) then
 		if firstTime2 then
 			firstTime2 = false
-			--print("pressed")
 		end
 
 		firstTime3 = true
 	else
 		if firstTime3 then
 			firstTime3 = false
-			--print("released")
 			PressRadialMenu(1)
 		end
 
@@ -504,14 +474,12 @@ hook.Add("Think", "hg-radial-menu", function()
 	if input.IsMouseDown(MOUSE_RIGHT) then
 		if firstTime5 then
 			firstTime5 = false
-			--print("pressed")
 		end
 
 		firstTime6 = true
 	else
 		if firstTime6 then
 			firstTime6 = false
-			--print("released")
 			PressRadialMenu(2)
 		end
 
@@ -597,8 +565,6 @@ local CurTime = CurTime
 local vector_one = Vector( 1, 1, 1 )
 
 local function CopyRight( text, font, x, y, color, ang, scale )
-	--render.PushFilterMag( TEXFILTER.ANISOTROPIC )
-	--render.PushFilterMin( TEXFILTER.ANISOTROPIC )
 
 	local m = Matrix()
 	m:Translate( Vector( x, y, 0 ) )
@@ -613,11 +579,9 @@ local function CopyRight( text, font, x, y, color, ang, scale )
 	cam.PushModelMatrix( m, true )
 		draw.RoundedBox(5,0,2,w+52,h+2,Color(0,0,0))
 		draw.RoundedBox(5,0,2,w+50,h,Color(255,0,0))
-		draw.DrawText( text, font, 25, 0, color )	
+		draw.DrawText( text, font, 25, 0, color )
 	cam.PopModelMatrix()
 
-	--render.PopFilterMag()
-	--render.PopFilterMin()
 end
 
 --hook.Add("HUDPaint","homigrad-copyright",function()
@@ -628,10 +592,10 @@ end
 hook.Add("HUDPaint","Identifier",function()
 	if lply.organism and lply.organism.otrub then return end
 	if !lply:Alive() then return end
-	if lply:GetNetVar("disappearance", nil) then return end 
-	
+	if lply:GetNetVar("disappearance", nil) then return end
+
 	local trace = hg.eyeTrace(lply)
-	
+
 	if not trace then return end
 
 	local Size = math.max(math.min(1 - trace.Fraction, 1), 0.1)
@@ -674,10 +638,10 @@ local hg_hints = ConVarExists("hg_hints") and GetConVar("hg_hints") or CreateCli
 local HintBackgroundColor = Color( 0, 0, 0, 200 )
 
 hook.Add("HUDPaint","EntHints",function()
-	if not hg_hints:GetBool() then return end 
+	if not hg_hints:GetBool() then return end
 	if lply.organism and lply.organism.otrub then return end
 	if !lply:Alive() then return end
-	
+
 	local trace = hg.eyeTrace(lply)
 
 	if not trace then return end
@@ -696,7 +660,7 @@ function hg.BasicHudHint(ent, trace)
 	y = y + 145 + -45
 
 	draw.RoundedBox(2, x - hint:GetWidth() / 2 - 2.5, y - 2.5, hint:GetWidth() + 5, hint:GetHeight() + 5, HintBackgroundColor)
-	
+
 	hint:Draw(x, y, TEXT_ALIGN_CENTER, nil, 175 * (HintBackgroundColor.a / 200), TEXT_ALIGN_CENTER)
 
 	if ent.AdditionalInfoFunc then
@@ -715,29 +679,6 @@ local leg = Material("zbattle/medical/broken_bone.png", "")
 local white = Color(255, 255, 255, 255)
 local bkg = Color(43, 30, 30)
 hook.Add("HUDPaint","afflictionlist",function()
-	--[[if lply.organism and lply.organism.otrub then return end
-	if !lply:Alive() then return end
-	
-	local org = lply.organism
-
-	if org.lleg >= 0.99 then
-		local w, h = 200, 200
-
-		local ent = hg.GetCurrentCharacter(lply)
-		local lkp = ent:LookupBone("ValveBiped.Bip01_R_Thigh")
-		local matrix = ent:GetBoneMatrix(lkp)
-
-		if matrix then
-			local pos = matrix:GetTranslation() + matrix:GetForward() * ent:BoneLength(lkp + 1) * 0.5
-			local scrpos = pos:ToScreen()
-
-			surface.SetMaterial(leg)
-			surface.SetDrawColor(white)
-			--surface.DrawRect(sw / 2 - w / 2, sh / 2 - h / 2, w, h)
-			surface.SetDrawColor(white)
-			surface.DrawTexturedRect(scrpos.x - w / 2, scrpos.y - h / 2, w, h)
-		end
-	end--]]
 end)
 
 -- Now playable :steamhappy:

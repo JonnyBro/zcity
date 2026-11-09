@@ -21,7 +21,6 @@ local function PlaySndDist(snd,snd2,pos,isOnWater,watersnd)
     if SERVER then return end
     local view = render.GetViewSetup(true)
     local time = pos:Distance(view.origin) / 17836
-    --print(time)
     timer.Simple(time, function()
         local owner = Entity(0)
         if not isOnWater then

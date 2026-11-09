@@ -34,7 +34,7 @@ function CurrentRound()
 	end
 
 	local round = zb.CROUND_MAIN
-	
+
 	return zb.modes[round], zb.CROUND
 end
 
@@ -82,7 +82,6 @@ function zb:EndRound()
 		net.WriteInt(zb.ROUND_STATE, 4)
 	net.Broadcast()
 
-	--PrintMessage(HUD_PRINTTALK, "Раунд закончен.")
 	CurrentRound():EndRound()
 	hook.Run("ZB_EndRound")
 	zb.AddFade()
@@ -137,7 +136,7 @@ function zb:EndRoundThink()
 				SetGlobalVar("coop_first_round_timer", zb.END_TIME)
 			end
 		end
-		
+
 		zb.SHOULD_FADE = zb.SHOULD_FADE != nil and zb.SHOULD_FADE or true
 
 		if zb.SHOULD_FADE and (zb.END_TIME < CurTime() + 1.5) then
@@ -158,8 +157,6 @@ function zb:EndRoundThink()
 
 			zb.CROUND = zb.nextround or "hmcd"
 			if CurrentRound().shouldfreeze then zb:Freeze() end
-
-			--PrintMessage(HUD_PRINTTALK, "Gamemode: " .. CurrentRound().PrintName or "None")
 
 			local mode, round = CurrentRound()
 			net.Start("RoundInfo")
@@ -222,7 +219,7 @@ function zb:KillPlayers()
 
 			continue
 		end
-		
+
 		if ply:FlashlightIsOn() then ply:Flashlight(false) end
 
 		ply:KillSilent()
@@ -395,14 +392,6 @@ function zb.WeightedChanceMode(modes_chances)
 end
 
 function zb.GetWorldSize()
-	/*
-	local world = game.GetWorld()
-	local worldMin = world:GetInternalVariable("m_WorldMins")
-	local worldMax = world:GetInternalVariable("m_WorldMaxs")
-	local size = worldMin:Distance(worldMax)
-
-	return size + (zb.BigMaps[ game.GetMap() ] and 5000 or 0)
-	*/
 
 	local dist = 0
 	local pts = zb.GetMapPoints( "RandomSpawns" )
@@ -611,8 +600,6 @@ function zb:RoundStart()
 	end
 
 	hook.Run("ZB_StartRound")
-
-	//zb.GetAllPoints(true)
 
 	for _, admin in ipairs(zb.GetAllAdmins()) do
 		zb.SendRoundListToClient(admin)

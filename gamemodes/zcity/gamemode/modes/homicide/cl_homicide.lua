@@ -96,7 +96,6 @@ MODE.TypeNames = {
 	["supermario"] = "Super Mario"
 }
 
---local hg_coolvetica = ConVarExists("hg_coolvetica") and GetConVar("hg_coolvetica") or CreateClientConVar("hg_coolvetica", "0", true, false, "changes every text to coolvetica because its good", 0, 1)
 local hg_font = ConVarExists("hg_font") and GetConVar("hg_font") or CreateClientConVar("hg_font", "Bahnschrift", true, false, "Change UI text font")
 local font = function() -- hg_coolvetica:GetBool() and "Coolvetica" or "Bahnschrift"
     local usefont = "Bahnschrift"
@@ -277,7 +276,6 @@ MODE.TypeObjectives.supermario = {
 }
 
 function MODE:RenderScreenspaceEffects()
-	-- MODE.DynamicFadeScreenEndTime = MODE.DynamicFadeScreenEndTime or 0
 	fade_end_time = MODE.DynamicFadeScreenEndTime or 0
 	local time_diff = fade_end_time - CurTime()
 
@@ -302,7 +300,7 @@ function MODE:HUDPaint()
 	if not MODE.Type or not MODE.TypeObjectives[MODE.Type] then return end
 	if lply:Team() == TEAM_SPECTATOR then return end
 	if StartTime + 12 < CurTime() then return end
-	
+
 	fade = Lerp(FrameTime()*1, fade, math.Clamp(StartTime + 5 - CurTime(),-2,2))
 
 	draw.SimpleText("Homicide | " .. (MODE.TypeNames[MODE.Type] or "Unknown"), "ZB_HomicideMediumLarge", sw * 0.5, sh * 0.1, Color(0,162,255, 255 * fade), TEXT_ALIGN_CENTER, TEXT_ALIGN_CENTER)
@@ -323,8 +321,6 @@ function MODE:HUDPaint()
 
 	local cur_y = sh * 0.5
 
-	-- local ColorRole = ( lply.isTraitor and MODE.TypeObjectives[MODE.Type].traitor.color1 ) or ( lply.isGunner and MODE.TypeObjectives[MODE.Type].gunner.color1 ) or MODE.TypeObjectives[MODE.Type].innocent.color1
-	-- ColorRole.a = 255 * fade
 	if(lply.SubRole and lply.SubRole != "")then
 		cur_y = cur_y + ScreenScale(20)
 
@@ -372,7 +368,7 @@ function MODE:HUDPaint()
 
 		draw.SimpleText("Occupation: " .. ((MODE.Professions[lply.Profession] and MODE.Professions[lply.Profession].Name or lply.Profession) or lply.Profession), "ZB_HomicideMedium", sw * 0.5, cur_y, color_role_innocent, TEXT_ALIGN_CENTER, TEXT_ALIGN_CENTER)
 	end
-	
+
 	if(handicap[lply:GetLocalVar("karma_sickness", 0)])then
 		cur_y = cur_y + ScreenScale(20)
 
@@ -494,7 +490,7 @@ CreateEndMenu = function(traitor)
 	for i, ply in player.Iterator() do
 		if ply:Team() == TEAM_SPECTATOR then continue end
 		if !IsValid(ply) then return end
-		
+
 		players[#players + 1] = {
 			nick = ply:Nick(),
 			name = ply:GetPlayerName(),
@@ -610,10 +606,6 @@ CreateEndMenu = function(traitor)
 end
 
 function MODE:RoundStart()
-	-- if IsValid(hmcdEndMenu) then
-	-- 	hmcdEndMenu:Remove()
-	-- 	hmcdEndMenu = nil
-	-- end
 end
 
 --\\
@@ -632,12 +624,9 @@ function hg.SelectPlayerRole(role, mode)
 	end
 
 	if(MODE.RoleChooseRoundTypes[mode])then
-		//VGUI_HMCD_RolePanelList = vgui.Create("ZB_TraitorSelectionMenu")
-		//VGUI_HMCD_RolePanelList:Center()
 		VGUI_HMCD_RolePanelList = vgui.Create("HMCD_RolePanelList")
 		VGUI_HMCD_RolePanelList.RolesIDsList = MODE.RoleChooseRoundTypes[mode][role]	--; WARNING TCP Reroute
 		VGUI_HMCD_RolePanelList.Mode = mode
-		-- VGUI_HMCD_RolePanelList:SetSize(ScreenScale(600), ScreenScale(300))
 		VGUI_HMCD_RolePanelList:SetSize(screen_scale_2(700), screen_scale_2(300))
 		VGUI_HMCD_RolePanelList:Center()
 		VGUI_HMCD_RolePanelList:InvalidateParent(false)

@@ -49,7 +49,6 @@ SWEP.FakeEmptyReloadSounds = {
 	[0.15] = "weapons/m249/m249_shoulder.wav",
 	[0.25] = "weapons/m249/m249_boltback.wav",
 	[0.28] = "weapons/m249/m249_boltrelease.wav",
-	--[0.37] = "weapons/m4a1/m4a1_magrelease.wav",
 	[0.45] = "weapons/m249/m249_coveropen.wav",
 	[0.54] = "weapons/m249/m249_magout.wav",
 	[0.73] = "weapons/m249/m249_shoulder.wav",
@@ -61,16 +60,14 @@ SWEP.FakeEmptyReloadSounds = {
 }
 SWEP.MagModel = "models/weapons/zcity/w_glockmag.mdl"
 SWEP.FakeReloadEvents = {
-	[0.73] = function( self ) 
+	[0.73] = function( self )
 		if CLIENT and self:Clip1() < 1 then
-			--hg.CreateMag( self )
 			self:GetWM():SetBodygroup(1,1)
-		end 
+		end
 	end,
 }
 
 function SWEP:PostFireBullet(bullet)
-	--self:GetWM():SetBodygroup(1,math.min(self:Clip1()-1,1))
 	local owner = self:GetOwner()
 	if ( SERVER or self:IsLocal2() ) and owner:OnGround() then
 		if IsValid(owner) and owner:IsPlayer() then
@@ -86,8 +83,6 @@ SWEP.IconOverride = "pwb2/vgui/weapons/m60.png"
 
 SWEP.CustomShell = "762x51"
 SWEP.CustomSecShell = "m60len"
---SWEP.EjectPos = Vector(0,-20,5)
---SWEP.EjectAng = Angle(0,90,0)
 
 SWEP.CanSuicide = false
 

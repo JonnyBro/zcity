@@ -32,7 +32,7 @@ function SWEP:CanReload()
 	end
 
 	if !ply.GetAmmoCount then return true end
-	
+
 	if self.ReloadNext or not self:CanUse() or ply:GetAmmoCount(self:GetPrimaryAmmoType()) == 0 or self:Clip1() >= self:GetMaxClip1() + (self.drawBullet and not self.OpenBolt and 1 or 0) then --shit
 		return
 	end
@@ -82,15 +82,12 @@ end
 SWEP.ReloadCooldown = 0.1
 local math_min = math.min
 function SWEP:ReloadEnd()
-	--if not self.CustomAmmoInsertEvent then
 	self:InsertAmmo(self:GetMaxClip1() - self:Clip1() + (self.drawBullet ~= nil and not self.OpenBolt and 1 or 0))
-	--end
 	self.ReloadNext = CurTime() + self.ReloadCooldown --я хуй знает чо это
 	self:Draw()
 end
 
 SWEP.FakeReloadEvents = {
-	--[0.3] = function( self ) end,
 }
 
 function SWEP:MapEvents()
@@ -114,7 +111,7 @@ function SWEP:Step_Reload(time)
 	end
 
 	local time2 = self.reload and self.reload - 0.05
-	
+
 	if time2 and time2 < time then
 		self.reload = nil
 		self.countevent = nil
@@ -127,10 +124,8 @@ function SWEP:Step_Reload(time)
 
 	if time2 then
 		local part = 1.15 - (time2 - time) / self.StaminaReloadTime
-		--print(self.StaminaReloadTime)
 		local shouldalreadyreload
 		if SERVER then
-			//shouldalreadyreload = self:ReloadSounds(part)
 			self:ReloadSounds(part)
 		end
 
@@ -140,18 +135,14 @@ function SWEP:Step_Reload(time)
 			if self.GetDebug then
 				self:GetOwner():PrintMessage( 4,tostring(time) )
 			end
-			//local nextTimeEvent = self.FakeReloadEventsMap[self.countevent]
-			//local event = self.FakeReloadEvents[nextTimeEvent]
 			local event = self.FakeReloadEvents[time]
-			--print(self.FakeReloadEvents[time])
-			//if event and nextTimeEvent < time and self.FakeEventPlayed ~= event then
 			if event and self.FakeEventPlayed ~= event then
 				event( self, self.StaminaReloadMul )
 				self.FakeEventPlayed = event
 				self.countevent = self.countevent + 1
 			end
 		end
-		
+
 		part = math.ease.InOutQuad(part)
 
 		if self:AnimationReload(part, self.StaminaReloadTime) or shouldalreadyreload then
@@ -209,7 +200,7 @@ function SWEP:ClearAnims()
 
 		if not self.LHPosOffset:IsEqualTol(vecZero, 0.1) then self.LHPosOffset = Lerp(lerp,self.LHPosOffset,vecZero) end
 		if not self.LHAngOffset:IsEqualTol(angZero, 0.1) then self.LHAngOffset = Lerp(lerp,self.LHAngOffset,angZero) end
-		
+
 		if not self.inanim then
 			if not self.RHPosOffset:IsEqualTol(vecZero, 0.1) then self.RHPosOffset = Lerp(lerp,self.RHPosOffset,vecZero) end
 			if not self.RHAngOffset:IsEqualTol(angZero, 0.1) then self.RHAngOffset = Lerp(lerp,self.RHAngOffset,angZero) end
@@ -228,7 +219,7 @@ function SWEP:ClearAnims()
 		else
 			self.angvel:Set(angZero)
 		end
-		
+
 		self.SndReloadCD = 0
 	end
 end
@@ -241,18 +232,18 @@ function SWEP:AnimationReload(time, staminaReload)
 	if self:ShouldUseFakeModel() then
 		return
 	end
-	
+
 	local wep = self--weapons.GetStored( self:GetClass() )
-	
+
 	local anims = wep.ReloadAnimLH
 	local anims2 = wep.ReloadAnimLHAng
 	local floortime = math.floor(time * (#anims))
 	local floortime2 = math.floor(time * (#anims2))
 	local lerp = time * (#anims) - floortime
 	local lerp2 = time * (#anims2) - floortime2
-	
+
 	local pos1,pos2 = anims[math.Clamp(floortime,1,#anims)],anims[math.Clamp(floortime+1,1,#anims)]
-	
+
 	if pos2 == "fastreload" then
 		if self:Clip1() > 0 then
 			self:ClearAnims()
@@ -288,7 +279,6 @@ function SWEP:AnimationReload(time, staminaReload)
 			wm:SetSubMaterial(self.ProceduralMagID or 1, tostring(rem) or "null")
 		end
 
-		--pos1 = anims[math.Clamp(floortime+1,1,#anims)]
 	elseif pos1 == "returnmag" and self.ProceduralMagID and istable(self.ProceduralMagSets) then
 		local method, ret = self.ProceduralMagMethod, self.ProceduralMagSets["return"]
 		local wm = self:GetWM()
@@ -301,10 +291,7 @@ function SWEP:AnimationReload(time, staminaReload)
 			wm:SetSubMaterial(self.ProceduralMagID or 1, tostring(ret) or "")
 		end
 
-		--pos1 = anims[math.Clamp(floortime+1,1,#anims)]
 	end
-
-	--print(pos1, pos2)
 
 	if isstring(pos1) or isstring(pos2) then
 		pos1,pos2 = anims[math.Clamp(floortime,1,#anims)], anims[math.Clamp(floortime+1,1,#anims)]
@@ -320,7 +307,7 @@ function SWEP:AnimationReload(time, staminaReload)
 	local floortime2 = math.floor(time * (#anims2))
 	local lerp = time * (#anims) - floortime
 	local lerp2 = time * (#anims2) - floortime2
-	
+
 	local pos1,pos2 = anims[math.Clamp(floortime,1,#anims)],anims[math.Clamp(floortime+1,1,#anims)]
 
 	if pos2 == "fastreload" then
@@ -353,15 +340,12 @@ function SWEP:AnimationReload(time, staminaReload)
 	local floortime2 = math.floor(time * (#anims2))
 	local lerp2 = time * (#anims2) - floortime2
 
-	--self.WepPosOffset = Lerp(lerp,anims[math.Clamp(floortime,1,#anims)],anims[math.Clamp(floortime+1,1,#anims)])
 	local ang1,ang2 = anims2[math.Clamp(floortime2,1,#anims2)],anims2[math.Clamp(floortime2+1,1,#anims2)]
-	
+
 	local oldang = -(-self.WepAngOffset)
-	
+
 	self.WepAngOffset = easedLerp(lerp2,ang1,ang2) + self.angvel
 
-	--self.angvel:Add((self.WepAngOffset-oldang)/2)
-	--self.angvel = self.angvel * 0.99
 	if CLIENT and self:GetOwner() == LocalPlayer() and self.reload then
 		local addang = (self.WepAngOffset-oldang)/12
 		addang[3] = addang[3] / 12
@@ -373,8 +357,8 @@ function SWEP:AnimationReload(time, staminaReload)
 	local floortime2 = math.floor(time * (#anims2))
 	local lerp2 = time * (#anims2) - floortime2
 	local num1,num2 = anims2[math.Clamp(floortime2,1,#anims2)],anims2[math.Clamp(floortime2+1,1,#anims2)]
-	
-	
+
+
 	self.ReloadSlideOffset = easedLerp(lerp2,num1,num2)
 end
 
@@ -384,15 +368,9 @@ SWEP.ReloadSoundes = {
 SWEP.SndReloadCD = 0
 
 SWEP.FakeReloadSounds = {
-	--[0.3] = "weapons/m4a1/m4a1_magout.wav",
 }
 
 SWEP.FakeEmptyReloadSounds = {
-	--[0.22] = "weapons/m4a1/m4a1_magrelease.wav",
-	--[0.25] = "weapons/m4a1/m4a1_magout.wav",
-	--[0.65] = "weapons/m4a1/m4a1_magain.wav",
-	--[0.77] = "weapons/m4a1/m4a1_hit.wav",
-	--[0.94] = "weapons/m4a1/m4a1_boltarelease.wav",
 }
 
 function SWEP:FakeReloadFunctions()
@@ -445,24 +423,16 @@ end)
 
 function SWEP:Reload(time)
 	if not time then return end
-	--if !self:CanReload() then return end
-	
+
 	self.LastReload = time
 	self:ReloadStart()
 	self:ReloadStartPost()
-	--self.StaminaReloadTime = -- self.ReloadTime * ( IsValid( self:GetOwner() ) and self:GetOwner().organism and self:GetOwner().organism.stamina and 2 -(self:GetOwner().organism.stamina[1] / 180 ) or 1 )
 	self.reload = time + (self.StaminaReloadTime or self.ReloadTime)
 	if self:ShouldUseFakeModel() then
 		self:PlayAnim(self:Clip1() == 0 and "reload_empty" or "reload", (self.StaminaReloadTime or self.ReloadTime), false, function()
 			self:PlayAnim("idle", 1, not self.NoIdleLoop)
-			--if self.MagIndex then
-			--	self:GetWM():ManipulateBoneScale(self.MagIndex, vector_origin)
-			--end
 		end)
 
-		--if self:Clip1() != 0 and self.MagIndex then
-		--	self:GetWM():ManipulateBoneScale(self.MagIndex, vector_full)
-		--end
 	end
 	self:Step_Reload(CurTime() - 1)
 	self.dwr_reverbDisable = true
@@ -470,6 +440,4 @@ end
 
 function SWEP:ReloadStart()
 	if not IsValid(self:GetOwner()) then return end
-	--self:SetHold(self.ReloadHold or self.HoldType)
-	--self:GetOwner():SetAnimation(PLAYER_RELOAD)
 end

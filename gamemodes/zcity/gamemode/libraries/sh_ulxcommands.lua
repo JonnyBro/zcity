@@ -37,7 +37,7 @@ end
 function ulx.votemode(calling_ply, ...)
     calling_ply.CoolDownVote = calling_ply.CoolDownVote or 0
     if calling_ply.CoolDownVote > CurTime() then -- if calling_ply.CoolDownVote or 0 > CurTime() then Useless wtf
-        ULib.tsayError(calling_ply, "Wait ".. ( math.Round( calling_ply.CoolDownVote - CurTime(), 1 ) ) .." before create a new vote", true)    
+        ULib.tsayError(calling_ply, "Wait ".. ( math.Round( calling_ply.CoolDownVote - CurTime(), 1 ) ) .." before create a new vote", true)
     return end
     calling_ply.CoolDownVote = CurTime() + 180
 

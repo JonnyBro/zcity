@@ -1,4 +1,3 @@
---ents.Reg(nil,"weapon_m4super")
 SWEP.Base = "weapon_m4super"
 SWEP.Spawnable = true
 SWEP.AdminOnly = false
@@ -130,40 +129,27 @@ SWEP.AnimsEvents = {
 	["sgreload_insert"] = {
 		[0.0] = function(self)
 			self:EmitSound("weapons/arccw_ud/870/shell-insert-0"..math.random(1,3)..".ogg")
-			--
-			--self:GetWM():ManipulateBoneScale(47, vector_full)
 		end,
 		[0.8] = function(self)
-			--self:GetWM():ManipulateBoneScale(47, vector_origin)
 		end,
 	},
 	["cycle"] = {
 		[0.0] = function(self)
 			self:EmitSound("weapons/arccw_ud/870/rack_1.ogg")
-			--
-			--self:GetWM():ManipulateBoneScale(47, vector_full)
 		end,
 		[0.1] = function(self)
 			self:EmitSound("weapons/arccw_ud/870/eject.ogg")
-			--
-			--self:GetWM():ManipulateBoneScale(47, vector_full)
 		end,
 		[0.2] = function(self)
 			self:EmitSound("weapons/arccw_ud/870/rack_2.ogg")
-			--
-			--self:GetWM():ManipulateBoneScale(47, vector_full)
 		end
 	},
 	["sgreload_finish_empty"] = {
 		[0.0] = function(self)
 			self:EmitSound("weapons/arccw_ud/870/rack_1.ogg")
-			--
-			--self:GetWM():ManipulateBoneScale(47, vector_full)
 		end,
 		[0.3] = function(self)
 			self:EmitSound("weapons/arccw_ud/870/rack_2.ogg")
-			--
-			--self:GetWM():ManipulateBoneScale(47, vector_full)
 		end
 	}
 }
@@ -213,7 +199,7 @@ function SWEP:SetupShotgun()
 	end
 
 	self.Tube[self.TubeMax] = "Nothing"
-	
+
 	if SERVER then
 		self:SetChamber("12/70 gauge")
 	end
@@ -254,14 +240,11 @@ function SWEP:NextBullet()
 			net.WriteBool(self.drawBullet)
 			net.WriteFloat(CurTime())
 		net.Broadcast()
-		--print("------")
-		--PrintTable(self.Tube)
-		--print("------")
 	end
 end
 
 function SWEP:LoadBullet(strBullet)
-	
+
 	for i = self.TubeMax, 1, -1 do
 		if self.Tube[i-1] then
 			self.Tube[i] = self.Tube[i-1]
@@ -271,7 +254,6 @@ function SWEP:LoadBullet(strBullet)
 	if self.Tube[1] == "Nothing" then
 		self.Tube[1] = strBullet
 	end
-	--PrintTable(self.Tube)
 end
 
 local ang1 = Angle(0, -10, 0)
@@ -339,16 +321,15 @@ local function reloadFunc(self)
 	if self.MagIndex then
 		self:GetWM():ManipulateBoneScale(self.MagIndex, vector_full)
 	end
-	
-	self:PlayAnim(self.AnimList["insert"] or "sgreload_insert", 1, false, function() 
+
+	self:PlayAnim(self.AnimList["insert"] or "sgreload_insert", 1, false, function()
 		self:InsertAmmo(1)
 		if self.MagIndex then
 			self:GetWM():ManipulateBoneScale(self.MagIndex, vector_origin)
 		end
-		
+
 		local key = hg.KeyDown(self:GetOwner(), IN_RELOAD)
-		--print("reload",key)
-		
+
 		if key and self:CanReload() then
 			reloadFunc(self)
 			return
@@ -356,9 +337,9 @@ local function reloadFunc(self)
 
 		if self:GetChamber() == "Nothing" then
 			cock(self,1)
-			self:PlayAnim(self.AnimList["finish_empty"] or "sgreload_finish_empty", 1,false,function(self) self:SetNetVar("shootgunReload",0) self:GetWM():ManipulateBoneScale(self.MagIndex, vector_origin) end,false,true) 
+			self:PlayAnim(self.AnimList["finish_empty"] or "sgreload_finish_empty", 1,false,function(self) self:SetNetVar("shootgunReload",0) self:GetWM():ManipulateBoneScale(self.MagIndex, vector_origin) end,false,true)
 		else
-			self:PlayAnim(self.AnimList["finish"] or "sgreload_finish", 1,false,function(self) self:SetNetVar("shootgunReload",0) self:GetWM():ManipulateBoneScale(self.MagIndex, vector_origin) end,false,true) 
+			self:PlayAnim(self.AnimList["finish"] or "sgreload_finish", 1,false,function(self) self:SetNetVar("shootgunReload",0) self:GetWM():ManipulateBoneScale(self.MagIndex, vector_origin) end,false,true)
 		end
 	end, false, true)
 end
@@ -366,7 +347,6 @@ end
 SWEP.FakeEjectBrassATT = "2"
 
 function SWEP:Reload(time)
-	--print(self:GetNetVar("shootgunReload",0))
 	local ply = self:GetOwner()
 	if ply.organism and (ply.organism.larmamputated or ply.organism.rarmamputated) then return end
 	if self.AnimStart_Draw > CurTime() - 0.5 then return end
@@ -381,13 +361,11 @@ function SWEP:Reload(time)
 		self:PlayAnim(self.AnimList["cycle"] or "cycle", 1, false, nil, false, true)
 		return
 	end
-	--print("----")
-	--PrintTable(self.Tube)
 	if self.Tube[self.TubeMax] != "Nothing" or not self:CanReload() then return end
 
 	if SERVER then
 		self:SetNetVar("shootgunReload",CurTime() + 1.1)
-		self:PlayAnim(self.AnimList["start"] or "sgreload_start",1,false,function() 
+		self:PlayAnim(self.AnimList["start"] or "sgreload_start",1,false,function()
 			reloadFunc(self)
 		end,
 		false,true)

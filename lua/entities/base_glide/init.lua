@@ -104,7 +104,7 @@ function ENT:Initialize()
     self.exitPos = {}   -- Per-seat exit offsets
     self.lastDriver = NULL
     self.lastBodygroups = {}
-    
+
 	table.insert(hg.vehicles, self)
 
     self.inputBools = {}        -- Per-seat bool inputs
@@ -246,7 +246,7 @@ local hg_glide_only_closest_seat = CreateConVar("hg_glide_only_closest_seat","1"
 function ENT:Use( activator )
     if not IsValid( activator ) then return end
     if not activator:IsPlayer() then return end
-    
+
     if !hg_glide_only_closest_seat:GetBool() and not IsValid( self:GetDriver() ) and !activator:KeyDown(IN_WALK) then
         local seat = self:GetFreeSeat()
 

@@ -19,19 +19,17 @@ include("sh_options.lua")
 matproxy.Add({
     name = "UC_ShellColor",
     init = function(self, mat, values)
-        --self.envMin = values.min
-        --self.envMax = values.max
         self.col = Vector()
     end,
     bind = function(self, mat, ent)
         local swent = ent
-        
+
         if IsValid(swent) then
             local herg = color_white
             local r = 255
             local g = 255
             local b = 255
-            
+
             if swent.GetShellColor then
                 herg = swent:GetShellColor() or color_white
                 r = herg.r or 255

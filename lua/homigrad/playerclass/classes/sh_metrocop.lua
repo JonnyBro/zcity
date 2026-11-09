@@ -117,7 +117,7 @@ local function giveSubClassLoadout(ply, subclass)
                 if item.ammo_mult then
                     ply:GiveAmmo(wep:GetMaxClip1() * item.ammo_mult, wep:GetPrimaryAmmoType(), true)
                 end
-                --;; пример кастомной какахи 
+                --;; пример кастомной какахи
                 if item.count then
                     wep.count = item.count
                 end
@@ -196,7 +196,6 @@ function CLASS.On(self, data)
     hook.Add( "OnEntityCreated", "relation_shipdo"..index, function( ent )
         if not IsValid(self) then hook.Remove("OnEntityCreated","relation_shipdo"..index) return end
         if ( ent:IsNPC() ) then
-            --print(ent:GetClass())
             if table.HasValue(combines,ent:GetClass()) then
                 ent:AddEntityRelationship( self, D_LI, 0 )
             end

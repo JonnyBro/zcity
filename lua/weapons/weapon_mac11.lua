@@ -27,7 +27,6 @@ SWEP.FakeReloadSounds = {
 	[0.65] = "weapons/universal/uni_crawl_l_02.wav",
 	[0.82] = "weapons/zmirli/mac10/mac10_magin.wav",
 	[0.94] = "weapons/universal/uni_crawl_l_04.wav",
-	--[0.9] = "zcitysnd/sound/weapons/m9/handling/m9_maghit.wav",
 
 }
 SWEP.FakeEmptyReloadSounds = {
@@ -39,7 +38,6 @@ SWEP.FakeEmptyReloadSounds = {
 	[0.72] = "weapons/universal/uni_crawl_l_05.wav",
 	[0.84] = "weapons/tfa_ins2/mp7/boltback.wav",
 	[1.02] = "weapons/universal/uni_crawl_l_04.wav",
-	--[0.9] = "zcitysnd/sound/weapons/m9/handling/m9_maghit.wav",
 
 }
 SWEP.MagModel = "models/weapons/zcity/w_glockextmag.mdl"
@@ -56,30 +54,28 @@ SWEP.ViewPunchDiv = 60
 SWEP.FakeMagDropBone = 55
 
 SWEP.FakeReloadEvents = {
-	[0.3] = function( self, timeMul ) 
+	[0.3] = function( self, timeMul )
 		if CLIENT and self:Clip1() > 0 then
-			--self:GetWM():SetBodygroup(1,1)
-			--self:GetOwner():PullLHTowards("ValveBiped.Bip01_L_Thigh", 1.5 * timeMul)
 			self:GetWM():ManipulateBoneScale(57, vector_full)
-		end 
+		end
 	end,
-	[0.35] = function( self, timeMul ) 
+	[0.35] = function( self, timeMul )
 		if CLIENT and self:Clip1() < 1 then
 			hg.CreateMag( self, Vector(0,55,-55) )
 			self:GetWM():ManipulateBoneScale(55, vector_origin)
 			self:GetWM():ManipulateBoneScale(56, vector_origin)
-			self:GetOwner():PullLHTowards("ValveBiped.Bip01_L_Thigh", 0.8 * timeMul,nil,nil,function() 
+			self:GetOwner():PullLHTowards("ValveBiped.Bip01_L_Thigh", 0.8 * timeMul,nil,nil,function()
 				self:GetWM():ManipulateBoneScale(55, vector_full)
 				self:GetWM():ManipulateBoneScale(56, vector_full)
 			end)
-		end 
+		end
 	end,
 	[0.85] = function(self,timeMul)
 		if CLIENT and self:Clip1() > 0 then
 			local wm = self:GetWM()
 			wm:ManipulateBoneScale(55, vector_origin)
 			wm:ManipulateBoneScale(56, vector_origin)
-			self:GetOwner():PullLHTowards("ValveBiped.Bip01_L_Thigh", 0.9 * timeMul,nil,nil,function() 
+			self:GetOwner():PullLHTowards("ValveBiped.Bip01_L_Thigh", 0.9 * timeMul,nil,nil,function()
 				if !IsValid(wm) then return end
 				wm:ManipulateBoneScale(55, vector_full)
 				wm:ManipulateBoneScale(56, vector_full)
@@ -87,11 +83,6 @@ SWEP.FakeReloadEvents = {
 			end)
 		end
 	end,
-	--[1.00] = function( self ) 
-	--	if CLIENT and self:Clip1() > 0 then
-	--		self:GetWM():ManipulateBoneScale(57, vector_origin)
-	--	end 
-	--end,
 }
 
 SWEP.AnimList = {
@@ -104,8 +95,6 @@ SWEP.WepSelectIcon2 = Material("pwb2/vgui/weapons/mac11.png")
 SWEP.IconOverride = "pwb2/vgui/weapons/mac11.png"
 
 SWEP.CustomShell = "9x19"
---SWEP.EjectPos = Vector(0,-20,5)
---SWEP.EjectAng = Angle(0,90,0)
 SWEP.punchmul = 0.5
 SWEP.punchspeed = 3
 SWEP.weight = 1

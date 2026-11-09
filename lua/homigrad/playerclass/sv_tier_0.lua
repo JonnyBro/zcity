@@ -16,9 +16,6 @@ function Player:SetPlayerClass(value, data)
 		net.WriteString(self.PlayerClassNameOld or "")
 		net.WriteTable(data)
 	net.Broadcast()
-	--if self:Alive() then
-	--	hg.FakeUp(self, true, true)
-	--end
 end
 
 function Player:GiveSwep(list, mulClip1) -- улучшенный tdm.GiveSwep

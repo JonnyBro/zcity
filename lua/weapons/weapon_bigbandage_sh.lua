@@ -76,7 +76,7 @@ if SERVER then
 		if ent:IsNPC() then
 			self:NPCHeal(ent, 0.25, "snd_jack_hmcd_bandage.wav")
 		end
-	
+
 		local org = ent.organism
 		if not org then return end
 
@@ -86,13 +86,13 @@ if SERVER then
 
 			if self:GetHolding() < 100 then return end
 		end
-	
+
 		local done = self:Bandage(ent, bone)
 		if self.modeValues[1] <= 0 and self.ShouldDeleteOnFullUse then
 			self:GetOwner():SelectWeapon("weapon_hands_sh")
 			self:Remove()
 		end
-		
+
 		return done
 	end
 end

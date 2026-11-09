@@ -1,7 +1,7 @@
 --\\
 --; https://ru.wikipedia.org/wiki/%D0%A6%D0%B8%D0%B0%D0%BD%D0%B8%D0%B4_%D0%BA%D0%B0%D0%BB%D0%B8%D1%8F
---; При больших дозах или поступлении яда натощак потеря сознания и смерть пострадавшего наступает практически мгновенно 
---; (отравленные мгновенно падают замертво) или через несколько секунд после мучительного удушья, судорог, которые часто сопровождаются пронзительными 
+--; При больших дозах или поступлении яда натощак потеря сознания и смерть пострадавшего наступает практически мгновенно
+--; (отравленные мгновенно падают замертво) или через несколько секунд после мучительного удушья, судорог, которые часто сопровождаются пронзительными
 --; криками (иногда до хрипоты) и чрезвычайно сильным расширением зрачков.
 --; Нейтрализуется от глюкозы и сам по себе т.к. нестабилен
 --//
@@ -57,11 +57,11 @@ end
 
 function SWEP:Initialize()
 	self:SetHold(self.HoldType)
-	
+
 	if(SERVER)then
 		self:SetUsesLeft(5)
 	end
-	
+
 	self:MarkupUpdate()
 end
 
@@ -111,7 +111,7 @@ end
 
 function SWEP:Think()
 	self:SetHold(self.HoldType)
-	
+
 	if(CLIENT)then
 		self:MarkupUpdate()
 	end
@@ -155,7 +155,7 @@ function SWEP:CanPoison(ent)
 	if(poisonable_entities[ent:GetClass()])then
 		return true
 	end
-	
+
 	return false
 end
 
@@ -163,7 +163,7 @@ function SWEP:DoPoison(ent)
 	local owner = self:GetOwner()
 
 	ent.ConsumePoisoned_KCN = (ent.ConsumePoisoned_KCN or 0) + 1
-	
+
 	owner:ChatPrint((ent.PrintName or "Item").." was poisoned!")
 
 	self:SetUsesLeft(math.max(self:GetUsesLeft(0) - 1, 0))
@@ -172,7 +172,7 @@ end
 --\\Chemical resistance
 function DegradeChemicalsOfPlayer(ply)
 	ply.PassiveAbility_ChemicalAccumulation = ply.PassiveAbility_ChemicalAccumulation or {}
-	
+
 	for chemical_name, amt in pairs(ply.PassiveAbility_ChemicalAccumulation) do
 		ply.PassiveAbility_ChemicalAccumulation[chemical_name] = math.max(amt - FrameTime() * (chemical_degrade_speeds[chemical_name] or 1), 0)
 	end
@@ -185,7 +185,7 @@ end
 function GetChemicalOfPlayer(ply, chemical_name)
 	ply.PassiveAbility_ChemicalAccumulation = ply.PassiveAbility_ChemicalAccumulation or {}
 	ply.PassiveAbility_ChemicalAccumulation[chemical_name] = (ply.PassiveAbility_ChemicalAccumulation[chemical_name] or 0)
-	
+
 	return ply.PassiveAbility_ChemicalAccumulation[chemical_name]
 end
 
@@ -199,7 +199,7 @@ function AddChemicalToPlayer(ply, chemical_name, amt)
 	amt = amt or 1
 	ply.PassiveAbility_ChemicalAccumulation = ply.PassiveAbility_ChemicalAccumulation or {}
 	ply.PassiveAbility_ChemicalAccumulation[chemical_name] = (ply.PassiveAbility_ChemicalAccumulation[chemical_name] or 0) + amt
-	
+
 	return ply.PassiveAbility_ChemicalAccumulation[chemical_name]
 end
 --//
@@ -212,26 +212,24 @@ if(SERVER)then
 	hook.Add("Org Think", "Poison_KCN",function(owner, org, timeValue)
 		if not owner:IsPlayer() or not owner:Alive() then return end
 		if((not org.Poison_KCN) or (not org.alive))then return end
-		
+
 		local poison = org.Poison_KCN
 		local poison_start_time = poison.StartTime
 		local poison_potency = poison.Potency
-		
+
 		if((poison_start_time + (20 / poison_potency)) < CurTime() and (!poison.NextNotification1 or poison.NextNotification1 <= CurTime()))then
 			poison.NextNotification1 = CurTime() + math.max(5 / poison_potency, 1)
-			
+
 			if not org.otrub then org.owner:EmitSound((ThatPlyIsFemale(org.owner) and "vo/npc/female01/moan0"..math.random(5)..".wav" ) or "vo/npc/male01/moan0"..math.random(5)..".wav") end
 		end
-		
+
 		if((poison_start_time + (22 / poison_potency)) < CurTime())then
 			org.stamina[1] = math.min(org.stamina[1], 50 / poison_potency)
 			org.o2[1] = math.min(org.o2[1], org.o2.range / poison_potency)
 			org.disorientation = math.max(org.disorientation, 10 * poison_potency)
-			//org.pulse = math.max(org.pulse, 120 + 10 * poison_potency)
 		end
 
 		if((poison_start_time + (90 / poison_potency)) < CurTime())then
-			-- org.o2[1] = math.max(org.o2[1] - (poison_potency - 1) * 5, 5)
         	org.o2.regen = 0
 		end
 	end)

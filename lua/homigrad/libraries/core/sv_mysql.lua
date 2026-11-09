@@ -28,12 +28,9 @@
 	OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE
 	SOFTWARE.
 --]]
---if engine.ActiveGamemode() == "zcity" then return end
 mysql = mysql or {
 	module = "mysqloo"
 }
-
---if not util.IsBinaryModuleInstalled("mysqloo") then return end
 
 local QueueTable = {}
 local tostring = tostring
@@ -493,7 +490,6 @@ function mysql:Connect(host, username, password, database, port, socket, flags)
 		if (!istable(mysqloo)) then
 			require("mysqloo")
 		end
-		--self.connection = nil
 		if (mysqloo) then
 
 			if (self.connection and self.connection:ping()) then

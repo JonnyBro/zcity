@@ -28,7 +28,7 @@ SWEP.AnimList = {
 function SWEP:PostSetupDataTables()
 	self:NetworkVar("Int",0,"DeagleSkin")
 	self:NetworkVar("Int",1,"DeagleBodygroup")
-	
+
 	if ( CLIENT ) then
 		self:NetworkVarNotify( "DeagleSkin", self.OnVarChanged )
 		self:NetworkVarNotify( "DeagleBodygroup", self.OnVarChanged )
@@ -37,7 +37,7 @@ end
 
 function SWEP:OnVarChanged( name, old, new )
 	if !IsValid(self:GetWM()) then return end
-	
+
 	if name == "DeagleBodygroup" then
 		self:GetWM():SetBodygroup(4,new)
 	elseif name == "DeagleSkin" then
@@ -50,7 +50,7 @@ local skins = {
 function SWEP:InitializePost()
 	local Skin = skins[math.random(#skins)]
 	if math.random(0,100) > 99 then
-		Skin = math.random(0,1) == 1 and 4 or 2 
+		Skin = math.random(0,1) == 1 and 4 or 2
 	end
 	self:SetDeagleSkin(Skin)
 	self:SetDeagleBodygroup(math.random(0,1))
@@ -65,24 +65,21 @@ SWEP.FakeReloadSounds = {
 	[0.15] = "weapons/universal/uni_crawl_l_03.wav",
 	[0.22] = "weapons/arccw_ur/deagle/magout.ogg",
 	[0.3] = "weapons/arccw_ur/deagle/magout.ogg",
-	--[0.37] = "weapons/m4a1/m4a1_magrelease.wav",
 	[0.37] = "weapons/universal/uni_pistol_draw_01.wav",
 	[0.41] = "weapons/universal/uni_crawl_l_05.wav",
 	[0.6] = "weapons/arccw_ur/deagle/magin.ogg",
-	--[0.8] = "weapons/arccw_ur/deagle/chamber.ogg",
 }
 
 SWEP.FakeEmptyReloadSounds = {
 	[0.15] = "weapons/universal/uni_crawl_l_03.wav",
 	[0.22] = "weapons/arccw_ur/deagle/magout_old.ogg",
 	[0.3] = "weapons/arccw_ur/deagle/magout_old.ogg",
-	--[0.37] = "weapons/m4a1/m4a1_magrelease.wav",
 	[0.37] = "weapons/universal/uni_pistol_draw_01.wav",
 	[0.41] = "weapons/universal/uni_crawl_l_05.wav",
 	[0.6] = "weapons/arccw_ur/deagle/magin.ogg",
 	[0.8] = "weapons/arccw_ur/deagle/chamber.ogg",
 }
-SWEP.MagModel = "models/weapons/upgrades/w_magazine_m45_8.mdl" 
+SWEP.MagModel = "models/weapons/upgrades/w_magazine_m45_8.mdl"
 
 SWEP.lmagpos = Vector(1.5,0,0)
 SWEP.lmagang = Angle(-15,0,1)
@@ -103,7 +100,7 @@ if CLIENT then
 				end)
 			end
 		end,
-		[0.33] = function( self, timeMul ) 
+		[0.33] = function( self, timeMul )
 			self:GetWM():ManipulateBoneScale(48, vector_origin)
 			for i = 49, 55 do
 				self:GetWM():ManipulateBoneScale(i, vector_origin)
@@ -127,8 +124,6 @@ SWEP.WepSelectIcon2 = Material("pwb2/vgui/weapons/deserteagle.png")
 SWEP.IconOverride = "pwb2/vgui/weapons/deserteagle.png"
 SWEP.FakeEjectBrassATT = "2"
 SWEP.CustomShell = "50ae"
---SWEP.EjectPos = Vector(0,5,5)
---SWEP.EjectAng = Angle(-80,50,0)
 SWEP.EjectAddAng = Angle(0,0,0)
 
 SWEP.weight = 1.5
@@ -194,9 +189,6 @@ SWEP.availableAttachments = {
 		["mount"] = Vector(-3, 0.5, 0),
 		["mountAngle"] = Angle(0, 0, 0),
 	},
-	//mount = {
-		//[1] = {"mount2", Vector(-5, -0.5, 0), {}},
-	//}
 }
 
 SWEP.ShockMultiplier = 2
@@ -224,12 +216,6 @@ local finger6 = Angle(2,-2,-22)
 local vector_zero = Vector(0,0,0)
 
 function SWEP:AnimHoldPost()
-	--self:BoneSet("r_finger0", vector_zero, finger6)
-	--self:BoneSet("l_finger0", vector_zero, finger1)
-    --self:BoneSet("l_finger02", vector_zero, finger2)
-	--self:BoneSet("l_finger1", vector_zero, finger3)
-	--self:BoneSet("r_finger1", vector_zero, finger4)
-	--self:BoneSet("r_finger11", vector_zero, finger5)
 end
 
 SWEP.ShootAnimMul = 7

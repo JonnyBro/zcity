@@ -11,7 +11,7 @@ if SERVER then AddCSLuaFile() end
 	else
 		net.Receive("Abnormalties_ShootWeapon", function()
 			local wep = net.ReadEntity()
-			
+
 			if(IsValid(wep) and wep.Abnormalties_ShootableWeapon)then
 				wep:EmitShoot()
 				wep:PrimarySpread()
@@ -68,11 +68,6 @@ SWEP.NumBullet = 1
 SWEP.Primary.Sound = {"weapons/awoi/musket_5_fire.wav", 65, 60, 65}
 SWEP.SupressedSound = {"weapons/awoi/musket_5_fire.wav", 65, 60, 65}
 SWEP.availableAttachments = {
-	--[[barrel = {
-		[1] = {"supressor1", Vector(0,0,0), {}},
-		[2] = {"supressor6", Vector(0,0,0), {}},
-		["mount"] = Vector(0.8,0.5,0),
-	},]]
 }
 
 SWEP.PPSMuzzleEffect = "muzzleflash_M3" -- shared in sh_effects.lua
@@ -150,7 +145,6 @@ SWEP.RHAng = Angle(-8,-30,65)
 
 --local to rh
 SWEP.LHPos = Vector(17,0,-3.5)
--- SWEP.LHPos = Vector(17,-1,-3.5)
 SWEP.LHAng = Angle(-90,-0,-180)
 
 local finger1 = Angle(10, -20, 0)
@@ -197,7 +191,7 @@ function SWEP:AnimationPost()
 
 		local lohsin = math.floor(sin * (#anims))
 		local lerp = sin * (#anims) - lohsin
-		
+
 		self.inanim = true
 		self.RHPosOffset = Lerp(lerp,anims[math.Clamp(lohsin,1,#anims)],anims[math.Clamp(lohsin+1,1,#anims)])
 	else
@@ -305,12 +299,12 @@ end
 
 function SWEP:CanShootBlood()
 	local ply = self:GetOwner()
-	
+
 	if(ply.organism)then
 		local blood_total = ply.organism.blood
 		ply.Abnormalties_Blood = ply.Abnormalties_Blood or 0
 		blood_total = blood_total + ply.Abnormalties_Blood / 2
-		
+
 		if(blood_total >= 1000)then
 			return true
 		end
@@ -321,16 +315,16 @@ end
 
 function SWEP:DrawBlood()
 	local ply = self:GetOwner()
-	
+
 	if(ply.organism)then
 		ply.Abnormalties_Blood = ply.Abnormalties_Blood or 0
-		
+
 		if(ply.Abnormalties_Blood >= 2000)then
 			ply.organism.pulse = ply.organism.pulse + 15
 		else
 			ply.organism.pulse = ply.organism.pulse + 40
 		end
-		
+
 		local blood_required = 1000
 		local blood_take = math.min(ply.Abnormalties_Blood / 2, blood_required)
 		ply.Abnormalties_Blood = ply.Abnormalties_Blood - blood_take * 2
@@ -350,41 +344,41 @@ local charge_down = 100
 --; physics/cardboard/cardboard_box_scrape_rough_loop1.wav
 --; ambient/fire/fire_med_loop1.wav
 --; ambient/fire/firebig.wav
---; 
+--;
 
 function SWEP:DrawPost()
 	self.ZLastStep = self.ZLastStep or 0
-	
+
 	self:SetMaterial("models/flesh")
-	
+
 	if(CurTime() - self.ZLastStep > 0.5)then
 		self:SetCharge(0)
-	
+
 		local c_sound = self.CSoundCharge
-		
+
 		if(c_sound)then
 			c_sound:Stop()
-			
+
 			self.CSoundCharge = nil
 		end
 	end
-	
+
 	local charge = self:GetCharge()
-	
+
 	if(charge > 0)then
 		self.ZVisualsTime = (self.ZVisualsTime or 0) + FrameTime() * charge * 10
 		local world_model = self.worldModel
 		local draw_pos = world_model:GetRenderOrigin()
 		local draw_ang = world_model:GetRenderAngles()
-		
+
 		if(draw_ang and draw_pos)then
 			draw_pos = draw_pos + draw_ang:Forward() * -50
 			draw_pos = draw_pos + draw_ang:Right() * 0.7
 			draw_pos = draw_pos + draw_ang:Up() * 0.7
-			
+
 			draw_ang:RotateAroundAxis(draw_ang:Right(), 90)
 			draw_ang:RotateAroundAxis(draw_ang:Up(), self.ZVisualsTime)
-			
+
 			if(IsValid(world_model))then
 				for i = 1, 2 do
 					cam.Start3D2D(draw_pos, draw_ang, 0.005 * charge)
@@ -396,7 +390,7 @@ function SWEP:DrawPost()
 						draw_Circle(15, -15, 2, 12)
 						surface.DrawCircle(0, 0, 50, 150, 0, 0)
 					cam.End3D2D()
-					
+
 					draw_ang:RotateAroundAxis(draw_ang:Right(), 180)
 				end
 			end
@@ -406,51 +400,50 @@ end
 
 function SWEP:Step()
 	self:CoreStep()
-	
+
 	self.ZLastStep = CurTime()
-	
+
 	if(CLIENT)then
 		local world_model = self.worldModel
-		
+
 		if(IsValid(world_model))then
 			world_model:SetMaterial("models/flesh")
 		end
-		
+
 		local charge = self:GetCharge()
 		local c_sound = self.CSoundCharge
-		
+
 		if(charge > 0)then
 			if(!c_sound)then
 				self.CSoundCharge = CreateSound(self, "physics/cardboard/cardboard_box_scrape_rough_loop1.wav")
-				-- self.CSoundCharge = CreateSound(self, "physics/metal/metal_box_scrape_rough_loop1.wav")
 				c_sound = self.CSoundCharge
 			end
-			
+
 			if(!c_sound:IsPlaying())then
 				c_sound:Play()
 			end
-			
+
 			c_sound:ChangePitch(charge * 2)
 		else
 			if(c_sound)then
 				c_sound:Stop()
-				
+
 				self.CSoundCharge = nil
 			end
 		end
 	end
-	
+
 	local owner = self:GetOwner()
 	local shot_charge_changed = false
-	
+
 	if(owner:IsPlayer() and owner:GetActiveWeapon() == self)then
 		if(owner:KeyDown(IN_ATTACK) and self:CanShootBlood())then
 			self.ShotChargeUp = math.min((self.ShotChargeUp or 0) + FrameTime() * charge_up, 100)
 			shot_charge_changed = true
-			
+
 			if(self.ShotChargeUp >= 100)then
 				local pos, ang = self:GetTrace(true, nil, nil, true)
-				
+
 				if(SERVER)then
 					local dist, point = util.DistanceToLine(pos, pos - ang:Forward() * 20, owner:EyePos())
 					local bullet = {}
@@ -463,17 +456,17 @@ function SWEP:Step()
 					bullet.Attacker = owner.suiciding and Entity(0) or owner
 					bullet.IgnoreEntity = not owner.suiciding and (owner.InVehicle and owner:InVehicle() and owner:GetVehicle() or owner) or nil
 					bullet.Penetration = 50
-					
+
 					hg.PhysBullet.CreateBullet(bullet)
 					self:DrawBlood()
 					self:EmitShoot()
 					self:PrimarySpread()
-					
+
 					net.Start("Abnormalties_ShootWeapon")
 						net.WriteEntity(self)
 					net.Send(owner)
 				end
-				
+
 				self.ShotChargeUp = 0
 				shot_charge_changed = true
 			end
@@ -489,7 +482,7 @@ function SWEP:Step()
 			shot_charge_changed = true
 		end
 	end
-	
+
 	if(SERVER)then
 		if(shot_charge_changed)then
 			self:SetCharge(self.ShotChargeUp)
@@ -498,46 +491,6 @@ function SWEP:Step()
 end
 
 function SWEP:Shoot(override)
-	--[[
-	if not self:CanUse() then return false end
-	local primary = self.Primary
-	
-	if not self.drawBullet then
-		self.LastPrimaryDryFire = CurTime()
-		self:PrimaryShootEmpty()
-		primary.Automatic = false
-		return false
-	end
-	local owner = self:GetOwner()
-	-- if primary.Next > CurTime() then return false end
-	-- if (primary.NextFire or 0) > CurTime() then return false end
-	primary.Next = CurTime() + primary.Wait
-	self:SetLastShootTime(CurTime())
-	primary.Automatic = weapons.Get(self:GetClass()).Primary.Automatic
-	
-	local tr,pos,ang = self:GetTrace(true)
-	local owner = self:GetOwner()
-	
-	if(SERVER)then
-		local dist, point = util.DistanceToLine(pos, pos - ang:Forward() * 50, owner:EyePos())
-		local bullet = {}
-		bullet.Pos = point
-		bullet.Dir = ang:Forward()
-		bullet.Speed = 310
-		bullet.Damage = 350
-		bullet.Force = 10
-		bullet.AmmoType = "Armature"
-		bullet.Attacker = owner.suiciding and Entity(0) or owner
-		bullet.IgnoreEntity = not owner.suiciding and (owner.InVehicle and owner:InVehicle() and owner:GetVehicle() or owner) or nil
-		bullet.Penetration = 10
-
-		hg.PhysBullet.CreateBullet(bullet)
-	end
-
-	self:EmitShoot()
-	-- self:PrimarySpread()
-	-- self:TakePrimaryAmmo(1)
-	]]
 end
 
 weapons.Register(SWEP, weapon_class)

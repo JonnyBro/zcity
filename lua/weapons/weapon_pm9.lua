@@ -108,7 +108,7 @@ SWEP.availableAttachments = {
 		}
 	},
 	grip = {
-		["mount"] = Vector(23.5, 1.4, 0.1), 
+		["mount"] = Vector(23.5, 1.4, 0.1),
 		["mountType"] = "picatinny"
 	}
 }

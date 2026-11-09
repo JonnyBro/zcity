@@ -47,7 +47,7 @@ if SERVER then
         net.Start("SendVehicleRagBlacklist")
         net.WriteTable(hg.vehicleragblacklist)
         net.WriteTable(hg.vehiclecamblacklist)
-        
+
         local rf = RecipientFilter()
         if IsValid(ply) and ply:IsPlayer() then
             rf:AddPlayer(ply)
@@ -83,7 +83,7 @@ if SERVER then
     end)
 
     concommand.Add("hg_removevehiclefromragblacklist", function(ply, cmd, args)
-        if ply:IsSuperAdmin() then            
+        if ply:IsSuperAdmin() then
             hg.vehicleragblacklist[args[1]] = nil
 
             send()
@@ -142,7 +142,7 @@ else
                 if !lply:IsSuperAdmin() then return end
 
                 local value = string.lower(dTextEntry:GetValue())
-                
+
                 if !hg.vehicleragblacklist[value] then
                     AppList:AddLine(value)
 
@@ -155,10 +155,10 @@ else
             button2.DoClick = function(self)
                 if !lply:IsSuperAdmin() then return end
                 local index, pnl = AppList:GetSelectedLine()
-                
+
                 if pnl then
                     local value = pnl:GetValue(1)
-                    
+
                     if hg.vehicleragblacklist[value] then
                         AppList:RemoveLine(index)
 
@@ -187,7 +187,7 @@ else
                 if !lply:IsSuperAdmin() then return end
 
                 local value = string.lower(dTextEntry:GetValue())
-                
+
                 if !hg.vehiclecamblacklist[value] then
                     AppList:AddLine(value)
 
@@ -199,9 +199,9 @@ else
 
             button2.DoClick = function(self)
                 if !lply:IsSuperAdmin() then return end
-                
+
                 local index, pnl = AppList:GetSelectedLine()
-                
+
                 if pnl then
                     local value = pnl:GetValue(1)
 

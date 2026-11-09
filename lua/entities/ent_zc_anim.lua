@@ -19,7 +19,6 @@ function ENT:SetupDataTables()
 end
 
 function ENT:Think()
-	--if self:GetWhiteListToSee() and !self.Ent:SetNetVar("CanSeeUserID",{})[lply:UserID()] and lply:Alive() then self:SetNoDraw(true) return end
 	self:NextThink( CurTime() )
 
 	return true

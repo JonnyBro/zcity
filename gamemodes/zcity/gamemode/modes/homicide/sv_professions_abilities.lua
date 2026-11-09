@@ -1,6 +1,5 @@
 local MODE = MODE
 MODE.SendFootStepEvery = 3
--- MODE.SendFootStepEvery = 1
 
 util.AddNetworkString("HMCD_Professions_Abilities_AddFootstep")
 util.AddNetworkString("HMCD_Professions_Abilities_DisplayOrganismInfo")
@@ -8,7 +7,7 @@ util.AddNetworkString("HMCD_Professions_Abilities_DisplayOrganismInfo")
 function MODE.DisplayOrganismInfo(organism, ply)
 	local text_info = ""
 	text_info = text_info .. " Saturation" .. organism.o2 .. "\n"
-	
+
 	net.Start("HMCD_Professions_Abilities_DisplayOrganismInfo")
 		net.WriteString(text_info)
 	net.Send(ply)
@@ -18,25 +17,25 @@ end
 hook.Add("HG_PlayerFootstep_Notify", "HMCD_Professions_Abilities", function(ply, pos, foot, snd, volume, filter)
 	ply.ProfessionAbility_FootstepsAmt = ply.ProfessionAbility_FootstepsAmt or 0
 	ply.ProfessionAbility_FootstepsAmt = ply.ProfessionAbility_FootstepsAmt + 1
-	
+
 	if(ply.ProfessionAbility_FootstepsAmt >= MODE.SendFootStepEvery)then
 		ply.ProfessionAbility_FootstepsAmt = 0
-		
+
 		net.Start("HMCD_Professions_Abilities_AddFootstep")
 			net.WriteVector(pos)
 			net.WriteFloat(ply:EyeAngles().y)
 			net.WriteBool(foot == 0)
-			
+
 			local character_color = ply:GetNWVector("PlayerColor")
-			
+
 			if(!IsColor(character_color))then
 				character_color = Color(character_color[1] * 255, character_color[2] * 255, character_color[3] * 255)
 			end
-			
+
 			net.WriteColor(character_color, false)
-			
+
 			local recepients = {}
-			
+
 			for _, recepient_ply in player.Iterator() do
 				if(recepient_ply.Profession == "huntsman" and recepient_ply != ply)then
 					recepients[#recepients+1] = recepient_ply
@@ -53,7 +52,7 @@ hook.Add("PlayerPostThink", "HMCD_Professions_Abilities", function(ply)
 				if(ply:KeyDown(IN_SPEED))then
 					if(ply:KeyPressed(IN_USE))then
 						local aim_ent, other_ply = MODE.GetPlayerTraceToOther(ply)
-						
+
 						if(IsValid(aim_ent))then
 							if(other_ply)then
 								MODE.DisplayOrganismInfo(other_ply.organism, ply)
@@ -62,9 +61,9 @@ hook.Add("PlayerPostThink", "HMCD_Professions_Abilities", function(ply)
 					end
 				end
 			end
-			
+
 			if(ply.Profession == "huntsman")then
-				
+
 			end
 		end
 	end
@@ -119,7 +118,7 @@ concommand.Add("hg_create_molotov", function(ply)
 			else
 				ply:StripWeapon("weapon_bigbandage_sh")
 			end
-			
+
 			ply:StripWeapon("weapon_hg_bottle")
 
 			ply:Give("weapon_hg_molotov_tpik")

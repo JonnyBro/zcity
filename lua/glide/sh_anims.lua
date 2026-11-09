@@ -135,21 +135,3 @@ function Glide.ResetBoneManipulations( ply )
 
     ply.GlideHasPose = nil
 end
-
-local ApplyBoneManipulations = Glide.ApplyBoneManipulations
-
-hook.Add( "PrePlayerDraw", "Glide.ManipulatePlayerBones", function( ply )
-    do return end
-    local vehicle = ply:GlideGetVehicle()
-
-    if IsValid( vehicle ) and vehicle.GetSeatBoneManipulations then
-        local pose = vehicle:GetSeatBoneManipulations( ply:GlideGetSeatIndex() )
-
-        if pose then
-            ApplyBoneManipulations( ply, pose )
-        end
-
-    elseif ply.GlideHasPose then
-        Glide.ResetBoneManipulations( ply )
-    end
-end )

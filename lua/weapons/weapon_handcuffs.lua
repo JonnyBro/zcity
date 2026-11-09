@@ -41,7 +41,6 @@ SWEP.setlh = true
 SWEP.setrh = true
 
 SWEP.AnimList = {
-    -- self:PlayAnim( anim,time,cycling,callback,reverse,sendtoclient )
 	["deploy"] = { "anim_draw", 1, false },
     ["attack"] = { "anim_fire", 2.5, false, false, function(self)
 		if CLIENT then return end
@@ -134,11 +133,8 @@ SWEP.CoolDown = 0
 
 function SWEP:Tie(tr)
     local ent = tr.Entity
-	--self:EmitSound()
-	--timer.Simple(1,function()
 		if IsValid(ent) and IsValid(self) and IsValid(self:GetOwner()) and self:GetOwner():Alive() and self:GetOwner():GetPos():Distance(ent:GetPos()) < 500 then
 			if IsValid(ent) and (ent:IsRagdoll() or (ent:IsPlayer() and ent:GetVelocity():Length() < 1)) and hg.RagdollOwner(ent) ~= self:GetOwner() then
-				--if ent.handcuffed then return end
 				local criswat = zb and zb.CROUND == "criresp" and self:GetOwner():Team() == 0
 
 				local victim = hg.RagdollOwner(ent)
@@ -195,7 +191,7 @@ end
 
 if SERVER then
 	hook.Add("Org Clear","Removehandcuffs",function(org)
-		org.handcuffed = false 
+		org.handcuffed = false
 		if IsValid(org.owner) and org.owner:IsPlayer() then
 			org.owner:SetNetVar("handcuffed",false)
 		end
@@ -236,13 +232,11 @@ function SWEP:PrimaryAttack()
 	if SERVER then
 		if self.CoolDown > CurTime() then return end
         local tr = self:GetEyeTrace()
-		--self:SetHolding(math.min(self:GetHolding() + 7, 100))
 		self:PlayAnim("attack")
 		timer.Simple(0.5,function()
 			if IsValid(self) then return end
 			self:EmitSound("weapons/357/357_reload3.wav")
 		end)
-		--if self:GetHolding() < 100 then return end
 		self.CoolDown = CurTime() + 2
 	end
 end

@@ -11,9 +11,6 @@ MODE.LootSpawn = false
 
 function MODE:CanLaunch()
 	return true
-	--[[local points = zb.GetMapPoints( "HMCD_TDM_T" )
-	local points2 = zb.GetMapPoints( "HMCD_TDM_CT" )
-    return (#points > 0) and (#points2 > 0)--]]
 end
 
 function MODE.GuiltCheck(Attacker, Victim, add, harm, amt)
@@ -28,7 +25,7 @@ function MODE:Intermission()
 	table.CopyFromTo(zb.GetMapPoints( "HMCD_TDM_CT" ),self.CTPoints)
 	self.TPoints = {}
 	table.CopyFromTo(zb.GetMapPoints( "HMCD_TDM_T" ),self.TPoints)
-	
+
 	for i, ply in player.Iterator() do
 		ply:SetupTeam(ply:Team())
 	end
@@ -47,16 +44,15 @@ function MODE:ShouldRoundEnd()
 	return endround or boringround
 end
 
-function MODE:BoringRoundFunction()		
+function MODE:BoringRoundFunction()
 	timer.Simple(2, function()
-		//PrintMessage(HUD_PRINTTALK, "IT IS A GANG SHOOTOUT FFS...")
 	end)
 end
 
 local swatSpawned = false
 
 function MODE:RoundStart()
-    swatSpawned = false 
+    swatSpawned = false
 end
 
 local tblweps = {
@@ -93,15 +89,6 @@ local tblweps = {
 }
 
 
---[[local tblatts = {
-	[0] = {
-		{"optic4"},
-	},
-	[1] = {
-		{"holo14","laser2","grip3"}
-	}
-}]]
-
 local tblarmors = {
 	[0] = {
 		{"ent_armor_vest3","ent_armor_helmet2"}
@@ -120,7 +107,7 @@ function MODE:GiveEquipment()
 	self.TPoints = {}
 	table.CopyFromTo(zb.GetMapPoints( "HMCD_TDM_T" ),self.TPoints)
 	timer.Simple(0.1,function()
-		local teamArmorCount = { [0] = 0, [1] = 0 } 
+		local teamArmorCount = { [0] = 0, [1] = 0 }
 
 		for _, ply in player.Iterator() do
 			if not ply:Alive() then continue end
@@ -142,8 +129,6 @@ function MODE:GiveEquipment()
 			ply:GiveAmmo(wep:GetMaxClip1() * 3, wep:GetPrimaryAmmoType())
 
 			if wep.SetDeagleSkin then
-				//wep:SetDeagleSkin(4)
-				//wep:SetDeagleBodygroup(1)
 			end
 
 			ply:Give("weapon_bandage_sh")
@@ -177,7 +162,6 @@ function MODE:RoundThink()
 		for i = 1, math.min(4, #deadPlayers) do
             local ply = deadPlayers[i]
 
-            //if self.TPoints and #self.TPoints > 0 then
                 ply:Spawn()
 				ply:SetTeam(2)
 				if !startpos then
@@ -199,7 +183,6 @@ function MODE:RoundThink()
 
                 local hands = ply:Give("weapon_hands_sh")
                 ply:SelectWeapon("weapon_hands_sh")
-            //end
         end
 
         swatSpawned = true
@@ -225,9 +208,7 @@ function MODE:EndRound()
 		if ply:Team() == winner then
 			ply:GiveExp(math.random(15,30))
 			ply:GiveSkill(math.Rand(0.1,0.15))
-			--print("give",ply)
 		else
-			--print("take",ply)
 			ply:GiveSkill(-math.Rand(0.05,0.1))
 		end
 	end

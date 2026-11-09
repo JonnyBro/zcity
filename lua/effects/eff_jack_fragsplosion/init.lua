@@ -12,7 +12,6 @@ function EFFECT:Init(data)
 	local Spl = EffectData()
 	Spl:SetOrigin(vOffset)
 	Spl:SetScale(1)
-	--util.Effect("Explosion", Spl, true, true)
 
 	local dlight = DynamicLight(self:EntIndex())
 	if dlight then
@@ -188,38 +187,6 @@ function EFFECT:Init(data)
 		particle:SetCollide(true)
 	end
 
-	--[[for i=0,200*Scayul do
-		local sprite
-		local chance=math.random(1,6)
-		if(chance==1)then
-			sprite="particle/smokestack"
-		elseif(chance==2)then
-			sprite="particles/smokey"
-		elseif(chance==3)then
-			sprite="particle/particle_smokegrenade"
-		elseif(chance==4)then
-			sprite="sprites/mat_jack_smoke1"
-		elseif(chance==5)then
-			sprite="sprites/mat_jack_smoke2"
-		elseif(chance==6)then
-			sprite="sprites/mat_jack_smoke3"
-		end
-		local particle=emitter:Add(sprite, vOffset)
-		particle:SetVelocity(VectorRand()*10e10)
-		particle:SetAirResistance(8000)
-		particle:SetGravity(Vector(math.Rand(-500,500),math.Rand(-500,500),math.Rand(0,-3000)))
-		particle:SetDieTime(math.Rand(4,7))
-		particle:SetStartAlpha(math.Rand(50,255))
-		particle:SetEndAlpha(0)
-		particle:SetStartSize(math.Rand(10, 20)*Scayul)
-		particle:SetEndSize(math.Rand(15, 25)*Scayul)
-		particle:SetRoll(math.Rand(-3,3))
-		particle:SetRollDelta(math.Rand(-3,3))
-		particle:SetLighting(true)
-		local darg=math.Rand(150,200)
-		particle:SetColor(darg,darg,darg)
-		particle:SetCollide(true)
-	end--]]
 	Emitter:Finish()
 	local dlight = DynamicLight(self:EntIndex())
 	if dlight then

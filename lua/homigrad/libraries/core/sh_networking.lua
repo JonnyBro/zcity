@@ -18,7 +18,6 @@ zb = zb or {}
         so all old code with SetNetVar/GetNetVar works without changes :D
     --]]
 
-    -- key == nil - whole category, value == nil - remove it
     local function ApplyDelta(tbl, category, key, value)
         if key == nil then tbl[category] = value return end
         if !istable(tbl[category]) then tbl[category] = {} end
@@ -47,12 +46,10 @@ if (CLIENT) then
 
 		local key = net.ReadString()
     	local var = net.ReadType()
-		
+
         zb.net[index] = zb.net[index] or {}
         zb.net[index][key] = var
 
-		-- print(index, key)
-		
 		if IsValid(Entity(index)) then
 			hook.Run("OnNetVarSet", index, key, var)
 		else
@@ -136,11 +133,11 @@ else
 	hook.Add("OnRequestFullUpdate", "OnRequestFullUpdate_zb", function(data)
 		local id = data.userid
 		local ply = Player(id)
-		
+
 		ply:SyncVars()
 	end)
-	
-	
+
+
     local entityMeta = FindMetaTable("Entity")
     local playerMeta = FindMetaTable("Player")
 
@@ -245,17 +242,6 @@ else
 
     local function CheckBadType(name, object)
 		return false
-    	--[[if (isfunction(object)) then
-    		ErrorNoHalt("Net var '" .. name .. "' contains a bad object type!")
-
-    		return true
-    	elseif (istable(object)) then
-    		for k, v in pairs(object) do
-    			if (CheckBadType(name, k) or CheckBadType(name, v)) then
-    				return true
-    			end
-    		end
-    	end--]]
     end
 
     function GetNetVar(key, default)
@@ -266,8 +252,7 @@ else
 
     function SetNetVar(key, value, receiver, unreliable)
     	if (CheckBadType(key, value)) then return end
-    	--if (GetNetVar(key) == value) then return end
-		
+
     	zb.net.globals[key] = value
 
     	net.Start("zbGlobalVarSet", unreliable)
@@ -280,7 +265,7 @@ else
     		net.Send(receiver)
     	end
     end
-	
+
     function playerMeta:SyncVars()
     	for k, v in pairs(zb.net.globals) do
     		net.Start("zbGlobalVarSet")
@@ -317,7 +302,7 @@ else
     		end
     	end
     end
-	
+
     function playerMeta:GetLocalVar(key, default)
     	if (zb.net.locals[self] and zb.net.locals[self][key] != nil) then
     		return zb.net.locals[self][key]
@@ -350,8 +335,6 @@ else
     	if (CheckBadType(key, value)) then return end
 
 		zb.net.list[self] = zb.net.list[self] or {}
-
-		--if not hg.IsChanged(value, key, zb.net.list[self]) then return end
 
     	if (zb.net.list[self][key] != value) then
     		zb.net.list[self][key] = value
@@ -394,7 +377,7 @@ else
     		net.Send(receiver)
     	end
     end
-	
+
 	hook.Add("EntityRemoved","ZB_clear_net",function(ent,fullUpdate)
 		ent:ClearNetVars()
 	end)

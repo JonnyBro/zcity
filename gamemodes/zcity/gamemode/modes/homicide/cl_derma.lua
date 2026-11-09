@@ -4,23 +4,6 @@ local vgui_color_bg = Color(50, 50, 50, 255)
 local vgui_color_ready = Color(0, 150, 50, 255)
 local vgui_color_notready = Color(0, 50, 0, 255)
 
--- surface.CreateFont("RoleSelection_Main", {
-	-- font = "Roboto",
-	-- extended = false,
-	-- size = ScreenScale(10),
-	-- weight = 500,
-	-- blursize = 0,
-	-- scanlines = 0,
-	-- antialias = true,
-	-- underline = false,
-	-- italic = false,
-	-- strikeout = false,
-	-- symbol = false,
-	-- rotary = false,
-	-- shadow = false,
-	-- additive = false,
-	-- outline = false,
--- })
 local function set_role(role, mode)
 	if mode == "soe" then
 		RunConsoleCommand(MODE.ConVarName_SubRole_Traitor_SOE, role)
@@ -38,11 +21,11 @@ local PANEL = {}
 
 function PANEL:Construct()
 	self:SetSkin(hg.GetMainSkin())
-	
+
 	self.Title = self.Title or "No title"
 	local width, height = self:GetSize()
 	local dock_bottom = 5
-	
+
 	local label_name = vgui.Create("DLabel", self)
 	label_name.ZRolePanel = self
 	local label_name_height = 50--height / 5
@@ -58,20 +41,20 @@ function PANEL:Construct()
 			surface.SetDrawColor(vgui_color_main)
 			surface.DrawOutlinedRect(1, 1, w - 2, h - 2, 3)
 		end
-		
+
 		surface.SetFont("ZB_InterfaceMedium")
 
 		local tw, th = surface.GetTextSize(self.Title)
-		
+
 		surface.SetTextColor(255, 255, 255)
 		surface.SetTextPos(w / 2 - tw / 2, h / 2 - th / 2)
 		surface.DrawText(self.Title)
 	end
-	
+
 	label_name.DoClick = function(sel)
 		set_role(self.Role, self.Mode or "soe")
 	end
-	
+
 	local text_description = vgui.Create("RichText", self)
 	text_description.ZRolePanel = self
 	text_description:SetText(self.Description)
@@ -81,11 +64,11 @@ function PANEL:Construct()
 		if(sel:GetFont() != "ZB_InterfaceSmall")then
 			sel:SetFontInternal("ZB_InterfaceSmall")
 		end
-		
+
 		sel:SetFGColor(color_white)
 	end
 	text_description.Paint = function(sel, w, h)
-		
+
 	end
 end
 
@@ -105,16 +88,13 @@ local glow = Material("homigrad/vgui/models/circle.png")
 function PANEL:PostPaintPanel(w, h)
 	/*if((self.Mode == "soe" and MODE.ConVar_SubRole_Traitor_SOE:GetString() == self.Role) or (self.Mode != "soe" and MODE.ConVar_SubRole_Traitor:GetString() == self.Role))then
 		local y_start = 0
-		
+
 		surface.SetDrawColor(vgui_color_main)
 		//surface.SetTexture(tex_gradient)
 		surface.SetMaterial(mata)
 		surface.DrawTexturedRect(0, -100, w, h + 200)
 	end*/
 	if rolesmaterials[self.Role] then
-		//surface.SetDrawColor(vgui_color_main)
-		//surface.SetMaterial(rolesmaterials[self.Role])
-		//surface.DrawTexturedRect(0, -100, w, h + 200)
 
 		--[[ --whatever
         render.SetStencilWriteMask(0xFF)
@@ -125,7 +105,7 @@ function PANEL:PostPaintPanel(w, h)
         render.SetStencilFailOperation(STENCIL_KEEP)
         render.SetStencilZFailOperation(STENCIL_KEEP)
         render.ClearStencil()
-        
+
         render.SetStencilEnable(true)
         render.SetStencilReferenceValue(1)
         render.SetStencilFailOperation(STENCIL_REPLACE)
@@ -152,11 +132,11 @@ local PANEL = {}
 
 function PANEL:Construct()
 	self:SetSkin(hg.GetMainSkin())
-	
+
 	self.RolesIDsList = self.RolesIDsList or MODE.RoleChooseRoundTypes["standard"].Traitor
 	local width, height = self:GetSize()
 	local dock_bottom = 5
-	
+
 	local hscroll = vgui.Create("ZHorizontalScroller", self)
 	local hscroll_height = height - 50
 	height = height - hscroll_height
@@ -165,26 +145,22 @@ function PANEL:Construct()
 	hscroll:DockMargin(0, 0, 0, dock_bottom)
 	hscroll:Dock(TOP)
 	hscroll:SetOverlap(-10)
-	-- hscroll:SetUseLiveDrag(true)
-	-- hscroll:InvalidateParent(false)
 	for role_id, _ in pairs(self.RolesIDsList) do
 		local role_info = MODE.SubRoles[role_id]
 		local role_name = role_info.Name
 		local role_description = role_info.Description
-		
+
 		local role_panel = vgui.Create("HMCD_RolePanel", hscroll)
 		role_panel.Title = role_name
 		role_panel.Description = role_description
 		role_panel.Role = role_id
 		role_panel.Mode = self.Mode or "soe"
 		role_panel:SetWidth(ScreenScale(170))
-		-- role_panel:SetHeight(hscroll_height)
-		-- role_panel:InvalidateParent(false)
 		role_panel:Construct()
-		
+
 		hscroll:AddPanel(role_panel)
 	end
-	
+
 	local button_ready = vgui.Create("DButton", self)
 	button_ready:Dock(FILL)
 	button_ready:SetSkin(hg.GetMainSkin())
@@ -194,12 +170,7 @@ function PANEL:Construct()
 			if(IsValid(VGUI_HMCD_RolePanelList))then
 				VGUI_HMCD_RolePanelList:Remove()
 			end
-		//end
-		
-		//sel.Clicked = true
-		
-		//net.Start("HMCD(StartPlayersRoleSelection)")
-		//net.SendToServer()
+
 	end
 	button_ready.Paint = function(sel, w, h)
 		if(sel.Clicked)then
@@ -207,7 +178,7 @@ function PANEL:Construct()
 		else
 			surface.SetDrawColor(vgui_color_notready)
 		end
-		
+
 		surface.DrawRect(0, 0, w, h)
 		surface.SetDrawColor(255, 255, 255, 10)
 		surface.DrawRect(0, 0, w, h * 0.45)
@@ -217,7 +188,7 @@ function PANEL:Construct()
 end
 
 function PANEL:Paint()
-	
+
 end
 
 derma.DefineControl("HMCD_RolePanelList", "", PANEL, "DPanel")
@@ -266,9 +237,8 @@ hook.Add("CreateMove", "HMCD_RolePanelClick", function(cmd)
 	end
 
 	if(input.WasMousePressed(MOUSE_LEFT))then
-			-- print("Left mouse button was pressed")
 		local hovered_panel = vgui.GetHoveredPanel()
-		
+
 		if(IsValid(hovered_panel) and IsValid(hovered_panel.ZRolePanel))then
 			set_role(hovered_panel.ZRolePanel.Role, hovered_panel.ZRolePanel.Mode)
 		end

@@ -56,7 +56,6 @@ function ENT:SetupDataTables()
 
         local editData = Either( uneditable[key] == true or category == nil, nil, {
             KeyName = key,
-            --Edit = { type = "Float", order = order, min = min, max = max, category = category }
         } )
 
         self:NetworkVar( "Float", key, editData )
@@ -67,7 +66,6 @@ function ENT:SetupDataTables()
 
         self:NetworkVar( "Bool", key, {
             KeyName = key,
-            --Edit = { type = "Bool", order = order, category = category }
         } )
     end
 

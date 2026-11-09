@@ -56,7 +56,6 @@ local path = ")weapons/arccw_ur/dbs/"
 local common = ")/arccw_uc/common/"
 SWEP.FakeReloadSounds = { -- салат почени..
 	[0.1] = path.."open.ogg",
-	--[0.2] = path.."eject.ogg",
 	[0.7] = common.."dbs-shell-insert-01.ogg",
 	[1] = common.."dbs-shell-insert-01.ogg",
 	[1.5] = common.."dbs-shell-insert-01.ogg",
@@ -66,7 +65,6 @@ SWEP.FakeReloadSounds = { -- салат почени..
 
 SWEP.FakeEmptyReloadSounds = {
 	[0.1] = path.."open.ogg",
-	--[0.2] = path.."eject.ogg",
 	[0.7] = common.."dbs-shell-insert-01.ogg",
 	[1] = common.."dbs-shell-insert-01.ogg",
 	[1.5] = common.."dbs-shell-insert-01.ogg",
@@ -228,9 +226,9 @@ if CLIENT then
 		local view = render.GetViewSetup(true)
 
 		local dot = view.angles:Forward():Dot(tr.Normal)
-		
+
 		local pos = tr.StartPos:ToScreen()
-		
+
 		if dot < -0.5 and pos.x > 0 and pos.x < ScrW() and pos.y > 0 and pos.y < ScrH() and hg.isVisible(lply:EyePos(), tr.StartPos, {lply, self}, MASK_VISIBLE) then
 			hg.AddFlash(view.origin, dot, tr.StartPos, 30, 3000)
 		end

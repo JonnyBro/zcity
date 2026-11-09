@@ -17,8 +17,6 @@ SWEP.weight = 1.5
 SWEP.ScrappersSlot = "Primary"
 SWEP.weaponInvCategory = 1
 SWEP.CustomShell = "9x19"
---SWEP.EjectPos = Vector(-5,0,10)
---SWEP.EjectAng = Angle(-80,-90,0)
 SWEP.Primary.ClipSize = 32
 SWEP.Primary.DefaultClip = 32
 SWEP.Primary.Automatic = true
@@ -87,7 +85,6 @@ SWEP.LHAng = Angle(-110,-90,-90)
 
 function SWEP:AnimHoldPost(model)
 	self:BoneSet("l_finger0", Vector(0, 0, 0), Angle(10, -12, 0))
-    --self:BoneSet("l_finger02", Vector(0, 0, 0), Angle(0, -10, 0))
 end
 
 --RELOAD ANIMS SMG????

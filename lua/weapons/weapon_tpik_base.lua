@@ -44,13 +44,9 @@ SWEP.cycling = false
 SWEP.reverseanim = false
 
 SWEP.AnimList = {
-    -- self:PlayAnim( anim,time,cycling,callback,reverse,sendtoclient )
-    -- ["AnimName"] = { "animrealname", number iTime, boolean bCycle, function fCallback, boolean bReverse }
 }
 
 if CLIENT then
-	--SWEP.WepSelectIcon = Material("vgui/hud/tfa_iw7_tactical_knife")
-	--SWEP.IconOverride = "vgui/hud/tfa_iw7_tactical_knife.png"
 	SWEP.BounceWeaponIcon = false
 end
 
@@ -133,7 +129,7 @@ if CLIENT then
 		local WorldModel = self.worldModel
 
         self.worldModel:SetModelScale(self.modelscale2)
-        
+
         local ent = IsValid(owner.FakeRagdoll) and owner.FakeRagdoll or owner
 
         if (IsValid(owner)) and (ent == owner or hg.KeyDown(owner,IN_USE) or (owner:GetNetVar("lastFake",0) > CurTime())) then
@@ -143,7 +139,7 @@ if CLIENT then
                 timing = self.reverseanim and (1 - timing) or timing
                 timing = self.CustomTiming and self:CustomTiming() or timing
                 WorldModel:SetCycle(timing)
-                
+
                 if self.callback and timing == ((not self.reverseanim) and 1 or 0) then
                     self.callback(self)
                     self.callback = nil
@@ -154,7 +150,7 @@ if CLIENT then
             end
 
             self.sprintanim = qerp(0.02 * FrameTime() / engine.TickInterval(),self.sprintanim or 0,(owner.IsSprinting and owner:IsSprinting()) and 1 or 0)
-            
+
 			local tr = hg.eyeTrace(owner,60)
 			local ang = owner:EyeAngles()
             if not tr then return end
@@ -162,10 +158,9 @@ if CLIENT then
             if WorldModel:GetModel() ~= self.WorldModelReal then WorldModel:SetModel(self.WorldModelReal) end
 
 			local pos = tr.StartPos + ang:Forward() * (self.HoldPos[1] - 4) + ang:Right() * self.HoldPos[2] + ang:Up() * self.HoldPos[3]
-			--pos = pos + ang:Forward() * self.AttackPos[1] * self.attackanim + ang:Right() * self.AttackPos[2] * self.attackanim + ang:Up() * self.AttackPos[3] * self.attackanim
 			local ang = owner:EyeAngles()
             local _,ang = LocalToWorld(vector_origin,(self.HoldAng or angle_zero),vector_origin,ang)
-			
+
 			local pos, ang = LocalToWorld(self.sprint_pos * self.sprintanim,self.sprint_ang * self.sprintanim,pos,ang)
 
 			if self.HoldClampMax ~= nil and self.HoldClampMin ~= nil then
@@ -177,7 +172,7 @@ if CLIENT then
 			WorldModel:SetRenderAngles(ang)
 		else
             if WorldModel:GetModel() ~= self.WorldModel then WorldModel:SetModel(self.WorldModel) end
-			
+
             WorldModel:SetRenderOrigin(self:GetPos())
 			WorldModel:SetRenderAngles(self:GetAngles())
 		end
@@ -193,7 +188,7 @@ if CLIENT then
         end
 
         WorldModel:SetupBones()
-        
+
         if IsValid(self.worldModel2) then
             self.worldModel2:SetNoDraw(true)
         end
@@ -202,8 +197,6 @@ if CLIENT then
             if self.HideMeshBones then
                 for k,v in ipairs(self.HideMeshBones) do
                     if not WorldModel:LookupBone(v) then continue end
-                    --print(v)
-                    --WorldModel:ManipulateBoneScale(WorldModel:LookupBone(v),vecPochtiZero)
                     local matrix = WorldModel:GetBoneMatrix(WorldModel:LookupBone(v))
                     if self.HideMeshOnlyScale and self.HideMeshOnlyScale[v] then
                         matrix:SetScale(vecPochtiZero)
@@ -230,7 +223,7 @@ if CLIENT then
 
             local pos,ang = self.worldModel:GetPos(),self.worldModel:GetAngles()
             local huy = self.worldModel:GetModel() == self.WorldModelReal
-            
+
             if IsValid(self:GetOwner()) or self.DontChangeDropped then
                 pos,ang = LocalToWorld(self.weaponPos,self.weaponAng,huy and self.worldModel:GetBoneMatrix(self.basebone or 1):GetTranslation() or self.worldModel:GetPos(),huy and self.worldModel:GetBoneMatrix(self.basebone or 1):GetAngles() or self.worldModel:GetAngles())
             end
@@ -238,7 +231,6 @@ if CLIENT then
             self.worldModel2:SetRenderOrigin(pos)
             self.worldModel2:SetRenderAngles(ang)
             self.worldModel2:SetupBones()
-            --print(self.worldModel:GetManipulateBoneScale(self.basebone or 1))
             if self.worldModel:GetManipulateBoneScale(self.basebone or 1) != vector_origin then
                 self.worldModel2:DrawModel()
             end
@@ -254,14 +246,13 @@ if CLIENT then
                 self.OldAngPunch = gAngles
             end
         end
-		
+
 		if(self.DrawPostWorldModel)then
 			self:DrawPostWorldModel()
 		end
 	end
 end
 SWEP.isTPIKBase = true
---hook.Add("PostDrawPlayerRagdoll","ragdollhuytpik",function(ent,ply)
 function hg.RenderTPIKBase(ent, ply, wep)
     if wep.DrawWorldModel2 then
         wep:DrawWorldModel2()
@@ -269,7 +260,6 @@ function hg.RenderTPIKBase(ent, ply, wep)
         wep:DrawWorldModel()
     end
 end
---end)
 
 local host_timescale = game.GetTimeScale
 
@@ -282,21 +272,20 @@ function SWEP:Camera(eyePos, eyeAng, view, vellen)
 	self.walkinglerp = Lerp(hg.lerpFrameTime2(0.1),self.walkinglerp or 0,((self.DisableWalkBob or owner:InVehicle()) and 0) or hg.GetCurrentCharacter(owner):GetVelocity():LengthSqr())
 	self.huytime = self.huytime or 0
 	local walk = math.Clamp(self.walkinglerp / 10000,0,1)
-	
+
 	self.huytime = self.huytime + walk * FrameTime() * 8 * host_timescale()
 	if owner:IsSprinting() then
-		--walk = walk * 2
 	end
 
 	local huy = self.huytime
-	
+
 	local x,y = math.cos(huy) * math.sin(huy) * walk * 1,math.sin(huy) * walk * 1
 	eyePos = eyePos - eyeAng:Up() * walk
 	eyePos = eyePos - eyeAng:Up() * x * 0.5
 	eyePos = eyePos - eyeAng:Right() * y * 0.5
 
     view.origin = (eyePos - (angle_difference_localvec * 150) - (position_difference * 0.5))
-    
+
     return view
 end
 
@@ -309,7 +298,7 @@ function SWEP:SetHandPos(noset)
 
     self.rhandik = false
 	self.lhandik = false
-    
+
     if not IsValid(ply) or not IsValid(self.worldModel) then return end
     if not ply.shouldTransmit or ply.NotSeen then return end
 
@@ -325,7 +314,6 @@ function SWEP:SetHandPos(noset)
 
 	local wm = self:GetWM()
 	if !IsValid(wm) then return end
-	-- ent:SetupBones()
 
 	self.rhandik = self.setrh
 	self.lhandik = self.setlh and (ply:GetTable().ChatGestureWeight < 0.1)
@@ -341,7 +329,7 @@ function SWEP:SetHandPos(noset)
 			if !wm_boneindex then continue end
 			local wm_bonematrix = wm:GetBoneMatrix(wm_boneindex)
 			if !wm_bonematrix then continue end
-			
+
 			local ply_boneindex = ent:LookupBone(bone)
 			if !ply_boneindex then continue end
 			local ply_bonematrix = ent:GetBoneMatrix(ply_boneindex)
@@ -356,10 +344,8 @@ function SWEP:SetHandPos(noset)
 
 			ply_bonematrix:SetTranslation(bonepos)
 			ply_bonematrix:SetAngles(boneang)
-			
-            --if bone == "ValveBiped.Bip01_L_Hand" then lhmat = ply_bonematrix end
+
 			ent:SetBoneMatrix(ply_boneindex, ply_bonematrix)
-			--ent:SetBonePosition(ply_boneindex, bonepos, boneang)
 		end
 	end
 
@@ -371,7 +357,7 @@ function SWEP:SetHandPos(noset)
 			if !wm_boneindex then continue end
 			local wm_bonematrix = wm:GetBoneMatrix(wm_boneindex)
 			if !wm_bonematrix then continue end
-			
+
 			local ply_boneindex = ent:LookupBone(bone)
 			if !ply_boneindex then continue end
 			local ply_bonematrix = ent:GetBoneMatrix(ply_boneindex)
@@ -387,9 +373,7 @@ function SWEP:SetHandPos(noset)
 			ply_bonematrix:SetTranslation(bonepos)
 			ply_bonematrix:SetAngles(boneang)
 
-            --if bone == "ValveBiped.Bip01_R_Hand" then rhmat = ply_bonematrix end
             ent:SetBoneMatrix(ply_boneindex, ply_bonematrix)
-			--ent:SetBonePosition(ply_boneindex, bonepos, boneang)
 		end
 	end
 
@@ -397,7 +381,6 @@ function SWEP:SetHandPos(noset)
         self:PostSetHandPos()
     end
 
-    --return rhmat,lhmat
 end
 
 function SWEP:SetupDataTables()
@@ -428,12 +411,11 @@ function SWEP:Deploy()
 	if self.DeployAdd then
 		self:DeployAdd()
 	end
-	
+
 	return true
 end
 
 function SWEP:Holster(wep)
-    --self:SetInAttack(false)
     return true
 end
 
@@ -494,9 +476,6 @@ elseif CLIENT then
         local sendtoclient = net.ReadBool()
         if IsValid(ent) and ent.PlayAnim and ( sendtoclient and sendtoclient or !ent:IsLocal()) then
             ent:PlayAnim(tbl.anim,tbl.time,tbl.cycling,tbl.callback,tbl.reverse,nil,tbl.curtime)
-            --if tbl.anim == "attack" or tbl.anim == "attack2" and ent:GetOwner().AnimRestartGesture then
-            --    ent:GetOwner():AnimRestartGesture(GESTURE_SLOT_ATTACK_AND_RELOAD, ACT_HL2MP_GESTURE_RANGE_ATTACK_SLAM, true)
-            --end
         end
     end)
 end
@@ -513,14 +492,12 @@ function SWEP:PlayAnim(anim,time,cycling,callbackFuncName,reverse,sendtoclient,c
                 reverse = reverse,
                 curtime = CurTime()
             }
-            net.WriteTable(netTbl) 
+            net.WriteTable(netTbl)
             net.WriteEntity(self)
             net.WriteBool(sendtoclient)
         net.SendPVS(self:GetPos())
 
         local tAnim = self.AnimList[anim] or {}
-        --self:GetWM():SetSequence(tAnim[1] or anim)
-        --self.animtime = CurTime() + ( time or tAnim[2] or 1)
         self.seq = tAnim and tAnim[1] or anim
         self.anim = anim
         self.animspeed = time or tAnim[2] or 1
@@ -544,18 +521,16 @@ function SWEP:PlayAnim(anim,time,cycling,callbackFuncName,reverse,sendtoclient,c
 					end)
 
 					self.VM_TimerEvents[TimerID] = TimerName
-					continue 
+					continue
 				end
 			end
 		end
-        --self.cycling = cycling or (tAnim[3] ~= nil and tAnim[3])
-        --self.reverseanim = reverse or (tAnim[4] ~= nil and tAnim[4])
 
         if self[callbackFuncName] or tAnim[5] then
             local timerAnim = self.animspeed - (tAnim[6] or self.CallbackTimeAdjust or 0)
             self.CallbackTime = CurTime() + timerAnim
             self.callback = self[callbackFuncName] or tAnim[5]
-            
+
             hook.Add("Think","AnimCallback"..self:EntIndex(), function()
                 if IsValid(self) and IsValid(self:GetOwner()) and self.CallbackTime < CurTime() then
                     hook.Remove("Think","AnimCallback"..self:EntIndex())
@@ -563,7 +538,7 @@ function SWEP:PlayAnim(anim,time,cycling,callbackFuncName,reverse,sendtoclient,c
                 end
             end)
         end
-        
+
 
     return end
     if not IsValid(self:GetWM()) or not IsValid(self:GetOwner()) or self:GetOwner():GetActiveWeapon() ~= self then
@@ -602,7 +577,6 @@ function SWEP:PlayAnim(anim,time,cycling,callbackFuncName,reverse,sendtoclient,c
 			local TimerName = "VM_Events_ZC-Base" .. self:EntIndex() .. self.seq .. k
 			local TimerID = #self.VM_TimerEvents + 1
 			local seq = self.seq
-			--k = k + start
 
 			if istable(v) and v[2] and (v[2] == 0 or v[2] == 2) then
 				if k < 0 then v[1](self) continue end
@@ -615,7 +589,7 @@ function SWEP:PlayAnim(anim,time,cycling,callbackFuncName,reverse,sendtoclient,c
 				end)
 
 				self.VM_TimerEvents[TimerID] = TimerName
-				continue 
+				continue
 			end
 
 			if k < 0 then v(self) continue end

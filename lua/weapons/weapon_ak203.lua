@@ -93,13 +93,12 @@ if CLIENT then
 			wm:ManipulateBoneScale(58, vector_full)
 			wm:ManipulateBoneScale(57, vector_full)
 		end,
-		
+
 		[0.40] = function(self,timeMul)
 			if self:Clip1() < 1 then
 				hg.CreateMag( self, Vector(50,10,10),nil,true )
 				self:GetWM():ManipulateBoneScale(57, vector_origin)
 				self:GetWM():ManipulateBoneScale(58, vector_origin)
-				--self:GetOwner():PullLHTowards("ValveBiped.Bip01_L_Thigh", 0.5 * timeMul)
 			end
 		end,
 		[0.85] = function(self,timeMul)
@@ -209,7 +208,6 @@ end
 
 SWEP.Ergonomics = 1
 SWEP.HaveModel = "models/pwb/weapons/w_akm.mdl"
---SWEP.ShellEject = "EjectBrass_338Mag"
 SWEP.CustomShell = "762x39"
 
 SWEP.Penetration = 15

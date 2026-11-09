@@ -1,4 +1,3 @@
---local Organism = hg.organism
 hg.organism.module.random_events = {}
 local module = hg.organism.module.random_events
 module[1] = function(org)
@@ -33,7 +32,7 @@ local RandomEvents = {
                 if not IsValid(owner) then return end
                 owner:ViewPunch(AngleRand(-.1,.1))
             end)
-        end 
+        end
     end,
     ["Cough"] = function( owner, org )
         owner:EmitSound(ThatPlyIsFemale(owner) and "zcitysnd/female/cough_"..math.random(1,6)..".mp3" or "zcitysnd/male/cough_"..math.random(1,6)..".mp3",75,100 + (owner.PlayerClassName == "furry" and 20 or 0),1)
@@ -44,7 +43,7 @@ local RandomEvents = {
             end)
         end) -- жаль что сломалось, а ради этого неты делать ну, такое... | update уже неважно
     end,
-} 
+}
 
 function module.TriggerRandomEvent(owner, eventName)
     if RandomEvents[eventName] then
@@ -54,7 +53,6 @@ function module.TriggerRandomEvent(owner, eventName)
 end
 
 module[2] = function(owner, org, timeValue)
-    --print("huy")
     if org.timeToRandom < CurTime() and owner:IsPlayer() and owner:Alive() then
 		if owner:GetPlayerClass() and owner:GetPlayerClass().CanEmitRNDSound ~= nil and not owner:GetPlayerClass().CanEmitRNDSound then
 			return

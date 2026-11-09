@@ -9,7 +9,7 @@ function ENT:Initialize()
 	self:SetMoveType(MOVETYPE_VPHYSICS)  -- Фурри
 	self:SetSolid(SOLID_VPHYSICS)
 	self:SetCollisionGroup(COLLISION_GROUP_WEAPON)
-	self:SetUseType(SIMPLE_USE) 
+	self:SetUseType(SIMPLE_USE)
 	self:DrawShadow(true)
 	self:SetBodygroup(1, 1)
 	self.Safety = CurTime() + 3
@@ -18,10 +18,9 @@ function ENT:Initialize()
 	local phys = self:GetPhysicsObject()
 	if IsValid(phys) then
 		phys:EnableMotion(true)
-		--phys:Sleep()
 	end
-	
-	
+
+
 	if IsValid(phys) then
 		phys:SetMass(20)
 	end
@@ -35,7 +34,6 @@ end
 
 
 function ENT:PhysgunPickup(ply, ent)
-   -- return false
 end
 
 function ENT:ActivateExplosive()
@@ -51,7 +49,7 @@ function ENT:ActivateExplosive()
 	bullet.Force = 350
 	bullet.Damage = 450
 	bullet.Speed = 3000
-	bullet.AmmoType = "14.5x114mm B32" 
+	bullet.AmmoType = "14.5x114mm B32"
 	bullet.Attacker = self.owner
 	bullet.Distance = 56756
 	bullet.Callback = hg.bulletHit
@@ -74,8 +72,6 @@ function ENT:ActivateExplosive()
 			)
 			bullet.Spread = vecCone
 			bullet.Penetration = math.Clamp(num / i, 5, 10) * 10
-			-- for i2 = 1, 5 do
-				--if not IsValid(self) then return end
 			if not IsValid(self) then return end
 			self:FireLuaBullets(bullet,true)
 
@@ -86,7 +82,6 @@ function ENT:ActivateExplosive()
 			end
 
 			self.ShrapnelDone = true
-			--end
 		end
 	end)
 
@@ -117,7 +112,6 @@ function ENT:ActivateExplosive()
 
 	timer.Simple(0.1,function()
 		ParticleEffect("pcf_jack_airsplode_small",selfPos+vector_up*-5,vector_up:Angle())
-		--hg.ExplosionEffect(selfPos, blastdist, 80)
 	end)
 	hg.ExplosionEffect(selfPos, self.BlastDis, 5)
 

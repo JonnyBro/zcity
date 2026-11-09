@@ -5,7 +5,7 @@ function wOS.DynaBase:CreateUserMount( data )
 	if not data then return end
 	if not data.Name then return end
 	self.UserMounts[ data.Name ] = data
-	
+
 	local mounts = file.Read( "wos/dynabase/usermounts/mounts.txt", "DATA" ) or "{}"
 	local local_mounts = util.JSONToTable( mounts )
 
@@ -32,7 +32,7 @@ function wOS.DynaBase:GetAllUserMounts()
 end
 
 function wOS.DynaBase:GetUserMount( name )
-	return self.UserMounts[ name ] 
+	return self.UserMounts[ name ]
 end
 
 function wOS.DynaBase:CreateLocalMenu( parent, old_data )
@@ -51,7 +51,7 @@ function wOS.DynaBase:CreateLocalMenu( parent, old_data )
     frame.Think = function( pan )
         pan:OldThink()
         if parent:HasFocus() then pan:MoveToFront() end
-        if not self.AnimMenu then parent:Remove() end 
+        if not self.AnimMenu then parent:Remove() end
     end
 
     local fw, fh = frame:GetSize()
@@ -230,7 +230,7 @@ end
 
 hook.Add( "Initialize", "wOS.DynaBase.LoadUserMounts", function()
 	local mounts = file.Read( "wos/dynabase/usermounts/mounts.txt", "DATA" ) or "{}"
-	local local_mounts = util.JSONToTable( mounts )		
+	local local_mounts = util.JSONToTable( mounts )
 
 	for mount, data in pairs( local_mounts ) do
 		wOS.DynaBase.UserMounts[ mount ] = data

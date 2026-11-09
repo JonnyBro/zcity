@@ -107,20 +107,20 @@ function MODE:GiveEquipment()
     local numLawEnforcers = math.max(math.floor(numPlayers / 2) - 1, 1)
     local numRioters = numPlayers - numLawEnforcers
 
-    local pipebomberCount = 0  
+    local pipebomberCount = 0
     local hasMp80 = false
 
     for i = 1, numRioters do
         local ply = players[i]
         if ply:Team() == TEAM_SPECTATOR then continue end
-    
+
         ply:SetupTeam(0)
 
         ply:SetPlayerClass("terrorist")
-    
-    
+
+
         zb.GiveRole(ply, "Rioter", Color(190, 0, 0))
-    
+
         ply:Give("weapon_hands_sh")
 
         if pipebomberCount < 1 then
@@ -134,11 +134,11 @@ function MODE:GiveEquipment()
 		ply:SetNetVar("CurPluv", "pluvmajima")
 
         ply:Give(riotConsumables[math.random(#riotConsumables)])
-    
+
         if math.random(100) <= riotArmorChance then
             hg.AddArmor(ply, "ent_armor_helmet2")
         end
-    
+
         local riotWeapon = riotWeapons[math.random(#riotWeapons)]
         local wep = ply:Give(riotWeapon)
 
@@ -146,7 +146,7 @@ function MODE:GiveEquipment()
             ply:SelectWeapon(wep:GetClass())
         end
     end
-    
+
 
     for i = numRioters + 1, numPlayers do
         local ply = players[i]
@@ -209,15 +209,12 @@ function MODE:CanLaunch()
             activePlayers = activePlayers + 1
         end
     end
-    
+
     if activePlayers < 5 then
         return false
     end
 
     return true
-    --[[local pointsRioters = zb.GetMapPoints("RIOT_TDM_RIOTERS")
-    local pointsLaw = zb.GetMapPoints("RIOT_TDM_LAW")
-    return (#pointsRioters > 0) and (#pointsLaw > 0)--]]
 end
 
 return MODE

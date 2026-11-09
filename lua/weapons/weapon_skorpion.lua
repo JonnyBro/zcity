@@ -27,7 +27,6 @@ SWEP.FakeReloadSounds = {
 	[0.65] = "weapons/universal/uni_crawl_l_02.wav",
 	[0.82] = "weapons/tfa_cod/mwr/skorpion/wpfoly_skorpion_reload_clipin_v1.wav",
 	[0.94] = "weapons/universal/uni_crawl_l_04.wav",
-	--[0.9] = "zcitysnd/sound/weapons/m9/handling/m9_maghit.wav",
 
 }
 SWEP.FakeEmptyReloadSounds = {
@@ -39,7 +38,6 @@ SWEP.FakeEmptyReloadSounds = {
 	[0.79] = "weapons/universal/uni_crawl_l_05.wav",
 	[0.95] = "weapons/tfa_cod/mwr/skorpion/wpfoly_skorpion_reload_chamber_v1.wav",
 	[1.02] = "weapons/universal/uni_crawl_l_04.wav",
-	--[0.9] = "zcitysnd/sound/weapons/m9/handling/m9_maghit.wav",
 
 }
 SWEP.MagModel = "models/weapons/upgrades/w_magazine_m45_8.mdl"
@@ -56,33 +54,28 @@ SWEP.ViewPunchDiv = 60
 SWEP.FakeMagDropBone = 13
 
 SWEP.FakeReloadEvents = {
-	
-	[0.3] = function( self, timeMul ) 
+
+	[0.3] = function( self, timeMul )
 		if CLIENT and self:Clip1() < 1 then
 			hg.CreateMag( self, Vector(0,55,-55) )
 			self:GetWM():ManipulateBoneScale(13, vector_origin)
 			self:GetWM():ManipulateBoneScale(13, vector_origin)
-			self:GetOwner():PullLHTowards("ValveBiped.Bip01_L_Thigh", 1.2 * timeMul,nil,nil,function() 
+			self:GetOwner():PullLHTowards("ValveBiped.Bip01_L_Thigh", 1.2 * timeMul,nil,nil,function()
 				self:GetWM():ManipulateBoneScale(13, vector_full)
 				self:GetWM():ManipulateBoneScale(13, vector_full)
 			end)
-		end 
+		end
 		if CLIENT and self:Clip1() > 0 then
 			self:GetWM():ManipulateBoneScale(13, vector_origin)
 			self:GetWM():ManipulateBoneScale(13, vector_origin)
-			self:GetOwner():PullLHTowards("ValveBiped.Bip01_L_Thigh", 1 * timeMul,nil,nil,function() 
+			self:GetOwner():PullLHTowards("ValveBiped.Bip01_L_Thigh", 1 * timeMul,nil,nil,function()
 				self:GetWM():ManipulateBoneScale(13, vector_full)
 				self:GetWM():ManipulateBoneScale(13, vector_full)
 			end)
-		end 
+		end
 	end,
 	[0.85] = function(self,timeMul)
 	end,
-	--[1.00] = function( self ) 
-	--	if CLIENT and self:Clip1() > 0 then
-	--		self:GetWM():ManipulateBoneScale(57, vector_origin)
-	--	end 
-	--end,
 }
 
 SWEP.AnimList = {
@@ -171,8 +164,6 @@ local finger1 = Angle(-15,0,5)
 local finger2 = Angle(-15,45,-5)
 
 function SWEP:AnimHoldPost(model)
-	--self:BoneSet("l_finger0", vector_zero, finger1)
-    --self:BoneSet("l_finger02", vector_zero, finger2)
 end
 
 --RELOAD ANIMS SMG????

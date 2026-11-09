@@ -364,7 +364,7 @@ local function get_status_message(ply)
     if ply:GetInfoNum("hg_showthoughts", 1) == 0 then return "" end
 
 	local org = ply.organism
-	
+
 	if not org or not org.brain then return "" end
 
 	local pain = org.pain
@@ -379,7 +379,7 @@ local function get_status_message(ply)
 	if broken_dislocated and org.just_damaged_bone then
 		org.just_damaged_bone = nil
 	end
-	
+
 	local broken_notify = (org.rarm == 1) or (org.larm == 1) or (org.rleg == 1) or (org.lleg == 1)
 	local dislocated_notify = (org.rarm == 0.5) or (org.larm == 0.5) or (org.rleg == 0.5) or (org.lleg == 0.5)
 	local after_unconscious_notify = org.after_otrub
@@ -389,7 +389,7 @@ local function get_status_message(ply)
 	local str = ""
 
 	local most_wanted_phraselist
-	
+
 	if temperature < 35 then
 		most_wanted_phraselist = temperature > 31 and cold_phraselist or (temperature < 28 and numb_phraselist or freezing_phraselist)
 	elseif temperature > 38 then
@@ -416,8 +416,6 @@ local function get_status_message(ply)
 		if not most_wanted_phraselist then
 			if (broken_dislocated_notify) and (blood < 3100) then
 				most_wanted_phraselist = blood < 2900 and (near_death_poetic) or (math.random(2) == 1 and (broken_notify and broken_limb or dislocated_limb) or near_death_poetic)
-			--elseif(broken_dislocated_notify)then
-				--most_wanted_phraselist = (broken_notify and broken_limb or dislocated_limb)
 			elseif(blood < 3100)then
 				if adrenaline > 1.3 and fear < 0.5 then
 					most_wanted_phraselist = near_death_positive
@@ -441,7 +439,7 @@ local function get_status_message(ply)
 	if brain > 0.1 then
 		most_wanted_phraselist = brain < 0.2 and slight_braindamage_phraselist or braindamage_phraselist
 	end
-	
+
 	if most_wanted_phraselist then
 		str = most_wanted_phraselist[math.random(#most_wanted_phraselist)]
 
@@ -463,13 +461,13 @@ function hg.get_phraselist(ply, type)
 			return
 		end
 	end
-	
+
 	local nomessage = ply.PlayerClassName == "Gordon" || ply.PlayerClassName == "Combine"
 
 	if nomessage then return "" end
     if ply:GetInfoNum("hg_showthoughts", 1) == 0 then return "" end
 
-	local org = ply.organism	
+	local org = ply.organism
 	if not org or not org.brain then return "" end
 
 	if not isstring(type) or not allowedlist_types[type] then return "" end

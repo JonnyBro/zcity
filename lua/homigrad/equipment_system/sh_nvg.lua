@@ -38,7 +38,7 @@ local function BlurScreen(density,alpha)
 	end
 
 	Dynamic2 = math.Clamp(Dynamic2 + (1 / FrameRate) * 7, 0, 1)
-end			 
+end
 
 local function DrawNoise(amt, alpha)
 	local W, H = ScrW(), ScrH()
@@ -55,7 +55,7 @@ function RenderNVGOverlay(self, ply)
 	if not self:GetEnabled() then
 		hg.DrawFirstPersonHelmet(self,ply)
 	end
-    if !self.GetEnabled or !self:GetEnabled() then 
+    if !self.GetEnabled or !self:GetEnabled() then
         if IsValid(lply.NVGLamp) then
             lply.NVGLamp:Remove()
             lply.NVGLamp = nil
@@ -65,7 +65,7 @@ function RenderNVGOverlay(self, ply)
     local lightFOV = self.LightFOV
     local brightness = self.Brightness
     local blurAmmout = self.BlurAmmout
-    
+
     if not IsValid(lply.NVGLamp) then
 		lply.NVGLamp = ProjectedTexture()
 		lply.NVGLamp:SetTexture("effects/flashlight001")

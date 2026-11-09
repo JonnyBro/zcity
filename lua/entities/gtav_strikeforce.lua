@@ -22,7 +22,7 @@ if CLIENT then
     ENT.CameraOffset = Vector( -600, 0, 150 )
 
     ENT.WeaponInfo = {
-        -- Rename "Missiles" to "Barrage" 
+        -- Rename "Missiles" to "Barrage"
         [3] = { name = "#glide.weapons.barrage_missiles" }
     }
 

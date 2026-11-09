@@ -45,7 +45,7 @@ SWEP.handAng = Angle(0,0,0)
 SWEP.UsePistolHold = false
 
 SWEP.offsetVec = Vector(6,-7,0)
-SWEP.offsetAng = Angle(0,90,180)   
+SWEP.offsetAng = Angle(0,90,180)
 
 SWEP.HeadPosOffset = Vector(15,1.7,-5)
 SWEP.HeadAngOffset = Angle(-90,0,-90)
@@ -77,7 +77,7 @@ SWEP.HoldClampMin = -25
 function SWEP:SetHandPos(noset)
 	self.rhandik = self.setrhik
 	self.lhandik = self.setlhik
-	
+
 	local ply = self:GetOwner()
 
     if not IsValid(ply) or not IsValid(self:GetWeaponEntity()) then return end
@@ -85,10 +85,9 @@ function SWEP:SetHandPos(noset)
 
 	local ent = IsValid(ply.FakeRagdoll) and ply.FakeRagdoll or ply
 	if ent ~= ply and not (ply:KeyDown(IN_USE) or (ply:GetNetVar("lastFake",0) - CurTime() + 5 > 0)) then return end
-	--ply:SetIK(false)
-	
+
 	if not IsValid(ply) or not ply:IsPlayer() then return end
-	
+
 	local rh,lh = ply:LookupBone("ValveBiped.Bip01_R_Hand"), ply:LookupBone("ValveBiped.Bip01_L_Hand")
 	local base = ply:LookupBone(self.BaseBone)
 
@@ -96,41 +95,26 @@ function SWEP:SetHandPos(noset)
 	local lhmat = ent:GetBoneMatrix(lh)
 
     local headhmat = ent:GetBoneMatrix(base)
-	
+
 	if not rhmat or not lhmat then return end
 
     local headAng = ply:EyeAngles()
-    --print("post",headAng[1],headAng)
     headAng[1] = math.max(math.min(headAng[1],self.HoldClampMax),self.HoldClampMin)
-   -- print("after",headAng[1],headAng)
     local headPos, headAng = LocalToWorld(self.HeadPosOffset,self.HeadAngOffset,headhmat:GetTranslation(),headAng)
 
     self.handPos = headPos
     self.handAng = headAng
 
 	if not self.handPos or not self.handAng then return end
-	
-	local vec1, ang1 = -(-self.handPos), -(-self.handAng)
-	
-	--[[
-	--второй способ гавна
-	local matrix = Matrix()
-	matrix:SetTranslation(self.WorldPos)
-	matrix:SetAngles(self.WorldAng)
-	local newmat = matrix:GetInverse()
-	local ang = -(-self.desiredAng)
-	ang:RotateAroundAxis(ang:Forward(),180)
-	
-	local vec1, ang1 = LocalToWorld(newmat:GetTranslation(), newmat:GetAngles(), self.desiredPos, ang)
 
-	]]
+	local vec1, ang1 = -(-self.handPos), -(-self.handAng)
 
 	vec1:Add(ang1:Up() * -1)
 	local lhang = -(-ang1)
 	lhang:RotateAroundAxis(ang1:Forward(),-90)
 
 	local vec2, ang2 = LocalToWorld(self.LHPos, self.LHAng, vec1, lhang)
-	
+
 	local vec1, ang1 = LocalToWorld(self.RHPosOffset, self.RHAngOffset, vec1, ang1)
 	local vec2, ang2 = LocalToWorld(self.LHPosOffset, self.LHAngOffset, vec2, ang2)
 
@@ -140,15 +124,8 @@ function SWEP:SetHandPos(noset)
     lhmat:SetTranslation(vec2)
 	lhmat:SetAngles(ang2)
 
-	--if IsValid(self:GetWeaponEntity()) then
-		--self:AnimHands()
-	--end
-
     hg.set_hold(ent, self.HoldLH)
     hg.set_holdrh(ent, self.HoldRH)
-	
-	--self:AnimationRender()
-	--self:AnimHoldPost(self:GetWeaponEntity())
 
 	hg.bone_apply_matrix(ent, rh, rhmat)
 	if ( hg.CanUseLeftHand(ply) and self.lhandik ) then
@@ -184,7 +161,7 @@ function SWEP:DrawWorldModel()
 
 	WorldModel:SetModelScale(self.ModelScale or 1)
 	if IsValid(owner) then
-		local rhmat = self:SetHandPos()--owner:GetBoneMatrix(owner:LookupBone("ValveBiped.Bip01_R_Hand")) 
+		local rhmat = self:SetHandPos()--owner:GetBoneMatrix(owner:LookupBone("ValveBiped.Bip01_R_Hand"))
 		local offsetVec = self.offsetVec
 		local offsetAng = self.offsetAng
 		local matrix = rhmat
@@ -211,7 +188,7 @@ function SWEP:DrawWorldModel()
 
 		WorldModel:SetNoDraw(true)
 		WorldModel:SetModelScale(self.ModelScale2 or 1)
-		
+
 		if IsValid(owner) then
 			local offsetVec = self.offsetVec2
 			local offsetAng = self.offsetAng2
@@ -229,7 +206,7 @@ function SWEP:DrawWorldModel()
 			WorldModel:SetRenderOrigin(self:GetPos())
 			WorldModel:SetRenderAngles(self:GetAngles())
 		end
-		
+
 		if IsValid(owner.FakeRagdoll) or not IsValid(owner) or (IsValid(owner:GetActiveWeapon()) and owner:GetActiveWeapon() ~= self) then return end
 		WorldModel:DrawModel()
 	end

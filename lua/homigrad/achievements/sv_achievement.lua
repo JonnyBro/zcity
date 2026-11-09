@@ -10,14 +10,12 @@ local function updatePlayer(ply)
     if not hg.achievements.SqlActive then
         hg.achievements.achievements_data.player_achievements[steamID64] = {}
         return
-    end 
+    end
 
 	local query = mysql:Select("hg_achievements")
 		query:Select("achievements")
 		query:Where("steamid", steamID64)
 		query:Callback(function(result)
-            --print(result)
-            --PrintTable(result)
 			if (IsValid(ply) and istable(result) and #result > 0 and result[1].achievements) then
 				local updateQuery = mysql:Update("hg_achievements")
 					updateQuery:Update("steam_name", name)
@@ -26,7 +24,6 @@ local function updatePlayer(ply)
 
                 hg.achievements.achievements_data.player_achievements[steamID64] = util.JSONToTable(result[1].achievements)
 
-                --PrintTable(hg.achievements.achievements_data.player_achievements[steamID64])
 			else
 				local insertQuery = mysql:Insert("hg_achievements")
 					insertQuery:Insert("steamid", steamID64)
@@ -62,7 +59,7 @@ end)
 hook.Add( "PlayerInitialSpawn","hg_Exp_OnInitSpawn", updatePlayer)
 hook.Add("PlayerDisconnected", "savevalues", function(ply)
     if !hg.achievements.SqlActive then print("Tried to save achievement data to SQL, but it is not active.") return end
-    
+
     hg.achievements.SaveToSQL(ply)
 end)
 
@@ -134,7 +131,6 @@ end
 util.AddNetworkString("hg_NewAchievement")
 
 function hg.achievements.SetPlayerAchievement(ply, key, val)
-    --print("Triggered achievement for player " .. ply:Name() .. " ; " .. ply:SteamID() .. ": " .. (key or "none") .. ", value " .. (val or "none"))
     local steamID = ply:SteamID64()
     hg.achievements.achievements_data.player_achievements[steamID] = hg.achievements.achievements_data.player_achievements[steamID] or {}
     local playerAchievements = hg.achievements.achievements_data.player_achievements[steamID]
@@ -169,8 +165,6 @@ net.Receive("req_ach", function(len, ply)
     net.Send(ply)
 end)
 
-//if !hg.init_ach then
-    -- braindeath
     hg.achievements.CreateAchievementType("brain",1,0,"Die from hypoxia.","I will definitely survive...", nil, false)
     -- death from drugs
     hg.achievements.CreateAchievementType("drugs",1,0,"Die from opioids overdose.","Overstimulated", nil, false)
@@ -187,9 +181,6 @@ end)
     -- please calm down
     hg.achievements.CreateAchievementType("bking", 1, 0, "Something terrible happened on that plane...", "Sir please calm down", nil, false)
 
-    //hg.init_ach = true
-//end
-
 local roundply = 0
 
 hook.Add("ZB_StartRound","hg_killemall_Acchivment",function()
@@ -200,7 +191,6 @@ hook.Add("ZB_StartRound","hg_killemall_Acchivment",function()
 end)
 
 hook.Add("ZB_TraitorWinOrNot","hg_killemall_Acchivment",function(ply,winner)
-    --if gmod.GetGamemode() ~= "zcity" then return end
 
     if winner == 1 and (ply.TraitorKills or 0 >= roundply - 1) and roundply >= 10 then
         hg.achievements.SetPlayerAchievement(ply,"killemall",1)
@@ -218,7 +208,7 @@ hook.Add("PlayerDeath", "hg_killemall_Acchivment", function(ply)
             if ply.ZBestAttacker:Alive() and ply.ZBestAttacker.organism.brain >= 0.1 then
                 hg.achievements.SetPlayerAchievement(ply.ZBestAttacker, "lobotomygaming", 1)
             end
-            
+
             if IsValid(ply.ZBestInflictor) and ply.ZBestInflictor.ishggrenade and ply.ZBestInflictor.owner2 == ply and IsValid(ply.ZBestInflictor.owner) then
                 hg.achievements.SetPlayerAchievement(ply.ZBestInflictor.owner, "hotpotato", 1)
             end
@@ -239,7 +229,6 @@ hook.Add("PlayerSilentDeath","hg_illbeback_Acchivment",function(ply)
 end)
 
 hook.Add("HomigradDamage","hg_illbeback_Acchivment",function(ply, dmgInfo, hitgroup, ent, harm, hitBoxs)
-    --if gmod.GetGamemode() ~= "zcity" then return end
     if not ply:IsPlayer() then return end
     if (dmgInfo:IsDamageType(128) or dmgInfo:IsDamageType(DMG_BULLET)) and hitgroup == HITGROUP_HEAD and hg.achievements.GetPlayerAchievement(ply,"illbeback")["value"] ~= 3 then
         hg.achievements.SetPlayerAchievement(ply,"illbeback",1)
@@ -294,7 +283,6 @@ hook.Add("HG_PlayerSay","burgerking",function(ply, txtTbl, txt)
     }
     for _, v in ipairs(tblToFind_bking) do
         local found = string.find( txt:lower(), v[1] )
-        --print(found)
         if found then
             bking[v[2]] = true
         end

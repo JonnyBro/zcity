@@ -45,17 +45,16 @@ end
 
 net.Receive("bomb_enter",function(len, ply)
 	if !ply:Alive() then return end
-	
+
 	local org = ply.organism
 
 	if !org.canmove then return end
 
 	local txt = net.ReadString()
 	local num = tonumber(txt)
-	
-	--ply:ChatPrint(txt)
+
 	local ent = ply.bomb
-	
+
 	if ent.isbomb then
 		if not ent.active then
 			local isSandbox = engine.ActiveGamemode() == "sandbox"
@@ -110,7 +109,6 @@ function ENT:ActivateBomb()
 	self:SetNetVar("timer", CurTime() + self.ExplodeTime - (self.addtime or 0))
 	self.active = true
 	self:SetNWBool("active",true)
-	--print(self:GetNWBool("active"))
 
 	net.Start("bomb_planted")
 		net.Broadcast()
@@ -125,7 +123,7 @@ function ENT:ActivateBomb()
 		-- PrintMessage(HUD_PRINTTALK, "Bomb has been planted"
 		-- 	..(siteName and (" on site "..siteName) or "")
 		-- 	..".")
-		
+
 		hg.UpdateRoundTime(zb.ROUND_TIME + self.ExplodeTime + 1)
 	end
 
@@ -143,9 +141,9 @@ function ENT:ActivateBomb()
 	tr.mask = MASK_SOLID
 	tr.mins = self:OBBMins()
 	tr.maxs = self:OBBMaxs()
-	
+
 	local trace = util.TraceHull(tr)
-	
+
 	local pos, ang = LocalToWorld(offsetPos,offsetAng,trace.HitPos,trace.HitNormal:Angle())
 
 	self:SetPos(pos)
@@ -154,7 +152,6 @@ end
 
 function ENT:Use(activator)
 	local isSandbox = engine.ActiveGamemode() == "sandbox"
-	--if self:IsPlayerHolding() then return end
 	if not isSandbox then
 		if not BombInSite(self:GetPos(), 1) and not BombInSite(self:GetPos(), 2) then activator:PickupObject(self) return end
 	end
@@ -164,7 +161,7 @@ function ENT:Use(activator)
 			return
 		end
 	end
-	
+
 	activator:PickupObject(self)
 	self.user = activator
 	activator.bomb = self
@@ -194,7 +191,7 @@ function ENT:Think()
 		end
 
 		if self.nextbeep < CurTime() and self:GetNetVar("timer") > CurTime() then
-			local beep = math.max((self:GetNetVar("timer") - CurTime()) / self.ExplodeTime,0.05)	
+			local beep = math.max((self:GetNetVar("timer") - CurTime()) / self.ExplodeTime,0.05)
 			self.nextbeep = CurTime() + beep
 			for i, ent in ipairs(ents.FindInSphere(self:GetPos(),32 / beep)) do
 				if ent.organism then
@@ -207,8 +204,8 @@ function ENT:Think()
 
 		return true
 	end
-	
-	
+
+
 	if not self.active and self.wtfPlayed then
 		self.wtfPlayed = nil
 	end

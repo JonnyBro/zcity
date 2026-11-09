@@ -16,13 +16,8 @@ hook.Add("DatabaseConnected", "PointshopCreateData", function()
 		query:PrimaryKey("steamid")
 	query:Execute()
 
-    --hook.Run("ZPointshopLoaded")
-
     PLUGIN.Active = true
 end)
-
---local query = mysql:Drop("zb_experience")
---query:Execute()
 
 hook.Add( "PlayerInitialSpawn","Pointshop_OnInitSpawn", function( ply )
     local name = ply:Name()
@@ -35,7 +30,7 @@ hook.Add( "PlayerInitialSpawn","Pointshop_OnInitSpawn", function( ply )
         PLUGIN.PlayerInstances[steamID64].points = 0
         PLUGIN.PlayerInstances[steamID64].items = {}
         return
-    end 
+    end
 
 	local query = mysql:Select("hg_pointshop")
 		query:Select("donpoints")
@@ -210,12 +205,9 @@ end
 
 function plyMeta:PS_HasItem( uid )
     local pointshopVars = self:GetPointshopVars()
-    --PrintTable(pointshopVars)
     if !pointshopVars then return false end
     return pointshopVars.items[ uid ] or false
 end
-
---print(Player(2):PS_HasItem( "test_item_1" ))
 
 -- networking and other
 
@@ -227,8 +219,6 @@ function PLUGIN:NET_SendPointShopVars( ply )
         net.WriteTable( ply:GetPointshopVars() )
     net.Send( ply )
 end
-
---PLUGIN:NET_SendPointShopVars( Player(2) )
 
 util.AddNetworkString("hg_pointshop_send_notificate")
 
@@ -246,7 +236,7 @@ function PLUGIN:NET_BuyItem( ply, uid )
     else
         yes, reason = ply:PS_TakePoints(hg.PointShop.Items[uid].PRICE, function() ply:PS_AddItem( uid ) end)
     end
-    
+
     net.Start( "hg_pointshop_send_notificate" )
         net.WriteString(reason)
     net.Send( ply )

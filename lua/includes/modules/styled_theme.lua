@@ -101,7 +101,7 @@ do
     local screenW, screenH = ScrW(), ScrH()
     local Floor = math.floor
 
-    --- Scales the given size (in pixels) from a 1080p resolution to 
+    --- Scales the given size (in pixels) from a 1080p resolution to
     --- the resolution currently being used by the game.
     function StyledTheme.ScaleSize( size )
         return Floor( ( size / 1080 ) * screenH )

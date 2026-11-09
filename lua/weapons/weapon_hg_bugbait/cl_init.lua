@@ -1,7 +1,7 @@
 include("shared.lua")
 
 SWEP.PrintName = "'Bugbait' Pheropod"
-SWEP.Instructions = 
+SWEP.Instructions =
 [[
 Pheropods are naturally found inside the bodies of Antlion Guards, allowing them to exert control over lesser Antlions. They can be extracted and used by an individual to command Antlions in a similar fashion.
 ]]

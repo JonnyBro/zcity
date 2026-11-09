@@ -46,7 +46,7 @@ SWEP.FakeEmptyReloadSounds = {
 	[0.71] = "weapons/tfa_ins2/thanez_cobra/revolver_speed_loader_insert_01.wav",
 	[0.91] = "weapons/tfa_ins2/thanez_cobra/revolver_close_chamber.wav"
 }
-SWEP.MagModel = "models/weapons/upgrades/w_magazine_m45_8.mdl" 
+SWEP.MagModel = "models/weapons/upgrades/w_magazine_m45_8.mdl"
 
 SWEP.lmagpos = Vector(2.,0,0)
 SWEP.lmagang = Angle(-10,0,0)
@@ -73,27 +73,18 @@ SWEP.lmagang2 = Angle(0,0,0)
 
 if CLIENT then
 	local vector_full = Vector(1, 1, 1)
-	
+
 	local ang = Angle(-90, 0, 0)
 	ang:RotateAroundAxis(ang:Right(), 180)
 
 	SWEP.FakeReloadEvents = {
-		[0.35] = function( self ) 
+		[0.35] = function( self )
 			if self:Clip1() < 1 then
-				--hg.CreateMag( self, Vector(0,0,-50) )
-				--self:GetWM():ManipulateBoneScale(50, vector_origin)
-				--self:GetWM():ManipulateBoneScale(51, vector_origin)
-				--self:GetWM():ManipulateBoneScale(52, vector_origin)
 			end
 		end,
 		[0.15] = function( self, timeMul )
 			if self:Clip1() >= 1 then
-				--self:GetWM():ManipulateBoneScale(50, vector_origin)
-				--self:GetWM():ManipulateBoneScale(51, vector_origin)
-				--self:GetWM():ManipulateBoneScale(52, vector_origin)
 
-				--self:GetWM():ManipulateBoneScale(53, vector_full)
-				--self:GetOwner():PullLHTowards("ValveBiped.Bip01_L_Thigh", 0.5 * timeMul)
 			end
 		end,
 		[0.3] = function( self, timeMul )
@@ -109,7 +100,7 @@ if CLIENT then
 				for i = 1, #drum do
 					if self.CustomShell and drum[i] == -1 then
 						local pos, ang = self:GetWM():GetBonePosition(105)
-						self:MakeShell(self.CustomShell, pos, ang, Vector(0,0,0)) 
+						self:MakeShell(self.CustomShell, pos, ang, Vector(0,0,0))
 					end
 				end
 			end
@@ -118,7 +109,7 @@ if CLIENT then
 			end
 			self:GetWM():ManipulateBoneScale(97, vector_origin)
 		end,
-		[0.9] = function( self ) 
+		[0.9] = function( self )
 			for i = 96, 108 do
 				self:GetWM():ManipulateBoneScale(i, vector_origin)
 			end
@@ -127,9 +118,8 @@ if CLIENT then
 			end
 		end,
 
-		[1.2] = function( self ) 
+		[1.2] = function( self )
 			if self:Clip1() >= 1 then
-				//self:PlayAnim("idle",1,false)
 			end
 		end,
 	}
@@ -226,16 +216,16 @@ SWEP.CustomShell = "10mm"
 
 function SWEP:ShiftDrum(val)
 	val = math.Round(val % 6)
-	
+
 	if val == 0 then val = 1 end
 
 	local drumCopy = table.Copy(self.Drum)
 
 	for i = 1,#self.Drum do
 		local nextval = i + val
-		
+
 		local setval = nextval < 1 and #self.Drum - nextval or nextval > 6 and nextval - 6 or nextval
-		
+
 		self.Drum[i] = drumCopy[setval]
 	end
 
@@ -243,13 +233,7 @@ function SWEP:ShiftDrum(val)
 	for i = 1,#self.Drum do
 		stringythingy = stringythingy..tostring(self.Drum[i]).." "
 	end
-	
-	--[[if SERVER then
-		net.Start("hg_senddrum")
-		net.WriteInt(self:EntIndex(),32)
-		net.WriteString(stringythingy)
-		net.Broadcast()
-	end--]]
+
 	self:SetNWInt("drumroll",self:GetNWInt("drumroll",0) + val)
 	self:SetNWString("drum",stringythingy)
 end
@@ -274,13 +258,13 @@ function SWEP:InitializePost()
 end
 
 function SWEP:RevolverPostInit()
-	
+
 end
 
 if SERVER then
 	concommand.Add("hg_insertbullet",function( ply, cmd, args )
 		local val = tonumber(args[1])
-		local wep = ply:GetActiveWeapon() 
+		local wep = ply:GetActiveWeapon()
 		if not IsValid(wep) then return end
 		local primaryammo = wep:GetPrimaryAmmoType()
 		local primaryammocount = ply:GetAmmoCount(primaryammo)
@@ -322,22 +306,17 @@ end
 
 if SERVER then
 	util.AddNetworkString("hg_senddrum")
-	
+
 	function SWEP:SendDrum()
 		local stringythingy = ""
 		for i = 1,#self.Drum do
 			stringythingy = stringythingy..tostring(self.Drum[i]).." "
 		end
-		
-		--[[net.Start("hg_senddrum")
-		net.WriteInt(self:EntIndex(),32)
-		net.WriteString(stringythingy)
-		net.Broadcast()--]]
-		
+
 		self:SetNWString("drum",stringythingy)
 	end
 else
-	net.Receive("hg_senddrum",function() 
+	net.Receive("hg_senddrum",function()
 		local self = Entity(net.ReadInt(32))
 		local drumtbl = string.Split(net.ReadString()," ")
 
@@ -361,13 +340,13 @@ end
 
 function SWEP:GetDrum()
 	local drumtbl = string.Split(self:GetNWString("drum","1 1 1 1 1 1")," ")
-	
+
 	if (self.DrumLastPredicted or 0) < CurTime() then
 		for i = 1,#self.Drum do
 			self.Drum[i] = tonumber(drumtbl[i])
 		end
 	end
-	
+
 	return self.Drum
 end
 
@@ -389,8 +368,6 @@ local phrases = {
 
 local clr_notify = Color(122, 0, 0)
 function SWEP:Shoot(override)
-	--self:GetWeaponEntity():ResetSequenceInfo()
-	--self:GetWeaponEntity():SetSequence(1)
 	if not self:CanPrimaryAttack() then return false end
 	if self:KeyDown(IN_USE) and !IsValid(self:GetOwner().FakeRagdoll) then return false end
 	if not self:CanUse() then return false end
@@ -401,7 +378,7 @@ function SWEP:Shoot(override)
 	if (primary.NextFire or 0) > CurTime() then return false end
 
 	self.Drum = SERVER and self.Drum or CLIENT and self:GetDrum()
-	
+
 	if self.Drum[1] != 1 then
 		self.LastPrimaryDryFire = CurTime()
 		self:PrimaryShootEmpty()
@@ -422,7 +399,7 @@ function SWEP:Shoot(override)
 
 	self.Drum[1] = -1
 	self:ShiftDrum(1)
-	
+
 	primary.Next = CurTime() + primary.Wait
 	self:SetLastShootTime(CurTime())
 	primary.Automatic = weapons.Get(self:GetClass()).Primary.Automatic
@@ -434,7 +411,7 @@ function SWEP:InsertAmmo(need)
 	local owner = self:GetOwner()
 	local primaryAmmo = self:GetPrimaryAmmoType()
 	if !owner.GetAmmoCount then self:SetClip1(self:GetMaxClip1()) return end
-	
+
 	if SERVER then
 		owner:GiveAmmo(self:Clip1(), primaryAmmo, true)
 		self:SetClip1(0)
@@ -453,7 +430,7 @@ function SWEP:InsertAmmo(need)
 	for i = 1, math.min(need,6) do
 		self.Drum[i] = 1
 	end
-	
+
 	if SERVER then
 		self:SendDrum()
 	end
@@ -499,14 +476,10 @@ function SWEP:DrawPost()
 		self.shooanim = LerpFT(0.05,self.shooanim or 0,0)
 		self.DrumAng = LerpFT(0.05,self.DrumAng or 0,self:GetNWInt("drumroll",0))
 		wep:ManipulateBoneAngles(94,Angle(-(360/6)*self.DrumAng,0,0))
-		--wep:ManipulateBoneAngles(5,Angle(0,45*(1-self.shooanim) ,0))
-		--wep:ManipulateBoneAngles(3,Angle(0,85*-self.ReloadSlideOffset,0))
 	end
 end
 
 function SWEP:AnimHoldPost(model)
-	--self:BoneSet("l_finger0", vector_zero, finger1)
-	--self:BoneSet("l_finger02", vector_zero, finger2)
 end
 
 --RELOAD ANIMS PISTOL

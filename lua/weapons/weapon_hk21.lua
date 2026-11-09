@@ -15,8 +15,6 @@ SWEP.IconOverride = "entities/weapon_pwb_hk23e.png"
 
 SWEP.CustomShell = "762x51"
 SWEP.CustomSecShell = "mc51len"
---SWEP.EjectPos = Vector(-5,0,-5)
---SWEP.EjectAng = Angle(-45,-80,0)
 
 SWEP.CanSuicide = false
 

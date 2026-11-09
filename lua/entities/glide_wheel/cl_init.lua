@@ -122,7 +122,7 @@ function ENT:Think()
     local surfaceId = self:GetContactSurface()
     local contactPos = self:GetPos() - up * self:GetRadius()
 
-    -- Force water surface when contactPos is under water 
+    -- Force water surface when contactPos is under water
     if surfaceId > 0 and IsUnderWater( contactPos ) then
         surfaceId = MAT_SLOSH
     end

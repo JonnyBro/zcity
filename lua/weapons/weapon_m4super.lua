@@ -16,8 +16,6 @@ SWEP.IconOverride = "pwb2/vgui/weapons/m4super90.png"
 SWEP.ReloadSound = "weapons/tfa_ins2/m1014/toz_shell_insert_2.wav"
 SWEP.Primary.SoundEmpty = {"zcitysnd/sound/weapons/toz_shotgun/handling/toz_empty.wav", 75, 100, 105, CHAN_WEAPON, 2}
 SWEP.CustomShell = "12x70"
---SWEP.EjectPos = Vector(0,-20,5)
---SWEP.EjectAng = Angle(0,90,0)
 SWEP.ScrappersSlot = "Primary"
 SWEP.weaponInvCategory = 1
 SWEP.ShellEject = "ShotgunShellEject"
@@ -34,7 +32,6 @@ SWEP.Primary.Wait = 0.2
 SWEP.NumBullet = 8
 SWEP.DeploySnd = {"homigrad/weapons/draw_hmg.mp3", 55, 100, 110}
 SWEP.HolsterSnd = {"homigrad/weapons/hmg_holster.mp3", 55, 100, 110}
---[type_] = {1 = name,2 = spread,3 = dmg,4 = pen,5 = numbullet,6 = isrubber,7 = shockmul},
 
 SWEP.addSprayMul = 1
 
@@ -96,11 +93,6 @@ function SWEP:InitializePost()
 	self.AnimStart_Insert = 0
 	self.AnimStart_Draw = 0
 
-	--self.RHPos = Vector(1,-5,3.4)
-	--self.RHAng = Angle(0,-15,90)
-	--local to rh
-	--self.LHPos = Vector(18,-0.8,-3.6)
-	--self.LHAng = Angle(-100,-180,0)
 end
 
 function SWEP:CanPrimaryAttack()
@@ -146,7 +138,6 @@ if SERVER then
 
 		if self:GetAnimPos_Draw(CurTime()) > 0 then return end
 		if not self:CanReload() then return end
-		--self:GetOwner():SetPlaybackRate(1)
 		self.LastReload = CurTime()
 		self:ReloadStart()
 		self:ReloadStartPost()
@@ -171,15 +162,12 @@ else
 		self.LastReload = time
 		self:ReloadStart()
 		self:ReloadStartPost()
-		--self.StaminaReloadTime = -- self.ReloadTime * ( IsValid( self:GetOwner() ) and self:GetOwner().organism and self:GetOwner().organism.stamina and 2 -(self:GetOwner().organism.stamina[1] / 180 ) or 1 )
 		self.reload = time + (self.StaminaReloadTime or self.ReloadTime)
 		self.dwr_reverbDisable = true
 	end
 
 	function SWEP:ReloadStart()
 		if not self or not IsValid(self:GetOwner()) then return end
-		--self:SetHold(self.ReloadHold or self.HoldType)
-		--self:GetOwner():SetAnimation(PLAYER_RELOAD)
 	end
 
 	net.Receive("hgwep draw", function()
@@ -190,7 +178,6 @@ else
 			self.Primary = self.Primary or {}
 			self.AnimStart_Draw = time
 			self.drawBullet = drawBullet
-			--if self.Draw then self:Draw() end
 			self.Primary.Next = time + (self.AnimDraw or 0) + self.Primary.Wait
 		end
 	end)
@@ -200,7 +187,6 @@ SWEP.Chocking = true
 
 function SWEP:ReloadEnd()
 	local owner = self:GetOwner()
-	--owner:SetPlaybackRate(-1)
 	self:InsertAmmo(1)
 	self.ReloadNext = CurTime() + self.ReloadCooldown
 	if SERVER then
@@ -220,19 +206,6 @@ function SWEP:ReloadEnd()
 	end
 end
 
---[[
-function SWEP:ReloadDrawEnd()
-	self.reloadDrawing = nil
-	self.ReloadNext = CurTime() + self.ReloadDrawCooldown
-	self:Draw()
-end
-
-function SWEP:ReloadAmmoEnd()
-	self.ReloadNext = CurTime()  + self.ReloadInsertCooldown
-	self:InsertAmmo(1)
-	self.Primary.NextFire = CurTime() + self.ReloadInsertCooldownFire
-end
---]]
 function SWEP:PrimaryShootPost()
 	self.ReloadNext = CurTime() + 0.5
 end

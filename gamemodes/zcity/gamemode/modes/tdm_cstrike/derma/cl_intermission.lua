@@ -1,5 +1,5 @@
 local PANEL = {}
-local sw, sh = ScrW(), ScrH()    
+local sw, sh = ScrW(), ScrH()
 local color_white = Color(255,255,255)
 
 net.Receive("CS_Intermission", function()
@@ -86,7 +86,6 @@ function PANEL:Close()
 		easing = "linear",
 		bIgnoreConfig = true,
 		Think = function()
-			-- self:SetSize(sw * 0.22 * self.appearProgress, sh * 0.12)
 			self:SetAlpha(255 * self.appearProgress / 2)
 		end,
 		OnComplete = function()

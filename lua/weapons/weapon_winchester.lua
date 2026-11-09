@@ -127,7 +127,7 @@ function SWEP:AnimationPost()
 
 		local lohsin = math.floor(sin * (#anims))
 		local lerp = sin * (#anims) - lohsin
-		
+
 		self.inanim = true
 		self.RHPosOffset = Lerp(lerp,anims[math.Clamp(lohsin,1,#anims)],anims[math.Clamp(lohsin+1,1,#anims)])
 	else

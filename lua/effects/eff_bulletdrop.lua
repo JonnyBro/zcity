@@ -52,7 +52,6 @@ function EFFECT:Init(data)
 	dir2 = LerpVector(0.05, dir2, hitnormal)
 	dir2:Mul(math.random(4, 8) * 8 * dot)
 	dir2:Add(dir * math.random(2))
-	-- dir2:Add(vector_up * math.random(2))
 
 	if ammotype and hg.ammotypes[ammotype] and not hg.ammotypes[ammotype].NoSpin and math.random(8) < (data:GetMagnitude() or 1) then self.AddVelocity = math.random(4) * (data:GetMagnitude() or 1) * (math.random(2) == 1 and -1 or 1) end
 
@@ -60,8 +59,6 @@ function EFFECT:Init(data)
 end
 
 function EFFECT:Think()
-	-- local bullet = self.bullet
-	-- print(self.Pos, self.Velocity)
 
 	if not self.Pos or not self.Velocity then return end
 
@@ -91,8 +88,6 @@ function EFFECT:Think()
 	end
 
 	self.Velocity:Mul(0.999)
-
-	-- self:NextThink(CurTime() + 0.1)
 
 	return self.DieTime > CurTime()
 end

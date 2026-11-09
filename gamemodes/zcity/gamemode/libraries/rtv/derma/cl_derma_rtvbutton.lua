@@ -11,7 +11,7 @@ function PANEL:Init()
     self.Votes = 0
     self.lerp = 0
     self.BipCD = 0
-    
+
     self.hovered = false
     self.alpha = 0
     self.setalpha = 0

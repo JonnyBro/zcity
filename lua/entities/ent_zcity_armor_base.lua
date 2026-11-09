@@ -4,7 +4,7 @@
    /|__-__|\            support us pls
    \--|-|--/        he sleepyhead! :3
 --]]
-DEFINE_BASECLASS( "ent_zcity_equipment_base" )	
+DEFINE_BASECLASS( "ent_zcity_equipment_base" )
 AddCSLuaFile()
 --[[ Armor Slots
     ZC_ARMOR_SLOT_HEAD = 4
@@ -16,7 +16,7 @@ AddCSLuaFile()
         ZC_ARMOR_SLOT_UPPERARM_L = 9
             ZC_ARMOR_SLOT_FOREARM_L = 10
         ZC_ARMOR_SLOT_UPPERARM_R = 11
-            ZC_ARMOR_SLOT_FOREARM_R = 12  
+            ZC_ARMOR_SLOT_FOREARM_R = 12
 
     ZC_ARMOR_SLOT_BELLY = 13
 
@@ -37,7 +37,6 @@ ENT.IconOverride = nil--"vgui/icons/armor02"
 ENT.IsZPickup = true
 
 ENT.SlotOccupation = { -- Slots what armor occupate
-    --[ZC_ARMOR_SLOT_TORSO] = true,
 }
 --\\ Balistic settings
 
@@ -45,16 +44,16 @@ ENT.SlotOccupation = { -- Slots what armor occupate
     ENT.HitBoxSet = "TestVest"
 
     local TestVest = hg.organism:HitBox("ValveBiped.Bip01_Spine2", "TestVest", 1, Vector(1.5, 7, 0), Angle(0, -4, 0), Vector(7.5, 1, 6), Color(0, 17, 255), true)
-    hg.organism:CreateHitBox("Front",TestVest) 
+    hg.organism:CreateHitBox("Front",TestVest)
 
     local TestVest = hg.organism:HitBox("ValveBiped.Bip01_Spine2", "TestVest", 1, Vector(1.5, -3, 0), Angle(0, 0, 0), Vector(8, 1, 6), Color(0, 17, 255), true)
-    hg.organism:CreateHitBox("Back",TestVest) 
+    hg.organism:CreateHitBox("Back",TestVest)
 
     local TestVest = hg.organism:HitBox("ValveBiped.Bip01_Spine2", "TestVest", 1, Vector(-3.5, 2.5, 6.5), Angle(0, 0, 90), Vector(3, 1, 4.5), Color(0, 17, 255), true)
-    hg.organism:CreateHitBox("LeftSide",TestVest) 
+    hg.organism:CreateHitBox("LeftSide",TestVest)
 
     local TestVest = hg.organism:HitBox("ValveBiped.Bip01_Spine2", "TestVest", 1, Vector(-3.5, 2.5, -6.5), Angle(0, 0, 90), Vector(3, 1, 4.5), Color(0, 17, 255), true)
-    hg.organism:CreateHitBox("RightSide",TestVest) 
+    hg.organism:CreateHitBox("RightSide",TestVest)
 
     hg.organism:AddArmorInputList("TestVest", ZC_ARMOR_SLOT_TORSO)
 --//
@@ -88,8 +87,6 @@ ENT.NeedPunch = false                           -- viewpunch after impact
 
 --\\
 ENT.PlateLinks = {
-    -- FrontDown = "FrontPlate"
-    -- etc
 }
 
 --[[
@@ -118,7 +115,7 @@ ENT.PlateLinks = {
     ENT.FrontPlate.DurabilityMax = 100                         -- max durability, for the future repair armor (yeah i'm doing immersive shit)
     ENT.FrontPlate.DurabilityWarranty = 15                     -- guarantee that the protection level will not decrease (no debuff) upon the degradation
 
-    ENT.FrontPlate.NeedPunch = false 
+    ENT.FrontPlate.NeedPunch = false
 --]]
 --//
 
@@ -202,16 +199,15 @@ end
             model:SetSkin(data.Skin)
             model:SetBodyGroups(data.Bodygroups)
             model:SetParent(entDrawOn)
-            --print(data.BoneMerge)
             if data.BoneMerge then
                 model:AddEffects(EF_BONEMERGE)
             else
-                model.ParentBone = entDrawOn:LookupBone( data.ParentBone ) 
+                model.ParentBone = entDrawOn:LookupBone( data.ParentBone )
                 model.OffsetPos = data.OffsetPos
                 model.OffsetAng = data.OffsetAng
                 model:SetModelScale(data.ModelSize)
             end
-            
+
 
             if data.ModelSubMaterials then
                 for k,v in pairs(data.ModelSubMaterials) do
@@ -241,7 +237,7 @@ end
         if model.ParentBone then
             if developer:GetBool() then
                 local data = fem and self.FeMale or self.Male
-                model.ParentBone = entDrawOn:LookupBone( data.ParentBone ) 
+                model.ParentBone = entDrawOn:LookupBone( data.ParentBone )
                 model.OffsetPos = data.OffsetPos
                 model.OffsetAng = data.OffsetAng
 
@@ -259,8 +255,8 @@ end
 
             model:SetRenderOrigin(pos)
             model:SetRenderAngles(ang)
-        end        
-        
+        end
+
         model:DrawModel()
     end
 --//
@@ -270,7 +266,7 @@ end
 		local EquipmentBySlot = entUser:GetNetVar("zc_equipment_by_hitbox", {})
 
         EquipmentBySlot[self.HitBoxSet] = self:EntIndex()
-        
+
         entUser:SetNetVar("zc_equipment_by_hitbox", EquipmentBySlot)
 	end
 
@@ -278,17 +274,17 @@ end
 		local EquipmentBySlot = entUser:GetNetVar("zc_equipment_by_hitbox", {})
 
         EquipmentBySlot[self.HitBoxSet] = nil
-        
+
         entUser:SetNetVar("zc_equipment_by_hitbox", EquipmentBySlot)
 	end
 --//
 
 --\\ Utilites
-local entMeta = FindMetaTable("Entity") 
+local entMeta = FindMetaTable("Entity")
 function entMeta:GetEquipmentByHitBoxSet(hitboxset)
     if not IsValid(self) then return end
     local EquipmentBySlot = self:GetNetVar("zc_equipment_by_hitbox",{})
-    
+
     return EquipmentBySlot[hitboxset] and Entity(EquipmentBySlot[hitboxset]) or nil
 end
 
@@ -300,107 +296,8 @@ hook.Add("ItemsTransfered", "TransferEquipmentArmor", function(ply, ragdoll)
     ply:SetNetVar("zc_equipment_by_hitbox", {})
 end)
 
-hook.Add("HG_OrganAvalible", "ArmorHitboxAvaliveCheck", function(ent, organ_name) 
+hook.Add("HG_OrganAvalible", "ArmorHitboxAvaliveCheck", function(ent, organ_name)
     return IsValid( ent:GetEquipmentByHitBoxSet(organ_name) )
 end)
-
---[[
-    hg.organism.input_list.vest1 = function(org, bone, dmg, dmgInfo, ...)
-        local protect = protec(org, bone, dmg, dmgInfo, "torso", "vest1", 0.6, 0.6, false, ...)
-        return protect
-    end
---]]
-
---[[
-
-local ArmorEffect
-local force
-local function protec(org, bone, dmg, dmgInfo, placement, armor, scale, scaleprot, punch, boneindex, dir, hit, ricochet)
-	if not force and org.owner.armors[placement] ~= armor then return 0 end
-	force = nil
-	
-	local prot = placement and hg.armor[placement] and armor and hg.armor[placement][armor] and (hg.armor[placement][armor].protection - (dmgInfo:GetInflictor().bullet and dmgInfo:GetInflictor().bullet.Penetration or 1)) or (10 - ( dmgInfo:GetInflictor().bullet and dmgInfo:GetInflictor().bullet.Penetration or 1))
-	
-	org.owner.armors_health = org.owner.armors_health or {}
-
-	prot = prot * (org.owner.armors_health[armor] or 1)
-	
-	if punch then
-		if org.owner:IsPlayer() and org.alive and dmgInfo:IsDamageType(DMG_BUCKSHOT + DMG_BULLET) then
-			org.owner:ViewPunch(AngleRand(-30, 30))
-			
-			org.owner:EmitSound("homigrad/physics/shield/bullet_hit_shield_0"..math.random(7)..".wav", 80, math.random(95, 105))
-
-			org.owner:AddTinnitus(3, true)
-			net.Start("AddFlash")
-				net.WriteVector(hg.eye(org.owner) + org.owner:GetForward() * 3)
-				net.WriteFloat(3)
-				net.WriteInt(100, 20)
-			net.Send(org.owner)
-
-			hg.ExplosionDisorientation(org.owner, 6, 6)
-
-			hg.organism.input_list.spine3(org, bone, (dmg/100) * math.Rand(0,0.1), dmgInfo)
-			--org.spine3 = org.spine3 + math.Rand(0.05,1) * dmg / 5
-		end
-	end
-	
-	scale = scale * (dmgInfo:IsDamageType(DMG_SLASH) and 0.1 or 1)
-	
-	ArmorEffect(placement, armor, dmgInfo, org, hit, prot)
-
-	if prot < 0 then
-		//dmgInfo:ScaleDamage(scale)
-		return 0
-	end
-
-	dmgInfo:SetDamageType(DMG_CLUB)
-	dmgInfo:SetDamageForce(dmgInfo:GetDamageForce() * 0.4)
-	dmgInfo:ScaleDamage(0.2)
-
-	return 0.9
-end
-
-ArmorEffect = function(placement, armor, dmgInfo, org, hit, prot)
-	local armdata = placement and hg.armor[placement] and hg.armor[placement][armor] or {}
-	local eff = prot < 0 and "Impact" or armdata.effect or "Impact"
-	local dir = -dmgInfo:GetDamageForce()
-	dir:Normalize()
-	local effdata = EffectData()
-	
-	effdata:SetOrigin((hit and isvector(hit) and hit or dmgInfo:GetDamagePosition()) - dir)
-	effdata:SetNormal(dir)
-	effdata:SetMagnitude(0.25)
-	effdata:SetRadius(4)
-	effdata:SetNormal(dir)
-	effdata:SetStart((hit and isvector(hit) and hit or dmgInfo:GetDamagePosition()) + dir)
-	effdata:SetEntity(org.owner)
-	effdata:SetSurfaceProp(prot < 0 and 67 or armdata.surfaceprop or 67)
-	effdata:SetDamageType(dmgInfo:GetDamageType())
-
-	EmitSound("physics/metal/metal_solid_impact_bullet"..math.random(4)..".wav",dmgInfo:GetDamagePosition(),0,CHAN_AUTO,1,55,nil,100)
-	util.Effect(eff,effdata)
-end
-
-local ArmorEffectEx = function(ent,dmgInfo,eff,surfaceprop)
-	local dir = -dmgInfo:GetDamageForce()
-	dir:Normalize()
-	local effdata = EffectData()
-	
-	effdata:SetOrigin( dmgInfo:GetDamagePosition() - dir )
-	effdata:SetNormal( dir )
-	effdata:SetMagnitude(0.25)
-	effdata:SetRadius(4)
-	effdata:SetNormal(dir)
-	effdata:SetStart(dmgInfo:GetDamagePosition() + dir)
-	effdata:SetEntity(ent)
-	effdata:SetSurfaceProp(surfaceprop or 67)
-	effdata:SetDamageType(dmgInfo:GetDamageType())
-
-	EmitSound("physics/metal/metal_solid_impact_bullet"..math.random(4)..".wav",dmgInfo:GetDamagePosition(),0,CHAN_AUTO,1,55,nil,100)
-	util.Effect(eff,effdata)
-end
-
---]]
 
 --//

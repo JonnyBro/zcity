@@ -16,11 +16,10 @@ function EFFECT:Init(data)
 
     for i = 1,4*intensity do
         local smoke = emitter:Add(smoke_mats[math.random(#smoke_mats)], pos)
-        
+
         smoke:SetStartAlpha(math.Rand(15, 25))
         smoke:SetEndAlpha(0)
         smoke:SetColor(255,255,255)
-        --smoke:SetLighting(true)
         smoke:SetGravity(Vector(0,0,-math.Rand(33, 66)))
         smoke:SetRollDelta(math.random(0, 0.5*math.pi))
         smoke:SetAirResistance(175)
@@ -33,16 +32,14 @@ function EFFECT:Init(data)
 
     for i = 1,15*intensity do
         local spark = emitter:Add("effects/spark", pos+normal*8)
-        
+
         spark:SetStartAlpha(255)
         spark:SetEndAlpha(0)
         spark:SetCollide(true)
         spark:SetBounce(math.Rand(0,1))
         spark:SetColor(200,150,100)
-        --spark:SetLighting(true)
         spark:SetGravity(Vector(0,0,-600))
         spark:SetEndLength(0)
-        --spark:SetRollDelta(math.random(0, 0.5*math.pi))
 
         local size = math.Rand(0.5, 1)*intensity
         spark:SetEndSize(size)

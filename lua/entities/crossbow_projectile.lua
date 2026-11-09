@@ -25,7 +25,6 @@ if SERVER then
 		self:SetCollisionGroup(COLLISION_GROUP_WEAPON)
 		self:DrawShadow(true)
 		self:SetUseType(SIMPLE_USE)
-		--self:SetAngles(-self:GetAngles())
 		local phys = self:GetPhysicsObject()
 		if phys:IsValid() then
 			phys:SetMass(1)
@@ -35,18 +34,4 @@ if SERVER then
 end
 
 function ENT:PostDraw()
-	--if(hg.PhysSilk)then
-	--	self.Silks = self.Silks or {}
---
-	--	for silk_desired_key, silk_desired in ipairs(self.DesiredSilks) do
-	--		if(IsValid(self.Silks[silk_desired_key]))then
-	--			-- self.Silks[silk_desired_key].Pos = self:LocalToWorld(silk_desired.EntityOffset)
-	--		else
-	--			local silk = table.Copy(silk_desired)
-	--			silk.Pos = self:LocalToWorld(silk_desired.EntityOffset)
-	--			silk.Entity = self
-	--			self.Silks[silk_desired_key] = hg.PhysSilk.CreateSilk(silk, true)
-	--		end
-	--	end
-	--end
 end

@@ -180,7 +180,6 @@ function SWEP:DrawPost()
 		self.shooanim = LerpFT(0.4,self.shooanim or 0,(self:Clip1() > 0 or self.reload) and 0 or 1)
 		wep:ManipulateBonePosition(94, Vector(0, 1.25 * self.shooanim, 0), false)
 		if self:Clip1() < 1 and self.shooanim > 0.1 then
-			--self:GetWM():ManipulateBoneScale(64, vector_origin)
 		end
 	end
 end

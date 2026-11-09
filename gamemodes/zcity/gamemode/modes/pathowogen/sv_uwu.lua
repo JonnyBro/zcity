@@ -123,11 +123,6 @@ end
 function MODE:Intermission()
 	game.CleanUpMap()
 
-	-- for k, ply in ipairs(player.GetAll()) do
-	-- 	//ply:KillSilent()
-
-	-- 	-- ply:SetupTeam(0)
-	-- end
 end
 
 MODE.Vehicles = {
@@ -232,10 +227,6 @@ function MODE:SetupTraitor(ply)
 
 	ply:Give("weapon_adrenaline")
 
-	-- local gun = ply:Give("weapon_hk_usp")
-	-- ply:GiveAmmo(gun:GetMaxClip1() * 1,gun:GetPrimaryAmmoType(),true)
-	-- hg.AddAttachmentForce(ply,gun,"supressor3")
-
 	ply:Give("weapon_hands_sh")
 	ply:SelectWeapon("weapon_hands_sh")
 
@@ -280,7 +271,7 @@ function MODE:RoundStart()
 	self.saved.Escaped = {}
 
 	self.saved.DeathNames = {}
-	
+
 	self.saved.ContractorEscapee = nil
 
 	// shitcode, change it later (or not i guess)
@@ -480,12 +471,6 @@ function MODE:SpawnDeltaSquad(count)
 		end
 
 		ply:GiveAmmo(gun:GetMaxClip1() * clipAmount,gun:GetPrimaryAmmoType(),true)
-
-		-- if self.saved.CloseQuarters then
-		-- 	hg.AddAttachmentForce(ply,gun,"optic7")
-		-- else
-		-- 	hg.AddAttachmentForce(ply,gun,"holo15")
-		-- end
 
 		hg.AddArmor(ply, {"helmet6", "vest8", "headphones1", "mask2"})
 
@@ -872,21 +857,9 @@ function MODE:SpawnGlideHelicopter()
 		-- 	if !IsValid( seat ) then return end
 		-- 	if !seat.GlideSeatIndex then return end
 
-		-- 	local ply = seat:GetDriver()
-		-- 	if IsValid(ply) then
-		-- 		if ply.PlayerClassName != "furry" and ply.PlayerClassName != "commanderforces" then
-		-- 			extracted = true
-		-- 		end
-
-		-- 		table.insert(players, ply)
-		-- 	end
-		-- end
-
 		for i, weld in pairs(constraint.FindConstraints(this, "Weld")) do
-			//PrintTable(weld)
 			if weld.Ent2:IsRagdoll() then
 				local ply = hg.RagdollOwner(weld.Ent2)
-				//ply:ChatPrint("fuckyou")
 				if ply and !table.HasValue(players, ply) then
 					if ply.PlayerClassName != "furry" and ply.PlayerClassName != "commanderforces" then
 						extracted = true
@@ -897,7 +870,6 @@ function MODE:SpawnGlideHelicopter()
 			end
 			if weld.Ent1:IsRagdoll() then
 				local ply = hg.RagdollOwner(weld.Ent1)
-				//ply:ChatPrint("fuckyou2")
 
 				if ply and !table.HasValue(players, ply) then
 					if ply.PlayerClassName != "furry" and ply.PlayerClassName != "commanderforces" then
@@ -916,7 +888,6 @@ function MODE:SpawnGlideHelicopter()
 					v.override = false
 					v.FakeRagdoll:Remove()
 				end
-				//v:ChatPrint("You are a stupid furry UwU")
 				v:KillSilent()
 				timer.Simple(0.1, function()
 					v:KillSilent() // awesomesauce
@@ -977,27 +948,6 @@ MODE.LastDataSave = 0
 function MODE:Think()
 	local time = CurTime()
 
-	-- self.saved.SavedData = self.saved.SavedData or {}
-	-- local data = self.saved.SavedData
-
-	-- if time > self.LastDataSave then
-	-- 	local dataTbl = {}
-	-- 	dataTbl.time = time
-	-- 	dataTbl.players = {}
-	-- 	for _, ply in player.Iterator() do
-	-- 		if !ply:Alive() then continue end
-
-	-- 		local plyData = {}
-	-- 		plyData.pos = ply:GetPos()
-
-	-- 		dataTbl.players[ply:EntIndex()] = plyData
-	-- 	end
-
-	-- 	table.insert(data, dataTbl)
-
-	-- 	self.LastDataSave = time + 1
-	-- end
-
 	if !self.saved.ExtractPoint and !self.saved.TraitorExtractPoint then return end
 
 	if time > self.LastExtractThink then
@@ -1015,7 +965,6 @@ function MODE:Think()
 									ply.override = false
 									ply.FakeRagdoll:Remove()
 								end
-								//v:ChatPrint("You are a stupid furry UwU")
 								ply:KillSilent()
 								self.saved.Escaped[ply] = true
 							end
@@ -1038,7 +987,6 @@ function MODE:Think()
 									ply.override = false
 									ply.FakeRagdoll:Remove()
 								end
-								//v:ChatPrint("You are a stupid furry UwU")
 								ply:KillSilent()
 								self.saved.Escaped[ply] = true
 

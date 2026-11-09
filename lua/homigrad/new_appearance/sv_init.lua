@@ -1,4 +1,4 @@
--- 
+--
 util.AddNetworkString("Get_Appearance")
 util.AddNetworkString("OnlyGet_Appearance")
 hg.Appearance = hg.Appearance or {}
@@ -9,7 +9,6 @@ local PSmodule = hg.PointShop
 
 local function CheckAttachments(ply,tbl)
     if !IsValid(ply) or !ply:IsPlayer() then return end
-    --print(ply:PS_HasItem(uid))
     if hg.Appearance.GetAccessToAll(ply) then return tbl end
     for i = 1, #tbl.AAttachments do
         local uid = tbl.AAttachments[i]
@@ -34,7 +33,6 @@ local function CheckAttachments(ply,tbl)
         if not bodygroup then continue end
 
         local uid = bodygroup["ID"]
-        --print(bodygroup[2],uid,PSmodule.Items[uid],ply:PS_HasItem(uid))
         if bodygroup[2] and uid and PSmodule.Items[uid] and (!ply:PS_HasItem(uid) and ply:IsPlayer()) then
             tbl.ABodygroups[k] = nil
             ply:ChatPrint(v .. " - not bought, removed")
@@ -60,18 +58,14 @@ local function ForceApplyAppearance(ply, tbl, noModelChange)
     ply:SetSubMaterial()
 
     local mats = ply:GetMaterials()
-    --PrintTable(mats)
     if istable(tMdl) then
         for k, v in pairs(tMdl.submatSlots) do
-            --print(k)
             local slot = 1
             for i = 1, #mats do
-                --print(mats[i], v,mats[i] == v, i)
                 if mats[i] == v then slot = i-1 break end
             end
             ply:SetSubMaterial(slot, hg.Appearance.Clothes[tMdl.sex and 2 or 1][tbl.AClothes[k]] or hg.Appearance.Clothes[tMdl.sex and 2 or 1]["normal"] )
             ply:SetNWString("Colthes" .. k,tbl.AClothes[k] or "normal")
-            --print("true")
         end
     end
     for i = 1, #mats do
@@ -82,12 +76,6 @@ local function ForceApplyAppearance(ply, tbl, noModelChange)
 
     ply:SetNWString("PlayerName", tbl.AName)
     ply:SetBodyGroups( "00000000000000000000" )
-    --print(mdl)
-    --if mdl == "models/zcity/m/male_09.mdl" and ply:SteamID() == "STEAM_0:1:163575696" then
-    --    timer.Simple(0,function()
-    --    ply:SetBodygroup( 1,7 )
-    --    end)
-    --end
 
     local bodygroups = ply:GetBodyGroups()
     tbl.ABodygroups = tbl.ABodygroups or {}
@@ -95,7 +83,6 @@ local function ForceApplyAppearance(ply, tbl, noModelChange)
         if !v.name then continue end
         if !tbl.ABodygroups[v.name] then continue end
         if !hg.Appearance.Bodygroups[v.name] then continue end
-        --PrintTable(hg.Appearance.Bodygroups[v.name][tMdl.sex and 2 or 1])
         for i = 0, #v.submodels do
             local b = v.submodels[i]
             if !hg.Appearance.Bodygroups[v.name][tMdl.sex and 2 or 1][tbl.ABodygroups[v.name]] then continue end
@@ -130,7 +117,6 @@ function ApplyAppearance(Client,tAppearance,bRandom,bResponeIsValid,bUseCahsed)
     if bUseCahsed then
         tAppearance = APmodule.GetRandomAppearance()
         tAppearance = Client.CachedAppearance or tAppearance
-        --Client:ChatPrint(tAppearance.AModel)
         if !APmodule.AppearanceValidater(tAppearance) then tAppearance = APmodule.GetRandomAppearance() end
         net.Start("OnlyGet_Appearance")
         net.Send(Client)
@@ -165,7 +151,6 @@ end)
 net.Receive("OnlyGet_Appearance",function(len,client)
     local tAppearance = net.ReadTable()
     local bRandom = !tAppearance or table.IsEmpty(tAppearance)
-    --client:ChatPrint(bRandom)
     client.CachedAppearance = bRandom and APmodule.GetRandomAppearance() or tAppearance
 end)
 
@@ -186,13 +171,12 @@ function ApplyAppearanceRagdoll(ent, ply)
     end
 end
 
--- Sandbox applyApperance 
+-- Sandbox applyApperance
 if engine.ActiveGamemode() == "sandbox" then
     hook.Add("PlayerSpawn","SetAppearance",function(ply)
         if OverrideSpawn then return end
         timer.Simple(0,function()
             ApplyAppearance(ply,nil,nil,nil,true)
-            --ply.OldAppearance = false
         end)
     end)
 end

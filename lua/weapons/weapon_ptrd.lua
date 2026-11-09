@@ -243,7 +243,7 @@ function SWEP:PrimaryShootPost()
 
 		hg.LightStunPlayer(owner,1)
 	end
-	
+
 	char:GetPhysicsObjectNum(0):SetVelocity(char:GetVelocity() + owner:EyeAngles():Forward() * -2000)
 end
 

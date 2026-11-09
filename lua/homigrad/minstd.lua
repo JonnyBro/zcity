@@ -2,8 +2,6 @@ local floor = math.floor
 local sqrt = math.sqrt
 local log = math.log
 
---module("minstd")
-
 local MINSTD = {}
 MINSTD.__index = MINSTD
 
@@ -24,7 +22,7 @@ end
 
 -- Modified Lehmer random number generator
 -- Returns integer [1, IM)
-function MINSTD:RandomNumber()	
+function MINSTD:RandomNumber()
 	if (self.m_iDum <= 0 or self.m_iY == 0) then
 		if (self.m_iDum > -1) then -- (-1, 0)
 			self.m_iDum = 1
@@ -116,7 +114,7 @@ function MINSTD:RandomInt(iMin --[[= 0]], iMax --[[= 1]])
 	-- the average number of times through the loop is 2. For cases where x is
 	-- much smaller than IM, the average number of times through the
 	-- loop is very close to 1
-	local iMaxAcceptable = IM - (IM + 1) % x 
+	local iMaxAcceptable = IM - (IM + 1) % x
 	local n
 
 	repeat

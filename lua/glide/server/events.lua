@@ -91,7 +91,6 @@ hook.Add( "PlayerLeaveVehicle", "Glide.OnExitSeat", function( ply )
     if IsValid( vehicle ) then
         ply:SetPos( vehicle:GetSeatExitPos( seatIndex ) )
         ply:SetVelocity( vehicle:GetPhysicsObject():GetVelocity() )
-        //ply:SetEyeAngles( Angle( 0, vehicle:GetAngles().y, 0 ) )
     end
 
     -- Restore previously held weapon
@@ -101,7 +100,6 @@ hook.Add( "PlayerLeaveVehicle", "Glide.OnExitSeat", function( ply )
         ply.GlideLastWeaponClass = nil
 
         timer.Simple( 0, function()
-            //if IsValid( ply ) then ply:SelectWeapon( weaponClass ) end
         end )
     end
 
@@ -168,12 +166,11 @@ hook.Add( "EntityTakeDamage", "Glide.OverrideDamage", function( target, dmginfo 
 
     if IsValid( target ) and target.IsGlideVehicle then
         if !dmginfo:IsDamageType( 64 ) then
-            //return true
         end
     end
 
     if IsValid( inflictor ) and inflictor.IsGlideVehicle and dmginfo:IsDamageType( 1 ) then -- DMG_CRUSH
-        -- Set the vehicle's driver/creator as the attacker 
+        -- Set the vehicle's driver/creator as the attacker
         local driver = inflictor:GetDriver()
 
         if not IsValid( driver ) then

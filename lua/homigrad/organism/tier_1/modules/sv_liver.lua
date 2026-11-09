@@ -1,5 +1,4 @@
 local max, halfValue = math.max, util.halfValue
---local Organism = hg.organism
 hg.organism.module.liver = {}
 local module = hg.organism.module.liver
 module[1] = function(org)

@@ -15,10 +15,10 @@ hg.AdminTools = hg.AdminTools or {}
 
 local plyMeta = FindMetaTable("Player")
 
-function plyMeta:ZCTools_GetAccess( bSAdmin ) 
+function plyMeta:ZCTools_GetAccess( bSAdmin )
     if bSAdmin and self:IsSuperAdmin() then return true end
     if not bSAdmin and self:IsAdmin() then return true end
-    
+
     return false
 end
 
@@ -32,18 +32,18 @@ if CLIENT then
     end)
 
     surface.CreateFont("timer_Font", {
-        font = "Bahnschrift", 
-        size = 68, 
-        extended = true, 
+        font = "Bahnschrift",
+        size = 68,
+        extended = true,
         weight = 650,
         antialias = true,
         italic = true
     })
 
     surface.CreateFont("timer_Font1", {
-        font = "Bahnschrift", 
-        size = 72/3, 
-        extended = true, 
+        font = "Bahnschrift",
+        size = 72/3,
+        extended = true,
         weight = 650,
         antialias = true,
         italic = true
@@ -83,7 +83,7 @@ function hg.AdminTools:Timer( str, time )
         else
             Timer = time - CurTime()
         end
-        
+
         local TDisp = string.FormattedTime( Timer, "%02i:%02i.%02i" )
 
         local random = 1 - (Timer / RTimer)
@@ -101,8 +101,6 @@ function hg.AdminTools:Timer( str, time )
     end)
 
 end
-
---hg.AdminTools:Timer( "Survive", CurTime()+2 )
 
 function hg.AdminTools:Point( str, vec )
 

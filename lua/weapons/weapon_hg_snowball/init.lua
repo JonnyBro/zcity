@@ -24,7 +24,7 @@ function SWEP:ThinkAdd()
 
 	if not self.timeToBoom then
 		local ent = scripted_ents.GetStored(self.ENT)--scripted_ents.Get("ent_"..string.sub(self:GetClass(),8))
-		
+
 		self.timeToBoom = ent.timeToBoom or 5
 	end
 
@@ -81,10 +81,10 @@ end
 function SWEP:PickupFunc(ply)
     local wep = ply:GetWeapon(self:GetClass())
     if IsValid(wep) and wep.count < 3 and wep != self then
-        
+
         wep.count = wep.count + self.count
 		self.count = 0
-        
+
         return true
     end
     return false

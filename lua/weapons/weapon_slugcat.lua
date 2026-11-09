@@ -27,7 +27,6 @@ SWEP.Slot = 2
 SWEP.SlotPos = 10
 SWEP.ViewModel = ""
 SWEP.WorldModel = "models/salat_port/slugcat_figure.mdl"
-//SWEP.WorldModelFake = "models/salat_port/slugcat_figure.mdl"
 
 SWEP.FakePos = Vector(1, 1.005, -1.21)
 SWEP.FakeAng = Angle(0, 0, 0)
@@ -61,23 +60,23 @@ SWEP.lmagpos2 = Vector(0,-1,0)
 SWEP.lmagang2 = Angle(0,0,0)
 
 SWEP.FakeReloadEvents = {
-	[0.2] = function( self, timeMul ) 
+	[0.2] = function( self, timeMul )
 		if CLIENT and self:Clip1() < 1 then
 			self:GetWM():SetBodygroup(1,1)
 			self:GetOwner():PullLHTowards("ValveBiped.Bip01_L_Thigh", 1.5 * timeMul)
-		end 
+		end
 	end,
-	[0.43] = function( self ) 
+	[0.43] = function( self )
 		if CLIENT and self:Clip1() < 1 then
 			hg.CreateMag( self, Vector(0,55,-55) )
 			self:GetWM():ManipulateBoneScale(92, vector_origin)
-		end 
+		end
 	end,
-	[0.55] = function( self ) 
+	[0.55] = function( self )
 		if CLIENT and self:Clip1() < 1 then
 			self:GetWM():SetBodygroup(1,0)
 			self:GetWM():ManipulateBoneScale(92, vector_full)
-		end 
+		end
 	end,
 }
 
@@ -123,7 +122,6 @@ SWEP.availableAttachments = {
 	barrel = {
 		[1] = {"supressor4", Vector(0,0,0), {}},
 		[2] = {"supressor6", Vector(0,0,0), {}},
-		--[3] = {"supressor3", Vector(0,0.2,0), {}},
 		["mount"] = Vector(-0.1,0.4,0.03),
 	},
 	underbarrel = {
@@ -192,13 +190,7 @@ local finger5 = Angle(0,-65,-15)
 local finger6 = Angle(15,-5,-15)
 
 function SWEP:AnimHoldPost()
-	--self:BoneSet("r_finger0", vector_zero, finger6)
-	--self:BoneSet("l_finger0", vector_zero, finger1)
-    --self:BoneSet("l_finger02", vector_zero, finger2)
-	--self:BoneSet("l_finger1", vector_zero, finger3)
-	--self:BoneSet("r_finger1", vector_zero, finger4)
-	--self:BoneSet("r_finger11", vector_zero, finger5)
-	
+
 end
 
 SWEP.podkid = 1
@@ -207,7 +199,7 @@ SWEP.ShootAnimMul = 5
 SWEP.SightSlideOffset = 1.2
 
 function SWEP:DrawPost()
-	
+
 end
 
 function SWEP:ModelCreated(model)

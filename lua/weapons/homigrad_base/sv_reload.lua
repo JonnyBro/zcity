@@ -31,7 +31,6 @@ end
 function SWEP:ReloadStart()
 	self:SetHold(self.ReloadHold or self.HoldType)
 	hook.Run("HGReloading", self)
-	--if self.ReloadSound then self:GetOwner():EmitSound(self.ReloadSound, 60, 100, 0.8, CHAN_AUTO) end
 end
 
 local randomgovno = {

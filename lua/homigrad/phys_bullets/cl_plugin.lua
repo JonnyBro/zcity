@@ -9,11 +9,11 @@ function PLUGIN.NetworkReceivedBulletCreate()
 		local read = info[3]
 		bullet[key] = read()
 	end
-	
+
 	if(PLUGIN.BulletsTable[bullet.Key])then
 		PLUGIN.BulletsTable[bullet.Key]:Remove()
 	end
-	
+
 	PLUGIN.CreateBullet(bullet)
 end
 
@@ -24,7 +24,7 @@ function PLUGIN.NetworkReceivedBulletUpdate()
 	for _, info in ipairs(PLUGIN.NetworkTableUpdate) do
 		local key = info[1]
 		local read = info[3]
-		
+
 		if(not bullet_key)then
 			bullet_key = read()
 			bullet = PLUGIN.BulletsTable[bullet_key]
@@ -35,7 +35,7 @@ function PLUGIN.NetworkReceivedBulletUpdate()
 				net.Start("HG.Plugin[bullet](CreateBullet)")
 					PLUGIN.net_writekey(bullet_key)
 				net.SendToServer()
-			
+
 				break
 			end
 		end
@@ -53,7 +53,7 @@ end)
 net.Receive("HG.Plugin[bullet](RemoveBullet)", function(len)
 	local bullet_key = PLUGIN.net_readkey()
 	local bullet = PLUGIN.BulletsTable[bullet_key]
-	
+
 	if(bullet)then
 		bullet:Remove()
 	end

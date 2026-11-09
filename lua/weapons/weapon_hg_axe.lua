@@ -113,9 +113,6 @@ function SWEP:CanPrimaryAttack()
 end
 
 function SWEP:CanSecondaryAttack()
-    --[[self.DamageType = DMG_CLUB
-    self.AttackHit = "Concrete.ImpactHard"
-    self.Attack2Hit = "Concrete.ImpactHard"--]]
     return false
 end
 

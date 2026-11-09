@@ -18,7 +18,7 @@ end
 
 local function TryConjureBleedingMusket(zone, ply)
 	local blood_consumption = 25000
-	
+
 	if(PLUGIN.GetZoneOrPlyBlood(zone, ply) >= blood_consumption)then
 		PLUGIN.ShowMessageInSphere("Conjuring Bleeding Musket...", zone.Pos, zone.Radius)
 		PLUGIN.ConjureBleedingMusket.Do(ent, 5, zone)
@@ -34,24 +34,24 @@ end
 --\\SpecialEvents
 hook.Add("Abnormalties_HotZoneAbnormaltyAdded", "Abnormalties_ConjureBleedingMusket", function(zone_id, abnormalty_name, amt, ply)
 	local zone = PLUGIN.Zones[zone_id]
-	
+
 	if(PLUGIN.GetZoneAbnormalty(zone, "harm") >= 20 and PLUGIN.GetZoneAbnormalty(zone, "ritual") >= 10 and PLUGIN.GetZoneAbnormalty(zone, "sacrifice") >= 10 and amt > 0)then
 		local clear_cd = 10
-		
+
 		if(!zone.Vars.RitualPhrasesAmtClearTime)then
 			zone.Vars.RitualPhrasesAmtClearTime = CurTime() + clear_cd
 		end
-		
+
 		if(zone.Vars.RitualPhrasesAmtClearTime <= CurTime())then
 			PLUGIN.ResetPhrasesAbnormaltiesFromZone(zone)
-			
+
 			zone.Vars.RitualPhrasesAmtClearTime = nil
 		end
-		
+
 		if(PLUGIN.CompareZonePhrasesToPattern(zone, {{"harm", 5}, {"ritual", 2}, {"sacrifice", 2}}, 5))then
 			TryConjureBleedingMusket(zone, ply)
 			PLUGIN.ResetPhrasesAbnormaltiesFromZone(zone)
-			
+
 			zone.Vars.RitualPhrasesAmtClearTime = nil
 		end
 	end
@@ -63,12 +63,12 @@ hook.Add("Think", "Abnormalties_ConjureBleedingMusket", function()
 		if(info.Time <= CurTime())then
 			if(info.Zone)then
 				local new_ent = ents.Create("weapon_bleeding_musket")
-				
+
 				new_ent:SetPos(info.Zone.Pos + Vector(0, 0, 30))
 				new_ent:Spawn()
 				new_ent:Activate()
 			end
-			
+
 			PLUGIN.ConjureBleedingMusket.ToConjure[id] = nil
 		end
 	end

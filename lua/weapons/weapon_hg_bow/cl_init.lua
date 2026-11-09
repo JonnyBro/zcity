@@ -16,9 +16,6 @@ SWEP.BounceWeaponIcon = false
 SWEP.HoldPos = Vector(0,0,0)
 SWEP.HoldAng = Angle(0,0,0)
 
---SWEP.LerpHoldPos = Vector(0,0,0)
---SWEP.LerpHoldAng = Angle(0,0,0)
-
 function SWEP:PostSetHandPos()
     self.LerpHoldPos = self.LerpHoldPos or Vector(0,0,0)
     self.LerpHoldAng = self.LerpHoldAng or Angle(0,0,0)

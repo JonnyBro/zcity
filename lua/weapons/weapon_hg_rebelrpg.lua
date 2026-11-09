@@ -145,28 +145,9 @@ function SWEP:Shoot(override)
 				end
 			end)
 		end
-		--for i, ent in ipairs(ents.FindInCone(pos, -ang:Forward(), 128, 0.8)) do
-		--	if not ent:IsPlayer() then continue end
-		--	if ent == hg.GetCurrentCharacter( owner ) then return end
-		--	local d = DamageInfo()
-		--	d:SetDamage( 4000 )
-		--	d:SetAttacker( owner )
-		--	d:SetDamageType( DMG_BURN )
-		--	d:SetDamagePosition( pos - ang:Forward() * 10 )
---
-		--	ent:TakeDamageInfo( d )
---
-		--	d:SetDamage( 400 )
-		--	d:SetAttacker( owner )
-		--	d:SetDamageType( DMG_CLUB )
-		--	d:SetDamagePosition( pos - ang:Forward() * 10 )
---
-		--	ent:TakeDamageInfo( d )
-		--end
 	end
 
 	self:EmitShoot()
-	--self:PrimarySpread()
 	self:PlayAnim("fire",1,false,nil,false,false,true)
 end
 
@@ -208,7 +189,6 @@ if CLIENT then
 		self.LastReload = time
 		self:ReloadStart()
 		self:ReloadStartPost()
-		--self.StaminaReloadTime = -- self.ReloadTime * ( IsValid( self:GetOwner() ) and self:GetOwner().organism and self:GetOwner().organism.stamina and 2 -(self:GetOwner().organism.stamina[1] / 180 ) or 1 )
 		self.reload = time + (self.StaminaReloadTime or self.ReloadTime) + 0.05
 		if self:ShouldUseFakeModel() then
 			self:PlayAnim(self:Clip1() == 0 and "reload_empty" or "reload", (self.StaminaReloadTime or self.ReloadTime), false, function()

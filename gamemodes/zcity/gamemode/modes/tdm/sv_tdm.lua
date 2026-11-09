@@ -29,7 +29,7 @@ function MODE:Intermission()
 
 	for i, ply in player.Iterator() do
 		ply:SetupTeam(ply:Team())
-		
+
 		ply:SetNWInt( "TDM_Money", self.StartMoney )
 	end
 
@@ -79,8 +79,6 @@ local tblarmors = {
 	},
 }
 
--- local giveweapons = CreateConVar("zb_tdm_giveweapon","1",FCVAR_LUA_SERVER,"TDMSPAWNS",0,1)
-
 function MODE:GetPlySpawn(ply)
 end
 
@@ -90,7 +88,7 @@ function MODE:GiveEquipment()
 
 		for _, ply in player.Iterator() do
 			if not ply:Alive() then continue end
-			
+
 			local inv = ply:GetNetVar("Inventory")
 			inv["Weapons"]["hg_sling"] = true
 			ply:SetNetVar("Inventory",inv)
@@ -107,22 +105,6 @@ function MODE:GiveEquipment()
 				zb.GiveRole(ply, "Terrorist", Color(190,0,0))
 				ply:SetNetVar("CurPluv", "pluvboss")
 			end
-
-			--[[if giveweapons:GetBool() then
-				local gun = ply:Give(tblweps[ply:Team()][mrand])
-				ply:GiveAmmo(gun:GetMaxClip1() * 3,gun:GetPrimaryAmmoType(),true)
-				
-				hg.AddAttachmentForce(ply,gun,tblatts[ply:Team()][mrand])
-				hg.AddArmor(ply, tblarmors[ply:Team()][mrand])
-
-
-				ply:Give("weapon_hg_rgd_tpik")
-				ply:Give("weapon_walkie_talkie")
-				ply:Give("weapon_bandage_sh")
-				ply:Give("weapon_tourniquet")
-			end--]]
-
-			//ply:Give("weapon_melee")
 
 			ply:Give("weapon_melee")
 			ply:Give("weapon_bandage_sh")
@@ -164,9 +146,7 @@ function MODE:EndRound()
 		if ply:Team() == winner then
 			ply:GiveExp(math.random(15,30))
 			ply:GiveSkill(math.Rand(0.1,0.15))
-			--print("give",ply)
 		else
-			--print("take",ply)
 			ply:GiveSkill(-math.Rand(0.05,0.1))
 		end
 	end
@@ -212,7 +192,7 @@ net.Receive("tdm_buyitem",function(len,ply)
 
 	if ((ply:GetNWInt("TDM_Money",0) - item.Price) < 0) then ply:ChatPrint("Not enough money.") return end
 	local ent = ply:Give(item.ItemClass)
-	
+
 	if ent.Use and IsValid(ent) then
 		ent:Use( ply )
 	end

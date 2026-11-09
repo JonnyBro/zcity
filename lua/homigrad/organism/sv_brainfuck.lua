@@ -38,16 +38,16 @@ local rigorBones = {
 
 
 local fencingArmBones = {
-	{"ValveBiped.Bip01_R_Hand", "ValveBiped.Bip01_R_UpperArm", 1.0},     
+	{"ValveBiped.Bip01_R_Hand", "ValveBiped.Bip01_R_UpperArm", 1.0},
 	{"ValveBiped.Bip01_L_Hand", "ValveBiped.Bip01_L_UpperArm", 1.0},
-	{"ValveBiped.Bip01_R_Forearm", "ValveBiped.Bip01_Spine2", 0.8},       
+	{"ValveBiped.Bip01_R_Forearm", "ValveBiped.Bip01_Spine2", 0.8},
 	{"ValveBiped.Bip01_L_Forearm", "ValveBiped.Bip01_Spine2", 0.8},
-	{"ValveBiped.Bip01_R_UpperArm", "ValveBiped.Bip01_Spine2", 0.5},      
+	{"ValveBiped.Bip01_R_UpperArm", "ValveBiped.Bip01_Spine2", 0.5},
 	{"ValveBiped.Bip01_L_UpperArm", "ValveBiped.Bip01_Spine2", 0.5},
 }
 local fencingLegBones = {
-	{"ValveBiped.Bip01_R_Foot", "ValveBiped.Bip01_R_Thigh", 0.6},         
-	{"ValveBiped.Bip01_R_Calf", "ValveBiped.Bip01_R_Thigh", 0.4},         
+	{"ValveBiped.Bip01_R_Foot", "ValveBiped.Bip01_R_Thigh", 0.6},
+	{"ValveBiped.Bip01_R_Calf", "ValveBiped.Bip01_R_Thigh", 0.4},
 }
 
 local function getRandomSpasm()
@@ -62,14 +62,13 @@ local function applySpasm(rag, stype)
 	if not IsValid(rag) then return end
 	local dur = stype == "extend" and extendDur or stype == "rigor" and rigorDur or flexionDur
 	dur = math_rand(dur[1], dur[2])
-	
+
 	rag.spasm, rag.spasmType, rag.spasmDur, rag.spasmForce = true, stype, dur, FORCE
 	rag.spasmEnd, rag.spasmStart = CurTime() + dur, CurTime()
-	
+
 	if stype == "rigor" then
 		rag.rigorActive = true
 	end
-	--rag:EmitSound("physics/body/body_medium_break" .. math_random(2, 4) .. ".wav", 60, math_random(70, 90), 0.4)
 end
 
 hg.applySpasm = applySpasm
@@ -79,7 +78,7 @@ local function processExtend(rag, fade)
 	local pelvis = rag:LookupBone("ValveBiped.Bip01_Pelvis")
 	if not pelvis then return end
 	local pelvisPos = rag:GetBonePosition(pelvis)
-	
+
 	for name in pairs(extendBones) do
 		local bone = rag:LookupBone(name)
 		if not bone then continue end
@@ -93,13 +92,12 @@ end
 local function processRigor(rag, fade)
 	if not rag.rigorActive then return end
 	local damp = RIGOR_DAMP * fade + 0.5
-	
+
 	for i = 1, #rigorBones do
 		local bone = rag:LookupBone(rigorBones[i])
 		if not bone then continue end
 		local phys = rag:GetPhysicsObjectNum(rag:TranslateBoneToPhysBone(bone))
 		if not IsValid(phys) then continue end
-		--phys:SetDamping(damp, damp * 2)
 		if fade > 0.3 then phys:ApplyForceCenter(VectorRand(-45, 45) * fade) end
 	end
 end
@@ -120,13 +118,13 @@ end
 --;; when furfag
 local function applyFencingToPlayer(ply, org)
 	if not IsValid(ply) or not ply:Alive() then return end
-	if org.fencing then return end 
-	
-	local dur = math_rand(3, 8) 
+	if org.fencing then return end
+
+	local dur = math_rand(3, 8)
 	org.fencing = true
 	org.fencingEnd = CurTime() + dur
 	org.fencingDur = dur
-	
+
 
 	if ply.FakeRagdoll and IsValid(ply.FakeRagdoll) then
 		local rag = ply.FakeRagdoll
@@ -155,7 +153,7 @@ local function processFencing(rag, fade)
 			phys:ApplyForceCenter((dir * force * d[3] * pulse) + VectorRand(-15, 15) * fade)
 		end
 	end
-	
+
 	if org.spine2 < hg.organism.fake_spine2 and org.spine3 < hg.organism.fake_spine3 and org.spine1 < hg.organism.fake_spine1 then
 		for i = 1, #fencingLegBones do
 			local d = fencingLegBones[i]
@@ -203,12 +201,12 @@ hook.Add("RagdollDeath", "BrainfuckStart", function(ply, rag)
 		local org = ply.organism
 		if not org then return end
 		if rag.noHead or org.noHead or ply.noHead then return end
-		
+
 		local hadBrainDamage = org.brain and org.brain > 0
 		local hadSkullDamage = org.skull and org.skull > 0
 		local hadHeadDamage = org.dmgstack and org.dmgstack[HITGROUP_HEAD] and (org.dmgstack[HITGROUP_HEAD][1] or 0) > 0
 		local headshot = hadBrainDamage or hadSkullDamage or hadHeadDamage
-		
+
 		if headshot and math_random() < CHANCE then
 			local stype = "rigor"--getRandomSpasm()
 			applySpasm(rag, stype)
@@ -220,7 +218,7 @@ end)
 hook.Add("Org Think", "BrainfuckThink", function(owner)
 	if not IsValid(owner) then return end
 	local org = owner.organism or owner
-	
+
 	if org.fencing and org.fencingEnd then
 		local rag = owner.FakeRagdoll
 		if IsValid(rag) then
@@ -233,7 +231,7 @@ hook.Add("Org Think", "BrainfuckThink", function(owner)
 			end
 		end
 	end
-	
+
 	local deathRag = owner.FakeRagdoll
 	if IsValid(deathRag) and deathRag.spasm and deathRag.spasmEnd then
 		if CurTime() > deathRag.spasmEnd then
@@ -251,7 +249,7 @@ end)
 
 hook.Add("Org Clear", "BrainfuckClear", function(org)
 	if not org or not org.owner then return end
-	if IsValid(org.owner) then 
+	if IsValid(org.owner) then
 		clearSpasm(org.owner)
 		clearFencing(org.owner)
 	end

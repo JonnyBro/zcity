@@ -27,24 +27,12 @@ function ENT:Explode()
     hg.EmitAISound(SelfPos, 512, 16, 1)
 
 
-    --[[net.Start("projectileFarSound")
-        net.WriteString(self.SoundMain)
-        net.WriteString(self.SoundFar)
-        net.WriteVector(SelfPos)
-        net.WriteEntity(self)
-        net.WriteBool(self:WaterLevel() > 0)
-        net.WriteString("")
-    net.Broadcast()--]]
-    
-    --self:EmitSound(self.SoundMain, 100, 100, 1, CHAN_WEAPON)
-    --self:EmitSound(self.SoundFar, 140, 100, 1, CHAN_WEAPON)
-    
     timer.Simple(0.05, function()
         if IsValid(self) then
             self:EmitSound(table.Random(self.SoundBass), 150, 70, 0.95, CHAN_AUTO)
         end
     end)
-    
+
     timer.Simple(0.1, function()
         if IsValid(self) then
             self:EmitSound(table.Random(self.SoundBass), 155, 60, 0.9, CHAN_BODY)
@@ -55,10 +43,8 @@ function ENT:Explode()
     EmitSound(self.SoundMain, SelfPos, self:EntIndex() + 101, CHAN_STATIC, 1, 70, nil, 100)
     EmitSound(self.SoundMain, SelfPos, self:EntIndex() + 102, CHAN_STATIC, 1, 70, nil, 100)
     EmitSound(self.SoundFar, SelfPos, self:EntIndex() + 103, CHAN_STATIC, 1, 140, nil, 100)
-    
+
     EmitSound("snd_jack_fireworkpop5.wav", SelfPos, self:EntIndex() + 200, CHAN_VOICE, 1, 150, nil, math.random(100, 110))
-    
-    --util.BlastDamage(self, self.owner, SelfPos, self.BlastDis / 0.01905, 5)
 
     for _, ply in ipairs(ents.FindInSphere(SelfPos, 700)) do
         if not ply:IsPlayer() or not ply:Alive() then continue end
@@ -74,7 +60,7 @@ function ENT:Explode()
         if tr.Hit then continue end
 
         local distance = ply:GetPos():Distance(SelfPos)
-        local org = ply.organism  
+        local org = ply.organism
 
         if distance <= burnDamageRadius then
             local dmginfo = DamageInfo()
@@ -85,7 +71,7 @@ function ENT:Explode()
             if IsValid(self.Owner) then
                 dmginfo:SetAttacker(self.Owner)
             else
-                dmginfo:SetAttacker(self)  
+                dmginfo:SetAttacker(self)
             end
 
             ply:TakeDamageInfo(dmginfo)
@@ -99,7 +85,7 @@ function ENT:Explode()
             if IsValid(self.Owner) then
                 dmginfo:SetAttacker(self.Owner)
             else
-                dmginfo:SetAttacker(self)  
+                dmginfo:SetAttacker(self)
             end
 
             ply:TakeDamageInfo(dmginfo)
@@ -109,7 +95,6 @@ function ENT:Explode()
             if org then
                 hg.ExplosionDisorientation(org.owner, 5, 6)
 				hg.RunZManipAnim(org.owner, "shieldexplosion")
-                //org.owner:ViewPunch(Angle(0, 0, org.owner:GetAimVector():Dot((SelfPos - org.owner:EyePos()):GetNormalized()) * 55))
             end
         end
     end

@@ -147,10 +147,6 @@ function PANEL:Paint(w, h)
 	surface.SetDrawColor(43, 31, 31, 100)
 	surface.DrawRect(0, 0, w, h)
 
-	-- surface.SetDrawColor(137, 137, 137, 150)
-	-- surface.SetMaterial(gradient_l)
-	-- surface.DrawTexturedRect(0, 0, w * 0.9, h)
-
 	for k, v in ipairs(self.droppedCharacters) do
 		local text = v.text
 
@@ -202,16 +198,9 @@ function PANEL:OnValueChange(text)
 				data.text = v
 
 				surface.SetFont("zChatFont")
-				-- local tw1 = surface.GetTextSize(text)
 				local tw2 = surface.GetTextSize(v)
 
 				data.x = tw2 * (self:GetCaretPos())
-
-				-- local panelWide = self:GetWide()
-
-				-- if data.x > panelWide then
-				-- 	data.x = data.x - (data.x - panelWide)
-				-- end
 
 				data.y = 8
 
@@ -254,8 +243,6 @@ function PANEL:Init()
 
 	self.entry = entryPanel:Add("zChatboxEntry")
 	self.entry:Dock(FILL)
-	-- self.entry.OnValueChange = ix.util.Bind(self, self.OnTextChanged)
-	-- self.entry.OnKeyCodeTyped = ix.util.Bind(self, self.OnKeyCodeTyped)
 	self.entry.OnEnter = CallbackBind(self, self.OnMessageSent)
 
 	self.history = self:Add("DScrollPanel")

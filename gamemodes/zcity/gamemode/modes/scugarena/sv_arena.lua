@@ -22,7 +22,7 @@ function MODE:Intermission()
 		if ply:Team() == TEAM_SPECTATOR then
 			continue
 		end
-		
+
 		ply:SetPlayerClass("Slugcat")
 		ply:SetupTeam(0)
 	end

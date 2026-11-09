@@ -13,7 +13,7 @@ ZC_ARMOR_SLOT_TORSO = 8
     ZC_ARMOR_SLOT_UPPERARM_L = 9
         ZC_ARMOR_SLOT_FOREARM_L = 10
     ZC_ARMOR_SLOT_UPPERARM_R = 11
-        ZC_ARMOR_SLOT_FOREARM_R = 12  
+        ZC_ARMOR_SLOT_FOREARM_R = 12
 
 ZC_ARMOR_SLOT_BELLY = 13
 
@@ -96,14 +96,12 @@ if CLIENT then
         if mdl2:GetModel() != self.Overlay.Model then
             mdl2:SetModel(self.Overlay.Model)
         end
-        
+
         if setMat and !mdl.matseted1 then
             mdl:SetSubMaterial(0,setMat)
             mdl.matseted = false
             mdl.matseted1 = true
-            --print('huy')
         elseif !setMat and !mdl.matseted then
-            --print("huy")
             mdl:SetSubMaterial(0,nil)
             mdl.matseted = true
             mdl.matseted1 = false
@@ -112,13 +110,12 @@ if CLIENT then
         local gp = false
         local view = render.GetViewSetup()
         cam.Start3D(view.origin,view.angles,view.fov + fFov,nil,nil,nil,nil,1,10)
-            --cam.IgnoreZ(true)
             local viewpunching = GetViewPunchAngles() / 2
             viewpunching.r = 0
             local ang = view.angles + viewpunching
             mdl:SetRenderOrigin(view.origin + ang:Forward() * (vecAdjust.x + (gp and vecAdjust2.x or 0)) + ang:Right() * (vecAdjust.y + (gp and vecAdjust2.y or 0)) + ang:Up() * (vecAdjust.z + (gp and vecAdjust2.z or 0)))
             mdl2:SetRenderOrigin(view.origin + ang:Forward() * (vecAdjust.x + (gp and vecAdjust2.x or 0)) + ang:Right() * (vecAdjust.y + (gp and vecAdjust2.y or 0)) + ang:Up() * (vecAdjust.z + (gp and vecAdjust2.z or 0)))
-            
+
             if self.Overlay.AngAdjust then
                 ang:RotateAroundAxis(ang:Right(), self.Overlay.AngAdjust[1] )
                 ang:RotateAroundAxis(ang:Forward(), self.Overlay.AngAdjust[2] )
@@ -159,21 +156,20 @@ if CLIENT then
                 -- Let everything render normally again
                 render.SetStencilEnable( false )
             render.SetColorModulation(1,1,1)
-            --cam.IgnoreZ(false)
         cam.End3D()
     end
-    
+
     hg.DrawFirstPersonHelmet = DrawFirstPersonHelmet
 
     hook.Add("Post Pre Post Processing", "renderEquipmentOverlay", function()
         local Overlay = lply:GetEquipmentBySlot(ZC_ARMOR_SLOT_HEAD)
-        
+
         if lply:IsLocal() then return end
-        if IsValid(Overlay) then 
+        if IsValid(Overlay) then
             Overlay:DrawOverlay(lply)
         end
         Overlay = IsValid(lply:GetEquipmentBySlot(ZC_ARMOR_SLOT_EYES)) and lply:GetEquipmentBySlot(ZC_ARMOR_SLOT_EYES) or Overlay
-        if IsValid(Overlay) then 
+        if IsValid(Overlay) then
             Overlay:DrawOverlay(lply)
         end
     end)
@@ -186,7 +182,7 @@ local function ArmorEffect(placement, armor, dmgInfo, org, hit, prot)
 	local dir = -dmgInfo:GetDamageForce()
 	dir:Normalize()
 	local effdata = EffectData()
-	
+
 	effdata:SetOrigin((hit and isvector(hit) and hit or dmgInfo:GetDamagePosition()) - dir)
 	effdata:SetNormal(dir)
 	effdata:SetMagnitude(0.25)
@@ -203,19 +199,6 @@ local function ArmorEffect(placement, armor, dmgInfo, org, hit, prot)
 end
 
 --\\ Armor balistic settings
-    --[[
-        ENT.HitBoxSet = "TestVest"
-        ENT.Protection = 10
-        ENT.ProtectionDamageMul = 0.6
-        ENT.PenetratedDamageMul = 0.8
-
-        ENT.BalisticMaterial = ZC_ARMOR_MATERIAL_KEVLAR -- actually this is just a mul of degradation armor
-        ENT.Durability = 100
-        ENT.DurabilityMax = 100
-        ENT.DurabilityWarranty = 15
-
-        ENT.NeedPunch = false
-    --]]
 --//
 local developer = GetConVar("developer")
 local function protec(org, bone, dmg, dmgInfo, placement, boneindex, dir, hit, ricochet, hitbox, oldOrgan)
@@ -238,7 +221,7 @@ local function protec(org, bone, dmg, dmgInfo, placement, boneindex, dir, hit, r
 	if plate.NeedPunch then
 		if org.owner:IsPlayer() and org.alive and dmgInfo:IsDamageType(DMG_BUCKSHOT + DMG_BULLET) then
 			org.owner:ViewPunch(AngleRand(-30, 30))
-			
+
 			org.owner:EmitSound("homigrad/physics/shield/bullet_hit_shield_0"..math.random(7)..".wav", 80, math.random(95, 105))
 
 			org.owner:AddTinnitus(3, true)
@@ -251,10 +234,9 @@ local function protec(org, bone, dmg, dmgInfo, placement, boneindex, dir, hit, r
 			hg.ExplosionDisorientation(org.owner, 6, 6)
 
 			hg.organism.input_list.spine3(org, bone, (dmg/100) * math.Rand(0,0.1), dmgInfo)
-			--org.spine3 = org.spine3 + math.Rand(0.05,1) * dmg / 5
 		end
 	end
-	
+
 	ArmorEffect(placement, plate, dmgInfo, org, hit, prot)
 
     local oldDurability = plate.Durability
@@ -299,7 +281,7 @@ local function protec(org, bone, dmg, dmgInfo, placement, boneindex, dir, hit, r
         end
 		return
 	end
-    
+
     if not org.oldDmgInfo or (org.oldDmgInfo != dmgInfo) or armor.SideLinks and !armor.nodamagetypeChange then
         dmgInfo:SetDamageType(DMG_CLUB)
         dmgInfo:SetDamageForce(dmgInfo:GetDamageForce() * protectionDamageMul)
@@ -320,7 +302,7 @@ function hg.organism:AddArmorInputList(strName, nPlacement)
 end
 
 load_from_armor_file = false
-local function loadArmor() 
+local function loadArmor()
     local path = "homigrad/equipment_system/entities/"
     local files = file.Find(path.."*.lua", "LUA")
     for k,v in ipairs(files) do
@@ -330,16 +312,16 @@ local function loadArmor()
     end
 end
 
-hook.Add("HG_BaseHitBoxSetLoaded","LoadArmor",function() 
-    load_from_armor_file = true 
-    loadArmor() 
+hook.Add("HG_BaseHitBoxSetLoaded","LoadArmor",function()
+    load_from_armor_file = true
+    loadArmor()
 end)
 
 hook.Add("Initialize", "init-atts", loadArmor)
 
 hook.Add("Think","RemoveMeLoadArmor",function()
     hook.Remove("Think","RemoveMeLoadArmor")
-    if !HG_BaseHitBoxSetLoaded then return end 
+    if !HG_BaseHitBoxSetLoaded then return end
     loadArmor()
 end)
 

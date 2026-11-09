@@ -21,11 +21,7 @@ function PLUGIN:CreateItem( uid, strName, strModel, strBodyGroups, iSkin, vecPos
     }
 end
 
---PLUGIN:CreateItem("test_item_1","TEST ITEM","models/dav0r/hoverball.mdl",Vector(0,0,0),100)
---PLUGIN:CreateItem("hat","TEST ITEM","models/dav0r/hoverball.mdl",Vector(0,0,0),100)
-
 if SERVER then
-    --Player(2):PS_AddItem( "test_item_1" )
 end
 
 if CLIENT then
@@ -33,7 +29,6 @@ if CLIENT then
 
     net.Receive("hg_pointshop_net",function()
         LocalPlayer().PS_MyItensens = net.ReadTable()
-        --print(callbacks[#callbacks])
         if callbacks[#callbacks] then
             callbacks[#callbacks](LocalPlayer().PS_MyItensens)
             callbacks[#callbacks] = nil
@@ -49,7 +44,7 @@ if CLIENT then
         if callback then
             callbacks[#callbacks + 1] = callback
         end
-    end 
+    end
 
     local plyMeta = FindMetaTable("Player")
 

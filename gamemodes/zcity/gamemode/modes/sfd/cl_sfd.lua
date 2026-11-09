@@ -5,7 +5,6 @@ local MODE = MODE
 
 local radius = nil
 local mapsize = 7500
--- MODE.MapSize = mapsize
 
 StartTime = StartTime or 0
 
@@ -49,11 +48,11 @@ local function restartMusic()
 		dmmusic:Stop()
 		dmmusic = nil
 	end
-	
+
 	sound.PlayURL(snd, "mono noblock noplay", function(station, errID, err)
 		if IsValid(station) then
 			station:SetVolume(0.1)
-			
+
 			dmmusic = station
 		else
 			print(errID, err)
@@ -61,16 +60,15 @@ local function restartMusic()
 	end)
 end
 
-net.Receive("supfight_start",function()	
+net.Receive("supfight_start",function()
 	roundend = false
 
 	restartMusic()
 
 	zb.RemoveFade()
-	
+
     StartTime = CurTime()
 	ZonePos = net.ReadVector()
-    --surface.PlaySound("snd_jack_hmcd_deathmatch.mp3")
 end)
 
 local fighter = {
@@ -79,26 +77,19 @@ local fighter = {
     color1 = Color(0,120,190)
 }
 
---local zonemodel = ClientsideModel("models/hunter/misc/sphere375x375.mdl",RENDERGROUP_TRANSLUCENT)
---zonemodel:SetNoDraw(true)
---zonemodel:SetMaterial("hmcd_dmzone")
-
 local mat = Material("hmcd_dmzone")
 
 local mapsize = 7500
 
 function MODE:PostDrawTranslucentRenderables(bDepth, bSkybox, isDraw3DSkybox)
 	if(!bSkybox and !isDraw3DSkybox)then
-		--render.SetMaterial(mat)
-		--render.DrawSphere( ZonePos, -(mapsize * math.max(( (zb.ROUND_START + 300) - CurTime()) / 300,0.025)), 60, 60, color_white )
 	end
-	--zonemodel:DrawModel()
 end
 
 function MODE:RenderScreenspaceEffects()
-	
+
     if zb.ROUND_START + 7.5 < CurTime() then return end
-	
+
     local fade = math.Clamp(zb.ROUND_START + 7.5 - CurTime(),0,1)
 
     surface.SetDrawColor(0,0,0,255 * fade)
@@ -119,7 +110,7 @@ function MODE:HUDPaint()
 
 			if dmmusic:GetState() != GMOD_CHANNEL_PLAYING then
 				dmmusic:Play()
-				
+
 				return
 			end
 
@@ -131,7 +122,7 @@ function MODE:HUDPaint()
 			dmmusic:SetVolume(vol*musicVolume)
 		end
 	end
-	
+
 	for i, ply in player.Iterator() do
 		if ply == LocalPlayer() or not ply:Alive() then continue end
 		local tr = hg.eyeTrace(ply)
@@ -146,22 +137,21 @@ function MODE:HUDPaint()
 		surface.DrawRect(posscr.x - width / 2, posscr.y - height, width, height)
 		surface.SetDrawColor(255 * (1 - health),255 * health,0,255)
 		surface.DrawRect(posscr.x - width / 2, posscr.y - height, width * health, height)
-		
+
 		surface.SetTextColor(255,255,255,255)
 		surface.SetFont("ScoreboardDefault")
 		local txt = ply:Name()
 		local w, h = surface.GetTextSize(txt)
 		surface.SetTextPos(posscr.x - w / 2, posscr.y - h * 1 - height)
 		surface.DrawText(txt)
-		--draw.DrawText(txt, "ScoreboardDefault", posscr.x, posscr.y - h * 1 - height, color_white, TEXT_ALIGN_CENTER )
 	end
 
-	 
+
 	if not lply:Alive() then return end
     if zb.ROUND_START + 8.5 < CurTime() then return end
 	zb.RemoveFade()
     local fade = math.Clamp(zb.ROUND_START + 8 - CurTime(),0,1)
-    
+
     draw.SimpleText("Superfighters 3D", "ZB_HomicideMediumLarge", sw * 0.5, sh * 0.1, Color(0,162,255, 255 * fade), TEXT_ALIGN_CENTER, TEXT_ALIGN_CENTER)
     local Rolename = fighter.name
 	local ColorRole = fighter.color1
@@ -184,17 +174,17 @@ net.Receive("supfight_end",function()
 		ent.won = true
 		wonply = ent
 	end
-	
+
 	roundend = CurTime()
 
 	hook.Remove("Think", "ZoneSoundThink")
-	
+
 	if(MODE.SoundStation and MODE.SoundStation:IsValid())then
 		MODE.SoundStation:Stop()
-		
+
 		MODE.SoundStation = nil
 	end
-	
+
     CreateEndMenu()
 end)
 
@@ -237,7 +227,6 @@ CreateEndMenu = function()
 
 	hmcdEndMenu:SetPos(posX,posY)
 	hmcdEndMenu:SetSize(sizeX,sizeY)
-	--hmcdEndMenu:SetBackgroundColor(colGray)
 	hmcdEndMenu:MakePopup()
 	hmcdEndMenu:SetKeyboardInputEnabled(false)
 	hmcdEndMenu:ShowCloseButton(false)
@@ -246,7 +235,7 @@ CreateEndMenu = function()
 	closebutton:SetPos(5,5)
 	closebutton:SetSize(ScrW() / 20,ScrH() / 30)
 	closebutton:SetText("")
-	
+
 	closebutton.DoClick = function()
 		if IsValid(hmcdEndMenu) then
 			hmcdEndMenu:Close()
@@ -276,7 +265,7 @@ CreateEndMenu = function()
 		surface.SetDrawColor( 255, 0, 0, 128)
         surface.DrawOutlinedRect( 0, 0, w, h, 2.5 )
 	end
-	
+
 	local DScrollPanel = vgui.Create("DScrollPanel", hmcdEndMenu)
 	DScrollPanel:SetPos(10, 80)
 	DScrollPanel:SetSize(sizeX - 20, sizeY - 90)
@@ -297,7 +286,7 @@ CreateEndMenu = function()
 		but.Paint = function(self,w,h)
 			local col1 = (ply.won and colRed) or (ply:Alive() and colBlue) or colGray
             local col2 = (ply.won and colRedUp) or (ply:Alive() and colBlueUp) or colSpect1
-			
+
 			surface.SetDrawColor(col1.r,col1.g,col1.b,col1.a)
 			surface.DrawRect(0,0,w,h)
 			surface.SetDrawColor(col2.r,col2.g,col2.b,col2.a)
@@ -306,7 +295,7 @@ CreateEndMenu = function()
             local col = ply:GetPlayerColor():ToColor()
 			surface.SetFont( "ZB_InterfaceMediumLarge" )
 			local lengthX, lengthY = surface.GetTextSize( ply:GetPlayerName() or "He quited..." )
-			
+
 			surface.SetTextColor(0,0,0,255)
 			surface.SetTextPos(w / 2 + 1,h/2 - lengthY/2 + 1)
 			surface.DrawText(ply:GetPlayerName() or "He quited...")
@@ -315,7 +304,7 @@ CreateEndMenu = function()
 			surface.SetTextPos(w / 2,h/2 - lengthY/2)
 			surface.DrawText(ply:GetPlayerName() or "He quited...")
 
-            
+
 			local col = colSpect2
 			surface.SetFont( "ZB_InterfaceMediumLarge" )
 			surface.SetTextColor(col.r,col.g,col.b,col.a)

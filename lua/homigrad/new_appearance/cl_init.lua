@@ -34,7 +34,7 @@ net.Receive("Get_Appearance", function()
 		if not forced_random then
 			tbl,reason = hg.Appearance.LoadAppearanceFile(hg.Appearance.SelectedAppearance:GetString())
 		end
-		
+
         net.WriteTable(tbl and tbl or {})
         net.WriteBool(not tbl)
     net.SendToServer()
@@ -47,7 +47,7 @@ local function OnlyGetAppearance()
     net.Start("OnlyGet_Appearance")
 		local tbl,reason
 
-		if not forced_random then 
+		if not forced_random then
 			tbl,reason = hg.Appearance.LoadAppearanceFile(hg.Appearance.SelectedAppearance:GetString())
 		end
 
@@ -87,7 +87,7 @@ function RenderAccessories(ply, accessories, setup)
 	ent = IsValid(ply.OldRagdoll) and ply.OldRagdoll:IsRagdoll() and ply.OldRagdoll or ent
 
 	islply = ((ply:IsRagdoll() and hg.RagdollOwner(ply)) or ply) == (LocalPlayer():Alive() and LocalPlayer() or LocalPlayer():GetNWEntity("spect",LocalPlayer())) and GetViewEntity() == (LocalPlayer():Alive() and LocalPlayer() or LocalPlayer():GetNWEntity("spect",LocalPlayer()))
-	
+
 	local fountains = GetNetVar("fountains") or {}
 	if ent == follow and hg_firstperson_death:GetBool() and !fountains[ent] then islply = true end
 
@@ -153,7 +153,7 @@ function DrawAccesories(ply, ent, accessories,accessData, islply, force, setup, 
 			model:AddEffects(EF_BONEMERGE)
 		end
 		if accessData["bSetColor"] then
-			if ply.GetPlayerColor then 
+			if ply.GetPlayerColor then
 				model:SetColor(ply:GetPlayerColor():ToColor())
 			else
 				model:SetColor(ply:GetNWVector("PlayerColor",Vector(1,1,1)):ToColor())
@@ -164,13 +164,13 @@ function DrawAccesories(ply, ent, accessories,accessData, islply, force, setup, 
 			model:SetSubMaterial(0,accessData["SubMat"])
 		end
 
-		ply:CallOnRemove("RemoveAccessories"..accessories,function() 
+		ply:CallOnRemove("RemoveAccessories"..accessories,function()
 			if ply.modelAccess and IsValid(model) then
 				model:Remove()
 				model = nil
 			end
 		end)
-		ent:CallOnRemove("RemoveAccessories2"..accessories,function() 
+		ent:CallOnRemove("RemoveAccessories2"..accessories,function()
 			if ply.modelAccess and IsValid(model) then
 				model:Remove()
 				model = nil
@@ -179,7 +179,6 @@ function DrawAccesories(ply, ent, accessories,accessData, islply, force, setup, 
 	end
 
 	local model = ply.modelAccess[accessories]
-	--print(ent:GetModel(),ent)
 	local mdl = string.Split(string.sub(ent:GetModel(),1,-5),"/")[#string.Split(string.sub(ent:GetModel(),1,-5),"/")]
 	if mdl and model:GetFlexIDByName(mdl) then
 		model:SetFlexWeight(model:GetFlexIDByName(mdl),1)
@@ -188,9 +187,6 @@ function DrawAccesories(ply, ent, accessories,accessData, islply, force, setup, 
 	if accessData["modelPreRenderCallback"] then
 		accessData["modelPreRenderCallback"](ply,ent,model,tAccessories)
 	end
-	--if model:GetFlexIDByName(ThatPlyIsFemale(ply) and "F" or "M") then
-	--	model:SetFlexWeight(model:GetFlexIDByName(ThatPlyIsFemale(ply) and "F" or "M"),1)
-	--end
 	model:SetSkin( isfunction(accessData["skin"]) and accessData["skin"](ent) or accessData["skin"] )
 
 	if not IsValid(model) then ply.modelAccess[accessories] = nil return end
@@ -225,8 +221,7 @@ function DrawAccesories(ply, ent, accessories,accessData, islply, force, setup, 
 
 		local pos, ang = LocalToWorld(accessData[fem and "fempos" or "malepos"][1], accessData[fem and "fempos" or "malepos"][2], bonePos, boneAng)
 		local pos = LocalToWorld(addvec, angle_zero, pos, ang)
-		
-		--model:SetupBones()
+
 		model:SetRenderOrigin(pos)
 		model:SetRenderAngles(ang)
 	end
@@ -237,9 +232,9 @@ function DrawAccesories(ply, ent, accessories,accessData, islply, force, setup, 
 			local colorDraw = accessData["vecColorOveride"] or ( ply.GetPlayerColor and ply:GetPlayerColor() or ply:GetNWVector("PlayerColor",Vector(1,1,1)) )
 			render.SetColorModulation( colorDraw[1],colorDraw[2],colorDraw[3] )
 		end
-		
+
 		model:DrawModel()
-		
+
 		if accessData["bSetColor"] then
 			render.SetColorModulation( 1, 1, 1 )
 		end
@@ -255,15 +250,15 @@ local mat3 = Material("effects/flashlight/soft")
 
 function DrawAppearance(ent, ply, setup)
     local Access = ent:GetNetVar("Accessories") or ent.PredictedAccessories
-	
+
 	if IsValid(ent) and Access then
 		RenderAccessories(ply, Access, setup)
 	end
-	
+
 	if setup then return end
-	
+
 	if not ply:IsPlayer() then return end
-	
+
 	local inv = ply:GetNetVar("Inventory",{})
 	if not inv["Weapons"] or not inv["Weapons"]["hg_flashlight"] then
 		if ply.flashlight then
@@ -335,20 +330,6 @@ function DrawAppearance(ent, ply, setup)
 			flash:SetAngles(ply.flmodel:GetAngles())
 			flash:Update()
 		end
-
-		--[[ply.dlight = DynamicLight( ply:EntIndex() )
-		if ( ply.dlight ) then
-			ply.dlight.pos = ply.flmodel:GetPos()
-			ply.dlight.r = 255
-			ply.dlight.g = 255
-			ply.dlight.b = 255
-			ply.dlight.brightness = -3
-			ply.dlight.decay = 400
-			ply.dlight.size = 100
-			ply.dlight.dietime = CurTime() + 0.1
-		else
-			ply.dlight = DynamicLight( ply:EntIndex() )
-		end--]]
 
 		local view = render.GetViewSetup(true)
 		local deg = ply.flmodel:GetAngles():Forward():Dot(view.angles:Forward())

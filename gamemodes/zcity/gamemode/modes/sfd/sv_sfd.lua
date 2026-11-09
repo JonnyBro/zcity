@@ -13,7 +13,6 @@ MODE.Chance = 0.04
 
 local radius = nil
 local mapsize = 7500
--- MODE.MapSize = mapsize
 
 util.AddNetworkString("supfight_start")
 util.AddNetworkString("supfight_end")
@@ -29,7 +28,7 @@ function MODE:Intermission()
 		if ply:Team() == TEAM_SPECTATOR then
 			continue
 		end
-		
+
 		ApplyAppearance(ply)
 		ply:SetupTeam(0)
 	end

@@ -42,7 +42,7 @@ local function FindPotentialBases()
 			MsgC( Color( 255, 0, 255 ), "\n\tAddon: " .. addon.title .. "\n" )
 			MsgC( Color( 255, 0, 255 ), "\tLink: https://steamcommunity.com/sharedfiles/filedetails/?id=" .. addon.wsid .. "\n" )
 			return true
-		end 
+		end
 	end
 
 	return false

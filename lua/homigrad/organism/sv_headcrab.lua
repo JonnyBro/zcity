@@ -3,16 +3,11 @@ local PLAYER = FindMetaTable("Player")
 util.AddNetworkString("hg_headcrab")
 function PLAYER:AddHeadcrab(headcrab)
 	if self.PlayerClassName == "headcrabzombie" then return end
-    --self.organism.headcrabon = headcrab
     self:SetNetVar("headcrab",headcrab)
-   
+
     self.organism.headcrabon = headcrab and CurTime()
 	self.organism.headcrabevent = false
 
-    --[[net.Start("hg_headcrab")
-    net.WriteEntity(self)
-    net.WriteString(headcrab)
-    net.Broadcast()--]]
 end
 
 hook.Add("RagdollDeath","headcrab",function(ply,rag)

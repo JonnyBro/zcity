@@ -10,8 +10,5 @@ ENT.Penetration = 7.5
 ENT.playedSound = false
 function ENT:AddThink()
 	if not self.timer or not self.timeToBoom or self.playedSound then return end
-	--if (CurTime() - self.timer) <= 0.25 then
-		//self:EmitSound("m9/m9_fp.wav", 80)
 		self.playedSound = true
-	--end
 end

@@ -3,7 +3,7 @@
 
     Once a modifier is set on a entity, the server sends it's
     data to be processed here.
-    
+
     Our job is to apply the modifier data to the target entity,
     as long as the modifier is active.
 ]]
@@ -11,7 +11,7 @@
 Glide.syncedModifierRegistry = Glide.syncedModifierRegistry or {}
 local syncedModifierRegistry = Glide.syncedModifierRegistry
 
---- 
+---
 --- Register a receiver for synchronized modifier data coming from the server.
 ---
 --- `onApply` will be called when the target entity with the

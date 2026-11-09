@@ -2,9 +2,6 @@
 
 ----
 local PANEL = {}
---[[
-hg.VGUI.SecondaryColor = Color(155,0,0,240)
-hg.VGUI.BackgroundColor = Color(25,25,35,220)]]
 local color_blacky = Color(25,25,30,220)
 local color_reddy = Color(155,0,0,240)
 
@@ -67,9 +64,9 @@ function PANEL:Close()
     self.Closing = true
     self:MoveTo(self:GetX(), ScrH() / 2 + self:GetTall(), 5, 0, 0.3, function()
     end)
-    self:AlphaTo( 0, 0.2, 0, function() 
-        if self.OnClose then self:OnClose() end 
-        self:Remove() 
+    self:AlphaTo( 0, 0.2, 0, function()
+        if self.OnClose then self:OnClose() end
+        self:Remove()
     end)
     self:SetKeyboardInputEnabled(false)
     self:SetMouseInputEnabled(false)

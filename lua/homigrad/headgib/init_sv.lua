@@ -5,14 +5,12 @@ local vecInf = Vector(0,0,0) / 0
 
 local function removeBone(rag, bone, phys_bone, nohuys)
 	if !nohuys then rag:ManipulateBoneScale(bone, vecZero) end
-	--rag:ManipulateBonePosition(bone,vecInf) -- Thanks Rama (only works on certain graphics cards!)
 
 	if rag.gibRemove[phys_bone] then return end
 
 	local phys_obj = rag:GetPhysicsObjectNum(phys_bone)
 	phys_obj:EnableCollisions(false)
 	phys_obj:SetMass(0.1)
-	--rag:RemoveInternalConstraint(phys_bone)
 
 	constraint.RemoveAll(phys_obj)
 	rag.gibRemove[phys_bone] = phys_obj
@@ -49,31 +47,6 @@ local function PhysCallback( ent, data )
 	--data.HitPos -- data.HitNormal
 	if data.DeltaTime < 0.2 then return end
 	ent:EmitSound("physics/flesh/flesh_squishy_impact_hard"..math.random(4)..".wav")
-	-- if !data.HitEntity:IsPlayer() and !data.HitEntity:IsRagdoll() and math.abs(data.HitNormal.z) < 0.75 then
-	-- 	ent:SetMoveType(MOVETYPE_NONE)
-	-- 	ent:SetSolid(SOLID_NONE)
-
-	-- 	local tr = util.QuickTrace(data.HitPos - data.HitNormal * 1, data.HitNormal)
-	-- 	ent:SetPos(tr.HitPos)
-	-- 	local entindex = ent:EntIndex()
-	-- 	local speed = math.Rand(0.2,0.4)
-	-- 	local randspeed = math.Rand(-0.3,0.3)
-	-- 	local needDecal = CurTime() + 1
-	-- 	ent:SetModelScale(0, 10)
-	-- 	SafeRemoveEntityDelayed(ent, 10)
-	-- 	timer.Create("meatMove"..entindex, 0.1, 0, function()
-	-- 		if !IsValid(ent) then timer.Remove("meatMove"..entindex) return end
-	-- 		local tr = util.QuickTrace(ent:GetPos(), -data.HitNormal:Angle():Up())
-	-- 		if math.abs(tr.HitNormal.z) > 0.75 then timer.Remove("meatMove"..entindex) return end
-	-- 		local ang = data.HitNormal:Angle()
-	-- 		ent:SetPos(ent:GetPos() - ang:Up() * speed + ang:Right() * randspeed)
-	-- 		randspeed = LerpFT(0.05,randspeed, 0)
-	-- 		if needDecal < CurTime() then
-	-- 			needDecal = CurTime() + math.Rand(1,3)
-	-- 			util.Decal("Normal.Blood24", ent:GetPos() - data.HitNormal * 1, ent:GetPos() + data.HitNormal * 1, ent)
-	-- 		end
-	-- 	end)
-	-- end
 
 	util.Decal("Normal.Blood24", data.HitPos - data.HitNormal * 1, data.HitPos + data.HitNormal * 1, ent)
 end
@@ -132,7 +105,7 @@ for _, snd in ipairs(sounds) do
 end
 function Gib_Input(rag, bone, force)
 	if not IsValid(rag) then return end
-	
+
 	local gibRemove = rag.gibRemove
 
 	if not gibRemove then
@@ -144,17 +117,12 @@ function Gib_Input(rag, bone, force)
 
 	local phys_bone = rag:TranslateBoneToPhysBone(bone)
 	local phys_obj = rag:GetPhysicsObjectNum(phys_bone)
-	
+
 	if (not gibRemove[phys_bone]) and (bone == rag:LookupBone("ValveBiped.Bip01_Head1")) then
-		--sound.Emit(rag,"player/headshot" .. math.random(1, 2) .. ".wav")
-		--sound.Emit(rag,"physics/flesh/flesh_squishy_impact_hard" .. math.random(2, 4) .. ".wav")
-		--sound.Emit(rag,"physics/body/body_medium_break3.wav")
-		--sound.Emit(rag,"physics/glass/glass_sheet_step" .. math.random(1,4) .. ".wav", 90, 50, 2)
 		rag:EmitSound(sounds[math.random(#sounds)], 70, math.random(95, 105), 2)
 
 		Gib_RemoveBone(rag, bone, phys_bone)
-		
-		--rag:ManipulateBoneScale(rag:LookupBone("ValveBiped.Bip01_Neck1"),vecZero)
+
 		rag:ManipulateBonePosition(rag:LookupBone("ValveBiped.Bip01_Neck1"),Vector(-1,0,0))
 
 		local ent = ents_Create("prop_dynamic")
@@ -163,7 +131,6 @@ function Gib_Input(rag, bone, force)
 		local pos, ang = LocalToWorld(ThatPlyIsFemale(rag) and headpos_female or headpos_male, headang, att.Pos, att.Ang)
 		ent:SetPos(pos)
 		ent:SetAngles(ang)
-		--ent:AddEffects(EF_FOLLOWBONE)
 		ent:SetParent(rag, 3)--rag:LookupBone("ValveBiped.Bip01_Head1"))
 		ent:Spawn()
 
@@ -175,7 +142,7 @@ function Gib_Input(rag, bone, force)
 			local ent = hg.DropArmorForce(rag, armors["head"])
 			ent:SetPos(phys_obj:GetPos())
 		end
-		
+
 		if armors["face"] and !hg.armor["face"][armors["face"]].nodrop then
 			local ent = hg.DropArmorForce(rag, armors["face"])
 			ent:SetPos(phys_obj:GetPos())

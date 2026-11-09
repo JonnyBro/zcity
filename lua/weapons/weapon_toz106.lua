@@ -83,7 +83,7 @@ if CLIENT then
 				hg.CreateMag( self, Vector(0,0,-50), "111111")
 				self:GetWM():ManipulateBoneScale(67, vecPochtiZero)
 
-			end 
+			end
 		end,
 		[0.6] = function( self, timeMul )
 			if self:Clip1() < 1 then
@@ -265,10 +265,7 @@ SWEP.GunCamAng = Angle(190,-5,-95)
 SWEP.FakeEjectBrassATT = "4"
 
 function SWEP:Reload(time)
-	--PrintTable(self:GetWM():GetAttachments())
-	--print(self:GetNetVar("shootgunReload",0))
 	local ply = self:GetOwner()
-	--if ply.organism and (ply.organism.larmamputated or ply.organism.rarmamputated) then return end
 	if self.AnimStart_Draw > CurTime() - 0.5 then return end
 	if not self:CanUse() then return end
 	if self.reloadCoolDown > CurTime() then return end
@@ -308,9 +305,7 @@ function SWEP:Reload(time)
 end
 
 function SWEP:ReloadEnd()
-	--if not self.CustomAmmoInsertEvent then
 	self:InsertAmmo(self:GetMaxClip1() - self:Clip1() + (self.drawBullet ~= nil and not self.OpenBolt and 1 or 0))
-	--end
 	self.ReloadNext = CurTime() + self.ReloadCooldown --я хуй знает чо это
 	if CLIENT and self.drawBullet == nil then
 		self.noeject = true

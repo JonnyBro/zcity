@@ -44,25 +44,19 @@ SWEP.FakeReloadSounds = {
 	[0.17] = "weapons/universal/uni_pistol_draw_01.wav",
 	[0.22] = "weapons/tfa_ins2/usp_tactical/magrelease.wav",
 	[0.3] = "weapons/tfa_ins2/usp_tactical/magout.wav",
-	--[0.37] = "weapons/m4a1/m4a1_magrelease.wav",
-	--[0.5] = "weapons/universal/uni_pistol_draw_01.wav",
 	[0.45] = "weapons/universal/uni_crawl_l_03.wav",
 	[0.7] = "zcitysnd/sound/weapons/m9/handling/m9_magin.wav",
 	[0.8] = "zcitysnd/sound/weapons/m9/handling/m9_maghit.wav",
-	--[0.85] = "weapons/m45/m45_boltback.wav",
-	--[0.92] = "weapons/m45/m45_boltrelease.wav",
 }
 
 SWEP.FakeEmptyReloadSounds = {
 	[0.16] = "weapons/universal/uni_crawl_l_03.wav",
 	[0.22] = "weapons/tfa_ins2/usp_tactical/magrelease.wav",
 	[0.3] = "weapons/tfa_ins2/usp_tactical/magout.wav",
-	--[0.37] = "weapons/m4a1/m4a1_magrelease.wav",
 	[0.37] = "weapons/universal/uni_pistol_draw_01.wav",
 	[0.6] = "zcitysnd/sound/weapons/m9/handling/m9_magin.wav",
 	[0.65] = "zcitysnd/sound/weapons/m9/handling/m9_maghit.wav",
 	[0.85] = "weapons/m45/m45_boltrelease.wav",
-	--[0.92] = "weapons/m45/m45_boltrelease.wav",
 }
 SWEP.lmagpos = Vector(1.8,0,-0.3)
 SWEP.lmagang = Angle(-10,0,0)
@@ -118,8 +112,6 @@ SWEP.WepSelectIcon2 = Material("vgui/hud/tfa_ins2_glock_p80.png")
 SWEP.IconOverride = "entities/weapon_pwb_glock17.png"
 
 SWEP.CustomShell = "9x19"
---SWEP.EjectPos = Vector(0,0,2)
---SWEP.EjectAng = Angle(-45,-80,0)
 
 SWEP.weight = 1
 
@@ -157,7 +149,6 @@ SWEP.DeploySnd = {"homigrad/weapons/draw_pistol.mp3", 55, 100, 110}
 SWEP.HolsterSnd = {"homigrad/weapons/holster_pistol.mp3", 55, 100, 110}
 SWEP.HoldType = "revolver"
 SWEP.ZoomPos = Vector(-26, 0.0178, 1.6966)
---SWEP.RHandPos = Vector(-13.5,0,4)
 SWEP.RHandPos = Vector(-4, 0, -3)
 SWEP.LHandPos = false
 SWEP.SprayRand = {Angle(-0.03, -0.03, 0), Angle(-0.05, 0.03, 0)}
@@ -166,8 +157,6 @@ SWEP.Penetration = 7
 
 SWEP.punchmul = 1.5
 SWEP.punchspeed = 3
---SWEP.WorldPos = Vector(13,0,3.5)
---SWEP.WorldAng = Angle(0,0,0)
 SWEP.WorldPos = Vector(2.9, -1.2, -2.8)
 SWEP.WorldAng = Angle(0, 0, 0)
 SWEP.UseCustomWorldModel = true
@@ -207,7 +196,7 @@ SWEP.availableAttachments = {
 		}
 	},
 	grip = {
-		["mount"] = Vector(15, 1.2, 0.1), 
+		["mount"] = Vector(15, 1.2, 0.1),
 		["mountType"] = "picatinny"
 	}
 }
@@ -228,7 +217,6 @@ function SWEP:DrawPost()
 		self.shooanim = LerpFT(0.4,self.shooanim or 0,((self:Clip1() > 0 or self.reload) and 0) or 1.8)
 		wep:ManipulateBonePosition(48,Vector(0 ,0 ,-1*self.shooanim ),false)
 		local mul = self:Clip1() > 0 and 1 or 0
-		--wep:ManipulateBoneScale(12,Vector(mul,mul,mul),false)
 	end
 end
 function SWEP:PostSetupDataTables()

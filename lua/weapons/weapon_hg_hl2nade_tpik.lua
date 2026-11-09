@@ -1,7 +1,7 @@
 ﻿if SERVER then AddCSLuaFile() end
 SWEP.Base = "weapon_hg_grenade_tpik"
 SWEP.PrintName = "Combine Frag Grenade"
-SWEP.Instructions = 
+SWEP.Instructions =
 [[The Grenade comes equipped with a red blinking light and a chirping timer that are played when the grenade is thrown, letting both the attacker and the victim know when an active grenade is in their vicinity. Most Combine Soldiers carry at least a few of these and use them to flush out and/or kill enemies.
 
 Reload looking on surface will set tripwire
@@ -52,14 +52,11 @@ SWEP.DrawAmmo = false
 SWEP.DrawCrosshair = false
 
 SWEP.AnimList = {
-    -- self:PlayAnim( anim,time,cycling,callback,reverse,sendtoclient )
 	["deploy"] = { "draw", 1, false },
     ["attack"] = { "throw", 0.6, false, false, function(self)
 
 		if CLIENT then return end
-		--local tr = self:GetEyeTrace()
-		--self:Tie(tr)
-		
+
 		self:Throw(1200, self.SpoonTime or CurTime(),nil,Vector(2,4,0),Angle(-40,0,0))
 		self.InThrowing = false
 		self.ReadyToThrow = false
@@ -81,8 +78,6 @@ SWEP.AnimList = {
 		end)
 	end, 0.65 },
 	["attack2"] = { "throw", 0.6, false, false, function(self)
-		--local tr = self:GetEyeTrace()
-		--self:Tie(tr)
 		if CLIENT then return end
 		self:Throw(600, self.SpoonTime or CurTime(),nil,Vector(0,4,-6),Angle(40,0,0))
 		self.InThrowing = false
@@ -106,13 +101,11 @@ SWEP.AnimList = {
 			self:SetShowPin(true)
 		end)
 	end, 0.6 },
-	["pullbackhigh"] = {"drawbackhigh", 0.4, false, false, function(self) 
+	["pullbackhigh"] = {"drawbackhigh", 0.4, false, false, function(self)
 		self:SetShowPin(false)
-		--self:PlayAnim("attack")
 		self.ReadyToThrow = true
 	end,0.8},
-	["pullbacklow"] = {"drawbacklow", 0.4, false, false, function(self) 
-		--self:PlayAnim("attack2")
+	["pullbacklow"] = {"drawbacklow", 0.4, false, false, function(self)
 		self:SetShowPin(false)
 		self.IsLowThrow = true
 		self.ReadyToThrow = true
@@ -125,8 +118,6 @@ SWEP.AnimsEvents = {
 	["draw"] = {
 		[0.35] = function(self)
 			self:EmitSound("weapons/m67/handling/m67_pinpull.wav",65)
-			--
-			--self:GetWM():ManipulateBoneScale(47, vector_full)
 		end,
 	},
 	["drawbacklow"] = {
@@ -165,10 +156,10 @@ function SWEP:AddStep()
     if self.SpoonTime then
         local ent = scripted_ents.Get(self.ENT)
         local time = (self.SpoonTime + self.timeToBoom) - CurTime()
-        
+
         self.nextgrenadetick = self.nextgrenadetick or CurTime()
         if self.nextgrenadetick > CurTime() then return end
-        
+
         hg.GetCurrentCharacter(self:GetOwner()):EmitSound("weapons/grenade/tick1.wav",65)
 
         self.nextgrenadetick = CurTime() + 0.5 * math.max(time / (ent.timeToBoom * 1.5),0.5)

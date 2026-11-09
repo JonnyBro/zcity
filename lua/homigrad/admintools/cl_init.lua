@@ -36,8 +36,6 @@ function hg.DermaPlayerQuery( fSelected, strName, strDesc )
         query:Close()
     end
 
-    --query:InvalidateLayout()
-    --query:SizeToChildren( true, true )
     query:Center()
     query:MakePopup()
 

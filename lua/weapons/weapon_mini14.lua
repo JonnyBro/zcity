@@ -92,7 +92,7 @@ if CLIENT then
 		[0.27] = function( self, timeMul )
 			self:GetWM():ManipulateBoneScale(49, vector_full)
 		end,
-		
+
 		[0.30] = function(self,timeMul)
 			if self:Clip1() < 1 then
 				local ent = hg.CreateMag( self, Vector(15,0,0),nil, true )
@@ -104,7 +104,6 @@ if CLIENT then
 				self:GetWM():ManipulateBoneScale(49, vector_origin)
 				self:GetWM():ManipulateBoneScale(50, vector_origin)
 				self:GetWM():ManipulateBoneScale(51, vector_origin)
-				--self:GetOwner():PullLHTowards("ValveBiped.Bip01_L_Thigh", 0.5 * timeMul)
 			end
 		end,
 		[0.45] = function(self,timeMul)

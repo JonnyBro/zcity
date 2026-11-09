@@ -8,10 +8,8 @@ SWEP.DeploySnd = {"homigrad/weapons/draw_rifle.mp3", 65, 100, 110}
 --!! fix ts shit
 function SWEP:Step_HolsterDeploy(time)
 	self.deploy = self:GetDeploy() != 0 and self:GetDeploy() or nil
-	--self.holster = self:GetHolster() != 0 and self:GetHolster() or nil
 
 	if self.deploy and self.deploy < time then if self.Deploy_End then self:Deploy_End() end end
-	--if self.holster and self.holster < time then if self.Holster_End then self:Holster_End() end end
 end
 
 function SWEP:WeaponDeployPost()
@@ -19,16 +17,7 @@ end
 
 if SERVER then return end
 
---SWEP.endedholster = false
 function SWEP:Holster(wep)
-	--[[if self.endedholster == true then
-		input.SelectWeapon(wep)
-		return true
-	end]]
-
-	--self.endedholster = false
-
-	--if self.holster ~= nil then return false end
 
 	if not IsFirstTimePredicted() then return end
 
@@ -53,8 +42,6 @@ function SWEP:Holster(wep)
 	self.holster = time + self.CooldownHolster / self.Ergonomics
 	self:SetHolster(self.holster)
 
-	--self.endedholster = true
-
 	return true
 end
 
@@ -69,11 +56,9 @@ function SWEP:Holster_End()
 		self:SetHolster(0)
 	end
 
-	--self.endedholster = false
 end
 
 function SWEP:Deploy()
-	--if not IsFirstTimePredicted() then return end
 	local time = CurTime()
 
 	if self.MagIndex and IsValid(self:GetWM()) then
@@ -81,9 +66,6 @@ function SWEP:Deploy()
 	end
 
 	if self.WorldModelFake then self:PlayAnim("idle", 1, not self.NoIdleLoop) end
-
-	--[[self.holster = nil
-	self:SetHolster(0)]]
 
 	self.deploy = time + self.CooldownDeploy / self.Ergonomics
 	self:SetDeploy(self.deploy)

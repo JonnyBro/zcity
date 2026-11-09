@@ -20,7 +20,7 @@ local INCLUDE_MODEL_END_SHARED = 806
 // "Hard code the math idiot" says the guy who doesn't realize I'm making it easier on myself to change their names or expand in the future
 // I also can't count letters, only numbers?? GENIUS. NICE ONE
 local INCLUDE_MODEL_END_MALE = INCLUDE_MODEL_END_SHARED + ( #"_male" )*2
-local INCLUDE_MODEL_END_FEMALE = INCLUDE_MODEL_END_SHARED + ( #"_female" )*2 
+local INCLUDE_MODEL_END_FEMALE = INCLUDE_MODEL_END_SHARED + ( #"_female" )*2
 local INCLUDE_MODEL_END_ZOMBIE = INCLUDE_MODEL_END_SHARED + ( #"_zombie" )*2
 
 ////////////////////////////////////////////////////////////////////////////////////////////
@@ -60,7 +60,7 @@ local function WRITE_TO_LOCAL( start, finish, type )
 		str = str .. string.char( byte )
 	end
 
-	
+
 	local endchar = str[finish]
 	local tstr = ""
 	for i=0, #str do
@@ -147,7 +147,7 @@ local function WRITE_TO_POINTER( start, finish, type )
 		str = str .. string.char( byte )
 	end
 
-	
+
 	local endchar = str[finish]
 	local tstr = ""
 	for i=0, #str do
@@ -272,7 +272,7 @@ local function AdjustMountOrder( tbl, typ )
 		for _, path in ipairs( plyblacklist ) do
 			path = wOS.DynaBase.PreservedModels[ path ] or path
 			table.RemoveByValue( tbl, path )
-		end	
+		end
 	end
 
 	// Add the ones we don't care about now
@@ -283,7 +283,7 @@ local function AdjustMountOrder( tbl, typ )
 		for _, path in ipairs( blacklist ) do
 			path = wOS.DynaBase.PreservedModels[ path ] or path
 			table.RemoveByValue( new_tbl, path )
-		end	
+		end
 	end
 
 
@@ -305,7 +305,7 @@ function wOS.DynaBase:ReloadAnimations()
 	local ntable = AdjustMountOrder( added, WOS_DYNABASE.MALE )
 	added = ntable or added
 	WRITE_TO_POINTER( INCLUDE_MODEL_START, INCLUDE_MODEL_END_MALE, WOS_DYNABASE.MALE )
-	
+
 	added = table.Copy( wOS.DynaBase.DefaultTable.Female )
 	hook.Call( "PreLoadAnimations", nil, WOS_DYNABASE.FEMALE, added )
 	ntable = AdjustMountOrder( added, WOS_DYNABASE.FEMALE )
@@ -349,7 +349,7 @@ function wOS.DynaBase:ReloadLocalAnimations( order )
 		if not mount.Toggled then continue end
 		local data = self:GetUserMount( mount.Name )
 		if not data then continue end
-		
+
 		if data.Shared and not table.HasValue( shared_tbl, data.Shared ) then
 			table.insert( shared_tbl, data.Shared )
 		end
@@ -370,7 +370,7 @@ function wOS.DynaBase:ReloadLocalAnimations( order )
 
 	added = male_tbl
 	WRITE_TO_LOCAL( INCLUDE_MODEL_START, INCLUDE_MODEL_END_MALE, WOS_DYNABASE.MALE )
-	
+
 	added = female_tbl
 	WRITE_TO_LOCAL( INCLUDE_MODEL_START, INCLUDE_MODEL_END_FEMALE, WOS_DYNABASE.FEMALE )
 

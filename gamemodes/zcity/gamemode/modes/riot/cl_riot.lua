@@ -10,7 +10,7 @@ net.Receive("riot_start", function()
 
     sound.PlayFile("sound/zbattle/riot.wav", "noplay", function(station)
         if IsValid(station) then
-            station:SetVolume(6) 
+            station:SetVolume(6)
             station:Play()
             RiotSound = station
         end
@@ -45,7 +45,7 @@ end
 
 function MODE:HUDPaint()
     if zb.ROUND_START + 8.5 < CurTime() then return end
-	 
+
 	if not lply:Alive() then return end
 	zb.RemoveFade()
     local fade = math.Clamp(zb.ROUND_START + 8 - CurTime(),0,1)
@@ -115,7 +115,6 @@ CreateEndMenu = function()
 
 	hmcdEndMenu:SetPos(posX,posY)
 	hmcdEndMenu:SetSize(sizeX,sizeY)
-	--hmcdEndMenu:SetBackgroundColor(colGray)
 	hmcdEndMenu:MakePopup()
 	hmcdEndMenu:SetKeyboardInputEnabled(false)
 	hmcdEndMenu:ShowCloseButton(false)
@@ -124,7 +123,7 @@ CreateEndMenu = function()
 	closebutton:SetPos(5,5)
 	closebutton:SetSize(ScrW() / 20,ScrH() / 30)
 	closebutton:SetText("")
-	
+
 	closebutton.DoClick = function()
 		if IsValid(hmcdEndMenu) then
 			hmcdEndMenu:Close()
@@ -183,7 +182,7 @@ CreateEndMenu = function()
             local col = ply:GetPlayerColor():ToColor()
 			surface.SetFont( "ZB_InterfaceMediumLarge" )
 			local lengthX, lengthY = surface.GetTextSize( ply:GetPlayerName() or "He quited..." )
-			
+
 			surface.SetTextColor(0,0,0,255)
 			surface.SetTextPos(w / 2 + 1,h/2 - lengthY/2 + 1)
 			surface.DrawText(ply:GetPlayerName() or "He quited...")
@@ -192,7 +191,7 @@ CreateEndMenu = function()
 			surface.SetTextPos(w / 2,h/2 - lengthY/2)
 			surface.DrawText(ply:GetPlayerName() or "He quited...")
 
-            
+
 			local col = colSpect2
 			surface.SetFont( "ZB_InterfaceMediumLarge" )
 			surface.SetTextColor(col.r,col.g,col.b,col.a)

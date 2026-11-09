@@ -31,14 +31,12 @@ local function DrawFirstPersonHelmet(ply, strModel, vecAdjust, fFov, setMat)
 	if mdl2:GetModel() != strModel then
 		mdl2:SetModel(strModel)
 	end
-	
+
 	if setMat and !mdl.matseted1 then
 		mdl:SetSubMaterial(0,setMat)
 		mdl.matseted = false
 		mdl.matseted1 = true
-		--print('huy')
 	elseif !setMat and !mdl.matseted then
-		--print("huy")
 		mdl:SetSubMaterial(0,nil)
 		mdl.matseted = true
 		mdl.matseted1 = false
@@ -47,7 +45,6 @@ local function DrawFirstPersonHelmet(ply, strModel, vecAdjust, fFov, setMat)
 	local gp = hg_gopro:GetBool()
 	local view = render.GetViewSetup()
 	cam.Start3D(view.origin,view.angles,view.fov + fFov,nil,nil,nil,nil,1,10)
-		--cam.IgnoreZ(true)
 		local viewpunching = GetViewPunchAngles() / 2
 		local ang = view.angles + viewpunching
 		mdl:SetRenderOrigin(view.origin + ang:Forward() * (vecAdjust.x + (gp and vecAdjust2.x or 0)) + ang:Right() * (vecAdjust.y + (gp and vecAdjust2.y or 0)) + ang:Up() * (vecAdjust.z + (gp and vecAdjust2.z or 0)))
@@ -82,7 +79,6 @@ local function DrawFirstPersonHelmet(ply, strModel, vecAdjust, fFov, setMat)
 			-- Let everything render normally again
 			render.SetStencilEnable( false )
 		render.SetColorModulation(1,1,1)
-		--cam.IgnoreZ(false)
 	cam.End3D()
 end
 
@@ -293,7 +289,6 @@ hg.armor.torso = {
 		protection = 0,
 		bone = "ValveBiped.Bip01_Spine2",
 		model = "models/monolithservers2/kerry/sswat_armor.mdl",
-		-- material = "models/shiny",
 		material = "models/lightvest/accs_diff_000_d_uni", -- "models/props_c17/paper01"
 		femPos = Vector(0, 0, 0),
 		scale = 0.95,
@@ -708,7 +703,7 @@ hg.armor.face = {
 		ScrappersSlot = "Armor",
 		custommat = Material("overlays/nvg_scene_opticf2.png"),
 		NVGRender = function()
-			 
+
 			if not IsValid(lply.EZNVGlamp) then
 				lply.EZNVGlamp = ProjectedTexture()
 				lply.EZNVGlamp:SetTexture("effects/flashlight001")
@@ -744,11 +739,6 @@ hg.armor.face = {
 		end,
 		CustomSnd = "snds_jack_gmod/tinycapcharge.wav",
 		AfterPickup = function(ply)
-			--timer.Simple(1,function()
-			--	if IsValid(ply) and ply:IsPlayer() then
-			--		ply:Notify("Enable \\ Disable NVG - С + E",nil,nil,0)
-			--	end
-			--end)
 		end
 	}
 }
@@ -830,7 +820,7 @@ local function initArmor()
 		for armorkey, armorData in pairs(armors) do
 			if CLIENT then language.Add(armorkey, armorNames[armorkey] or armorkey) end
 			if armorData.inbuilt then continue end
-			
+
 			local armor = {}
 			armor.Base = "armor_base"
 			armor.PrintName = CLIENT and language.GetPhrase(armorkey) or armorkey
@@ -862,7 +852,7 @@ end
 function hg.GetArmorPlacement(armor)
 	if istable(armor) then return end
 	armor = string.Replace(armor,"ent_armor_","")
-	
+
 	local found
 	for i,armplc in pairs(hg.armor) do
 		for i2,armor2 in pairs(armplc) do

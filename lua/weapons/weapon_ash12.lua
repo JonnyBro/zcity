@@ -117,7 +117,7 @@ function SWEP:DrawPost()
 	local wep = self:GetWeaponEntity()
 	self.vec = self.vec or Vector(0,0,0)
 	local vec = self.vec
-	
+
 	if CLIENT and IsValid(wep) then
 		self.LHPos = LerpVectorFT(0.2,self.LHPos, self.reload and Vector(0,0.8,-4.7) or Vector(10,0.8,-3.7) )
 		self.shooanim = LerpFT(0.4,self.shooanim or 0,self.ReloadSlideOffset)

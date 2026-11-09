@@ -32,11 +32,6 @@ SWEP.NumBullet = 3
 SWEP.Primary.Sound = {"snds_jack_gmod/ez_weapons/flintlock_longgun.wav", 65, 80, 85}
 SWEP.SupressedSound = {"weapons/awoi/musket_5_fire.wav", 65, 80, 85}
 SWEP.availableAttachments = {
-	--[[barrel = {
-		[1] = {"supressor1", Vector(0,0,0), {}},
-		[2] = {"supressor6", Vector(0,0,0), {}},
-		["mount"] = Vector(0.8,0.5,0),
-	},]]
 }
 
 SWEP.PPSMuzzleEffect = "muzzleflash_M3" -- shared in sh_effects.lua
@@ -168,7 +163,7 @@ function SWEP:AnimationPostPost()
 
 		local lohsin = math.floor(sin * (#anims))
 		local lerp = sin * (#anims) - lohsin
-		
+
 		self.RHPosOffset = Lerp(lerp, anims[math.Clamp(lohsin, 1, #anims)], anims[math.Clamp(lohsin + 1, 1, #anims)])
 		self.RHPos[1] = 2 - sin * -2
 		self.RHPos[2] = -4 - sin * -4

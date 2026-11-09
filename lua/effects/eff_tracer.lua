@@ -22,17 +22,16 @@ function EFFECT:Init(data)
     local ammotype = string.lower( string.Replace( gun.Primary and gun.Primary.Ammo or "nil"," ", "") )
     self.bullet = (hg.ammotypes[ammotype] and hg.ammotypes[ammotype].TracerSetings) or tracer
     self.Speed = self.bullet.TracerSpeed or 25000
-    
+
     self.EndPos = data:GetOrigin()
 
     self.magnitude = data:GetMagnitude()
     local fireinthehole = IsValid(gun) and (math.Round(self.magnitude) == 1)
-    
+
     local trace = gun.GetTrace and gun:GetTrace(true, nil, nil, true)
-    --if not (fireinthehole and gun.GetTrace and trace) then return end
-    
+
     local mpos = ((fireinthehole and gun.GetTrace) and trace) or data:GetStart()
-    
+
     if !mpos then self:Remove() return end
 
     self.TrueLength = (mpos - self.EndPos):Length()
@@ -48,7 +47,7 @@ function EFFECT:Init(data)
     self:SetRenderBoundsWS(self.StartPos, self.EndPos)
 
     local bullet = self.bullet
-    
+
     local dlight = DynamicLight(self:EntIndex())
 	dlight.pos = self.StartPos
 	dlight.r = bullet.TracerColor.r
@@ -58,7 +57,7 @@ function EFFECT:Init(data)
 	dlight.Decay = 1
 	dlight.Size = bullet.TracerHeadSize / 5
 	dlight.DieTime = self.DieTime
-    
+
     self.dlight = dlight
 end
 
@@ -74,7 +73,7 @@ function EFFECT:Render()
     local delta = (CurTime() - self.SpawnTime) / (self.DieTime - self.SpawnTime)
     local startbeampos = Lerp(delta, self.StartPos, self.EndPos)
     local endbeampos = Lerp(delta + (bullet.TracerLength / self.Length / 2), self.StartPos, self.EndPos)
-    
+
     local width = bullet.TracerWidth
     local headsize = bullet.TracerHeadSize
 

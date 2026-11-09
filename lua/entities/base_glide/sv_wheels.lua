@@ -119,7 +119,7 @@ function ENT:PhysicsSimulate( phys, dt )
         linForce[2] = linForce[2] - force[2]
         linForce[3] = linForce[3] - force[3]
     end
-    
+
     -- Prevent crashes
     ClampForce( angForce )
     ClampForce( linForce )

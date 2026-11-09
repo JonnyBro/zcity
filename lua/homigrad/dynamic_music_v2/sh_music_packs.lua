@@ -1,38 +1,6 @@
 hg.DynamicMusicV2 = hg.DynamicMusicV2 or {}
 hg.DynamicMusicV2.Trakcs = hg.DynamicMusicV2.Trakcs or {}
 
---[[
-    ["условный трек"] = {
-        ["SelectPreset"] = function(ply)
-            local intens = 0
-            local org = ply.organism
-            if org.adrenaline > 0.2 then
-                intens = intens + 1
-            end
-
-            -- и так далее...
-        end,
-
-        ["Presets"] = {
-            [1] = {"Название для слоев1"}
-            [2] = {
-                ["Название для слоев2"] = {volume = 1}, 
-                ["Название для слоев4"] = {volume = 1}
-            }
-
-            -- думаю понятно...
-        },
-
-        ["Layers"] = {
-            ["Название для слоев1"] = ".wav .mp3 путь к любому файлу который может сожрать игра",
-            ["Название для слоев2"] = ".wav .mp3 путь к любому файлу который может сожрать игра",
-            ["Название для слоев3"] = ".wav .mp3 путь к любому файлу который может сожрать игра",
-            ["Название для слоев4"] = ".wav .mp3 путь к любому файлу который может сожрать игра",
-            ["Название для слоев5"] = ".wav .mp3 путь к любому файлу который может сожрать игра",
-        }
-    }
---]]
-
 local function basicSelectPreset(ply)
     local intens = 0
     local org = ply.organism
@@ -62,21 +30,14 @@ AddTrack(
     "highrise",
     { -- Presets
         [1] = {
-            --["bass"]        = { volume = 1 },
-            --["cymbals"]        = { volume = 1 },
             ["hats"]        = { volume = 1 },
-            --["kick"]        = { volume = 1 },
             ["perc"]        = { volume = 1 },
-            --["piano"]        = { volume = 1 },
-            --["pluck"]        = { volume = 1 },
-            --["snare"]        = { volume = 1 },
         },
         ["perhod"] = {
             ["kick"]        = { volume = 1 },
         },
         [2] = {
             ["bass"]        = { volume = 1 },
-            --["hats"]        = { volume = 1 },
             ["kick"]        = { volume = 3 },
             ["perc"]        = { volume = 1 },
         },
@@ -85,7 +46,6 @@ AddTrack(
             ["hats"]        = { volume = 1 },
             ["kick"]        = { volume = 1 },
             ["snare"]        = { volume = 2 },
-            --["perc"]        = { volume = 1 },
         }
     },
     { -- Layers
@@ -125,56 +85,33 @@ AddTrack(
     "breakaleg",
     { -- Presets
         [0] = {
-            --["bass"]        = { volume = 1 },
-            --["cymbal"]        = { volume = 1 },
             ["hat"]        = { volume = 1 },
-            --["hat_lead"]        = { volume = 1 },
             ----["high_snare"]        = { volume = 1 },
             --["kick"]        = { volume = 1 },
             --["percusion"]        = { volume = 1 },
             ["snare"]        = { volume = 1 },
-            --["snare_hat"]        = { volume = 1 },
-            --["snare_lead"]        = { volume = 1 },
-            --["synth"]        = { volume = 3 },
         },
         [1] = {
-            --["bass"]        = { volume = 1 },
-            --["cymbal"]        = { volume = 1 },
-            --["hat"]        = { volume = 1 },
-            --["hat_lead"]        = { volume = 1 },
             ----["high_snare"]        = { volume = 1 },
             ["kick"]        = { volume = 2 },
             ["percusion"]        = { volume = 1 },
             ["snare"]        = { volume = 1 },
-            --["snare_hat"]        = { volume = 1 },
-            --["snare_lead"]        = { volume = 1 },
-            --["synth"]        = { volume = 3 },
         },
         [2] = {
-            --["bass"]        = { volume = 1 },
             ["cymbal"]        = { volume = 1 },
             ["hat"]        = { volume = 1 },
             ["hat_lead"]        = { volume = 1 },
-            --["high_snare"]        = { volume = 1 },
             ["kick"]        = { volume = 3 },
-            --["percusion"]        = { volume = 1 },
             ["snare"]        = { volume = 1 },
-            --["snare_hat"]        = { volume = 1 },
-            --["snare_lead"]        = { volume = 1 },
-            --["synth"]        = { volume = 3 },
         },
         [3] = {
             ["bass"]        = { volume = 1 },
             ["cymbal"]        = { volume = 1 },
             ["hat"]        = { volume = 1 },
             ["hat_lead"]        = { volume = 1 },
-            --["high_snare"]        = { volume = 1 },
             ["kick"]        = { volume = 3 },
             ["percusion"]        = { volume = 1 },
             ["snare"]        = { volume = 1 },
-            --["snare_hat"]        = { volume = 1 },
-            --["snare_lead"]        = { volume = 1 },
-            --["synth"]        = { volume = 3 },
         },
         [4] = {
             ["bass"]        = { volume = 1 },
@@ -183,23 +120,16 @@ AddTrack(
             ["hat_lead"]        = { volume = 1 },
             ["high_snare"]        = { volume = 1 },
             ["kick"]        = { volume = 3 },
-            --["percusion"]        = { volume = 1 },
             ["snare"]        = { volume = 1 },
-            --["snare_hat"]        = { volume = 1 },
-            --["snare_lead"]        = { volume = 1 },
-            --["synth"]        = { volume = 3 },
         },
         [5] = {
             ["bass"]        = { volume = 1 },
             ["cymbal"]        = { volume = 1 },
             ["hat"]        = { volume = 1 },
             ["hat_lead"]        = { volume = 1 },
-            --["high_snare"]        = { volume = 1 },
             ["kick"]        = { volume = 3 },
             ["percusion"]        = { volume = 1 },
             ["snare"]        = { volume = 1 },
-            --["snare_hat"]        = { volume = 1 },
-            --["snare_lead"]        = { volume = 1 },
             ["synth"]        = { volume = 3 },
         },
     },
@@ -250,31 +180,19 @@ AddTrack(
     "overdose",
     { -- Presets
         [0] = {
-            --["kick"]        = { volume = 2 },
-            --["perc"]        = { volume = 1 },
-            --["synth_bass"]        = { volume = 0.5 },
-            --["synth_keys"]        = { volume = 2 },
-            --["weird"]        = { volume = 2 },
         },
         [1] = {
-            --["kick"]        = { volume = 1 },
-            --["perc"]        = { volume = 0.5 },
             ["synth_bass"]        = { volume = 0.5 },
-            --["synth_keys"]        = { volume = 2 },
-            --["weird"]        = { volume = 2 },
         },
         [2] = {
             ["kick"]        = { volume = 1 },
             ["perc"]        = { volume = 0.5 },
             ["synth_bass"]        = { volume = 0.7 },
-            --["synth_keys"]        = { volume = 1 },
-            --["weird"]        = { volume = 1 },
         },
         [3] = {
             ["kick"]        = { volume = 1 },
             ["perc"]        = { volume = 1 },
             ["synth_bass"]        = { volume = 2 },
-            --["synth_keys"]        = { volume = 1 },
             ["weird"]        = { volume = 0.5 },
         },
         [4] = {
@@ -329,7 +247,7 @@ AddTrack(
         if org.adrenaline > 2.5 then
             intens = intens + 1
         end
-        
+
         return intens
     end,
     "uzelezz",
@@ -343,19 +261,11 @@ AddTrack(
     { -- Presets
         [0] = {
             ["kick"]        = { volume = 1 },
-            --["cymbal"]        = { volume = 2 },
-            --["synth_bass"]        = { volume = 2 },
-            --["synth_bass2"]        = { volume = 2 },
-            --["synth_perc"]        = { volume = 2 },
-            --["ride"]        = { volume = 2 },
             ["keys"]        = { volume = 1 },
         },
         [1] = {
             ["kick"]        = { volume = 2 },
             ["cymbal"]        = { volume = 1 },
-            --["synth_bass"]        = { volume = 2 },
-            --["synth_bass2"]        = { volume = 2 },
-            --["synth_perc"]        = { volume = 2 },
             ["ride"]        = { volume = 1 },
             ["keys"]        = { volume = 2 },
         },
@@ -363,17 +273,13 @@ AddTrack(
             ["kick"]        = { volume = 2 },
             ["cymbal"]        = { volume = 2 },
             ["synth_bass"]        = { volume = 2 },
-            --["synth_bass2"]        = { volume = 2 },
-            --["synth_perc"]        = { volume = 2 },
             ["ride"]        = { volume = 2 },
             ["keys"]        = { volume = 2 },
         },
         [3] = {
             ["kick"]        = { volume = 2 },
             ["cymbal"]        = { volume = 2 },
-            --["synth_bass"]        = { volume = 2 },
             ["synth_bass2"]        = { volume = 2 },
-            --["synth_perc"]        = { volume = 2 },
             ["ride"]        = { volume = 2 },
             ["keys"]        = { volume = 2 },
         },
@@ -391,7 +297,7 @@ AddTrack(
         local intens = 0
         local org = ply.organism
         if (!org or org.otrub) or !ply:Alive() then return -1 end
-        
+
         return 2
     end,
     "uzelezz",
@@ -443,7 +349,7 @@ AddTrack(
                 intens = 2
             end
         end
-        
+
         return intens
     end,
     "idk",

@@ -208,10 +208,6 @@ end
 function CLASS.Guilt(self, victim)
     if CLIENT then return end
 
-	--[[if victim:GetPlayerClass() == self:GetPlayerClass() then
-        return 1 --// Idk if zombies really need this so uncomment if you want
-    end]]
-
 	return 0
 end
 
@@ -375,13 +371,6 @@ if SERVER then
 		end
 	end)
 
-	--[[hook.Add("OnHeadExplode", "ZombAmputate", function(ply, rag)
-		print(ply, rag)
-		if ply.PlayerClassName == "headcrabzombie" then
-			rag:SetBodygroup(1, 0)
-		end
-	end)]]
-
 	--// Zombies can't loot anyone
 	hook.Add("ZB_CanLootInventory", "ZombCanLoot", function(ply, ent, canloot)
 		if ply.PlayerClassName == "headcrabzombie" then
@@ -403,25 +392,25 @@ else
 			ply.FirstPersonCrab:SetNoDraw(true)
 			return
 		end
-	
+
 		if not IsValid(ply.FirstPersonCrab2) then
 			ply.FirstPersonCrab2 = ClientsideModel(strModel)
 			ply.FirstPersonCrab2:SetNoDraw(true)
 			ply.FirstPersonCrab2:SetModelScale(1.05)
 			return
 		end
-	
+
 		local mdl = ply.FirstPersonCrab
 		local mdl2 = ply.FirstPersonCrab2
-	
+
 		if mdl:GetModel() != strModel then
 			mdl:SetModel(strModel)
 		end
-	
+
 		if mdl2:GetModel() != strModel then
 			mdl2:SetModel(strModel)
 		end
-	
+
 		if ply == GetViewEntity() then
 			local view = render.GetViewSetup()
 
@@ -439,7 +428,7 @@ else
 				mdl2:SetRenderOrigin(view.origin + ang:Forward() * vecAdjust.x + ang:Right() * vecAdjust.y + ang:Up() * vecAdjust.z)
 				mdl2:SetRenderAngles(ang)
 				mdl:SetParent(ply, ply:LookupBone("ValveBiped.Bip01_Head1"))
-				
+
 				render.SetColorModulation(1, 1, 1)
 					render.SetStencilWriteMask(0xFF)
 					render.SetStencilTestMask(0xFF)
@@ -449,20 +438,20 @@ else
 					render.SetStencilFailOperation(STENCIL_KEEP)
 					render.SetStencilZFailOperation(STENCIL_KEEP)
 					render.ClearStencil()
-					
+
 					-- Enable stencils
 					render.SetStencilEnable(true)
 					-- Set everything up everything draws to the stencil buffer instead of the screen
 					render.SetStencilReferenceValue(1)
 					render.SetStencilCompareFunction(STENCIL_NOTEQUAL)
 					render.SetStencilPassOperation(STENCIL_REPLACE)
-					
+
 					render.SetBlend(0)
 						mdl2:DrawModel()
 					render.SetBlend(1)
 
 					render.SetStencilCompareFunction(STENCIL_EQUAL)
-					
+
 					mdl:DrawModel()
 
 					if not hg.ConVars.potatopc:GetBool() then
@@ -527,7 +516,7 @@ else
 
 			render.UpdateScreenEffectTexture()
 			render.UpdateFullScreenDepthTexture()
-			
+
 			local asad = math.Clamp(math.sin(CurTime() * 2), 0.7, 1)
 			zombMat:SetFloat("$c0_x", CurTime()) -- time
 			zombMat:SetFloat("$c0_y", -1) -- gate
@@ -539,7 +528,7 @@ else
 			zombMat:SetFloat("$c2_y", 0.05) -- g
 			zombMat:SetFloat("$c2_z", 0) -- b
 			zombMat:SetFloat("$c3_x", 0) -- ImageIntensity
-		
+
 			render.SetMaterial(zombMat)
 			render.DrawScreenQuad()
 		end

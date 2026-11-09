@@ -100,8 +100,6 @@ function TOOL:Think()
 	end
 end
 
--- local ConVarsDefault = TOOL:BuildConVarList()
-
 function TOOL.BuildCPanel(CPanel)
 	CPanel:AddControl("Header", {
 		Description = "LMB to add point,\nRMB to remove nearest point" -- ура удобный инструмент я в шоке!!

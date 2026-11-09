@@ -10,7 +10,6 @@ ENT.SoundWater = "iedins/water/ied_water_detonate_01.wav"
 ENT.BlastDis = 3
 ENT.BlastDamage = 70
 
---local developer = GetConVar("developer")
 ENT.offsetPos = Vector(-2.25, 1.38, 0)
 ENT.offsetAng = Angle(-90, 180, 0)
 

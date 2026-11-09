@@ -16,11 +16,10 @@ function EFFECT:Init(data)
 
     for i = 1,15*intensity do
         local smoke = emitter:Add(smoke_mats[math.random(#smoke_mats)], pos)
-        
+
         smoke:SetStartAlpha(math.Rand(12, 25))
         smoke:SetEndAlpha(0)
         smoke:SetColor(255,200,155)
-        --smoke:SetLighting(true)
         smoke:SetGravity(Vector(0,0,-math.Rand(33, 66)))
         smoke:SetRollDelta(math.random(0, 0.5*math.pi))
         smoke:SetAirResistance(175)
@@ -39,7 +38,6 @@ function EFFECT:Init(data)
         splinter:SetCollide(true)
         splinter:SetBounce(math.Rand(0,1))
         splinter:SetColor(255,255,255)
-        --splinter:SetLighting(true)
         splinter:SetGravity(Vector(0,0,-600))
         splinter:SetRollDelta(math.random(math.pi, 2*math.pi))
 

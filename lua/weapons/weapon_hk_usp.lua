@@ -28,29 +28,23 @@ SWEP.AnimList = {
 SWEP.FakeReloadSounds = {
 	[0.3] = "weapons/universal/uni_pistol_draw_01.wav",
 	[0.5] = "zcitysnd/sound/weapons/m9/handling/m9_magout.wav",
-	--[0.45] = "weapons/tfa_ins2/usp_tactical/magout.wav",
-	--[0.37] = "weapons/m4a1/m4a1_magrelease.wav",
 	[0.6] = "zcitysnd/sound/weapons/m9/handling/m9_magin.wav",
 	[0.7] = "zcitysnd/sound/weapons/m9/handling/m9_maghit.wav",
 	[0.85] = "weapons/universal/uni_pistol_holster.wav",
 	[1.02] = "weapons/universal/uni_crawl_l_02.wav"
-	--[1] = "weapons/tfa_ins2/usp_match/usp_match_boltrelease.wav",
-	--[0.77] = "weapons/tfa_ins2/usp_match/usp_match_maghit.wav",
-	--[0.95] = "weapons/tfa_ins2/usp_match/usp_match_boltrelease.wav",
 }
 
 SWEP.FakeEmptyReloadSounds = {
 	[0.15] = "weapons/universal/uni_crawl_l_03.wav",
 	[0.22] = "weapons/tfa_ins2/usp_tactical/magrelease.wav",
 	[0.3] = "weapons/tfa_ins2/usp_tactical/magout.wav",
-	--[0.37] = "weapons/m4a1/m4a1_magrelease.wav",
 	[0.37] = "weapons/universal/uni_pistol_draw_01.wav",
 	[0.41] = "weapons/universal/uni_crawl_l_05.wav",
 	[0.6] = "zcitysnd/sound/weapons/m9/handling/m9_magin.wav",
 	[0.8] = "zcitysnd/sound/weapons/m9/handling/m9_maghit.wav",
 	[1] = "weapons/tfa_ins2/usp_match/usp_match_boltrelease.wav",
 }
-SWEP.MagModel = "models/weapons/upgrades/w_magazine_m45_8.mdl" 
+SWEP.MagModel = "models/weapons/upgrades/w_magazine_m45_8.mdl"
 
 SWEP.lmagpos = Vector(2.,0,0)
 SWEP.lmagang = Angle(-10,0,0)
@@ -61,7 +55,7 @@ if CLIENT then
 	local vector_full = Vector(1, 1, 1)
 
 	SWEP.FakeReloadEvents = {
-		[0.35] = function( self ) 
+		[0.35] = function( self )
 			if self:Clip1() < 1 then
 				hg.CreateMag( self, Vector(0,0,-50) )
 				self:GetWM():ManipulateBoneScale(49, vector_origin)
@@ -104,13 +98,12 @@ if CLIENT then
 				self:GetOwner():PullLHTowards("ValveBiped.Bip01_L_Thigh", 1*timeMul)
 			end
 		end,
-		[0.9] = function( self ) 
+		[0.9] = function( self )
 			self:GetWM():ManipulateBoneScale(53, vector_origin)
 		end,
 
-		[1.2] = function( self ) 
+		[1.2] = function( self )
 			if self:Clip1() >= 1 then
-				//self:PlayAnim("idle",1,false)
 			end
 		end,
 	}
@@ -120,8 +113,6 @@ SWEP.WepSelectIcon2 = Material("pwb2/vgui/weapons/usptactical.png")
 SWEP.IconOverride = "pwb2/vgui/weapons/usptactical.png"
 
 SWEP.CustomShell = "9x19"
---SWEP.EjectPos = Vector(-5,2,-6)
---SWEP.EjectAng = Angle(-45,-80,0)
 
 
 SWEP.weight = 1
@@ -159,10 +150,6 @@ SWEP.availableAttachments = {
 		["mountAngle"] = Angle(0, 0, 90),
 		["mountType"] = "picatinny_small"
 	},
-	--[[grip = {
-		["mount"] = Vector(15, 0, 0),
-		["mountType"] = "picatinny"
-	},--]]
 }
 
 SWEP.Primary.Force = 25
@@ -216,12 +203,6 @@ local finger5 = Angle(0,-65,-15)
 local finger6 = Angle(15,-5,-15)
 
 function SWEP:AnimHoldPost()
-	--self:BoneSet("r_finger0", vector_zero, finger6)
-	--self:BoneSet("l_finger0", vector_zero, finger1)
-    --self:BoneSet("l_finger02", vector_zero, finger2)
-	--self:BoneSet("l_finger1", vector_zero, finger3)
-	--self:BoneSet("r_finger1", vector_zero, finger4)
-	--self:BoneSet("r_finger11", vector_zero, finger5)
 end
 
 SWEP.ShootAnimMul = 5

@@ -23,7 +23,6 @@ end
 local gradient = surface.GetTextureID("vgui/gradient-d")
 local gradientUp = surface.GetTextureID("vgui/gradient-u")
 local gradientLeft = surface.GetTextureID("vgui/gradient-l")
--- local gradientRadial = Material("helix/gui/radial-gradient.png")
 local defaultBackgroundColor = Color(30, 30, 30, 200)
 
 local SKIN = {}
@@ -123,21 +122,21 @@ function SKIN:PaintPanel(panel)
 		if(!panel.Blur)then
 			hg.DrawBlur(panel, 2, 0.2, 200)
 		end
-		
+
 		local width, height = panel:GetSize()
-		
+
 		if (panel.m_bgColor) then
 			surface.SetDrawColor(panel.m_bgColor)
 		else
 			surface.SetDrawColor(self.Colours.Background)
 		end
-		
+
 		surface.DrawRect(0, 0, width, height)
-		
+
 		if(panel.PostPaintPanel)then
 			panel:PostPaintPanel(width, height)
 		end
-		
+
 		surface.SetDrawColor(self.Colours.Outline)
 		surface.DrawOutlinedRect(0, 0, width, height, 1)
 	end
@@ -221,95 +220,90 @@ function SKIN:PaintButton(panel)
 
 		surface.SetDrawColor(180, 180, 180, 2)
 		surface.DrawOutlinedRect(1, 1, w - 2, h - 2)
-		
+
 		if(panel.IsOn)then
 			local text = nil
 			local draw_on = false
-			
+
 			if(!panel.IsOn(panel))then
 				surface.SetDrawColor(165, 165, 165, 255)
-				
+
 				text = panel.TextOn or "Switch On"
 			else
 				surface.SetDrawColor(130, 130, 130, 255)
-				
+
 				text = panel.TextOff or "Switch Off"
 				draw_on = true
 			end
-			
+
 			surface.DrawRect(0, 0, w, h)
-			
+
 			local sides_width = h * 0.25
-			
+
 			local poly_top = {
 				{x = 0, y = 0},
 				{x = w, y = 0},
 				{x = w - sides_width, y = sides_width},
 				{x = sides_width, y = sides_width},
 			}
-			
+
 			local poly_right = {
 				{x = w, y = 0},
 				{x = w, y = h},
 				{x = w - sides_width, y = h - sides_width},
 				{x = w - sides_width, y = sides_width},
 			}
-			
+
 			local poly_bottom = {
 				{x = w, y = h},
 				{x = 0, y = h},
 				{x = sides_width, y = h - sides_width},
 				{x = w - sides_width, y = h - sides_width},
 			}
-			
+
 			local poly_left = {
 				{x = 0, y = h},
 				{x = 0, y = 0},
 				{x = sides_width, y = sides_width},
 				{x = sides_width, y = h - sides_width},
 			}
-			
+
 			draw.NoTexture()
-			
+
 			if(!panel.IsOn(panel))then
 				surface.SetDrawColor(255,255,255,20)
 			else
 				surface.SetDrawColor(20,20,20,20)
 			end
-			
+
 			surface.DrawPoly(poly_top)
-			
+
 			if(!panel.IsOn(panel))then
 				surface.SetDrawColor(255,255,255,20)
 			else
 				surface.SetDrawColor(20,20,20,20)
 			end
-			
+
 			surface.DrawPoly(poly_right)
-			
+
 			surface.SetDrawColor(20,20,20,20)
 			surface.DrawPoly(poly_bottom)
-			
+
 			surface.SetDrawColor(20,20,20,20)
 			surface.DrawPoly(poly_left)
-			-- surface.SetDrawColor(color_black)
-			-- surface.DrawOutlinedRect(0, 0, w, h)
 			surface.SetFont("CloseCaption_Bold")
-			
+
 			if(draw_on)then
 				local width = 5
-				
+
 				surface.SetDrawColor(255, 153, 0, 255)
 				surface.DrawRect(0, 0, width, h)
 				surface.SetDrawColor(255,255,255,20)
 				surface.DrawRect(0, 0, width, h * 0.25)
 			end
-			
+
 			local width = 5
-			
-			-- surface.SetDrawColor(50, 150, 0, 255)
-			-- surface.DrawRect(w - width, 0, width, h)
-			
+
 			local tw, th = surface.GetTextSize(text)
 			surface.SetTextPos(w / 2 - tw / 2, h / 2 - th / 2)
 			surface.SetTextColor(255, 255, 255)
@@ -329,7 +323,7 @@ function SKIN:PaintTextEntry( panel, w, h )
 		else
 			surface.SetDrawColor(130, 130, 130, 100)
 		end
-		
+
 		surface.DrawRect(0, 0, w, h)
 		surface.SetDrawColor(0, 0, 0, 150)
 		surface.DrawOutlinedRect(0, 0, w, h)
@@ -343,27 +337,27 @@ function SKIN:PaintTextEntry( panel, w, h )
 			if(self.CharactersMin and self.CharactersMin > amt)then
 				met = false
 			end
-			
+
 			if(self.CharactersMax and self.CharactersMax < amt)then
 				met = false
 			end
-			
+
 			return met
 		end
-	
+
 		local add_text = ""
-		
+
 		if(panel.CharactersMax)then
 			add_text = " → " .. panel.CharactersMax
 		end
-		
+
 		local amt = utf8.len(panel:GetValue())
 		local color = color_white
-		
+
 		if(!panel:TextEntryConditionsMet(amt))then
 			color = color_red
 		end
-		
+
 		draw.DrawText(amt .. "/" .. panel.CharactersMin .. add_text, "ZCity_Tiny", w * 1.0, h * 0, color, TEXT_ALIGN_RIGHT, TEXT_ALIGN_CENTER)
 	end
 
@@ -385,28 +379,16 @@ function SKIN:PaintTextEntry( panel, w, h )
 end
 
 function SKIN:PaintEntityInfoBackground(panel, width, height)
-	-- hg.DrawBlur(panel, 1)
 	surface.SetDrawColor(HOKMAH_VGUI.BackgroundColor)
 	surface.DrawRect(0, 0, width, height)
 
-	-- surface.SetDrawColor(self.Colours.DarkerBackground)
-	-- surface.DrawRect(0, 0, width, height)
 end
 
 function SKIN:PaintTooltipBackground(panel, width, height)
-	-- hg.DrawBlur(panel, 1)
 	surface.SetDrawColor(HOKMAH_VGUI.BackgroundColor)
 	surface.DrawRect(0, 0, width, height)
 
-	-- surface.SetDrawColor(self.Colours.DarkerBackground)
-	-- surface.DrawRect(0, 0, width, height)
 end
-
--- function SKIN:PaintTooltipMinimalBackground(panel, width, height)
-	-- surface.SetDrawColor(0, 0, 0, 150 * panel.fraction)
-	-- surface.SetMaterial(gradientRadial)
-	-- surface.DrawTexturedRect(0, 0, width, height)
--- end
 
 function SKIN:PaintSegmentedProgressBackground(panel, width, height)
 end
@@ -484,7 +466,7 @@ function SKIN:PaintScrollBarGrip(panel, width, height)
 	local downButtonHeight = parent.btnDown:GetTall()
 
 	DisableClipping(true)
-		if is3d2d then 
+		if is3d2d then
 			surface.SetDrawColor(255, 255, 255, 200)
 		else
 			surface.SetDrawColor(30, 30, 30, 200)
@@ -524,8 +506,6 @@ function SKIN:PaintPropertySheet( panel, width, height )
 	local Offset = 0
 	if ( ActiveTab ) then Offset = ActiveTab:GetTall() - 8 end
 
-	--self.tex.Tab_Control( 0, Offset, w, h-Offset )
-
 	hg.DrawBlur(panel)
 
 	surface.SetDrawColor(30, 30, 30, 150)
@@ -541,7 +521,6 @@ function SKIN:PaintTab( panel, w, h )
 		return self:PaintActiveTab( panel, w, h )
 	end
 
-	--self.tex.TabT_Inactive( 0, 0, w, h )
 end
 
 function SKIN:PaintActiveTab( panel, w, h )

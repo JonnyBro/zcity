@@ -245,7 +245,7 @@ table.insert(male["ValveBiped.Bip01_Spine2"],1,{"vest7", 1, Vector(3, 8, 0), Ang
 table.insert(male["ValveBiped.Bip01_Spine2"],1,{"vest7", 1, Vector(3, -2.5, 0), Angle(0, 0, 0), Vector(7, 1, 6), Color(68, 0, 255), true, hg.armor.torso["vest7"].protection})
 table.insert(male["ValveBiped.Bip01_Spine2"],1,{"vest7", 1, Vector(-2, 3, 6), Angle(0, 0, 90), Vector(3, 0.5, 4), Color(255, 242, 0), true, hg.armor.torso["vest7"].protection})
 table.insert(male["ValveBiped.Bip01_Spine2"],1,{"vest7", 1, Vector(-2, 3, -6), Angle(0, 0, 90), Vector(3, 0.5, 4), Color(255, 242, 0), true, hg.armor.torso["vest7"].protection})
--- Vest 8 
+-- Vest 8
 table.insert(male["ValveBiped.Bip01_Spine2"],1,{"vest8", 1, Vector(3, 8, 0), Angle(0, 0, 0), Vector(7, 2, 6), Color(55, 0, 255), true, hg.armor.torso["vest8"].protection})
 table.insert(male["ValveBiped.Bip01_Spine2"],1,{"vest8", 1, Vector(3, -2.5, 0), Angle(0, 0, 0), Vector(7, 2, 6), Color(68, 0, 255), true, hg.armor.torso["vest8"].protection})
 table.insert(male["ValveBiped.Bip01_Spine2"],1,{"vest8", 1, Vector(-2, 3, 6), Angle(0, 0, 90), Vector(3, 2, 4), Color(255, 242, 0), true, hg.armor.torso["vest8"].protection})
@@ -255,9 +255,7 @@ table.insert(male["ValveBiped.Bip01_Spine1"],1,{"vest8", 1, Vector(-5, 7, 0), An
 table.insert(male["ValveBiped.Bip01_Spine2"],1,{"vest8", 1, Vector(-7, -2.5, 0), Angle(0, 0, 0), Vector(3, 2, 6), Color(68, 0, 255), true, hg.armor.torso["vest8"].protection})
 
 table.insert(male["ValveBiped.Bip01_Head1"],1,{"helmet6", 1, Vector(6.5, -1, 0), Angle(0, 15, 0), Vector(2.7, 6, 4.5), Color(250, 255, 0), true, hg.armor.head["helmet6"].protection})
---table.insert(male["ValveBiped.Bip01_Head1"],1,{"helmet6", 1, Vector(1, 2, 0), Angle(0, 0, 0), Vector(1.5, 1.7, 4.5), Color(250, 255, 0), true, hg.armor.head["helmet6"].protection})
 local female = table.Copy(male)
---table.CopyFromTo(male, female)
 
 female["ValveBiped.Bip01_Head1"] = {
 	{
@@ -338,12 +336,6 @@ table.insert(female["ValveBiped.Bip01_Head1"],1,{"helmet5", 1, Vector(1, 3.5, 0)
 
 table.insert(female["ValveBiped.Bip01_Head1"],1,{"mask1", 1, Vector(3.5, -4, 0), Angle(0, 0, 0), Vector(5, 3, 4.5), Color(255, 0, 221), true, hg.armor.face["mask1"].protection})
 
---[[for i,tbl in pairs(male) do
-	for i,tbl2 in pairs(tbl) do
-		print('["'..tbl2[1]..'"] = ,')
-	end
-end--]]
-
 hg.organism.translationTbl = {
 	["vest5"] = "Armored vest",
 	["vest4"] = "Armored vest",
@@ -388,21 +380,6 @@ hg.organism.translationTbl = {
 	["rarmartery"] = "Right arm artery",
 }
 
---[[local gordon = {}
-gordon["ValveBiped.Bip01_Spine1"] = table.Copy(male["ValveBiped.Bip01_Spine1"])
-gordon["ValveBiped.Bip01_Head1"] = table.Copy(male["ValveBiped.Bip01_Head1"])
-gordon["ValveBiped.Bip01_Neck1"] = table.Copy(male["ValveBiped.Bip01_Neck1"])
-gordon["ValveBiped.Bip01_Spine2"] = table.Copy(male["ValveBiped.Bip01_Spine2"])
-gordon["ValveBiped.Bip01_Pelvis"] = table.Copy(male["ValveBiped.Bip01_Pelvis"])
-gordon["ValveBiped.Bip01_L_UpperArm"] = table.Copy(male["ValveBiped.Bip01_L_UpperArm"])
-gordon["ValveBiped.Bip01_R_UpperArm"] = table.Copy(male["ValveBiped.Bip01_R_UpperArm"])
-gordon["ValveBiped.Bip01_L_Forearm"] = table.Copy(male["ValveBiped.Bip01_L_Forearm"])
-gordon["ValveBiped.Bip01_R_Forearm"] = table.Copy(male["ValveBiped.Bip01_R_Forearm"])
-gordon["ValveBiped.Bip01_L_Thigh"] = table.Copy(male["ValveBiped.Bip01_L_Thigh"])
-gordon["ValveBiped.Bip01_R_Thigh"] = table.Copy(male["ValveBiped.Bip01_R_Thigh"])
-gordon["ValveBiped.Bip01_L_Calf"] = table.Copy(male["ValveBiped.Bip01_L_Calf"])
-gordon["ValveBiped.Bip01_R_Calf"] = table.Copy(male["ValveBiped.Bip01_R_Calf"])
---]]
 table.insert(male["ValveBiped.Bip01_Head1"],1,{"gordon_helmet", 1, Vector(3, -1.5, 0), Angle(0, 0, 0), Vector(6, 6, 4), Color(250, 255, 0), true, 9})
 table.insert(male["ValveBiped.Bip01_Spine2"],1,{"gordon_armor", 1, Vector(3,2,0), Angle(0, 0, 90), Vector(11,7,6), Color(255, 242, 0), true, 10})
 
@@ -415,21 +392,6 @@ table.insert(male["ValveBiped.Bip01_R_Thigh"], 1, {"gordon_armor", 1, Vector(4, 
 table.insert(male["ValveBiped.Bip01_L_Calf"], 1, {"gordon_armor", 1, Vector(4, -1, 0), Angle(0, 0, 90), Vector(6, 5, 4), Color(255, 242, 0), true, 15})
 table.insert(male["ValveBiped.Bip01_R_Calf"], 1, {"gordon_armor", 1, Vector(4, -1, 0), Angle(0, 0, 90), Vector(6, 5, 4), Color(255, 242, 0), true, 16})
 --не нужно добавлять в female потому что гордон это не female
-
---[[local combine = {}
-combine["ValveBiped.Bip01_Spine1"] = table.Copy(male["ValveBiped.Bip01_Spine1"])
-combine["ValveBiped.Bip01_Head1"] = table.Copy(male["ValveBiped.Bip01_Head1"])
-combine["ValveBiped.Bip01_Neck1"] = table.Copy(male["ValveBiped.Bip01_Neck1"])
-combine["ValveBiped.Bip01_Spine2"] = table.Copy(male["ValveBiped.Bip01_Spine2"])
-combine["ValveBiped.Bip01_Pelvis"] = table.Copy(male["ValveBiped.Bip01_Pelvis"])
-combine["ValveBiped.Bip01_L_UpperArm"] = table.Copy(male["ValveBiped.Bip01_L_UpperArm"])
-combine["ValveBiped.Bip01_R_UpperArm"] = table.Copy(male["ValveBiped.Bip01_R_UpperArm"])
-combine["ValveBiped.Bip01_L_Forearm"] = table.Copy(male["ValveBiped.Bip01_L_Forearm"])
-combine["ValveBiped.Bip01_R_Forearm"] = table.Copy(male["ValveBiped.Bip01_R_Forearm"])
-combine["ValveBiped.Bip01_L_Thigh"] = table.Copy(male["ValveBiped.Bip01_L_Thigh"])
-combine["ValveBiped.Bip01_R_Thigh"] = table.Copy(male["ValveBiped.Bip01_R_Thigh"])
-combine["ValveBiped.Bip01_L_Calf"] = table.Copy(male["ValveBiped.Bip01_L_Calf"])
-combine["ValveBiped.Bip01_R_Calf"] = table.Copy(male["ValveBiped.Bip01_R_Calf"])--]]
 
 table.insert(male["ValveBiped.Bip01_Head1"],1,{"cmb_helmet", 1, Vector(3, -1.5, 0), Angle(0, 0, 0), Vector(6, 6, 4), Color(250, 255, 0), true, 7})
 table.insert(male["ValveBiped.Bip01_Spine2"],1,{"cmb_armor", 1, Vector(3,2,0), Angle(0, 0, 90), Vector(11,7,6), Color(255, 242, 0), true, 7})
@@ -444,9 +406,6 @@ table.insert(male["ValveBiped.Bip01_L_Thigh"], 1, {"cmb_armor", 1, Vector(4, 0, 
 table.insert(male["ValveBiped.Bip01_R_Thigh"], 1, {"cmb_armor", 1, Vector(4, 0, 0), Angle(0, 0, 90), Vector(8, 6, 5), Color(255, 242, 0), true, 7})
 
 table.insert(male["ValveBiped.Bip01_Head1"],1,{"protovisor", 1, Vector(3, -1.5, 0), Angle(0, 0, 0), Vector(6, 6, 4), Color(20, 135, 155), true, 7})
-
---table.insert(combine["ValveBiped.Bip01_L_Calf"], 1, {"cmb_calf_armor_left", 1, Vector(4, -1, 0), Angle(0, 0, 90), Vector(6, 5, 4), Color(255, 242, 0), false, 15})
---table.insert(combine["ValveBiped.Bip01_R_Calf"], 1, {"cmb_calf_armor_right", 1, Vector(4, -1, 0), Angle(0, 0, 90), Vector(6, 5, 4), Color(255, 242, 0), false, 16})
 
 table.insert(male["ValveBiped.Bip01_Head1"],1,{"metrocop_helmet", 1, Vector(3, -1.5, 0), Angle(0, 0, 0), Vector(6, 6, 4), Color(250, 255, 0), true, 7})
 table.insert(male["ValveBiped.Bip01_Spine2"],1,{"metrocop_armor", 1, Vector(3,2,0), Angle(0, 0, 90), Vector(11,7,6), Color(255, 242, 0), true, 7})

@@ -25,7 +25,6 @@ function VirusModule.InfectPlayer(ply)
     net.Start("VirusStageUpdate")
     net.WriteInt(ply.Virus.Stage, 8)
     net.Send(ply)
-    --print(ply:Nick() .. " has been infected with the virus.")
 end
 
 function VirusModule.UpdateVirusStage(ply)
@@ -35,8 +34,6 @@ function VirusModule.UpdateVirusStage(ply)
     if CurTime() >= virus.NextStageTime then
         virus.Stage = virus.Stage + 1
         virus.NextStageTime = CurTime() + 120
-
-        --print(ply:Nick() .. " has progressed to virus stage " .. virus.Stage)
 
         if virus.Stage == 2 then
             virus.PainTarget = 5
@@ -51,7 +48,7 @@ function VirusModule.UpdateVirusStage(ply)
             virus.Damage = 5
             virus.LungDamage = 0.3
             virus.InternalBleeding = true
-            ply.organism.internalBleed = 10 
+            ply.organism.internalBleed = 10
             ply.organism.otrub = true
             timer.Simple(math.random(10, 20), function()
                 if IsValid(ply) then
@@ -63,7 +60,7 @@ function VirusModule.UpdateVirusStage(ply)
             virus.Damage = 4
             virus.LungDamage = 0.5
             virus.BrainDamage = 0.03
-            ply.organism.internalBleed = 20 
+            ply.organism.internalBleed = 20
             ply.organism.otrub = true
         end
 
@@ -154,12 +151,10 @@ hook.Add("EntityTakeDamage", "ZombieInfect", function(target, dmginfo)
         if attackerClass == "terminator_nextbot_zambie" or attackerClass == "terminator_nextbot_zambietorso" then
             if target.Virus and target.Virus.Infected then return end
             local chance = target.VirusInfectionChance or 5
-            --print(target:Nick() .. " has a " .. chance .. "% chance of being infected.")
             if math.random(1, 100) <= chance then
                 VirusModule.InfectPlayer(target)
             else
                 target.VirusInfectionChance = (target.VirusInfectionChance or 5) + 5
-                --print(target:Nick() .. "'s infection chance increased to " .. target.VirusInfectionChance .. "%.")
             end
         end
     end
@@ -167,7 +162,6 @@ end)
 
 hook.Add("PlayerDeath", "VirusReset", function(ply)
     ply.Virus = nil
-    --print(ply:Nick() .. " has died and the virus has been reset.")
 end)
 
 hook.Add("Org Clear", "VirusClear", function(ply)

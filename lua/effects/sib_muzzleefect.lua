@@ -21,26 +21,7 @@ function EFFECT:Init(data)
 	dir = dir:Forward()
 	local addvel = ply:GetVelocity()
 	local emitter = ParticleEmitter(pos)
-	
-	--[[for i = 1, math.Round(quality*math.Clamp(wpn.Primary.Force/30,1,5)) do
-        local particle = emitter:Add(SIB_GetSmokeImage(), pos)
 
-        if particle then
-            particle:SetVelocity(VectorRand() * 10 + (dir * i * math.Rand(12, 24)) + addvel)
-            particle:SetLifeTime(0)
-            particle:SetDieTime(math.Rand(0.5, 0.8)*math.Clamp(wpn.Primary.Force/30,1,3))
-            particle:SetStartAlpha(math.Rand(10, 15) * (1.5))
-            particle:SetEndAlpha(0)
-            particle:SetStartSize(math.Rand(2, 6))
-            particle:SetEndSize(math.Rand(26, 32)*math.Clamp(wpn.Primary.Force/30,1,5))
-            particle:SetRoll(math.rad(math.Rand(0, 360)))
-            particle:SetRollDelta(math.Rand(-1, 1))
-            particle:SetLighting(true)
-            particle:SetAirResistance(96)
-            particle:SetGravity(Vector(-7, 3, 60))
-            particle:SetColor(185, 185, 185)
-        end
-    end--]]
 	if quality >= 3 then
 		local particle = emitter:Add(TableRandomChoice(images_distort), pos)
 		if particle then

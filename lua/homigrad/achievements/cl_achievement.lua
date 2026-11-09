@@ -5,7 +5,7 @@ hg.achievements.achievements_data.created_achevements = {}
 
 hg.achievements.MenuPanel = hg.achievements.MenuPanel or nil
 
-local curent_panel_ach  
+local curent_panel_ach
 concommand.Add("hg_achievements",function()
     --hg.DrawAchievmentsMenu() doesn't work as for 15.02.2026 | from bogler with love 🥴
     print('use esc menu')
@@ -25,10 +25,10 @@ local function createButton(frame, ach, text, func)
     local button = vgui.Create("DButton", frame)
 
     ach.img = isstring(ach.img) and Material(ach.img) or ach.img
-    
+
     local localach = hg.achievements.GetLocalAchievements()
     local desc = markup.Parse("<font=HomigradFontMedium>"..ach.description.."<font>", 500 )
-    
+
     local x,y = frame:LocalToScreen(button:GetPos())
     function button:Paint(w,h)
 		PaintButton(self,w,h)
@@ -36,13 +36,13 @@ local function createButton(frame, ach, text, func)
         local pos,ang = view.origin,view.angles
         ang:RotateAroundAxis( ang:Up(), -90 )
 	    ang:RotateAroundAxis( ang:Forward(), 90 )
-        
+
         self.lerpcolor = Lerp(FrameTime() * 10,self.lerpcolor or 0,self:IsHovered() and 255 or 0)
-       
+
         local val = localach[ach.key] and localach[ach.key].value or ach.start_value
         local amt = ScreenScale(1)
 
-        surface.SetFont("HomigradFont") 
+        surface.SetFont("HomigradFont")
         local txt = ach.name..(ach.showpercent and " | " or "")..(ach.showpercent and (val / ach.needed_value * 100).."%" or "")
         local wt,ht = surface.GetTextSize(txt)
         surface.SetTextColor(255,255,255)
@@ -69,31 +69,31 @@ local function createButton_2(frame, ach, text, func, y)
     local button = vgui.Create("DButton", frame)
 
     ach.img = isstring(ach.img) and Material(ach.img) or ach.img
-    
+
     local localach = hg.achievements.GetLocalAchievements()
     local desc = markup.Parse("<font=HomigradFontMedium>"..ach.description.."<font>", 500 )
-    
+
     function button:Paint(w,h)
         PaintButton(self,w,h)
         local view = render.GetViewSetup(true)
         local pos,ang = view.origin,view.angles
         ang:RotateAroundAxis( ang:Up(), -90 )
         ang:RotateAroundAxis( ang:Forward(), 90 )
-                
+
         local val = localach[ach.key] and localach[ach.key].value or ach.start_value
         local amt = ScreenScale(1)
 
-        surface.SetFont("HomigradFont") 
-        
+        surface.SetFont("HomigradFont")
+
         self.HoverLerp = LerpFT(0.2, self.HoverLerp or 0, curent_panel_ach == ach and 1 or 0)
-        
+
         local base = (curent_panel_ach == ach and string.upper(ach.name) or ach.name)..(ach.showpercent and " | " or "")..(ach.showpercent and (val / ach.needed_value * 100).."%" or "")
-        
+
         local result = ""
         for i = 1, #base do
             result = result .. (i <= math.ceil(#base * self.HoverLerp) and string.upper(base:sub(i,i)) or base:sub(i,i))
         end
-        
+
         local wt,ht = surface.GetTextSize(result)
         surface.SetTextColor(255,255,255)
         surface.SetTextPos(3, (ht / 2))
@@ -104,7 +104,7 @@ local function createButton_2(frame, ach, text, func, y)
     button:SetSize(frame:GetWide(),ScreenScale(22))
 
     button:SetPos(0,y)
-    button.DoClick = function(self) 
+    button.DoClick = function(self)
         curent_panel_ach = ach
         func(self)
 		for i = 1, 3 do
@@ -187,7 +187,7 @@ function hg.DrawAchievmentsMenu(ParentPanel)
     function frame:UpdateValues()
         local scroll = self.scroll
         scroll:Clear()
-        
+
         local y = 0
         for i,ach in pairs(hg.achievements.achievements_data.created_achevements) do
             local bbb = createButton_2(scroll, ach, ach.name, function() end,y)
@@ -216,14 +216,14 @@ function hg.DrawAchievmentsMenu(ParentPanel)
         surface.DrawRect(0,h-h/6,w,h/6)
         surface.SetDrawColor(22,21,21)
         surface.DrawRect(0,h-3,w,3)
-        
+
         if curent_panel_ach then
             self.HoverLerp = LerpFT(0.2,self.HoverLerp or 0,1)
-            
+
             surface.SetDrawColor(255,255,255,255)
             surface.SetMaterial(curent_panel_ach.img)
             surface.DrawTexturedRect(w/2-w/10,h/2-w/5,w/5,w/5)
-            
+
             surface.SetFont("ZCity_Small")
             local name = curent_panel_ach.name
             local res = ""
@@ -234,7 +234,7 @@ function hg.DrawAchievmentsMenu(ParentPanel)
             surface.SetTextColor(255,255,255)
             surface.SetTextPos(w/2-wt/2,h-h/6)
             surface.DrawText(res)
-            
+
             surface.SetFont("ZCity_Tiny")
             local desc = curent_panel_ach.description
             local res2 = ""
@@ -269,14 +269,14 @@ end
 net.Receive("req_ach",function()
     hg.achievements.achievements_data.created_achevements = net.ReadTable()
     hg.achievements.achievements_data.player_achievements[tostring(LocalPlayer():SteamID())] = net.ReadTable()
-    
+
     if IsValid(hg.achievements.MenuPanel) then
         hg.achievements.MenuPanel:UpdateValues()
     end
 end)
 
 hg.achievements.NewAchievements = hg.achievements.NewAchievements or {}
-local AchTable = hg.achievements.NewAchievements 
+local AchTable = hg.achievements.NewAchievements
 net.Receive("hg_NewAchievement",function()
     local Ach = {time = CurTime() + 7.5,name = net.ReadString(),img = net.ReadString()}
     table.insert(AchTable,1,Ach)
@@ -297,11 +297,11 @@ hook.Add("HUDPaint","hg_NewAchievement", function()
         WSize, HSize = (ScrW() * 0.1) + (wt), ScrH() * 0.05
         local HPos = ScrH() - ( HSize * ach.Lerp )
         draw.RoundedBox( 0, 2, HPos + 2, WSize - 4, HSize - 4, ach_clr2 )
-		
+
 		surface.SetDrawColor(155, 0, 0, 255)
 		surface.SetMaterial(gradient_u)
 		surface.DrawTexturedRect( 0, HPos, WSize, HSize )
-	
+
 		surface.SetDrawColor( 150, 0, 0, 255)
 		surface.DrawOutlinedRect( 0, HPos, WSize, HSize, 2.5 )
 
@@ -312,7 +312,7 @@ hook.Add("HUDPaint","hg_NewAchievement", function()
         surface.SetDrawColor(255,255,255)
         surface.SetMaterial(ach.img)
         surface.DrawTexturedRect(2,HPos+2,HSize-4,HSize-4)
-        if ach.time < CurTime() then 
+        if ach.time < CurTime() then
             table.remove(AchTable,i)
         end
     end

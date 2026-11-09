@@ -16,7 +16,7 @@ local mat = Material("particle/smokesprites_0010")
 local colSmoke = Color(255,251,0,52)
 hook.Add("PreDrawEffects","chlorine_gas",function()
 	if not tbl then return end
-	
+
 	for i,tbl2 in ipairs(tbl) do
 		if not tbl2 then continue end
 		if not oldtbl[i] then continue end

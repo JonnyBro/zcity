@@ -41,10 +41,10 @@ function MODE:RenderScreenspaceEffects()
     surface.DrawRect(-1,-1,ScrW() + 1,ScrH() + 1)
 end
 
---// Ну вроде сделал его чуточку читаемым 
+--// Ну вроде сделал его чуточку читаемым
 function MODE:HUDPaint()
     if zb.ROUND_START + 8.5 < CurTime() then return end
-     
+
     if not lply:Alive() then return end
     zb.RemoveFade()
 
@@ -61,7 +61,7 @@ function MODE:HUDPaint()
         color = team_data.color1,
         objective = team_data.objective
     }
-    
+
     role_data.color.a = 255 * fade
 
     draw.SimpleText("You are " .. role_data.name, "ZB_HomicideMediumLarge", sw * 0.5, sh * 0.5, role_data.color, TEXT_ALIGN_CENTER, TEXT_ALIGN_CENTER)
@@ -82,13 +82,13 @@ function MODE:HUDPaint()
 end
 
 hook.Add("radialOptions", "CMB_Airstrike", function()
-     
+
 	local org = lply.organism
-	
+
     if lply:GetNWString("PlayerRole") == "Elite" and not org.otrub then -- that's a feature apparently
 		local tbl = {
 			function()
-				net.Start("ZB_RequestAirStrike") 
+				net.Start("ZB_RequestAirStrike")
 				net.SendToServer()
 			end,
 			"Request Airstrike"
@@ -160,7 +160,6 @@ CreateEndMenu = function()
 
 	hmcdEndMenu:SetPos(posX,posY)
 	hmcdEndMenu:SetSize(sizeX,sizeY)
-	--hmcdEndMenu:SetBackgroundColor(colGray)
 	hmcdEndMenu:MakePopup()
 	hmcdEndMenu:SetKeyboardInputEnabled(false)
 	hmcdEndMenu:ShowCloseButton(false)
@@ -169,7 +168,7 @@ CreateEndMenu = function()
 	closebutton:SetPos(5,5)
 	closebutton:SetSize(ScrW() / 20,ScrH() / 30)
 	closebutton:SetText("")
-	
+
 	closebutton.DoClick = function()
 		if IsValid(hmcdEndMenu) then
 			hmcdEndMenu:Close()
@@ -228,7 +227,7 @@ CreateEndMenu = function()
             local col = ply:GetPlayerColor():ToColor()
 			surface.SetFont( "ZB_InterfaceMediumLarge" )
 			local lengthX, lengthY = surface.GetTextSize( ply:GetPlayerName() or "He quited..." )
-			
+
 			surface.SetTextColor(0,0,0,255)
 			surface.SetTextPos(w / 2 + 1,h/2 - lengthY/2 + 1)
 			surface.DrawText(ply:GetPlayerName() or "He quited...")
@@ -237,7 +236,7 @@ CreateEndMenu = function()
 			surface.SetTextPos(w / 2,h/2 - lengthY/2)
 			surface.DrawText(ply:GetPlayerName() or "He quited...")
 
-            
+
 			local col = colSpect2
 			surface.SetFont( "ZB_InterfaceMediumLarge" )
 			surface.SetTextColor(col.r,col.g,col.b,col.a)

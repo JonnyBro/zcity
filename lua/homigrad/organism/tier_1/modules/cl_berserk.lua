@@ -36,7 +36,7 @@ local path = CreateClientConVar("berserk_path", "sound/zbattle/pharmacia.mp3", t
 
 hook.Add("RenderScreenspaceEffects", "berserkEffect", function()
 	local organism = lply:Alive() and lply.organism
-	
+
 	if !organism then
 		hg.underberserk = false
 		hg.underberserk2 = false
@@ -44,7 +44,6 @@ hook.Add("RenderScreenspaceEffects", "berserkEffect", function()
 		if IsValid(hg.berserkStation) then
 			hg.berserkStation:Stop()
 			hg.berserkStation = nil
-			-- atlaschat.font:SetString("atlaschat.theme.text")
 		end
 
 		hg.notificationFont = "HuyFont"
@@ -84,7 +83,6 @@ hook.Add("RenderScreenspaceEffects", "berserkEffect", function()
 			sound.PlayFile(path:GetString(), "noblock", function(channel)
 				hg.berserkStation = channel
 				channel:EnableLooping(true)
-				-- atlaschat.font:SetString("BerserkChatFont")
 			end)
 
 			hg.currentNotification = nil
@@ -99,7 +97,6 @@ hook.Add("RenderScreenspaceEffects", "berserkEffect", function()
 		if IsValid(hg.berserkStation) then
 			hg.berserkStation:Stop()
 			hg.berserkStation = nil
-			-- atlaschat.font:SetString("atlaschat.theme.text")
 		end
 
 		hg.notificationFont = "HuyFont"
@@ -122,11 +119,8 @@ hook.Add("RenderScreenspaceEffects", "berserkEffect", function()
 	end
 
 	if hg.underberserk2 and IsValid(hg.berserkStation) then
-		--local intensity = ((hg.berserkStartTime2 + SysTime()) / 60) * 70 % 1
-		--intensity = math.abs(math.cos(1 - (intensity * 2))) * berserkClamped
 		local intensity = 1 - ((hg.berserkStation:GetTime() - offset:GetFloat()) / 60 * bpm:GetInt())
 		intensity = (intensity - math.Round(intensity)) % 1
-		--intensity = math.sqrt(math.sqrt(intensity))
 		intensity = math.Clamp((intensity * 0.25 + 0.75), 0, 1)
 		intensity = math.ease.InExpo(intensity) * berserkClamped * 2--math.abs(math.cos(1 - (intensity * 2))) * berserkClamped
 
@@ -175,7 +169,7 @@ hook.Add("Post Post Processing", "berserkEffect", function()
 	if hg.underberserk2 and hg.berserkClamped then
 		render.UpdateScreenEffectTexture()
 		render.UpdateFullScreenDepthTexture()
-		
+
 		grainMat:SetFloat("$c0_x", CurTime()) -- time
 		grainMat:SetFloat("$c0_y", 0.5) -- gate
 		grainMat:SetFloat("$c0_z", 2) -- Pixelize
@@ -186,7 +180,7 @@ hook.Add("Post Post Processing", "berserkEffect", function()
 		grainMat:SetFloat("$c2_y", 0) -- g
 		grainMat:SetFloat("$c2_z", 0) -- b
 		grainMat:SetFloat("$c3_x", 0) -- ImageIntensity
-	
+
 		render.SetMaterial(grainMat)
 		render.DrawScreenQuad()
 	end
@@ -197,7 +191,6 @@ hook.Add("HG_CalcView","InsaneRollCam",function(ply, origin, angles, fova)
 		local intensity = 1 - ((hg.berserkStation:GetTime() - offset:GetFloat()) / 60 * bpm:GetInt())
 		angles[1] = angles[1] - hg.berserkIntensity * 0.2
 		angles[3] = math.cos(CurTime() * 0.3) * hg.berserkClamped + hg.berserkIntensity * 2 * (intensity % 2 > 1 and 1 or -1)
-		--print(fova)
 		fova[1] = fova[1] + hg.berserkIntensity * -2
 	end
 end)
@@ -221,15 +214,15 @@ local HM_sky_material = CreateMaterial("g_sky_HMFrf", "g_Sky", {
 	["$bottomcolor"]   = "[0 0 1]",
 	["$fadebias"]      = "1.0",
 	["$hdrscale"]      = "0.25",
-	
+
 	["$duskcolor"]     = "[1 0.3 0.25]",
 	["$duskscale"]     = "0.5",
 	["$duskintensity"] = "5.0",
-	
+
 	["$sunnormal"]     = "[0 1 1]",
 	["$suncolor"]      = "[0 1 1]",
 	["$sunsize"]       = "5",
-	
+
 	["$startexture"]   = "skybox/starfield",
 	["$starfade"]      = "0",
 	["$starscale"]     = "1",
@@ -239,7 +232,6 @@ local HM_sky_material = CreateMaterial("g_sky_HMFrf", "g_Sky", {
 
 local maxs = Vector(64, 64, 64)
 local mins = -maxs
---local alphacolor = Color(255,255,255,255)
 
 local matGlow = Material("Sprites/light_glow02_add_noz")
 local red = Color(255, 58, 84)
@@ -268,15 +260,12 @@ hook.Add("PostDrawTranslucentRenderables", "berserkSky", function(depth, drawsky
 	if (drawsky or sky3d) then
 		local sun_info = util.GetSunInfo()
 		if sun_info != nil then HM_sky_material:SetVector("$sunnormal", sun_info.direction) end
-		--alphacolor.a = hg.berserkIntensity
 		HM_sky_material:SetFloat("$duskscale",math.abs(math.sin(CurTime()*1.5))*1)
 		HM_sky_material:SetFloat("$duskintensity",0.2*hg.berserkIntensity/(hg.berserkIntensity/3))
 
-		--print(hg.berserkIntensity)
 		cam.Start3D(vector_origin, EyeAngles())
 			render.SetMaterial(HM_sky_material)
 			cam.IgnoreZ(true)
-				--render.DrawBox(vector_origin, angle_zero, maxs, mins, color_white)
 			cam.IgnoreZ(false)
 		cam.End3D()
 	end

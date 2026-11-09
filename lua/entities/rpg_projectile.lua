@@ -23,10 +23,10 @@ ENT.SafetyDistance = 7 * 52.49
 
 function ENT:Initialize()
     self.BaseClass.Initialize(self)
-    
+
     if SERVER then
         self:SetUseType(SIMPLE_USE)
-        
+
         self.StartPos = self:GetPos()
         self.SafetyArmed = false
     end
@@ -38,23 +38,23 @@ function ENT:CheckSafetyDistance()
         self.StartPos = self:GetPos()
         return false
     end
-    
+
     local distance = self:GetPos():Distance(self.StartPos)
-    
+
     if distance >= self.SafetyDistance and not self.SafetyArmed then
         self.SafetyArmed = true
         self:EmitSound("buttons/button16.wav", 50, 150, 0.3)
     end
-    
+
     return self.SafetyArmed
 end
 
 local function IsSoftSurface(trace)
     local surfName = util.GetSurfacePropName(trace.SurfaceProps or 0):lower()
-    
-    if surfName:find("dirt") or 
-       surfName:find("mud") or 
-       surfName:find("grass") or 
+
+    if surfName:find("dirt") or
+       surfName:find("mud") or
+       surfName:find("grass") or
        surfName:find("sand") or
        surfName:find("gravel") or
        surfName:find("snow") or
@@ -62,7 +62,7 @@ local function IsSoftSurface(trace)
        surfName:find("foliage") then
         return true
     end
-    
+
     return false
 end
 
@@ -91,18 +91,18 @@ function ENT:AboutToHit2(trace)
     if superfightermoment(self, trace.Entity) then
         return true
     end
-    
+
     if trace.Hit and not trace.HitSky then
 
         if not self:CheckSafetyDistance() then
             if IsSoftSurface(trace) then
-                self.Duded = true 
+                self.Duded = true
                 return true
             else
                 return true
             end
         end
-        
+
         if IsSoftSurface(trace) then
             return true
         else
@@ -110,7 +110,7 @@ function ENT:AboutToHit2(trace)
             return true
         end
     end
-    
+
     return false
 end
 
@@ -121,16 +121,16 @@ function ENT:PhysicsCollide2(data, physobj)
         self.Truhst = CurTime() + 10
         return true
     end
-    
+
     if IsValid(physobj) then
         physobj:SetVelocity(Vector(0, 0, 0))
         physobj:SetAngleVelocity(Vector(0, 0, 0))
     end
-    
+
     local hitEntity = data.HitEntity
     local hitPos = data.HitPos
     local hitNormal = data.HitNormal
-    
+
     local tr = util.TraceHull({
         start = self:GetPos(),
         endpos = hitPos,
@@ -138,7 +138,7 @@ function ENT:PhysicsCollide2(data, physobj)
         maxs = Vector(2, 2, 2),
         filter = self
     })
-    
+
     local trace = {
         Hit = tr.Hit,
         HitPos = tr.HitPos or hitPos,
@@ -148,26 +148,26 @@ function ENT:PhysicsCollide2(data, physobj)
         HitTexture = tr.HitTexture or "unknown",
         SurfaceProps = tr.SurfaceProps or 0
     }
-    
+
     if IsSoftSurface(trace) then
         physobj:EnableMotion(false)
         physobj:Sleep()
         physobj:SetVelocity(Vector(0, 0, 0))
         physobj:SetAngleVelocity(Vector(0, 0, 0))
         self:SetMoveType(MOVETYPE_NONE)
-        
+
         local dud_chance
         if not self:CheckSafetyDistance() then
-            dud_chance = 100 
+            dud_chance = 100
         else
             dud_chance = math.random(1, 100)
         end
-        
+
         if (not self:CheckSafetyDistance()) or (dud_chance <= 5) then
             local penetrationDepth = -3
             local embedPos = hitPos + hitNormal * -penetrationDepth
             local embedAngle = data.OurOldVelocity:Angle()
-            
+
             timer.Simple(0, function()
                 if not IsValid(self) then return end
 
@@ -194,15 +194,15 @@ function ENT:PhysicsCollide2(data, physobj)
                 end
                 self:Remove()
             end)
-            
-            self.Duded = false 
-            self.Deactivated = true 
+
+            self.Duded = false
+            self.Deactivated = true
             self:StopSound("weapons/ins2rpg7/rpg_rocket_loop.wav")
             self:EmitSound("weapons/pistol/pistol_empty.wav", 60, 100, 0.8)
         else
             self:Detonate()
         end
-        
+
         return true
     else
         if not self.Exploded then
@@ -236,7 +236,7 @@ function ENT:OnTakeDamage(damage)
         self:Detonate()
         return
     end
-    
+
     self.BaseClass.OnTakeDamage(self, damage)
 end
 
@@ -267,17 +267,17 @@ function ENT:Use(ply)
         if self:GetPos():Distance(ply:GetPos()) > 100 then
             return
         end
-        
+
         ply:GiveAmmo(1, "RPG_Round", true)
         self:Remove()
         return
     end
-    
+
     if self.Duded then
         if self:GetPos():Distance(ply:GetPos()) > 100 then
             return
         end
-        
+
         if not self.UseWarned then
             local doubt_phrase = doubt_phrases[math.random(#doubt_phrases)]
             if ply.Notify then
@@ -288,33 +288,32 @@ function ENT:Use(ply)
             self.UseWarned = true
             return
         end
-        
+
         if not self.ExtractStarted then
             self.ExtractStarted = true
             self.ExtractingPlayer = ply
             ply:ChatPrint("In progress")
-            
+
             local dots = ""
             timer.Create("RPGExtractDots_" .. self:EntIndex(), 1, 6, function()
-                if not IsValid(self) or not IsValid(ply) then 
+                if not IsValid(self) or not IsValid(ply) then
                     timer.Remove("RPGExtractDots_" .. self:EntIndex())
-                    return 
+                    return
                 end
-                
+
                 if self:GetPos():Distance(ply:GetPos()) > 100 then
                     timer.Remove("RPGExtractDots_" .. self:EntIndex())
-                    --ply:ChatPrint("huy")
                     self.ExtractStarted = false
                     self.ExtractingPlayer = nil
                     return
                 end
-                
+
                 dots = dots .. "."
                 ply:ChatPrint("In progress" .. dots)
-                
+
                 if dots == "......" then
                     timer.Remove("RPGExtractDots_" .. self:EntIndex())
-                    
+
                     if math.random(1, 2) == 1 then
                         self.Duded = false
                         self:Detonate()
@@ -325,18 +324,18 @@ function ENT:Use(ply)
                         else
                             ply:ChatPrint(relief_phrase)
                         end
-                        
+
                         ply:GiveAmmo(1, "RPG_Round", true)
-                        
+
                         self:Remove()
                     end
                 end
             end)
         end
-        
+
         return
     end
-    
+
     if IsValid(ply) then
         ply:PickupObject(self)
     end
@@ -363,12 +362,12 @@ if CLIENT then
         local explosionPos = net.ReadVector()
         local closeSound = net.ReadString()
         local farSound = net.ReadString()
-        
+
         local ply = LocalPlayer()
         if not IsValid(ply) then return end
-        
+
         local distance = ply:GetPos():Distance(explosionPos)
-        local time = distance / 17836 
+        local time = distance / 17836
 
         local tr = util.TraceLine({
             start = explosionPos,
@@ -377,18 +376,18 @@ if CLIENT then
         })
         local bRoom = tr.HitSky or not tr.Hit
         local roomMultiplier = bRoom and 1.0 or 0.7
-        
+
         if distance <= 1500 then
             EmitSound(closeSound, explosionPos, 0, CHAN_AUTO, 1, 120 * roomMultiplier, 0, 100, SOUND_LEVEL_GUNFIRE)
         else
             timer.Simple(time, function()
                 if not IsValid(ply) then return end
-                
+
                 local baseVolume = math.Clamp(150 - (distance / 100), 60, 150) * roomMultiplier
                 local farPitch = math.Clamp(100 - (distance / 1000), 70, 95)
 
                 EmitSound(farSound, explosionPos, 0, CHAN_STATIC, 1, baseVolume, 0, farPitch, SOUND_LEVEL_GUNFIRE)
-                
+
                 if distance > 3000 then
                     timer.Simple(0.5, function()
                         EmitSound(farSound, explosionPos, 1, CHAN_STATIC, 1, baseVolume * 0.6, 0, farPitch - 15, SOUND_LEVEL_GUNFIRE)
@@ -402,9 +401,9 @@ end
 function ENT:Detonate()
     if SERVER then
         self:PlayDistantExplosionSounds()
-        self.NoExplosionSound = true 
+        self.NoExplosionSound = true
     end
-    
+
     self.BaseClass.Detonate(self)
 end
 
@@ -418,33 +417,33 @@ local ProblematicNPCs = {
 function ENT:CheckProximityToProblematicNPCs()
     if CLIENT then return false end
     if self.Exploded then return false end
-    
+
     local pos = self:GetPos()
     local checkRadius = 150
-    
+
     local nearbyEnts = ents.FindInSphere(pos, checkRadius)
-    
+
     for _, ent in ipairs(nearbyEnts) do
         if IsValid(ent) and ent:IsNPC() then
             local class = ent:GetClass()
             if ProblematicNPCs[class] then
                 local npcCenter = ent:LocalToWorld(ent:OBBCenter())
                 local distToCenter = pos:Distance(npcCenter)
-                
+
                 if distToCenter < 200 then
                     return true
                 end
-                
+
                 local closestPoint = ent:NearestPoint(pos)
                 local distToClosest = pos:Distance(closestPoint)
-                
+
                 if distToClosest < 80 then
                     return true
                 end
             end
         end
     end
-    
+
     return false
 end
 
@@ -452,13 +451,13 @@ function ENT:Think()
     if SERVER and not self.SafetyArmed then
         self:CheckSafetyDistance()
     end
-    
+
     if SERVER and not self.Exploded then
         if self:CheckProximityToProblematicNPCs() then
             self:Detonate()
             return
         end
     end
-    
+
     self.BaseClass.Think(self)
 end

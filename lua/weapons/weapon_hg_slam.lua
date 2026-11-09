@@ -101,7 +101,7 @@ end
 if CLIENT then
     local csent = ClientsideModel(SWEP.WorldModel)
     csent:SetNoDraw(true)
-    
+
     function SWEP:DrawHUD()
         if self:GetPlaced() then return end
         if not IsValid(csent) then
@@ -129,7 +129,7 @@ end
 
 function SWEP:PrimaryAttack()
     local ply = self:GetOwner()
-    
+
     if not self:GetPlaced() then
         local tr = ply:GetEyeTrace()
         if not CanPlace(ply, tr) then return end

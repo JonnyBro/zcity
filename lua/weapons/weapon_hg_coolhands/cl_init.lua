@@ -56,96 +56,6 @@ function SWEP:DrawHUD()
 	surface.SetDrawColor(colWhite)
 	surface.DrawRect(x - 25 * lerpthing * 0.1, y - 2.5, 50 * lerpthing * 0.1, 5)
 	surface.DrawRect(x - 2.5, y - 25 * lerpthing * 0.1, 5, 50 * lerpthing * 0.1)
-
-	do return end // mannytko stupid UwU
-
-	local ent = IsValid(Tr.Entity) and Tr.Entity.organism and Tr.Entity or owner
-	if ent.organism then
-		if Tr.Entity == ent then ent.is_lookedat = hg.KeyDown(owner, IN_RELOAD) end
-		lerpalpha = LerpFT(0.1, lerpalpha, hg.KeyDown(owner, IN_RELOAD) and 255 + 2000 or 0)
-		local lerpalpha = lerpalpha - 2000
-		local org = ent.organism
-		local add_x = 0
-		local scrw, scrh = ScrW(), ScrH()
-		local w, h = ScreenScale(30), ScreenScale(30)
-		local add = ScreenScale(2)
-		local posx, posy = scrw * 0.05, scrh * 0.95
-		colwhite.a = lerpalpha / 1.1
-		colred.a = lerpalpha / 1.1
-
-		draw.RoundedBox(0, posx - 4, posy - h * 1.5 - 4, w * 10 + add * 10 + 8, 1.5 * h + 8, colred)
-		draw.RoundedBox(0, posx, posy - h * 1.5, w * 10 + add * 10, 1.5 * h, colwhite)
-
-		surface.SetFont("HomigradFontLarge")
-		surface.SetTextColor(255, 255, 255, lerpalpha)
-		local txt = "Afflictions shown for "..ent:GetPlayerName()..":"
-		local w1, h1 = surface.GetTextSize(txt)
-		surface.SetTextPos(scrw * 0.05, scrh * 0.95 - h - h1)
-		surface.DrawText(txt)
-
-		if org.blood and org.blood < 4000 then
-			hg.DrawAffliction(posx + add_x, posy - h, w, h, (4000 - org.blood) / 4000, hg.afflictions.pale, lerpalpha, "Pale skin")
-
-			add_x = add_x + w + add
-		end
-
-		if org.bleed and org.bleed > 0.1 then
-			hg.DrawAffliction(posx + add_x, posy - h, w, h, math.min(org.bleed / 10, 1), hg.afflictions.bleeding, lerpalpha, "Bleeding")
-
-			add_x = add_x + w + add
-		end
-
-		if org.disorientation and org.disorientation > 0.1 and ent == owner then
-			hg.DrawAffliction(posx + add_x, posy - h, w, h, math.min(org.disorientation / 2, 1), hg.afflictions.concussion, lerpalpha, "Concussion")
-
-			add_x = add_x + w + add
-		end
-
-		if org.rleg and org.rleg > 0 then
-			hg.DrawAffliction(posx + add_x, posy - h, w, h, org.rleg, org.rleg > 0.999 and hg.afflictions.lfracture or hg.afflictions.lblunt, lerpalpha, org.rleg > 0.999 and "Right leg fracture" or "Right leg blunt trauma")
-
-			add_x = add_x + w + add
-		end
-
-		if org.lleg and org.lleg > 0 then
-			hg.DrawAffliction(posx + add_x, posy - h, w, h, org.lleg, org.lleg > 0.999 and hg.afflictions.lfracture or hg.afflictions.lblunt, lerpalpha, org.lleg > 0.999 and "Left leg fracture" or "Left leg blunt trauma")
-
-			add_x = add_x + w + add
-		end
-
-		if org.rarm and org.rarm > 0 then
-			hg.DrawAffliction(posx + add_x, posy - h, w, h, org.rarm, org.rarm > 0.999 and hg.afflictions.afracture or hg.afflictions.ablunt, lerpalpha, org.rarm > 0.999 and "Right arm fracture" or "Right arm blunt trauma")
-
-			add_x = add_x + w + add
-		end
-
-		if org.larm and org.larm > 0 then
-			hg.DrawAffliction(posx + add_x, posy - h, w, h, org.larm, org.larm > 0.999 and hg.afflictions.afracture or hg.afflictions.ablunt, lerpalpha, org.larm > 0.999 and "Left arm fracture" or "Left arm blunt trauma")
-
-			add_x = add_x + w + add
-		end
-
-		if org.pain and org.pain > 20 and not org.otrub then
-			hg.DrawAffliction(posx + add_x, posy - h, w, h, (org.pain - 20) / 30, hg.afflictions.pain, lerpalpha, "Pain")
-
-			add_x = add_x + w + add
-		end
-
-		if org.o2 and org.o2[1] < 5 then
-			hg.DrawAffliction(posx + add_x, posy - h, w, h, (5 - org.o2[1]) / 5, hg.afflictions.lung_failure, lerpalpha, "Lung failure")
-
-			add_x = add_x + w + add
-		end
-
-		--hg.DrawAffliction(scrw * 0.05 + add_x, scrh * 0.95 - h, w, h, 1, 3, 255)
-
-		if add_x == 0 then
-			surface.SetFont("HomigradFontLarge")
-			surface.SetTextColor(255, 255, 255, lerpalpha)
-			surface.SetTextPos(scrw * 0.05, scrh * 0.95 - h)
-			surface.DrawText("No afflictions.")
-		end
-	end
 end
 
 local function qerp(delta, a, b)
@@ -199,7 +109,6 @@ function SWEP:DrawWorldModel()
 			pos = pos + ang:Forward() * 10
 		end
 
-		--print(pos)
 		WorldModel:SetRenderOrigin(pos)
 		WorldModel:SetRenderAngles(ang)
 	else
@@ -208,7 +117,6 @@ function SWEP:DrawWorldModel()
 	end
 
 	WorldModel:SetupBones()
-	--WorldModel:DrawModel()
 end
 
 local host_timescale = game.GetTimeScale
@@ -274,24 +182,15 @@ function SWEP:ModelAnim(model, pos, ang)
 
 		addAng.p = addAng.p + math.cos(CurTime() * 2) * 1
 
-		//addPos.z = addPos.z + eyeAng[1] * 0.05
 		addPos.x = addPos.x + eyeAng[1] * 0.05
 
 		local veldot = self.velocityAdd:Dot(tr.Normal:Angle():Right())
 
 		addAng.r = addAng.r - veldot * 5 + math.cos(CurTime() * 5) * walk * 2
 
-		//addAng.p = addAng.p + math.cos(CurTime() * 2) * 1
-
 		self.lastAddPos = addPos
 	end
 
-
-	//local inattack1 = self:GetAttackType() == 1 and math.max(self:GetLastAttack() - CurTime(),0) / self.AttackTime > 0 or false
-	//local inattack2 = self:GetAttackType() == 2 and math.max(self:GetLastAttack() - CurTime(),0) / self.AttackTime > 0 or false
-
-	//self.attackanim = LerpFT(0.1, self.attackanim, (inattack1 and 0.8 or 0) - (inattack2 and 0.3 or 0))
-	//self.sprintanim = LerpFT(0.05, self.sprintanim, self:IsSprinting() and 1 or 0)
 
 	local hpos = (self.HoldPos or vector_origin) + vechuy
 	local hang = (self.HoldAng or angle_zero)
@@ -302,7 +201,6 @@ function SWEP:ModelAnim(model, pos, ang)
 end
 
 function SWEP:Camera(eyePos, eyeAng, view, vellen)
-	//self:SetHandPos()
 	self:DrawWorldModel()
 	local owner = self:GetOwner()
 	if not IsValid(owner) then return end
@@ -354,7 +252,6 @@ function SWEP:SetHandPos(noset)
 
 	if not IsValid(ply) or not IsValid(self.worldModel) then return end
 	if IsValid(ply) and (not ply.shouldTransmit or ply.NotSeen) then return end
-	-- ply:SetupBones()
 
 	local ent = self:GetNWEntity("carryent")
 	self.rhandik = (self:GetFists()) or (IsValid(ent) and twohands)
@@ -411,7 +308,6 @@ function SWEP:SetHandPos(noset)
 
 		local lastaddpos = self:IsLocal() and self.lastAddPos or vector_origin
 		local posadd, _ = LocalToWorld(lastaddpos, angle_zero, vector_origin, ply:EyeAngles())
-		//local posadd = self:IsLocal() and self.lastAddPos and -(-self.lastAddPos) or -(-vector_origin)
 
 		self.blockingR = LerpFT(0.1, self.blockingR or vector_origin, (self:GetBlocking() and vecBlockingR or (self:GetNextIdle() < CurTime() and vecIdleR or vector_origin)))
 		local blocking = -(-self.blockingR)
@@ -440,7 +336,6 @@ function SWEP:SetHandPos(noset)
 				ply_bonematrix:SetAngles(boneang)
 
 				ply:SetBoneMatrix(ply_boneindex, ply_bonematrix)
-				--ply:SetBonePosition(ply_boneindex, bonepos, boneang)
 			end
 			local mat = ply:GetBoneMatrix(rh)
 			local ang = mat:GetAngles()
@@ -481,7 +376,6 @@ function SWEP:SetHandPos(noset)
 				ply_bonematrix:SetAngles(boneang)
 
 				ply:SetBoneMatrix(ply_boneindex, ply_bonematrix)
-				--ply:SetBonePosition(ply_boneindex, bonepos, boneang)
 			end
 			local mat = ply:GetBoneMatrix(lh)
 			local ang = mat:GetAngles()
@@ -566,7 +460,6 @@ SWEP.changedName = false
 local blockvp = Angle(-3, -1.5, 1)
 function SWEP:Think()
 	local owner = self:GetOwner()
-	-- if not self.changedName then
 		if owner.PlayerClassName == "sc_infiltrator" and self.PrintName ~= "CQC" then
 			self.PrintName = "CQC"
 			self.WepSelectIcon = cqcicon
@@ -578,8 +471,7 @@ function SWEP:Think()
 			self.PrintName = "Hands"
 		end
 		self.changedName = true
-	-- end
-	
+
 
 	if self:GetBlocking() then
 		if not self.blockSound then
@@ -629,7 +521,6 @@ function SWEP:PrimaryAttack(forcespecial)
 	end
 
 	if self:GetBlocking() then return end
-	--if owner:KeyDown(IN_SPEED) then return end
 
 	if not IsFirstTimePredicted() then
 		self:PlayAnim(side,1)
@@ -647,7 +538,6 @@ function SWEP:PrimaryAttack(forcespecial)
 
 	if CLIENT and self.IsLocal and self:IsLocal() then
 		ViewPunch(special_attack and specang1 or Angle(-1, -(rand and -3 or 3), (rand and -9 or 9)))
-		//ViewPunch2(special_attack and Angle(5, -2, 2) or Angle((-1), -(rand and 2 or -2), (rand and 6 or -6)))
 		if special_attack then
 			if not isfur then
 				timer.Simple(0.4, function()

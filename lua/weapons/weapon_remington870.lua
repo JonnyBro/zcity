@@ -1,4 +1,3 @@
---ents.Reg(nil,"weapon_m4super")
 SWEP.Base = "weapon_m4super"
 SWEP.Spawnable = true
 SWEP.AdminOnly = false
@@ -129,40 +128,27 @@ SWEP.AnimsEvents = {
 	["sgreload_insert"] = {
 		[0.0] = function(self)
 			self:EmitSound("weapons/arccw_ud/870/shell-insert-0"..math.random(1,3)..".ogg")
-			--
-			--self:GetWM():ManipulateBoneScale(47, vector_full)
 		end,
 		[0.8] = function(self)
-			--self:GetWM():ManipulateBoneScale(47, vector_origin)
 		end,
 	},
 	["cycle"] = {
 		[0.0] = function(self)
 			self:EmitSound("weapons/arccw_ud/870/rack_1.ogg")
-			--
-			--self:GetWM():ManipulateBoneScale(47, vector_full)
 		end,
 		[0.1] = function(self)
 			self:EmitSound("weapons/arccw_ud/870/eject.ogg")
-			--
-			--self:GetWM():ManipulateBoneScale(47, vector_full)
 		end,
 		[0.2] = function(self)
 			self:EmitSound("weapons/arccw_ud/870/rack_2.ogg")
-			--
-			--self:GetWM():ManipulateBoneScale(47, vector_full)
 		end
 	},
 	["sgreload_finish_empty"] = {
 		[0.0] = function(self)
 			self:EmitSound("weapons/arccw_ud/870/rack_1.ogg")
-			--
-			--self:GetWM():ManipulateBoneScale(47, vector_full)
 		end,
 		[0.3] = function(self)
 			self:EmitSound("weapons/arccw_ud/870/rack_2.ogg")
-			--
-			--self:GetWM():ManipulateBoneScale(47, vector_full)
 		end
 	}
 }
@@ -203,7 +189,6 @@ function SWEP:AnimationPost()
 		sin = sin * 1
 	end
 	sin = sin * 2
-	--sin = math.ease.InOutExpo(sin)
 	sin = math.ease.InOutSine(sin)
 
 	if sin > 0 then
@@ -229,7 +214,7 @@ function SWEP:GetAnimPos_Draw(time)
 end
 
 local function cock(self,time)
-	
+
 	if SERVER then
 		self:Draw(true)
 	end
@@ -245,7 +230,7 @@ local function cock(self,time)
 		net.WriteBool(self.drawBullet)
 		net.WriteFloat(CurTime())
 	net.Broadcast()
-	
+
 	self.Primary.Next = CurTime() + self.AnimDraw + self.Primary.Wait
 	if CLIENT then self:PlaySnd(self.CockSound or "weapons/shotgun/shotgun_cock.wav",true,CHAN_AUTO) end
 
@@ -268,30 +253,29 @@ local function reloadFunc(self)
 	if self.MagIndex then
 		self:GetWM():ManipulateBoneScale(self.MagIndex, vector_full)
 	end
-	
-	self:PlayAnim(self.AnimList["insert"] or "sgreload_insert", {0.85,0,0.05}, false, function() 
-		self:InsertAmmo(1) 
+
+	self:PlayAnim(self.AnimList["insert"] or "sgreload_insert", {0.85,0,0.05}, false, function()
+		self:InsertAmmo(1)
 		if self.MagIndex then
 			self:GetWM():ManipulateBoneScale(self.MagIndex, vector_origin)
 		end
-		
+
 		local key = hg.KeyDown(self:GetOwner(), IN_RELOAD)
-		--print("reload",key)
-		
+
 		if key and self:CanReload() then
 			reloadFunc(self)
 			return
 		end
 
 		if !self.drawBullet then
-			self:PlayAnim(self.AnimList["finish_empty"] or "sgreload_finish_empty", {0.8,0,0.3}, false, 
-			function(self) 
+			self:PlayAnim(self.AnimList["finish_empty"] or "sgreload_finish_empty", {0.8,0,0.3}, false,
+			function(self)
 				cock(self,1)
 				self:SetNetVar("shootgunReload",CurTime() + 0.5)
 				self:PlayAnim(self.AnimList["cycle"] or "cycle", 1, false, nil, false, true)
-			end, false, true) 
+			end, false, true)
 		else
-			self:PlayAnim(self.AnimList["finish"] or "sgreload_finish", 1, false, function(self) self:SetNetVar("shootgunReload", 0) end, false, true) 
+			self:PlayAnim(self.AnimList["finish"] or "sgreload_finish", 1, false, function(self) self:SetNetVar("shootgunReload", 0) end, false, true)
 		end
 	end, false, true)
 end
@@ -299,7 +283,6 @@ end
 SWEP.FakeEjectBrassATT = "2"
 
 function SWEP:Reload(time)
-	--print(self:GetNetVar("shootgunReload",0))
 	if self.AnimStart_Draw > CurTime() - 0.5 then return end
 	if not self:CanUse() then return end
 	if self.reloadCoolDown > CurTime() then return end
@@ -320,7 +303,7 @@ function SWEP:Reload(time)
 	if SERVER then
 		self:SetNetVar("shootgunReload", CurTime() + 1.1)
 
-		self:PlayAnim(self.AnimList["start"] or "sgreload_start",{1,0,0.2},false,function() 
+		self:PlayAnim(self.AnimList["start"] or "sgreload_start",{1,0,0.2},false,function()
 			reloadFunc(self)
 		end,
 		false, true)

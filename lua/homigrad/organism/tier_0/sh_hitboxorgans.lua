@@ -45,23 +45,21 @@ function hg.organism.ShootMatrix(ent, organs)
 
 	for nameBone, organs in pairs(organs) do
 		local bone = ent:LookupBone(nameBone)
-		--if not bone then continue end
 		matrix = ent:GetBoneMatrix(bone)
 		if not matrix then continue end
 		pos = matrix:GetTranslation()
 		ang = matrix:GetAngles()
 		for key, organ in pairs(organs) do
-			--print(key,organ[1])
 			local additional = organ[7]
 			if additional then
 				local ent = ent:IsPlayer() and ent or ent:IsRagdoll() and IsValid(hg.RagdollOwner(ent)) and hg.RagdollOwner(ent) or ent
 				local result = hook_Run("HG_OrganAvalible", ent, organ[1], organ)
 
 				if result != nil and result != true and not (ent and ent.armors and table.HasValue(ent.armors,organ[1])) then
-					continue 
+					continue
 				end
 			elseif ShowOnlyArmor and ShowOnlyArmor:GetBool() then
-				continue 
+				continue
 			end
 			mins = -organ[5]
 			maxs = -mins
@@ -72,12 +70,9 @@ function hg.organism.ShootMatrix(ent, organs)
 		end
 	end
 
-	//table.sort(boxs, function(a, b) return (organs[a[6]] and organs[a[6]][a[7]][2] or 0) > (organs[b[6]] and organs[b[6]][b[7]][2] or 0) end)
-	//PrintTable(boxs)
 	return boxs, obbCenter, sphereChunk
 end
 
---local util_IsOBBIntersectingOBB = util.IsOBBIntersectingOBB --huy not server side
 local util_IntersectRayWithOBB = util.IntersectRayWithOBB
 local math_ceil = math.ceil
 local stepDiv = 1
@@ -126,8 +121,7 @@ hook.Add("PostDrawTranslucentRenderables", "homigrad-organism", function()
 			local start = hg.eyeTrace(lply).HitPos -- Vector(1005.879456,608.151123,-77.997421)
 			//pos, dir, size, maxpen, boxs, center, endDis, organs, ricochetable, funcInput, ...
 			local endPos, hitBoxs, inputHole, outputHole = hg.organism.Trace(start, dir, 1, 0, boxs, pos, sphere, organs, false, hg.organism.Trace_Bullet, organs)
-			--render.DrawWireframeBox(endPos, angZero, -box, box)
-			
+
 			render.DrawWireframeBox(start, LocalPlayer():EyeAngles(), -Vector(0,distance / 50,distance / 50),Vector(distance / 1,distance / 50,distance / 50))
 			for i = 1, #boxs do
 				local box = boxs[i]
@@ -149,6 +143,5 @@ hook.Add("PostDrawTranslucentRenderables", "homigrad-organism", function()
 				render_DrawWireframeBox(box[1], box[2], box[3], box[4], (organ and organ[6]) or black)
 			end
 		end
-		--render.DrawWireframeSphere(pos,sphere,16,16,color2)
 	end
 end)

@@ -83,7 +83,3 @@ hg.PluvTown.PluvLayers = {
 }
 
 hg.PluvTown.PluvMadness = Material("pluv/pluvmadness.png")
-
--- for _, v in player.Iterator() do
---     v:SetNetVar("CurPluv", "pluvnerd")
--- end

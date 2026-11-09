@@ -36,11 +36,11 @@ if SERVER then
             local changedtable = hg.GunPositions[ply].ChangedTable or {}
             local gunpostable = {v1,v2,v3,ChangedTable = changedtable}
             hg.GunPositions[ply] = gunpostable
-            
+
             local val1 = hg.IsChanged(v1,1,hg.GunPositions[ply])
             local val2 = hg.IsChanged(v2,2,hg.GunPositions[ply])
             local val3 = hg.IsChanged(v3,3,hg.GunPositions[ply])
-            
+
             if val1 or val2 or val3 then
                 NetworkingTable[ply] = hg.GunPositions[ply]
             end

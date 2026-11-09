@@ -34,7 +34,6 @@ SWEP.FakeViewBobBaseBone = "ValveBiped.Bip01_R_UpperArm"
 SWEP.ViewPunchDiv = 35
 
 SWEP.FakeReloadSounds = {
-	--[0.37] = "weapons/m4a1/m4a1_magrelease.wav",
 	[0.25] = "weapons/m249/m249_coveropen.wav",
 	[0.4] = "weapons/m249/m249_magout_full.wav",
 	[0.63] = "weapons/m249/m249_shoulder.wav",
@@ -49,7 +48,6 @@ SWEP.FakeEmptyReloadSounds = {
 	[0.16] = "weapons/m249/m249_shoulder.wav",
 	[0.25] = "weapons/m249/m249_boltback.wav",
 	[0.28] = "weapons/m249/m249_boltrelease.wav",
-	--[0.37] = "weapons/m4a1/m4a1_magrelease.wav",
 	[0.45] = "weapons/m249/m249_coveropen.wav",
 	[0.54] = "weapons/m249/m249_magout.wav",
 	[0.73] = "weapons/m249/m249_shoulder.wav",
@@ -99,8 +97,6 @@ SWEP.IconOverride = "pwb2/vgui/weapons/m249paratrooper.png"
 --"models/weapons/v_m249.mdl"
 SWEP.CustomShell = "556x45"
 SWEP.CustomSecShell = "m249len"
---SWEP.EjectPos = Vector(0,-20,5)
---SWEP.EjectAng = Angle(0,90,0)
 
 SWEP.CanSuicide = false
 
@@ -194,8 +190,6 @@ function SWEP:DrawPost()
 	local wep = self:GetWeaponEntity()
 	if CLIENT and IsValid(wep) then
 		self.shooanim = LerpFT(0.4, self.shooanim or 0, (self:Clip1() > 0 or self.reload) and 0 or 3)
-		--wep:ManipulateBonePosition(44, Vector(0, 0, -1*self.shooanim), false)
-		--self:GetWM():SetBodygroup(0,0)
 	end
 end
 

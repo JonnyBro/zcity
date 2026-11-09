@@ -63,9 +63,6 @@ SWEP.AnimList = {
 	["idle"] = "idle",
 	["reload"] = "reload",
 	["reload_empty"] = "reload_empty",
-	-- ["unload"] = "reload",
-	-- ["unload_1"] = "idle",
-	-- ["reload_unloaded"] = "reload_empty",
 }
 SWEP.UnloadAnimTime = 3
 
@@ -108,14 +105,7 @@ SWEP.AnimsEvents = {
 }
 
 function SWEP:RevertMag()
-	-- local wm = self:GetWM()
 
-	-- if IsValid(wm) and wm:GetManipulateBoneScale(55):IsEqualTol(vector_origin, 0.1) then
-	-- 	wm:ManipulateBoneScale(55, vector_full)
-	-- 	wm:ManipulateBoneScale(56, vector_full)
-	-- 	wm:ManipulateBoneScale(57, vector_origin)
-	-- 	wm:ManipulateBoneScale(58, vector_origin)
-	-- end
 end
 
 if CLIENT then
@@ -137,13 +127,12 @@ if CLIENT then
 			wm:ManipulateBoneScale(58, vector_full)
 			wm:ManipulateBoneScale(57, vector_full)
 		end,
-		
+
 		[0.40] = function(self,timeMul)
 			if self:Clip1() < 1 then
 				hg.CreateMag( self, Vector(50,10,10) )
 				self:GetWM():ManipulateBoneScale(57, vector_origin)
 				self:GetWM():ManipulateBoneScale(58, vector_origin)
-				--self:GetOwner():PullLHTowards("ValveBiped.Bip01_L_Thigh", 0.5 * timeMul)
 			end
 		end,
 		[0.85] = function(self,timeMul)
@@ -262,7 +251,6 @@ end
 
 SWEP.Ergonomics = 0.8
 SWEP.HaveModel = "models/pwb/weapons/w_akm.mdl"
---SWEP.ShellEject = "EjectBrass_338Mag"
 SWEP.CustomShell = "762x39"
 
 SWEP.Penetration = 15

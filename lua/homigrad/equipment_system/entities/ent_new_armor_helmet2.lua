@@ -9,7 +9,7 @@
     --     ZC_ARMOR_SLOT_UPPERARM_L = 9
     --         ZC_ARMOR_SLOT_FOREARM_L = 10
     --     ZC_ARMOR_SLOT_UPPERARM_R = 11
-    --         ZC_ARMOR_SLOT_FOREARM_R = 12  
+    --         ZC_ARMOR_SLOT_FOREARM_R = 12
 
     -- ZC_ARMOR_SLOT_BELLY = 13
 
@@ -112,23 +112,6 @@ ENT.DrawOverlay = hg.DrawFirstPersonHelmet
         Glass =           GP,
     }
 
-    -- ENT.SideLinks = {                 -- for penetration damage type change, cuz i don't want rewrite organism hitbox system fully
-    --     Front =         "Front",
-    --     FrontPlate =    "Front",
-    --     FrontPlateDown ="Front",
-    --     FrontPlateRight="Front",
-    --     FrontPlateLeft= "Front",
-
-    --     Back =          "Back",
-    --     BackPlate =     "Back",
-    --     BackPlateDown = "Back",
-    --     BackPlateRight= "Back",
-    --     BackPlateLeft=  "Back",
-
-    --     LeftSide =      "Left",
-    --     RightSide =     "Right"
-    -- }
-
     --\\ FrontPlate
         ENT[FP] = {}
         ENT[FP].Protection = ZC_ARMOR_PROTCLASS_I
@@ -156,8 +139,8 @@ ENT.DrawOverlay = hg.DrawFirstPersonHelmet
         ENT[FP].DurabilityWarranty = 10                     -- guarantee that the protection level will not decrease (no debuff) upon the degradation
 
         ENT[FP].NeedPunch = true                           -- viewpunch after impact
-    --//       
-    
+    --//
+
     --\\ BackPlate
         ENT[BP] = {}
         ENT[BP].Protection = ZC_ARMOR_PROTCLASS_I
@@ -170,7 +153,7 @@ ENT.DrawOverlay = hg.DrawFirstPersonHelmet
         ENT[BP].DurabilityWarranty = 10                    -- guarantee that the protection level will not decrease (no debuff) upon the degradation
 
         ENT[BP].NeedPunch = true                           -- viewpunch after impact
-    --//  
+    --//
 
     --\\ TopPlate
         ENT[GP] = {}
@@ -184,7 +167,7 @@ ENT.DrawOverlay = hg.DrawFirstPersonHelmet
         ENT[GP].DurabilityWarranty = 10                    -- guarantee that the protection level will not decrease (no debuff) upon the degradation
 
         ENT[GP].NeedPunch = true                           -- viewpunch after impact
-    --// 
+    --//
 --//
 
 --\\ Render male model

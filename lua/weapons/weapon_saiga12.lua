@@ -21,8 +21,6 @@ SWEP.FakeBodyGroups = "00900080302"
 SWEP.MagIndex = 41
 SWEP.FakeScale = 0.79
 
-//SWEP.ZoomPos = Vector(-5, -0.2, 10)
-
 SWEP.FakeViewBobBone = "CAM_Homefield"
 SWEP.FakeReloadSounds = {
 	[0.35] = "weapons/ak74/ak74_magout.wav",
@@ -135,7 +133,6 @@ SWEP.RHAng = Angle(0,-10,90)
 SWEP.LHPos = Vector(16,-1,-3.5)
 SWEP.LHAng = Angle(-110,-90,-90)
 function SWEP:AnimationPost()
-	--self:BoneSet("l_finger0", Vector(0, 0, 0), Angle(10, -12, -25))
 end
 
 -- RELOAD ANIM AKM

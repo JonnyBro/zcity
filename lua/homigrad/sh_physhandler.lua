@@ -36,7 +36,7 @@ local inf,ninf,ind = 1/0,-1/0,(1/0)/(1/0)
 
 --(ind==ind) == false :(. This should do though. >= and <= because you never know :3
 
-function math.BadNumber(v) 
+function math.BadNumber(v)
 	return not v or v==inf or v==ninf or not (v>=0 or v<=0) or tostring(v) == "nan"
 end
 
@@ -63,7 +63,7 @@ hook.Add("OnCrazyPhysics","crazy_physics",function(ent, physobj)--function(a,msg
 	local badang = math.BadNumber(p) or p==0
 				or math.BadNumber(yaw) or yaw==0
 				or math.BadNumber(r) or r==0
-		
+
 	local badpos = math.BadNumber(x) or x==0
 				or math.BadNumber(y) or y==0
 				or math.BadNumber(z) or z==0

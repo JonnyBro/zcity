@@ -22,7 +22,7 @@ if SERVER then
 
 		-- Just to make sure
 		if vFireIsVFireEnt(parent) then return end
-		
+
 		-- Handle information regarding our spreader
 		local owner = parent
 		local spreaderIsFire = false
@@ -84,10 +84,8 @@ if SERVER then
 			if IsValid(fire2) then
 				-- Are we close enough?
 				if pos:DistToSqr(fire2:GetPos()) <= mergeDistToSqr then
-					
+
 					if spreaderIsFire then -- We're spreading, give a random feed and life to the neighbor
-						-- local spreaderGiveLife = math.Rand(spreader.life, spreader.life)
-						-- spreader:GiveLife(fire2, spreaderGiveLife)
 						spreader:GiveFeed(fire2, newFeed)
 					else -- We're not spreading (we created a brand new fire) just add the new feed to the existing fire
 						fire2.feed = fire2.feed + newFeed
@@ -131,7 +129,7 @@ if SERVER then
 			            flip = (forward.x > 0)
 			        end
 			        wanted:Normalize()
-			        
+
 			        local cos = math.Clamp(up:Dot(wanted), -1, 1) -- dot product = len1 * len2 * cos(angle between them), and both lengths are 1 in this case
 			        local rollamount = math.deg(math.acos(cos))
 
@@ -263,9 +261,9 @@ if SERVER then
 			local meshConvexes
 			local radius
 			local center
-			
+
 			for i = 1, count do
-				
+
 				local pos = ent.vFireIgnitePositions[i]
 
 				if pos then
@@ -273,9 +271,9 @@ if SERVER then
 					-- We have a position cached for this index, use it by translating the local position to a world position
 
 					pos = ent:LocalToWorld(pos)
-				
+
 				else
-					
+
 					-- We don't have a position cached, calculate it using the mesh convexes
 
 					if !meshConvexes then meshConvexes = phys:GetMeshConvexes() end
@@ -314,7 +312,7 @@ if SERVER then
 						CreateVFireBall(life, feed, pos + norm * 25, vel)
 
 					end
-					
+
 				end
 
 			end
@@ -418,11 +416,11 @@ if CLIENT then
 		c.follower:GetPhysicsObject():AddVelocity(diff * strength)
 	end
 	function CreateVFireFollowForce(follower, target, lifeTime, frequency, startStrength, endStrength, normalize)
-		
+
 		local startTime = CurTime()
 		local endTime = CurTime() + lifeTime
 		local isEntity = isentity(target)
-		
+
 		local context = {
 			IsValid = followForceValid,
 			isValid = true,
@@ -457,7 +455,7 @@ if CLIENT then
 
 			p:SetLifeTime(0)
 			p:SetDieTime(dieTime)
-			
+
 			p:SetStartSize(0)
 			p:SetEndSize(size)
 
@@ -466,7 +464,7 @@ if CLIENT then
 
 			p:SetColor(brightness, brightness, brightness)
 			p:SetLighting(false)
-			
+
 			p:SetVelocity(vel)
 			p:SetGravity(gravity * size)
 			p:SetAirResistance(resist)
@@ -488,7 +486,7 @@ if CLIENT then
 
 				p:SetLifeTime(0)
 				p:SetDieTime(math.Rand(minDieTime, maxDieTime))
-				
+
 				local size = math.Rand(minSize, maxSize)
 				p:SetStartSize(size)
 				p:SetEndSize(size)
@@ -498,7 +496,7 @@ if CLIENT then
 
 				p:SetColor(255, 255, 255)
 				p:SetLighting(true)
-				
+
 				p:SetVelocity(vel * math.Rand(0.5, 1) + VectorRand() * spread)
 				p:SetGravity(Vector(0, 0, -750))
 				p:SetAirResistance(0)
@@ -521,7 +519,7 @@ if CLIENT then
 
 				p:SetLifeTime(0)
 				p:SetDieTime(math.Rand(minDieTime, maxDieTime))
-				
+
 				local size = math.Rand(minSize, maxSize)
 				p:SetStartSize(0)
 				p:SetEndSize(size)
@@ -531,7 +529,7 @@ if CLIENT then
 
 				p:SetColor(255, 255, 255)
 				p:SetLighting(true)
-				
+
 				p:SetVelocity(vel * math.Rand(0.5, 1) + VectorRand() * spread)
 				p:SetGravity(Vector(0, 0, -750))
 				p:SetAirResistance(0)
@@ -554,7 +552,7 @@ if CLIENT then
 
 				p:SetLifeTime(0)
 				p:SetDieTime(math.Rand(minDieTime, maxDieTime))
-				
+
 				local size = math.Rand(minSize, maxSize)
 				p:SetStartSize(size)
 				p:SetEndSize(0)
@@ -564,7 +562,7 @@ if CLIENT then
 
 				p:SetColor(255, 255, 255)
 				p:SetLighting(false)
-				
+
 				p:SetVelocity(vel * math.Rand(0.5, 1) + VectorRand() * spread)
 				p:SetGravity(Vector(0, 0, -750))
 				p:SetAirResistance(resistance)
@@ -587,7 +585,7 @@ if CLIENT then
 			local dieTime = math.sqrt(magnitude * 0.01) / 2
 			bubble:SetLifeTime(0)
 			bubble:SetDieTime(dieTime)
-			
+
 			local endSize = dieTime * 36000
 			bubble:SetStartSize(0)
 			bubble:SetEndSize(endSize)
@@ -598,7 +596,7 @@ if CLIENT then
 
 			bubble:SetColor(128, 128, 128)
 			bubble:SetLighting(false)
-			
+
 			bubble:SetVelocity(Vector())
 			bubble:SetGravity(Vector())
 			bubble:SetAirResistance(10000)
@@ -612,7 +610,7 @@ if CLIENT then
 			local kick = pe:Add("particle/smokestack", pos)
 			kick:SetLifeTime(0)
 			kick:SetDieTime(dieTime * 1.5)
-			
+
 			kick:SetStartSize(0)
 			kick:SetEndSize(endSize * 1.5)
 
@@ -621,7 +619,7 @@ if CLIENT then
 
 			kick:SetColor(128, 128, 128)
 			kick:SetLighting(false)
-			
+
 			kick:SetVelocity(Vector())
 			kick:SetGravity(Vector())
 			kick:SetAirResistance(1)
@@ -647,7 +645,7 @@ if CLIENT then
 
 			p:SetLifeTime(0)
 			p:SetDieTime(dieTime)
-			
+
 			p:SetStartSize(0)
 			p:SetEndSize(size)
 
@@ -656,7 +654,7 @@ if CLIENT then
 
 			p:SetColor(brightness, brightness, brightness)
 			p:SetLighting(true)
-			
+
 			p:SetVelocity(vel)
 			p:SetGravity(gravity * size)
 			p:SetAirResistance(size * resist)
@@ -701,22 +699,22 @@ if CLIENT then
 			end
 			ParticleEffect(particleString, pos + radiusOffset, Angle())
 
-		c.reps = c.reps - 1	
+		c.reps = c.reps - 1
 	end
 	function CreateVFireExplosionTrail(follow, lifeTime, interval, bigBurst, minRadius, maxRadius)
-		
+
 		local isEntity = isentity(follow)
 
 		if isEntity and !IsValid(follow) then return end
 
 		local reps = math.floor(lifeTime / interval, 0)
-		
+
 		local context = {
 			IsValid = explosionTrailValid,
 			interval = interval,
 			reps = reps,
 			nextRun = 0,
-			
+
 			follow = follow,
 			isEntity = isEntity,
 
@@ -742,7 +740,7 @@ if CLIENT then
 		local curTime = CurTime()
 		if curTime < c.nextRun then return end
 		c.nextRun = curTime + c.interval
-		
+
 			local size = c.startRadius * (1 - c.frac) + c.endRadius * c.frac
 
 			-- Introduce noise to the die time value, this helps develop the trail into more interesting shapes
@@ -754,7 +752,7 @@ if CLIENT then
 			else
 				dieTime = c.startLength * (1 - c.frac) + c.endLength * c.frac
 			end
-			
+
 			local brightness = math.random(c.minBright, c.maxBright)
 			local alpha = math.random(c.minAlpha, c.maxAlpha)
 			local pos, vel
@@ -772,10 +770,10 @@ if CLIENT then
 
 			CreateVFireSmokeParticle(pos, vel, size, dieTime, c.gravity, c.resist, roll, brightness, alpha)
 
-		c.reps = c.reps - 1	
+		c.reps = c.reps - 1
 	end
 	function CreateVFireSmokeTrail(follow, lifeTime, interval, startRadius, endRadius, startLength, endLength, gravity, resist, minRoll, maxRoll, minBright, maxBright, minAlpha, maxAlpha, dieTimeNoise, delay)
-		
+
 		local isEntity = isentity(follow)
 
 		if isEntity and !IsValid(follow) then return end
@@ -784,13 +782,13 @@ if CLIENT then
 		local frac, fracAdd = 0, 1 / reps
 
 		delay = delay or 0
-		
+
 		local context = {
 			IsValid = smokeTrailValid,
 			interval = interval,
 			reps = reps,
 			nextRun = CurTime() + delay,
-			
+
 			isEntity = isEntity,
 			frac = frac,
 			fracAdd = fracAdd,
@@ -864,7 +862,7 @@ if CLIENT then
 				LODStr = "_LOD"
 			end
 		end
-		
+
 		local state = vFireLifeToState(startLife)
 		local targetState = vFireLifeToState(endLife)
 		local reps = math.max(math.abs(state - targetState), 1) + 1 -- At least one rep
@@ -903,74 +901,6 @@ if CLIENT then
 		fireTrailStep(context)
 
 		hook.Add("Think", context, fireTrailStep)
-	end
-
-	--[[-------------------------------------------------------------------------
-	Create a dynamic light attachment
-	---------------------------------------------------------------------------]]
-	local function dynamicLightValid(c)
-		if CurTime() > c.endTime then return false end
-		if c.isEntity and !IsValid(c.follow) then return false end
-		return true
-	end
-	local function dynamicLightStep(c)
-
-		local attachPos
-		if !c.isEntity then
-			attachPos = c.follow
-		else
-			attachPos = c.follow:GetPos()
-		end
-
-		local curTime = CurTime()
-		local frac = (c.endTime - curTime) / (c.lifeTime)
-		local fracRev = 1 - frac
-
-		local yellowness = c.startYellowness * frac + c.endYellowness * fracRev
-		local glowSize = c.startSize * frac + c.endSize * fracRev
-
-		local d = DynamicLight(c.lightID)
-		if d then
-			d.pos = attachPos
-			d.r = 255 * frac
-			d.g = yellowness * frac
-			d.b = c.blue * frac
-			d.brightness = c.brightness
-			d.decay = 0
-			d.size = glowSize
-			d.dietime = CurTime() + c.dieTime
-		end
-	end
-	local vFireLightAttachID = 5000
-	function CreateVFireDynamicLight(follow, lifeTime, brightness, startSize, endSize, dieTime, startYellowness, endYellowness, blue)
-		do return end
-		local isEntity = isentity(follow) -- If we're not an entity we assume to be a position
-
-		local startTime = CurTime()
-		local endTime = startTime + lifeTime
-
-		local context = {
-			IsValid = dynamicLightValid,
-			isEntity = isEntity,
-			follow = follow,
-			startTime = startTime,
-			endTime = endTime,
-			lifeTime = lifeTime,
-			startSize = startSize,
-			endSize = endSize,
-			startYellowness = startYellowness,
-			endYellowness = endYellowness,
-			blue = blue,
-			brightness = brightness,
-			dieTime = dieTime,
-			lightID = vFireLightAttachID
-		}
-
-		dynamicLightStep(context)
-
-		hook.Add("Think", context, dynamicLightStep)
-
-		vFireLightAttachID = vFireLightAttachID + 1
 	end
 
 	--[[-------------------------------------------------------------------------
@@ -1053,7 +983,7 @@ if CLIENT then
 	---------------------------------------------------------------------------]]
 	function CreateCSVFireSmokeBall(pos, vel, lifeTime, rate, startRadius, endRadius, startLength, endLength, gravity, resist, roll, minBright, maxBright, minAlpha, maxAlpha)
 		local dummy = CreateCSVFirePhysDummy(pos, vel, lifeTime)
-		
+
 		CreateVFireSmokeTrail(
 			dummy, -- Entity,
 			lifeTime, -- Emission lifetime

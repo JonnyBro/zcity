@@ -31,7 +31,7 @@ function hg.DrawBlur(panel, amount, passes, alpha)
 		for i = -(passes or 0.2), 1, 0.2 do
 			blur:SetFloat("$blur", i * amount)
 			blur:Recompute()
-			
+
 			render.UpdateScreenEffectTexture()
 			surface.DrawTexturedRect(x * -1, y * -1, ScrW(), ScrH())
 		end
@@ -49,10 +49,8 @@ local gradient_r = surface.GetTextureID("vgui/gradient-r")
 
 local function createButton(k,ent,size,Pan,mainpan)
     local but = vgui.Create( "DModelPanel", Pan )
-    --but:SetText( k )
     but:SetSize( size, size * 0.8 )
     but:SetModel( ent.MDL )
-    --PrintTable(ent)
     but:SetFOV(ent.FOV or 15)
     but:SetLookAt( ent.VPos or Vector(0,0,0) )
     timer.Simple(0.1,function()
@@ -105,8 +103,8 @@ local function createButton(k,ent,size,Pan,mainpan)
                 mainpan:Close()
             return end
             if self.InWait then return end
-            if LocalPlayer():PS_HasItem(ent.ID) then 
-                self:SetText( LocalPlayer():PS_HasItem(ent.ID) and "SOLD" or "Buy: "..(ent.ISDONATE and "DONATE" or ent.PRICE.." ZP")  ) 
+            if LocalPlayer():PS_HasItem(ent.ID) then
+                self:SetText( LocalPlayer():PS_HasItem(ent.ID) and "SOLD" or "Buy: "..(ent.ISDONATE and "DONATE" or ent.PRICE.." ZP")  )
             return end
             self:SetText( "Wait..." )
             self.InWait = true
@@ -130,7 +128,7 @@ local function createButton(k,ent,size,Pan,mainpan)
 
         surface.SetDrawColor( color_reddy )
         surface.DrawOutlinedRect(0,0,w,h,1)
-       
+
         if ( !IsValid( self.Entity ) ) then return end
         local x, y = self:LocalToScreen( 0, 0 )
         self:LayoutEntity( self.Entity )
@@ -180,7 +178,7 @@ function PANEL:Init()
         lbl:SetText( "Z-City Appearance Shop" )
         lbl:SetFont( "HomigradFontGigantoNormous" )
         lbl:SetContentAlignment(9)
-        
+
         lbl:Dock( LEFT )
         lbl:DockMargin( UPan:GetWide()*0.04, 0, 0, 0 )
         lbl:SizeToContents()
@@ -189,17 +187,14 @@ function PANEL:Init()
         lbl:SetText( "Buy points" )
         lbl:SetFont( "HomigradFontLarge" )
         lbl:SetContentAlignment(5)
-        
+
         lbl:Dock( RIGHT )
         lbl:DockMargin( 0, 5, UPan:GetWide()*0.07, 25 )
         lbl:SizeToContents()
         lbl:SetWide(lbl:GetWide()*1.2)
         --lbl:SetMouseInputEnabled( true ) -- We must accept mouse input
         function lbl:DoClick() -- Defines what should happen when the label is clicked
-            --print("I was clicked!")
-            --self:Remove()
             AltDonate()
-            --RunConsoleCommand("say","/donate")
             mainpan:Close()
         end
 
@@ -209,37 +204,17 @@ function PANEL:Init()
             surface.DrawOutlinedRect(0,0,w,h,2)
         end
 
-        --self.DmoneyTxt = vgui.Create( "DLabel", UPan )
-        --local DmoneyTxt = self.DmoneyTxt
-        --DmoneyTxt:SetContentAlignment(6)
-        --DmoneyTxt:SetText( " | DZP" )
-        --DmoneyTxt:SetFont( "HomigradFontLarge" )
-        --
-        --DmoneyTxt:DockMargin( 0, 0, 25, 0 )
-        --DmoneyTxt:SizeToContents()
-        --DmoneyTxt:Dock( TOP )
-
         self.moneyTxt = vgui.Create( "DLabel", UPan )
         local moneyTxt = self.moneyTxt
         moneyTxt:SetContentAlignment(6)
         moneyTxt:SetText( " | ZP" )
         moneyTxt:SetFont( "HomigradFontLarge" )
-        
+
         moneyTxt:DockMargin( 0, 0, 25, 0 )
         moneyTxt:SizeToContents()
         moneyTxt:Dock( TOP )
 
-        --local money = vgui.Create( "DLabel", UPan )
-        --money:SetContentAlignment(6)
-        --money:SetText( "1000000\n1000" )
-        --money:SetFont( "HomigradFontLarge" )
-        --
-        --money:DockMargin( 0, 0, 0, 0 )
-        --money:SizeToContents()
-        --money:Dock( FILL )
---
     function UPan:Paint(w,h)
-        --draw.RoundedBox(0,0,0,w,h,color_blacky)
     end
     -- UP Panel End
 
@@ -258,8 +233,6 @@ function PANEL:Init()
             draw.DrawText(self.Name, "HomigradFontLarge", RPan:GetWide() / 2 ,self:GetTall() * 0.9, color_white,TEXT_ALIGN_CENTER)
         end
     end
-
-    --function RPan.Entity:GetPlayerColor() return Vector (0, 0, 0) end
 
     -- Fill Panel Start
     self.Collona = vgui.Create( "DColumnSheet", self )
@@ -285,7 +258,6 @@ function PANEL:Init()
             Pan:SetRowHeight( size * 0.805 )
 
                 for k, ent in pairs(PLUGIN.Items) do
-                    --if ent.ISDONATE then continue end
                     local but = createButton(k,ent,size,Pan,mainpan)
                     Pan:AddItem(but)
                 end
@@ -347,8 +319,6 @@ function PANEL:Update( data )
     self.Itensens = data or self.Itensens
 
     self.moneyTxt:SetText(self.Itensens.points.." | ZP")
-    --self.DmoneyTxt:SetText(self.Itensens.donpoints.." | DZP")
-    --PrintTable(data)
 end
 
 function PANEL:Paint(w,h)
@@ -379,7 +349,6 @@ concommand.Add("hg_pointshop",function()
             PLUGIN.MenuPanel = nil
         end
         PLUGIN.MenuPanel = vgui.Create("HG_PointShop")
-        --PLUGIN.MenuPanel:Center()
         PLUGIN.MenuPanel:MakePopup()
         PLUGIN.MenuPanel:Update( data )
     end)

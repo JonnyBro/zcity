@@ -9,7 +9,7 @@
     --     ZC_ARMOR_SLOT_UPPERARM_L = 9
     --         ZC_ARMOR_SLOT_FOREARM_L = 10
     --     ZC_ARMOR_SLOT_UPPERARM_R = 11
-    --         ZC_ARMOR_SLOT_FOREARM_R = 12  
+    --         ZC_ARMOR_SLOT_FOREARM_R = 12
 
     -- ZC_ARMOR_SLOT_BELLY = 13
 
@@ -150,7 +150,7 @@ ENT.DrawOverlay = RenderNVGOverlay
         ENT[FP].DurabilityWarranty = 0                     -- guarantee that the protection level will not decrease (no debuff) upon the degradation
 
         ENT[FP].NeedPunch = true                           -- viewpunch after impact
-    --//       
+    --//
 --//
 
 --\\ Render male model

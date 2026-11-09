@@ -44,7 +44,6 @@ end
 function ENT:Explode()
 	self.Exploded = true
 	self.snd = self:StartLoopingSound("Weapon_FlareGun.Burn")
-	--self:DoParticle()
 	timer.Create("smokenade" .. self:EntIndex(), 1, 25, function()
 		if IsValid(self) then
 			self:DoParticle()

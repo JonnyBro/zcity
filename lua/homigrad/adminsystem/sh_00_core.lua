@@ -49,21 +49,21 @@ end
 function AS:GetPlayerData(ply, module)
 	if !IsValid(ply) then return {} end
 	local steamId = ply:SteamID64() or ply:SteamID()
-	
+
 	self.PlayerData[steamId] = self.PlayerData[steamId] or {}
-	
+
 	if module then
 		self.PlayerData[steamId][module] = self.PlayerData[steamId][module] or {}
 		return self.PlayerData[steamId][module]
 	end
-	
+
 	return self.PlayerData[steamId]
 end
 
 function AS:SetPlayerData(ply, module, data)
 	if !IsValid(ply) then return end
 	local steamId = ply:SteamID64() or ply:SteamID()
-	
+
 	self.PlayerData[steamId] = self.PlayerData[steamId] or {}
 	self.PlayerData[steamId][module] = data
 end

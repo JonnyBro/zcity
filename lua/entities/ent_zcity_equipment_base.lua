@@ -11,9 +11,6 @@ ENT.Model = "models/props_junk/cardboard_box003a.mdl"
 ENT.IconOverride = ""
 
 ENT.SlotOccupation = {
-    --[zc_equipment_SLOT_TORSO] = true,
-    --[zc_equipment_SLOT_PANTS] = true,
-    --[zc_equipment_SLOT_BOOTS] = true,
 }
 
 ENT.Male = {}
@@ -89,8 +86,6 @@ end
         for _,v in ipairs(Equipment) do
             local Equip = Entity(v)
             if !IsValid(Equip) then continue end
-            -- PrintTable(Equip.SlotOccupation)
-            -- PrintTable(self.SlotOccupation)
             for slot, _ in pairs(Equip.SlotOccupation) do
                 if isnumber(slot) and self.SlotOccupation[slot] then return false, slot end
             end
@@ -105,7 +100,7 @@ end
 --//
 --\\ Use function
     function ENT:Use(entUser)
-        local CanWear, Slot = self:CanWear(entUser) 
+        local CanWear, Slot = self:CanWear(entUser)
         if !CanWear then entUser:GetEquipmentBySlot(Slot):Unwear(entUser) return end
 
         self:Wear(entUser)
@@ -135,7 +130,7 @@ end
                 EquipmentBySlot[k] = self:EntIndex()
             end
             entUser:SetNetVar("zc_equipment_slot", EquipmentBySlot)
-            
+
             self:OnWearNetVars(entUser)
         end
 
@@ -330,7 +325,7 @@ end
             Equip:Unwear(ply)
         end)
     end
-    
+
     hook.Add("radialOptions", "1_zc_equipment", function()
         local ply = LocalPlayer()
         local organism = ply.organism or {}
@@ -344,7 +339,6 @@ end
                     local Equip = Entity(Equipment[i])
 
                     for slot, _ in pairs(Equip.SlotOccupation) do
-                        --Equip.IconInv = isstring(Equip.IconOverride) and Material(Equip.IconOverride) or Equip.IconInv or nil -- soon
                         commands[i] = {
                             [1] = function()
                                 RunConsoleCommand("hg_drop_new_equipment", i)

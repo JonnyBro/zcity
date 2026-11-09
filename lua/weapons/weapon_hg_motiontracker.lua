@@ -46,35 +46,6 @@ SWEP.offsetVec = Vector(2.7, -5, 0)
 SWEP.offsetAng = Angle(-80, 180, 190)
 local SLAMPlacementRadius = 80
 
---[[function SWEP:DrawWorldModel()
-    self.model = IsValid(self.model) and self.model or ClientsideModel(self.WorldModel)
-    local WorldModel = self.model
-    local owner = self:GetOwner()
-
-    if not IsValid(WorldModel) then return end
-
-    WorldModel:SetNoDraw(true)
-    WorldModel:SetModelScale(self.ModelScale or 1)
-    WorldModel:SetModel(self:GetModel())
-    if IsValid(owner) then
-        local offsetVec = self.offsetVec
-        local offsetAng = self.offsetAng
-		local boneid = owner:LookupBone(((owner.organism and owner.organism.rarmamputated) or (owner.zmanipstart ~= nil and owner.zmanipseq == "interact" and not owner.organism.larmamputated)) and "ValveBiped.Bip01_L_Hand" or "ValveBiped.Bip01_R_Hand")
-        if not boneid then return end
-        local matrix = owner:GetBoneMatrix(boneid)
-        if not matrix then return end
-        local newPos, newAng = LocalToWorld(offsetVec, offsetAng, matrix:GetTranslation(), matrix:GetAngles())
-        WorldModel:SetPos(newPos)
-        WorldModel:SetAngles(newAng)
-        WorldModel:SetupBones()
-    else
-        WorldModel:SetPos(self:GetPos())
-        WorldModel:SetAngles(self:GetAngles())
-    end
-
-    WorldModel:DrawModel()
-end]]
-
 if CLIENT then
 	function SWEP:DrawWorldModel2()
 		render.SetColorModulation(0.45,0.52,1)
@@ -99,7 +70,7 @@ if CLIENT then
 		local WorldModel = self.worldModel
 
 		self.worldModel:SetModelScale(self.modelscale2)
-		
+
 		local ent = IsValid(owner.FakeRagdoll) and owner.FakeRagdoll or owner
 
 		if (IsValid(owner)) and (ent == owner or hg.KeyDown(owner,IN_USE) or (owner:GetNetVar("lastFake",0) > CurTime())) then
@@ -108,7 +79,7 @@ if CLIENT then
 				timing = (1 - math.Clamp((self.animtime - CurTime()) / self.animspeed,0,1))
 				timing = self.reverseanim and (1 - timing) or timing
 				WorldModel:SetCycle(timing)
-				
+
 				if self.callback and timing == ((not self.reverseanim) and 1 or 0) then
 					self.callback(self)
 					self.callback = nil
@@ -119,7 +90,7 @@ if CLIENT then
 			end
 
 			self.sprintanim = qerp(0.02 * FrameTime() / engine.TickInterval(),self.sprintanim or 0,(owner.IsSprinting and owner:IsSprinting()) and 1 or 0)
-			
+
 			local tr = hg.eyeTrace(owner,60)
 			local ang = owner:EyeAngles()
 			if not tr then return end
@@ -127,10 +98,9 @@ if CLIENT then
 			if WorldModel:GetModel() ~= self.WorldModelReal then WorldModel:SetModel(self.WorldModelReal) end
 
 			local pos = tr.StartPos + ang:Forward() * (self.HoldPos[1] - 4) + ang:Right() * self.HoldPos[2] + ang:Up() * self.HoldPos[3]
-			--pos = pos + ang:Forward() * self.AttackPos[1] * self.attackanim + ang:Right() * self.AttackPos[2] * self.attackanim + ang:Up() * self.AttackPos[3] * self.attackanim
 			local ang = owner:EyeAngles()
 			local _,ang = LocalToWorld(vector_origin,(self.HoldAng or angle_zero),vector_origin,ang)
-			
+
 			local _,ang = LocalToWorld(vector_origin,self.sprint_ang * self.sprintanim,vector_origin,ang)
 
 			if self.HoldClampMax ~= nil and self.HoldClampMin ~= nil then
@@ -142,7 +112,7 @@ if CLIENT then
 			WorldModel:SetRenderAngles(ang)
 		else
 			if WorldModel:GetModel() ~= self.WorldModel then WorldModel:SetModel(self.WorldModel) end
-			
+
 			WorldModel:SetRenderOrigin(self:GetPos())
 			WorldModel:SetRenderAngles(self:GetAngles())
 		end
@@ -158,11 +128,11 @@ if CLIENT then
 		end
 
 		WorldModel:SetupBones()
-		
+
 		if IsValid(self.worldModel2) then
 			self.worldModel2:SetNoDraw(true)
 		end
-		
+
 		if not self.WorldModelExchange then
 			WorldModel:DrawModel()
 		end
@@ -181,7 +151,7 @@ if CLIENT then
 
 			local pos,ang = self.worldModel:GetPos(),self.worldModel:GetAngles()
 			local huy = self.worldModel:GetModel() == self.WorldModelReal
-			
+
 			if IsValid(self:GetOwner()) or self.DontChangeDropped then
 				pos,ang = LocalToWorld(self.weaponPos,self.weaponAng,huy and self.worldModel:GetBoneMatrix(self.basebone or 1):GetTranslation() or self.worldModel:GetPos(),huy and self.worldModel:GetBoneMatrix(self.basebone or 1):GetAngles() or self.worldModel:GetAngles())
 			end
@@ -202,7 +172,7 @@ if CLIENT then
 				self.OldAngPunch = gAngles
 			end
 		end
-		
+
 		if(self.DrawPostWorldModel)then
 			self:DrawPostWorldModel()
 		end
@@ -265,7 +235,7 @@ end
 if CLIENT then
     local csent = ClientsideModel(SWEP.WorldModel)
     csent:SetNoDraw(true)
-    
+
     function SWEP:DrawHUD()
         if self:GetPlaced() then return end
         if not IsValid(csent) then
@@ -293,7 +263,7 @@ end
 
 function SWEP:PrimaryAttack()
     local ply = self:GetOwner()
-    
+
     if not self:GetPlaced() then
         local tr = ply:GetEyeTrace()
         if not CanPlace(ply, tr) then return end

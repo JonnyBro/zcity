@@ -45,7 +45,7 @@ SWEP.FoodModelsKCNNeutralizers = {
 }
 
 SWEP.FoodModels = {
-	"models/jorddrink/7upcan01a.mdl", 
+	"models/jorddrink/7upcan01a.mdl",
 	"models/jorddrink/barqcan1a.mdl",
 	"models/jorddrink/cozcan01a.mdl",
 	"models/jorddrink/crucan01a.mdl",
@@ -65,7 +65,7 @@ SWEP.FoodModels = {
 }
 
 SWEP.WaterModel = {
-	["models/jorddrink/7upcan01a.mdl"] = true, 
+	["models/jorddrink/7upcan01a.mdl"] = true,
 	["models/jorddrink/barqcan1a.mdl"] = true,
 	["models/jorddrink/cozcan01a.mdl"] = true,
 	["models/jorddrink/crucan01a.mdl"] = true,
@@ -83,7 +83,7 @@ SWEP.FallSnd = "snd_jack_hmcd_foodbounce.wav"
 SWEP.DeploySnd = "snd_jack_hmcd_foodbounce.wav"
 
 function SWEP:SetupDataTables()
-	self:NetworkVar( "String", "CurModel" ) 
+	self:NetworkVar( "String", "CurModel" )
 	self:NetworkVar( "Float", 0, "Holding" )
 end
 
@@ -111,7 +111,6 @@ SWEP.setlh = true
 SWEP.setrh = false
 SWEP.HoldAng = Angle(0,0,0)
 SWEP.AnimList = {
-    -- self:PlayAnim( anim,time,cycling,callback,reverse,sendtoclient )
 	["deploy"] = { "idle", 1, false },
     ["attack"] = { "use", 5, false, false, function(self)
 		if CLIENT then return end

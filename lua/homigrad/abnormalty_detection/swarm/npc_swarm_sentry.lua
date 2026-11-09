@@ -41,24 +41,21 @@ function ENT:Initialize()
 		self.NextDeath = CurTime()+2000*self:GetLifeTimeMul(4)*SWARM_CV_DeathTimerMul:GetFloat()
 		self:SetModel("models/headcrabblack.mdl")
 		self:SetColor(Color(220,255,220))
-		--self:SetModelScale(0.5,0)
-		
+
 		self:SetHullType( HULL_TINY )
-		self:SetHullSizeNormal() 
+		self:SetHullSizeNormal()
 		self:SetSolid( SOLID_BBOX )
 		self:SetMoveType( MOVETYPE_STEP )
 		self:CapabilitiesAdd( bit.bor( CAP_MOVE_GROUND, CAP_SQUAD ) )
 		self:CapabilitiesRemove( bit.bor( CAP_OPEN_DOORS, CAP_AUTO_DOORS ) )
-		
+
 		self:SetHealth( 30*self:GetHealthMul(3) )
 		self:SetMaxHealth( 150 )
 
-		--self:SetColor(Color(255,0,0))
 		self:SetBloodColor(BLOOD_COLOR_GREEN)
-		
+
 		self.JustSpawned = CurTime()+2
 	end
-	--self:SetKeyValue( "additionalequipment", GetConVarString("gmod_npcweapon") )
 end
 
 local ignoreplayers = GetConVar("ai_ignoreplayers")
@@ -113,7 +110,7 @@ function ENT:Think()
 	if(self.JustSpawned and self.JustSpawned<=CurTime())then
 		self.JustSpawned=nil
 	end
-	
+
 	if(SERVER and ((!self.NextEntityHullClearing or self.NextEntityHullClearing<=CurTime()) and !self.JustSpawned))then
 		self.NextEntityHullClearing = CurTime() + 1
 		SWARM:ClearEntityHull(self,20)
@@ -129,11 +126,11 @@ function ENT:Shoot( dir )
 	hel:SetOwner(self)
 	hel.Damage = SWARM_CV_SENTRY_ProjectileDmg:GetFloat()*self:GetDamageMul(8)
 	self:EmitSound('NPC_HeadCrab.Gib',35)
-	
+
 	hel.GeneticData = table.Copy(self.GeneticData)
-	
+
 	local phys = hel:GetPhysicsObject()
-	if IsValid(phys) then		
+	if IsValid(phys) then
 		phys:SetVelocity(dir)
 	end
 end
@@ -150,28 +147,13 @@ function ENT:Classify(  )
 	return self.m_iClass
 end
 
---[[
-function ENT:GetRelationship( entity )
-	if(entity.Classify)then
-		class=entity:Classify()
-	end
-		
-	if(class and class==CLASS_PLAYER)then
-		return D_HT
-	elseif(entity:GetClass()=="player")then
-		return D_HT
-	else
-		return D_LI
-	end
-end]]
-
-function ENT:TaskStart_FindEnemy( data )	
+function ENT:TaskStart_FindEnemy( data )
 	if(data==nil)then data = {} end
 
 	local lastenem = self:GetEnemy()
-	
+
 	if(!IsValid(lastenem) or (lastenem.Alive and !lastenem:Alive()) or lastenem:GetPos():Distance(self:GetPos())>(data.Radius or SWARM_CV_SENTRY_ForgetRange:GetInt()))then
-	
+
 		local et = ents.FindInSphere( self:GetPos(), data.Radius or SWARM_CV_SENTRY_DetectRange:GetInt() )
 		local bestdistance = math.huge
 		local bestenemy = nil
@@ -187,24 +169,19 @@ function ENT:TaskStart_FindEnemy( data )
 
 		end
 		if(bestenemy)then
-			--ghh=CurTime()
 			self:SetLastPosition(bestenemy:GetPos())
 			self:SetEnemy( bestenemy, true )
-			--self:SetNPCState(NPC_STATE_COMBAT)
 			self:UpdateEnemyMemory( bestenemy, bestenemy:GetPos() )
-			--self:TaskComplete()
 			return
-		end		
-		
+		end
+
 	end
 	if(IsValid(lastenem))then
 		self:SetLastPosition(lastenem:GetPos())
 		self:UpdateEnemyMemory( lastenem, lastenem:GetPos() )
-		--self:SetNPCState(NPC_STATE_COMBAT)
-		--self:TaskComplete()
 		return
 	end
-	
+
 	self:SetEnemy( NULL )
 end
 
@@ -224,8 +201,6 @@ end
 
 function ENT:OnCondition( iCondition )
 
-	--Msg( self, " Condition: ", iCondition, " - ", self:ConditionName(iCondition), "\n" )
-
 end
 
 function ENT:Draw()
@@ -233,15 +208,14 @@ function ENT:Draw()
 end
 
 function ENT:RunAI( strExp )
---self:SetIdealActivity(ACT_IDLE_AIM_RIFLE_STIMULATED)
 	local lastenem = self:GetEnemy()
 	if( IsValid(lastenem) and (!lastenem.Alive or lastenem:Alive()) )then
 		local aimpos = lastenem:GetShootPos()
 		if(IsValid(lastenem.fakeragdoll))then
 			aimpos=lastenem.fakeragdoll:GetPos()
 		end
-	
-		if(lastenem:GetPos():Distance(self:GetPos())<300)then	
+
+		if(lastenem:GetPos():Distance(self:GetPos())<300)then
 			local traceinfo = {
 				start = self:GetPos(),
 				endpos = aimpos,
@@ -249,15 +223,15 @@ function ENT:RunAI( strExp )
 			}
 			local trace = util.TraceLine(traceinfo)
 			if(trace.Entity==lastenem or trace.Entity==lastenem.fakeragdoll)then
-				if(self.NextShoot<=CurTime())then	
-					self.NextShoot=CurTime()+self.ShootCD			
+				if(self.NextShoot<=CurTime())then
+					self.NextShoot=CurTime()+self.ShootCD
 					self:Shoot( ( (aimpos+lastenem:GetVelocity()/4)-self:GetPos() ):GetNormalized()*750 )
 				end
 			end
 		end
 	end
 
-	if(self.NextEnemyFind<=CurTime())then	
+	if(self.NextEnemyFind<=CurTime())then
 		self.NextEnemyFind=CurTime()+self.EnemyFindCD
 		self:TaskStart_FindEnemy()
 	end

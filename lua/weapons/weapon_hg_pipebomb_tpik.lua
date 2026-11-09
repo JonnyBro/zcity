@@ -1,7 +1,7 @@
 if SERVER then AddCSLuaFile() end
 SWEP.Base = "weapon_hg_grenade_tpik"
 SWEP.PrintName = "Pipe-Bomb"
-SWEP.Instructions = 
+SWEP.Instructions =
 [[This improvised explosive device is a heavy-gauge steel pipe filled with black powder and surrounded by nails. It has a simple short pyrotechnic fuze. This device achieves high detonation speed and shrapnel projection through tight containment of the black powder (a low explosive). It's still not as deadly or reliable as a proper grenade, though.
 
 LMB - High ready
@@ -85,13 +85,10 @@ if CLIENT then
 end
 
 SWEP.AnimList = {
-    -- self:PlayAnim( anim,time,cycling,callback,reverse,sendtoclient )
 	["deploy"] = { "base_draw", 1, false },
     ["attack"] = { "throw", 0.8, false, false, function(self)
 		if CLIENT then return end
-		--local tr = self:GetEyeTrace()
-		--self:Tie(tr)
-		
+
 		self:Throw(1200, self.SpoonTime or CurTime(),nil,Vector(2,4,0),Angle(-40,0,0))
 		self.InThrowing = false
 		self.ReadyToThrow = false
@@ -113,8 +110,6 @@ SWEP.AnimList = {
 		end)
 	end, 0.65 },
 	["attack2"] = { "lowthrow", 0.8, false, false, function(self)
-		--local tr = self:GetEyeTrace()
-		--self:Tie(tr)
 		if CLIENT then return end
 		self:Throw(600, self.SpoonTime or CurTime(),nil,Vector(0,4,-6),Angle(40,0,0))
 		self.InThrowing = false
@@ -137,13 +132,11 @@ SWEP.AnimList = {
 			self:SetShowPin(true)
 		end)
 	end, 0.6 },
-	["pullbackhigh"] = {"pullback_high", 1.5, false, false, function(self) 
+	["pullbackhigh"] = {"pullback_high", 1.5, false, false, function(self)
 		self:SetShowPin(false)
-		--self:PlayAnim("attack")
 		self.ReadyToThrow = true
 	end,0.5},
-	["pullbacklow"] = {"pullback_low", 1.5, false, false, function(self) 
-		--self:PlayAnim("attack2")
+	["pullbacklow"] = {"pullback_low", 1.5, false, false, function(self)
 		self:SetShowPin(false)
 		self.IsLowThrow = true
 		self.ReadyToThrow = true
@@ -156,59 +149,39 @@ SWEP.AnimsEvents = {
 	["pullback_high"] = {
 		[0.01] = function(self)
 			self:EmitSound("weapons/molotov/handling/molotov_lighter_open.wav",65)
-			--
-			--self:GetWM():ManipulateBoneScale(47, vector_full)
 		end,
 		[0.11] = function(self)
 			self:EmitSound("weapons/molotov/handling/molotov_lighter_strike.wav",65,100,CHAN_BODY)
-			--
-			--self:GetWM():ManipulateBoneScale(47, vector_full)
 		end,
 		[0.21] = function(self)
 			self:EmitSound("weapons/molotov/handling/molotov_ignite.wav",65,100,CHAN_ITEM)
-			--
-			--self:GetWM():ManipulateBoneScale(47, vector_full)
 		end,
 		[0.24] = function(self)
 			self.idleSnd = self:StartLoopingSound("weapons/molotov/handling/molotov_idle_burn_loop.wav")
 			self.Burn = true
-			--
-			--self:GetWM():ManipulateBoneScale(47, vector_full)
 		end,
 		[0.55] = function(self)
 			self:EmitSound("weapons/molotov/handling/molotov_lighter_close.wav",65)
 			self:GetOwner():PullLHTowards("ValveBiped.Bip01_Spine", 0.5)
-			--
-			--self:GetWM():ManipulateBoneScale(47, vector_full)
 		end
 	},
 	["pullback_low"] = {
 		[0.01] = function(self)
 			self:EmitSound("weapons/molotov/handling/molotov_lighter_open.wav",65)
-			--
-			--self:GetWM():ManipulateBoneScale(47, vector_full)
 		end,
 		[0.11] = function(self)
 			self:EmitSound("weapons/molotov/handling/molotov_lighter_strike.wav",65,100,CHAN_BODY)
-			--
-			--self:GetWM():ManipulateBoneScale(47, vector_full)
 		end,
 		[0.21] = function(self)
 			self:EmitSound("weapons/molotov/handling/molotov_ignite.wav",65,100,CHAN_ITEM)
-			--
-			--self:GetWM():ManipulateBoneScale(47, vector_full)
 		end,
 		[0.24] = function(self)
 			self.idleSnd = self:StartLoopingSound("в")
 			self.Burn = true
-			--
-			--self:GetWM():ManipulateBoneScale(47, vector_full)
 		end,
 		[0.55] = function(self)
 			self:EmitSound("weapons/molotov/handling/molotov_lighter_close.wav",65)
 			self:GetOwner():PullLHTowards("ValveBiped.Bip01_Spine", 0.5)
-			--
-			--self:GetWM():ManipulateBoneScale(47, vector_full)
 		end
 	},
 }
@@ -259,6 +232,5 @@ function SWEP:DrawPostPostModel()
 		Spark:SetNormal(vector_up)
 		util.Effect("eff_jack_hmcd_fuzeburn",Spark,true,true)
 		self.sparkThink = CurTime() + 0.1
-		--self.fire = CreateParticleSystem( self:GetWM(), "vFire_Flames_Tiny", PATTACH_POINT_FOLLOW,2 )
 	end
 end

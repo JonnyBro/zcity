@@ -28,12 +28,6 @@ local translateSymbol = {
 	["З"] = "В",
 	["ш"] = "ф",
 	["Ш"] = "Ф",
-	--["ч"] = "т",
-	--["Ч"] = "Т",
-	--["у"] = "ю",
-	--["У"] = "Ю",
-	--["т"] = "в",
-	--["Т"] = "В",
 }
 
 local repeating = {
@@ -57,12 +51,6 @@ function hg.FurrifyPhrase(msg)
 		len = len + 1
 		chars[len] = utf8.char(code)
 	end
-
-	-- local lastpos = 0
-	-- while lastpos != -1 do
-	--     local newpos = string.find(msg, "[rR]", lastpos)
-
-	-- end
 
 
 	--i нельзя менять
@@ -128,7 +116,6 @@ if CLIENT then
 	hook.Add("Player_Death","removeNotifications",function(ply)
 		if ply != lply then return end
 
-		//hg.currentNotification = nil
 		hg.notifications = {}
 	end)
 
@@ -142,7 +129,6 @@ if CLIENT then
 	hook.Add("HG_OnOtrub","removeNotificationsb",function(ply)
 		if ply != lply then return end
 
-		//hg.currentNotification = nil
 		hg.notifications = {}
 	end)
 
@@ -213,7 +199,6 @@ if CLIENT then
 	local time_spent = CurTime()
 	local coloruse = Color(255,255,255,255)
 	local function NotificationsThink()
-		//if hg.currentNotification or #hg.notifications == 0 then return end
 		if #hg.notifications == 0 then return end
 		if hg.currentNotification then return end
 		if !lply:Alive() then hg.notifications = {} return end
@@ -221,16 +206,6 @@ if CLIENT then
 		local tbl = hg.notifications[1]
 
 		if tbl and istable(tbl) and not table.IsEmpty(tbl) then
-			/*if hg.currentNotification then
-				local tbl2 = hg.currentNotification
-
-				local clr = tbl2 and tbl2[4] and IsColor(tbl2[4]) and tbl2[4] or Color(255, 255, 255, 255)
-				if tbl2 and clr and tbl2[1] then
-					chat.AddText(Color(coloruse.r, coloruse.g, coloruse.b, 255), (last_message or tbl2[1]).."\n")
-				end
-
-				hg.currentNotification = nil
-			end*/
 
 			hg.currentNotification = {tbl[1], time_spent, tbl[2], tbl[3]}
 
@@ -264,9 +239,7 @@ if CLIENT then
 		lply = LocalPlayer()
 		local org = lply.organism
 		if not org or not org.pain or not org.brain then return end
-		//if org.otrub and !last_message then return end
 
-		//if hg_old_notificate:GetBool() then return end
 		local tbl = hg.currentNotification
 
 		if tbl and istable(tbl) and not table.IsEmpty(tbl) then
@@ -289,7 +262,6 @@ if CLIENT then
 
 				if click != oldclick and not last_message then
 					sound.Play("peepsnd", render.GetViewSetup().origin - vector_up * 10)
-					//surface.PlaySound("peepsnd")
 					oldclick = click
 				end
 
@@ -351,7 +323,6 @@ if CLIENT then
 						end
 
 						draw.GlowingText(last_message or txt, font, 0, 0, ColorAlpha(col2, col.a), ColorAlpha(col2, math.min(col.a, 50)), ColorAlpha(col2, math.min(col.a, 10)), TEXT_ALIGN_LEFT, TEXT_ALIGN_CENTER)
-						-- draw.SimpleTextOutlined(last_message or txt, font, 0, 0, ColorAlpha(col, col.a), TEXT_ALIGN_LEFT, TEXT_ALIGN_CENTER, 1, colBrown)
 					DisableClipping(false)
 					cam.PopModelMatrix()
 
@@ -371,7 +342,6 @@ if CLIENT then
 
 				local clr = tbl and tbl[4] and IsColor(tbl[4]) and tbl[4] or Color(255, 255, 255, 255)
 				if tbl and clr and tbl[1] then
-					//MsgC(Color(clr.r, clr.g, clr.b, 255), (last_message or tbl[1]).."\n")
 					chat.AddText(Color(clr.r, clr.g, clr.b, 255), (last_message or tbl[1]).."\n")
 				end
 

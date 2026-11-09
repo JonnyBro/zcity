@@ -30,7 +30,7 @@ net.Receive("gwars_start", function()
 
 	//music_themes/ghetto_loop.wav
 	//music_themes/ghetto_start.wav
-	
+
 end)
 
 local teams = {
@@ -56,16 +56,15 @@ function MODE:RenderScreenspaceEffects()
 end
 
 surface.CreateFont("timer_Font2", {
-	font = "Bahnschrift", 
-	size = ScreenScale(12), 
-	extended = true, 
+	font = "Bahnschrift",
+	size = ScreenScale(12),
+	extended = true,
 	weight = 650,
 	antialias = true,
 	italic = false
 })
 
 function MODE:HUDPaint()
-	//if !lply.organism or !lply.organism.fear then return end
 
 	local timeBeforeSWAT = (zb.ROUND_START - CurTime() + 120)
 	if timeBeforeSWAT > 0 and zb.ROUND_START + 10.5 < CurTime() then
@@ -79,8 +78,6 @@ function MODE:HUDPaint()
 		surface.DrawText(time)
 		surface.SetTextPos(sw * 0.5 - w2 / 2 + w, sh * 0.05)
 		surface.DrawText("time left before SWAT arrives!")
-		//draw.SimpleText(" left before SWAT arrives!", "timer_Font2", sw * 0.432, sh * 0.05, Color(255, 255, 255, 255), TEXT_ALIGN_LEFT, TEXT_ALIGN_CENTER)
-		//draw.SimpleText(time, "timer_Font2", sw * 0.36, sh * 0.05, Color(255, 255, 255, 255), TEXT_ALIGN_LEFT, TEXT_ALIGN_CENTER)
 	end
 
 	if zb.ROUND_START + 8 < CurTime() then
@@ -96,12 +93,12 @@ function MODE:HUDPaint()
 		end
 
 		lerpsnd = LerpFT(0.01, lerpsnd, !ended and (lply:Alive() and lply.organism and !lply.organism.otrub and lply.organism.fear and math.Clamp(lply.organism.fear + 0.3 + (timeBeforeSWAT <= 0 and 2 or 0), 0, 1) or 0.3) or 0)
-		
+
 		if zb.ROUND_START + 12 < CurTime() then
 			if IsValid(GWARS_LoopStation) then
 				GWARS_LoopStation:SetVolume(lerpsnd * MusicVolume:GetFloat())
 				GWARS_LoopStation:Play()
-				
+
 				if IsValid(GWARS_LoopStation2) then
 					GWARS_LoopStation2:SetVolume(0)
 					GWARS_LoopStation2:Play()
@@ -112,12 +109,12 @@ function MODE:HUDPaint()
 		if IsValid(GWARS_LoopStation) and GWARS_LoopStation:GetState() == GMOD_CHANNEL_PLAYING then
 			GWARS_LoopStation:SetVolume(lerpsnd * MusicVolume:GetFloat())
 		end
-	
+
 		if timeBeforeSWAT <= 0 then
 			if IsValid(GWARS_LoopStation2) then
 				GWARS_LoopStation2:SetVolume(lerpsnd * MusicVolume:GetFloat())
 			end
-			
+
 			if IsValid(GWARS_LoopStation) then
 				GWARS_LoopStation:SetVolume(0)
 			end
@@ -187,7 +184,6 @@ CreateEndMenu = function()
 	local posX, posY = ScrW() / 1.3 - sizeX / 2, ScrH() / 2 - sizeY / 2
 	hmcdEndMenu:SetPos(posX, posY)
 	hmcdEndMenu:SetSize(sizeX, sizeY)
-	--hmcdEndMenu:SetBackgroundColor(colGray)
 	hmcdEndMenu:MakePopup()
 	hmcdEndMenu:SetKeyboardInputEnabled(false)
 	hmcdEndMenu:ShowCloseButton(false)

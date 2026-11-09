@@ -13,7 +13,7 @@ hook.Add("PostDrawTranslucentRenderables", "bloodpartciels", function()
 	if not bloodparticles_hook then return end
 	local animpos = math_min((delay - time) / fps, 1)
 	if not bloodparticles_hook[1] then return end
-	
+
 	bloodparticles_hook[1](animpos, fps)
 	bloodparticles_hook[3](animpos, fps)
 

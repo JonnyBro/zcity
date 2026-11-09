@@ -43,7 +43,7 @@ SWEP.FoodModelsKCNNeutralizers = {
 }
 
 SWEP.FoodModels = {
-	"models/jorddrink/7upcan01a.mdl", 
+	"models/jorddrink/7upcan01a.mdl",
 	"models/jorddrink/barqcan1a.mdl",
 	"models/jorddrink/cozcan01a.mdl",
 	"models/jorddrink/crucan01a.mdl",
@@ -63,7 +63,7 @@ SWEP.FoodModels = {
 }
 
 SWEP.WaterModel = {
-	["models/jorddrink/7upcan01a.mdl"] = true, 
+	["models/jorddrink/7upcan01a.mdl"] = true,
 	["models/jorddrink/barqcan1a.mdl"] = true,
 	["models/jorddrink/cozcan01a.mdl"] = true,
 	["models/jorddrink/crucan01a.mdl"] = true,
@@ -106,18 +106,17 @@ if SERVER then
 		org.satiety = org.satiety + 10/5
 		local ply = self:GetOwner()
 		ply:ViewPunch(ang_eat)
-		
+
 		ent:EmitSound( self.WaterModel[self.WorldModel] and "snd_jack_hmcd_drink"..math.random(3)..".wav" or "snd_jack_hmcd_eat"..math.random(4)..".wav", 60, math.random(95, 105))
-		
+
 		self.CDEating = CurTime() + 0.5
 		self.Eating = self.Eating + 1
-		--self:SetHolding(0.98)
 		if self.Eating > 5 then
 			self:GetOwner():SelectWeapon("weapon_hands_sh")
 			self:SpawnGarbage(self:GetCurModel() or nil)
 			self:Remove()
 		end
-		
+
 		return true
 	end
 end

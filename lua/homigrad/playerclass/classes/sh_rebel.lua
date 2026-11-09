@@ -34,7 +34,7 @@ local rebels = {
 
 function CLASS.Off(self)
     if CLIENT then return end
-    
+
     for k,v in ipairs(ents.FindByClass("npc_*")) do
         if table.HasValue(rebels,v:GetClass()) then
             v:AddEntityRelationship( self, D_HT, 99 )
@@ -169,7 +169,6 @@ local rebel_subclasses = {
 
             local wep1 = ply:Give(primary_weapons[math.random(#primary_weapons)])
             ply:GiveAmmo(wep1:GetMaxClip1() * 3, wep1:GetPrimaryAmmoType(), true)
-            //hg.AddAttachmentForce(ply, wep1, "ent_att_laser2")
 
             local wep2 = ply:Give(secondary_weapons[math.random(#secondary_weapons)])
             ply:GiveAmmo(wep2:GetMaxClip1() * 3, wep2:GetPrimaryAmmoType(), true)
@@ -202,7 +201,7 @@ local rebel_subclasses = {
 
 local function giveSubClassLoadout(ply, subClass)
     local cfg = rebel_subclasses[subClass] or rebel_subclasses["default"]
-    
+
     cfg.give_fn(ply)
 
     --;; Система случайного говна
@@ -261,14 +260,14 @@ function CLASS.On(self, data)
         zb.GiveRole(self, "Rebel", Color(0, 173, 43))
     end
 
-    self:SetBodygroup(10, 1)                  
-    self:SetBodygroup(8, math.random(0,15))   
-    self:SetBodygroup(9, math.random(0,9))    
-    self:SetSkin(math.random(0,3))            
+    self:SetBodygroup(10, 1)
+    self:SetBodygroup(8, math.random(0,15))
+    self:SetBodygroup(9, math.random(0,9))
+    self:SetSkin(math.random(0,3))
 
 
     self.CurAppearance = appearance
-    
+
     for k,v in ipairs(ents.FindByClass("npc_*")) do
         if table.HasValue(rebels,v:GetClass()) then
             v:AddEntityRelationship( self, D_LI, 0 )
@@ -278,7 +277,7 @@ function CLASS.On(self, data)
             v:ClearEnemyMemory()
         end
     end
-    
+
     local index = self:EntIndex()
     hook.Add( "OnEntityCreated", "rebel_relation_ship"..index, function( ent )
         if not IsValid(self) then hook.Remove("OnEntityCreated","rebel_relation_ship"..index) return end
@@ -364,7 +363,7 @@ if SERVER then
     hook.Add("HomigradDamage", "Rebels_painsounds", function(ply, dmgInfo, hitgroup, ent)
         if rebel_classes[ply.PlayerClassName] then
             ply.painCD = ply.painCD or 0
-            if paintable[hitgroup] and (ply.painCD < CurTime()) and ply.organism and not ply.organism.otrub and ply:Alive() and not ply.organism.holdingbreath then 
+            if paintable[hitgroup] and (ply.painCD < CurTime()) and ply.organism and not ply.organism.otrub and ply:Alive() and not ply.organism.holdingbreath then
                 --paintable[hitgroup](ply,ent)
             end
         end

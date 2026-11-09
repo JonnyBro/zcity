@@ -121,8 +121,6 @@ SWEP.LHAng = Angle(5,9,-100)
 
 local weapons_Get = weapons.Get
 function SWEP:Shoot(override)
-	--self:GetWeaponEntity():ResetSequenceInfo()
-	--self:GetWeaponEntity():SetSequence(1)
 	if self:GetOwner():IsNPC() then self.drawBullet = true end
 	if not self:CanPrimaryAttack() then return false end
 	if not self:CanUse() then return false end

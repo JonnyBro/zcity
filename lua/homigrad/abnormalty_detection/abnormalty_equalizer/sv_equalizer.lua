@@ -18,7 +18,7 @@ end
 
 local function TryConjureEqualizer(zone, ply)
 	local equalizers_consumption = 400
-	
+
 	if(PLUGIN.GetZoneOrPlyEqualizers(zone, ply) >= equalizers_consumption)then
 		PLUGIN.ShowMessageInSphere("Conjuring Equalizer...", zone.Pos, zone.Radius)
 		PLUGIN.ConjureEqualizer.Do(ent, 5, zone)
@@ -34,24 +34,24 @@ end
 --\\SpecialEvents
 hook.Add("Abnormalties_HotZoneAbnormaltyAdded", "Abnormalties_ConjureEqualizer", function(zone_id, abnormalty_name, amt, ply)
 	local zone = PLUGIN.Zones[zone_id]
-	
+
 	if(PLUGIN.GetZoneAbnormalty(zone, "shield") >= 20 and PLUGIN.GetZoneAbnormalty(zone, "ritual") >= 10 and PLUGIN.GetZoneAbnormalty(zone, "help") >= 10 and amt > 0)then
 		local clear_cd = 10
-		
+
 		if(!zone.Vars.RitualPhrasesAmtClearTime)then
 			zone.Vars.RitualPhrasesAmtClearTime = CurTime() + clear_cd
 		end
-		
+
 		if(zone.Vars.RitualPhrasesAmtClearTime <= CurTime())then
 			PLUGIN.ResetPhrasesAbnormaltiesFromZone(zone)
-			
+
 			zone.Vars.RitualPhrasesAmtClearTime = nil
 		end
-		
+
 		if(PLUGIN.CompareZonePhrasesToPattern(zone, {{"shield", 5}, {"help", 2}, {"sacrifice", 2}}, 5))then
 			TryConjureEqualizer(zone, ply)
 			PLUGIN.ResetPhrasesAbnormaltiesFromZone(zone)
-			
+
 			zone.Vars.RitualPhrasesAmtClearTime = nil
 		end
 	end
@@ -63,12 +63,12 @@ hook.Add("Think", "Abnormalties_ConjureEqualizer", function()
 		if(info.Time <= CurTime())then
 			if(info.Zone)then
 				local new_ent = ents.Create("ent_armor_ego_equalizer")
-				
+
 				new_ent:SetPos(info.Zone.Pos + Vector(0, 0, 30))
 				new_ent:Spawn()
 				new_ent:Activate()
 			end
-			
+
 			PLUGIN.ConjureEqualizer.ToConjure[id] = nil
 		end
 	end
@@ -97,7 +97,7 @@ hook.Add("CanEquipArmor", "Abnormalties_ConjureEqualizer", function(ply, armor_n
 		if(armor_name == "ego_equalizer")then
 			if(ply.Karma and ply.Karma < zb.MaxKarma)then
 				PLUGIN.ShowMessage(ply, "It seems that I'm unworthy")
-				
+
 				return false
 			end
 		end

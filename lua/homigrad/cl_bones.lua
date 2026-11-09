@@ -16,7 +16,7 @@
 
 			return hg.SetModel(self, mdl)
 		end
-		
+
 		local function recursive_get_children(ent, bone, bones, endbone)
 			local children = ent:GetChildBones(bone)
 			-- this should stay local since this is a recursive function
@@ -37,21 +37,20 @@
 		end
 
 		hg.recursive_get_children = recursive_get_children
-		
+
 		local cached_children = hg.cached_children
 		local mdl
 
-		function hg.get_children(ent, bone, endbone)		
+		function hg.get_children(ent, bone, endbone)
 			bone = isstring(bone) and ent:LookupBone(bone) or bone
-			
+
 			if not bone or isstring(bone) or bone == -1 then return end
 			local bones = {}
 
 			mdl = ent:GetModel()
-			--if ((math.max(huytimer) + 1) < CurTime()) and cached_children[mdl] and cached_children[mdl][bone] then return cached_children[mdl][bone] end
-			
+
 			recursive_get_children(ent, bone, bones, endbone)
-			
+
 			cached_children[mdl] = cached_children[mdl] or {}
 			cached_children[mdl][bone] = bones
 
@@ -186,9 +185,9 @@
 					{0.64841,	-0.52362,	0.55262,	1.31488},
 					{0.00000,	0.00000,	0.00000,	1.00000},
 					}),
-					
-					
-					
+
+
+
 			},
 			["pistol_hold"] = {
 				['ValveBiped.Anim_Attachment_LH'] = Matrix({
@@ -313,7 +312,7 @@
 					{0.27007,	-0.63250,	-0.72596,	1.31686},
 					{0.00000,	0.00000,	0.00000,	1.00000},
 					}),
-					
+
 			},
 			["grip_hold"] = {
 				['ValveBiped.Anim_Attachment_LH'] = Matrix({
@@ -437,9 +436,9 @@
 					{-0.33863,	-0.16960,	0.92551,	-0.31274},
 					{0.66537,	-0.73864,	0.10810,	1.31494},
 					{0.00000,	0.00000,	0.00000,	1.00000},
-					}),				
+					}),
 			},
-				
+
 		}
 
 		local hand_posesrh = {
@@ -567,7 +566,7 @@
 					{-0.28012,	0.50369,	0.81720,	-1.31165},
 					{0.00000,	0.00000,	0.00000,	1.00000},
 					}),
-					
+
 			},
 			["ak_hold"] = {
 				['ValveBiped.Anim_Attachment_RH'] = Matrix({
@@ -776,7 +775,7 @@
 
 			local view = render.GetViewSetup(true)
 			if (ply:GetPos():DistToSqr(view.origin) > int * int) then
-				ply.cachedval = false 
+				ply.cachedval = false
 				return false
 			end
 

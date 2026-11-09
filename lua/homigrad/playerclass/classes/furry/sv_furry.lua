@@ -1,20 +1,19 @@
 hook.Add("Org Think", "regenerationfurry", function(owner, org, timeValue)
 	if not owner:IsPlayer() or not owner:Alive() then return end
 	if owner.PlayerClassName != "furry" then return end
-	//if org.heartstop then return end
 
 	org.blood = math.Approach(org.blood, 5000, timeValue * 60)
 
 	for i, wound in pairs(org.wounds) do
 		wound[1] = math.max(wound[1] - timeValue * 0.6,0)
 	end
-	
+
 	for i, wound in pairs(org.arterialwounds) do
 		wound[1] = math.max(wound[1] - timeValue * 0.6,0)
 	end
-	
+
 	org.internalBleed = math.max(org.internalBleed - timeValue * 0.6, 0)
-	
+
 	local regen = timeValue / 60
 
 	org.lleg = math.max(org.lleg - regen, 0)
@@ -59,13 +58,6 @@ hook.Add("HomigradDamage","FurCrackHit",function(ply, dmgInfo, hitgroup, ent)
 	if ply.PlayerClassName == "furry" then
 		if hitgroup == HITGROUP_HEAD then
 			local intensity = math.max(dmgInfo:GetDamage() / 3, 0.05)
-
-			//if intensity > 0.1 then
-			//	timer.Simple(0, function()
-			//		ply.armors["head"] = "protovisor"
-			//		ply:SyncArmor()
-			//	end)
-			//end
 
 			net.Start("CrackScreen")
 				net.WriteFloat(intensity)

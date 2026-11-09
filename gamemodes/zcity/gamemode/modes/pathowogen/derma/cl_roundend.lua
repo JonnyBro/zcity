@@ -47,24 +47,6 @@ function PANEL:Init()
 	self:SetPos(sw * 0.01, sh * 0.07)
 	self:SetSize(sw * 0.3, sh * 0.9)
 
-	-- local data = {}
-	-- local ply = Entity(1)
-
-	-- data[ply] = {}
-
-	-- data[ply].og = {
-	-- 	name = "Pluvtown Citizen",
-	-- 	role = "survivor"
-	-- }
-
-	-- data[ply].now = {}
-	-- data[ply].now.name = "Pluvtown Citizen"
-	-- data[ply].now.alive = false
-	-- data[ply].now.escaped = false
-	-- data[ply].now.role = "furry"
-
-	-- self.data = data
-
 	self.appearAlpha = 255
 	self.appearProgress = 0
 
@@ -77,8 +59,6 @@ function PANEL:Init()
 		easing = "linear",
 		bIgnoreConfig = true,
 		Think = function()
-			-- self:SetSize(sw * 0.22 * self.appearProgress, sh * 0.12)
-			-- self:SetAlpha(255 * self.appearProgress)
 		end,
 		OnComplete = function()
 		end
@@ -238,7 +218,6 @@ function PANEL:Close()
 		easing = "linear",
 		bIgnoreConfig = true,
 		Think = function()
-			-- self:SetSize(sw * 0.22 * self.appearProgress, sh * 0.12)
 			self:SetAlpha(255 * self.appearProgress / 2)
 		end,
 		OnComplete = function()

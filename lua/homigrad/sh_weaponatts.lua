@@ -14,7 +14,6 @@ hg.attachments.sight = {
 		offset = Vector(-1, 0, -0.02),
 		offsetView = Vector(-1.5, 0, 9),
 		{
-			--[1] = "models/weapons/arc9_eft_shared/atts/optic/transparent_glass"
 		},
 		mountType = "picatinny",
 		holotex = "models/weapons/arc9_eft_shared/atts/optic/transparent_glass",
@@ -589,13 +588,13 @@ hg.attachments.sight = {
 			if not IsValid(model2) then
 				model2 = ClientsideModel(hg.attachments.sight["optic8"].holomodel)
 				addholo.model = model2
-				
+
 				self.holomodels = self.holomodels or {}
 				self.holomodels[model2] = true
-	
+
 				model:CallOnRemove("removeshithole",function()
 					self.holomodels = self.holomodels or {}
-					
+
 					if self.holomodels then
 						self.holomodels[model2] = nil
 					end
@@ -604,12 +603,12 @@ hg.attachments.sight = {
 						model2:Remove()
 					end
 				end)
-	
+
 			end
 			if not addholo.submat then
 				addholo:SetSubMaterial(0,"null")
 				addholo:SetSubMaterial(1,"white")
-		
+
 				model2:SetSubMaterial(0,"")
 				model2:SetSubMaterial(1,"null")
 				addholo.submat = true
@@ -974,7 +973,6 @@ function hg.attachmentFunc(self, attachmentData)
 	self.holo = attachmentData.holo or self.holo
 	self.holo_size = attachmentData.holo_size or self.holo_size
 	self.holo_lum = attachmentData.holo_lum or self.holo_lum
-	--self.holo_view = curAtt[4] or self.holo_view
 	if attachmentData.perekrestieSize ~= nil then
 		self.perekrestieSize = attachmentData.perekrestieSize
 	end
@@ -1021,10 +1019,10 @@ hg.attachments.barrel = {
 	["supressor5"] = {"barrel", "models/weapons/tfa_ins2/upgrades/att_suppressor_12ga.mdl", Angle(0, 0, 0), {},offset = Vector(-31, 2.2, 1.85),valid = true,},
 	["supressor6"] = {"barrel", "models/atts/homemadesuppressor/plastic_bottle_1.mdl", Angle(-90, 0, 0), {}, modelscale = 0.75, offset = Vector(11.5,-0.5,-0.1),},
 	["supressor7"] = {
-		"barrel", "models/weapons/arc9/darsu_eft/mods/silencer_base_sig_srd_762_qd_762x51.mdl", 
-		Angle(0, 0, 0), 
-		{}, 
-		modelscale = 1, 
+		"barrel", "models/weapons/arc9/darsu_eft/mods/silencer_base_sig_srd_762_qd_762x51.mdl",
+		Angle(0, 0, 0),
+		{},
+		modelscale = 1,
 		offset = Vector(-1.5,0.1,0),
 		PhysModel = "models/hunter/plates/plate025.mdl",
 		PhysPos = Vector(1, 0, 0),
@@ -1032,10 +1030,10 @@ hg.attachments.barrel = {
 		valid = true,
 	},
 	["supressor8"] = {
-		"barrel", "models/weapons/arc9_eft_shared/atts/muzzle/silencer_mount_silencerco_hybrid_46_multi.mdl", 
-		Angle(0, 0, 0), 
-		{}, 
-		modelscale = 1, 
+		"barrel", "models/weapons/arc9_eft_shared/atts/muzzle/silencer_mount_silencerco_hybrid_46_multi.mdl",
+		Angle(0, 0, 0),
+		{},
+		modelscale = 1,
 		offset = Vector(-1.5,0.1,0),
 		PhysModel = "models/hunter/plates/plate025.mdl",
 		PhysPos = Vector(1, 0, 0),
@@ -1269,24 +1267,6 @@ hg.attachments.underbarrel = {
 		shouldalwaysdraw = true,
 		valid = true,
 	},
-
-	--[[
-		if not IsValid(lply.EZNVGlamp) then
-			lply.EZNVGlamp = ProjectedTexture()
-			lply.EZNVGlamp:SetTexture("effects/flashlight001")
-			lply.EZNVGlamp:SetBrightness(.05)
-		else
-			local Ang = EyeAngles()
-			lply.EZNVGlamp:SetPos(lply:EyePos())
-			lply.EZNVGlamp:SetEnableShadows(false)
-			lply.EZNVGlamp:SetAngles(Ang)
-			lply.EZNVGlamp:SetConstantAttenuation(.1)
-			local FoV = lply:GetFOV()
-			lply.EZNVGlamp:SetFOV(FoV+45)
-			lply.EZNVGlamp:SetFarZ(150000 / FoV)
-			lply.EZNVGlamp:Update()
-		end models/weapons/upgrades/a_laser_rail.mdl
-	--]]
 
 	["laser4"] = {
 		"underbarrel",
@@ -1541,16 +1521,14 @@ function hg.GiveAttachment(ply,att)
 
 	inv["Attachments"] = inv["Attachments"] or {}
 
-	--if not table.HasValue(inv["Attachments"],att) then
 	inv["Attachments"][#inv["Attachments"] + 1] = att
 
 	ply:SetNetVar("Inventory",inv)
-	--end
 end
 
 function hg.NotValidAtt(att)
 	local att = isstring(att) and att or istable(att) and isstring(att[1]) and att[1]
-	
+
 	if att then
 		local att = string.Replace(att,"ent_att_","")
 
@@ -1560,7 +1538,7 @@ function hg.NotValidAtt(att)
 				valid = true
 			end
 		end
-		
+
 		return not valid
 	end
 

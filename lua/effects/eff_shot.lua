@@ -24,7 +24,7 @@ function EFFECT:Init(data)
 
     local ammotype = string.lower( string.Replace( gun.Primary and gun.Primary.Ammo or "nil"," ", "") )
     self.bullet = (hg.ammotypes[ammotype] and hg.ammotypes[ammotype].TracerSetings) or tracer
-    
+
     self.SpawnTime = CurTime()
     self.DieTime = CurTime() + 0.1
     self.Pos = pos
@@ -39,13 +39,13 @@ function EFFECT:Think()
     local bullet = self.bullet
 
     self.Velocity = (self.Velocity or vector_zero)-- - vector_up * 0.05
-    
+
     local vellen = self.Velocity:Length()
 
     if self.AddVelocity then
         local ang = self.Velocity:Angle()
         local addvel = self.AddVelocity
-        
+
         self.Velocity = self.Velocity + self.AddVelocity
         self.AddVelocity = self.AddVelocity / 4
     end
@@ -61,7 +61,7 @@ function EFFECT:Think()
         self.Velocity = -vec:Forward() * vellen
         self.Velocity:Mul(0.5)
     end
-    
+
     self.Velocity:Mul(0.3)
     self:NextThink(CurTime() + 0.05)
     return self.DieTime > CurTime()
@@ -73,7 +73,7 @@ function EFFECT:Render()
     local bullet = self.bullet
 
     local width = bullet.TracerWidth / 6
-    
+
     if tracer.TracerTail then
         render.SetMaterial(tracer.TracerTail)
         render.DrawBeam(self.Pos - self.Velocity, self.Pos, width * self.Velocity:Length() / 5, bullet.TracerTPoint2, bullet.TracerTPoint1, tracer.TracerColor)

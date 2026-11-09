@@ -802,7 +802,6 @@ local function OpenMenu()
 		slotsInfo:SetTall(ScreenScale(10))
 		slotsInfo:DockMargin(0, 4, 0, 0)
 		slotsInfo.Paint = function(self, w, h)
-			--draw.SimpleText("SELECTED: " .. GearCount() .. " / " .. slots .. "  (HANDCUFFS AND SIDEARM ARE ALWAYS ISSUED)", "CRI_Small", 0, h / 2, criDim, TEXT_ALIGN_LEFT, TEXT_ALIGN_CENTER)
 		end
 
 		local applyBtn = BoxButton(rightC, "Apply", function()

@@ -9,7 +9,7 @@ function MODE:AddHudPaint()
     self.DisplayMoney = self.DisplayMoney or 0
     self.LastMoney = self.LastMoney or 0
     self.MoneyAnims = self.MoneyAnims or {}
-    
+
     if !ply:Alive() then return end
     if zb.rtype == "bomb" then
 
@@ -29,11 +29,11 @@ function MODE:AddHudPaint()
             local tscr = pos:ToScreen()
 
             local clr = zb.Points["BOMB_ZONE_A"].Color
-            
+
             if BombInSite(LocalPlayer():EyePos(),1) then
                 surface.SetDrawColor(122,0,0,255)
                 surface.DrawRect(tscr.x - w / 2, 0, w, h * 2)
-        
+
                 local txt = "You're on site!"
                 surface.SetFont( "ZB_InterfaceMedium" )
                 surface.SetTextColor(color_white:Unpack())
@@ -44,7 +44,7 @@ function MODE:AddHudPaint()
 
             surface.SetDrawColor(clr:Unpack())
             surface.DrawRect(tscr.x - w / 2, 0, w, h)
-        
+
             local txt = "SITE A: "..math.Round(pos:Distance(LocalPlayer():EyePos()) * 0.0254,0).." meters"
             surface.SetFont( "ZB_InterfaceMedium" )
             surface.SetTextColor(color_white:Unpack())
@@ -61,11 +61,11 @@ function MODE:AddHudPaint()
             local tscr = pos:ToScreen()
 
             local clr = zb.Points["BOMB_ZONE_B"].Color
-            
+
             if BombInSite(LocalPlayer():EyePos(),2) then
                 surface.SetDrawColor(122,0,0,255)
                 surface.DrawRect(tscr.x - w / 2, 0, w, h * 2)
-        
+
                 local txt = "You're on site!"
                 surface.SetFont( "ZB_InterfaceMedium" )
                 surface.SetTextColor(color_white:Unpack())
@@ -76,7 +76,7 @@ function MODE:AddHudPaint()
 
             surface.SetDrawColor(clr:Unpack())
             surface.DrawRect(tscr.x - w / 2, 0, w, h)
-        
+
             local txt = "SITE B: "..math.Round(pos:Distance(LocalPlayer():EyePos()) * 0.0254,0).." meters"
             surface.SetFont( "ZB_InterfaceMedium" )
             surface.SetTextColor(color_white:Unpack())
@@ -96,7 +96,7 @@ function MODE:AddHudPaint()
 
         surface.SetDrawColor(clr:Unpack())
         surface.DrawRect(tscr.x - w * 1.15, 0, w * 1.15 * 2, h)
-    
+
         local txt = "HOSTAGE DELIVERY ZONE: "..math.Round(pos:Distance(LocalPlayer():EyePos()) * 0.0254,0).." meters"
         surface.SetFont( "ZB_InterfaceMedium" )
         surface.SetTextColor(color_white:Unpack())

@@ -123,32 +123,22 @@ SWEP.AnimsEvents = {
 	["reload_start2"] = {
 		[0.45] = function(self)
 			self:EmitSound("weapons/arccw_ud/870/shell-insert-0"..math.random(1,3)..".ogg")
-			--
-			--self:GetWM():ManipulateBoneScale(47, vector_full)
 		end,
 	},
 	["reload_loop2"] = {
 		[0.45] = function(self)
 			self:EmitSound("weapons/arccw_ud/870/shell-insert-0"..math.random(1,3)..".ogg")
-			--
-			--self:GetWM():ManipulateBoneScale(47, vector_full)
 		end,
 	},
 	["pump1"] = {
 		[0.0] = function(self)
 			self:EmitSound("weapons/arccw_ud/870/rack_1.ogg")
-			--
-			--self:GetWM():ManipulateBoneScale(47, vector_full)
 		end,
 		[0.21] = function(self)
 			self:EmitSound("weapons/arccw_ud/870/rack_2.ogg")
-			--
-			--self:GetWM():ManipulateBoneScale(47, vector_full)
 		end,
 		[0.23] = function(self)
-			--self:EmitSound("weapons/arccw_ud/870/eject.ogg")
 			self:RejectShell(self.ShellEject)
-			--self:GetWM():ManipulateBoneScale(47, vector_full)
 		end
 	}
 }
@@ -189,7 +179,6 @@ function SWEP:AnimationPost()
 		sin = sin * 1
 	end
 	sin = sin * 2
-	--sin = math.ease.InOutExpo(sin)
 	sin = math.ease.InOutSine(sin)
 
 	if sin > 0 then
@@ -230,7 +219,7 @@ local function cock(self, time)
 		net.WriteBool(self.drawBullet)
 		net.WriteFloat(CurTime())
 	net.Broadcast()
-	
+
 	self.Primary.Next = CurTime() + self.AnimDraw + self.Primary.Wait
 	if CLIENT then self:PlaySnd(self.CockSound or "weapons/shotgun/shotgun_cock.wav",true,CHAN_AUTO) end
 
@@ -252,15 +241,15 @@ local function reloadFunc(self)
 	if self.MagIndex then
 		self:GetWM():ManipulateBoneScale(self.MagIndex, vector_full)
 	end
-	
-	self:PlayAnim(self.AnimList["insert"] or "sgreload_insert", 1, false, function() 
-		self:InsertAmmo(1) 
+
+	self:PlayAnim(self.AnimList["insert"] or "sgreload_insert", 1, false, function()
+		self:InsertAmmo(1)
 		if self.MagIndex then
 			self:GetWM():ManipulateBoneScale(self.MagIndex, vector_origin)
 		end
-		
+
 		local key = hg.KeyDown(self:GetOwner(), IN_RELOAD)
-		
+
 		if key and self:CanReload() then
 			reloadFunc(self)
 
@@ -272,10 +261,10 @@ local function reloadFunc(self)
 				cock(self, 1)
 				self:PlayAnim(self.AnimList["cycle"], 1, false, function(self)
 					self:SetNetVar("shootgunReload", 0)
-				end, false, true) 
-			end, false, true) 
+				end, false, true)
+			end, false, true)
 		else
-			self:PlayAnim(self.AnimList["finish"], {0.5,0,0.2}, false, function(self) self:SetNetVar("shootgunReload", 0) end, false, true) 
+			self:PlayAnim(self.AnimList["finish"], {0.5,0,0.2}, false, function(self) self:SetNetVar("shootgunReload", 0) end, false, true)
 		end
 	end, false, true)
 end
@@ -283,7 +272,6 @@ end
 SWEP.FakeEjectBrassATT = "2"
 
 function SWEP:Reload(time)
-	--print(self:GetNetVar("shootgunReload",0))
 	if self.AnimStart_Draw > CurTime() - 0.5 then return end
 	if not self:CanUse() then return end
 	if self.reloadCoolDown > CurTime() then return end
@@ -304,14 +292,14 @@ function SWEP:Reload(time)
 	if SERVER then
 		self:SetNetVar("shootgunReload", CurTime() + 1.1)
 
-		self:PlayAnim(self.AnimList["start"] or "sgreload_start",1,false,function() 
-			self:InsertAmmo(1) 
+		self:PlayAnim(self.AnimList["start"] or "sgreload_start",1,false,function()
+			self:InsertAmmo(1)
 			if self.MagIndex then
 				self:GetWM():ManipulateBoneScale(self.MagIndex, vector_origin)
 			end
-			
+
 			local key = hg.KeyDown(self:GetOwner(), IN_RELOAD)
-			
+
 			if key and self:CanReload() then
 				reloadFunc(self)
 				return
@@ -321,10 +309,10 @@ function SWEP:Reload(time)
 					cock(self, 1)
 					self:PlayAnim(self.AnimList["cycle"], 1, false, function(self)
 						self:SetNetVar("shootgunReload", 0)
-					end, false, true) 
-				end, false, true) 
+					end, false, true)
+				end, false, true)
 			else
-				self:PlayAnim(self.AnimList["finish"], {0.5,0,0.2}, false, function(self) self:SetNetVar("shootgunReload", 0) end, false, true) 
+				self:PlayAnim(self.AnimList["finish"], {0.5,0,0.2}, false, function(self) self:SetNetVar("shootgunReload", 0) end, false, true)
 			end
 		end,
 		false, true)
@@ -372,9 +360,9 @@ if CLIENT then
 		local view = render.GetViewSetup(true)
 
 		local dot = view.angles:Forward():Dot(tr.Normal)
-		
+
 		local pos = tr.StartPos:ToScreen()
-		
+
 		if dot < -0.5 and pos.x > 0 and pos.x < ScrW() and pos.y > 0 and pos.y < ScrH() and hg.isVisible(lply:EyePos(), tr.StartPos, {lply, self}, MASK_VISIBLE) then
 			hg.AddFlash(view.origin, dot, tr.StartPos, 40, 4000)
 		end

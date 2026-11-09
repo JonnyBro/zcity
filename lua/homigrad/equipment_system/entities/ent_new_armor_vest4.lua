@@ -9,7 +9,7 @@
     --     ZC_ARMOR_SLOT_UPPERARM_L = 9
     --         ZC_ARMOR_SLOT_FOREARM_L = 10
     --     ZC_ARMOR_SLOT_UPPERARM_R = 11
-    --         ZC_ARMOR_SLOT_FOREARM_R = 12  
+    --         ZC_ARMOR_SLOT_FOREARM_R = 12
 
     -- ZC_ARMOR_SLOT_BELLY = 13
 
@@ -177,7 +177,7 @@ ENT.SlotOccupation = {                              -- Slots what armor occupate
 
         ENT[FK].NeedPunch = false                           -- viewpunch after impact
     --//
-    
+
     --\\ FrontPlate
         ENT[FP] = {}
         ENT[FP].Protection = ZC_ARMOR_PROTCLASS_III
@@ -191,7 +191,7 @@ ENT.SlotOccupation = {                              -- Slots what armor occupate
 
         ENT[FP].NeedPunch = false                           -- viewpunch after impact
     --//
-    
+
     --\\ BackKevlar
         ENT[BK] = {}
         ENT[BK].Protection = ZC_ARMOR_PROTCLASS_IIIA
@@ -204,8 +204,8 @@ ENT.SlotOccupation = {                              -- Slots what armor occupate
         ENT[BK].DurabilityWarranty = 25                    -- guarantee that the protection level will not decrease (no debuff) upon the degradation
 
         ENT[BK].NeedPunch = false                           -- viewpunch after impact
-    --// 
-    
+    --//
+
     --\\ BackPlate
         ENT[BP] = {}
         ENT[BP].Protection = ZC_ARMOR_PROTCLASS_IV
@@ -232,7 +232,7 @@ ENT.SlotOccupation = {                              -- Slots what armor occupate
         ENT[LK].DurabilityWarranty = 20                     -- guarantee that the protection level will not decrease (no debuff) upon the degradation
 
         ENT[LK].NeedPunch = false                           -- viewpunch after impact
-    --//  
+    --//
 
     --\\ RightKevlar
         ENT[RK] = {}
@@ -246,7 +246,7 @@ ENT.SlotOccupation = {                              -- Slots what armor occupate
         ENT[RK].DurabilityWarranty = 20                     -- guarantee that the protection level will not decrease (no debuff) upon the degradation
 
         ENT[RK].NeedPunch = false                           -- viewpunch after impact
-    --//  
+    --//
 --//
 
 --\\ Render male model

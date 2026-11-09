@@ -130,7 +130,7 @@ if CLIENT then
 		local toScreen = tr.HitPos:ToScreen()
 		local Size = math.max(math.min(1 - (tr and tr.Fraction or 0), 1), 0.1)
 		local x, y = tr.HitPos:ToScreen().x, tr.HitPos:ToScreen().y
-	
+
 		lerpthing = Lerp(0.1, lerpthing, tr.Hit and 1 or 0)
 		colWhite.a = 255 * Size * lerpthing
 		surface.SetDrawColor(colWhite)
@@ -155,7 +155,7 @@ if CLIENT then
 
 			draw.SimpleText( "Plant into Object.", "HomigradFont", toScreen.x + 3, toScreen.y + 27, color_black, TEXT_ALIGN_CENTER )
 			draw.SimpleText( "Plant into Object.", "HomigradFont", toScreen.x, toScreen.y + 25, color_white, TEXT_ALIGN_CENTER )
-		elseif self:GetPlanted() then		
+		elseif self:GetPlanted() then
 			local xrand,yrand = math.random(-1,1),math.random(-1,1)
 			draw.SimpleText( "LMB to explode.", "HomigradFontMedium", toScreen.x + 2 + xrand, toScreen.y + 26 + yrand, color_black, TEXT_ALIGN_CENTER )
 			draw.SimpleText( "LMB to explode.", "HomigradFontMedium", toScreen.x + xrand, toScreen.y + 25 + yrand, color_red, TEXT_ALIGN_CENTER )
@@ -228,9 +228,9 @@ local function ExplodeTheItem(self,ent)
 		timer.Simple(0.2,function()
 			if not IsValid(ent) then self:Remove() return end
 			util.BlastDamage(self, IsValid(self:GetOwner()) and self:GetOwner() or self, EntPos, BlastDis / 0.01905, BlastDamage * 0.1) -- эта функция полное говно кстати. бьет сковзь любые пропы...
-			
+
 			local dis = BlastDis / 0.01905
-			local disorientation_dis = 10 / 0.01905  
+			local disorientation_dis = 10 / 0.01905
 			for _, enta in ipairs(ents.FindInSphere(EntPos, disorientation_dis)) do
 				local tracePos = enta:IsPlayer() and (enta:GetPos() + enta:OBBCenter()) or enta:GetPos()
 				local tr = hg.ExplosionTrace(EntPos, tracePos, {ent})
@@ -239,9 +239,9 @@ local function ExplodeTheItem(self,ent)
 				local force = (enta:GetPos() - EntPos)
 				local len = force:Length()
 				force:Div(len)
-				local frac = math.Clamp((disorientation_dis - len) / disorientation_dis, 0.1, 1)  
-				local physics_frac = math.Clamp((dis - len) / dis, 0.5, 1)  
-				local forceadd = force * physics_frac * 50000  
+				local frac = math.Clamp((disorientation_dis - len) / disorientation_dis, 0.1, 1)
+				local physics_frac = math.Clamp((dis - len) / dis, 0.5, 1)
+				local forceadd = force * physics_frac * 50000
 
 				if enta.organism then
 					local behindwall = tr.Entity != enta and tr.MatType != MAT_GLASS
@@ -252,7 +252,7 @@ local function ExplodeTheItem(self,ent)
 				end
 
 				if len > dis then continue end
-				if tr.Entity != enta then 					
+				if tr.Entity != enta then
 					if IsValid(phys) then
 						phys:ApplyForceCenter((forceadd/20) + vector_up * math.random(500,550))
 					end
@@ -271,7 +271,6 @@ local function ExplodeTheItem(self,ent)
 				phys:ApplyForceCenter(forceadd)
 			end
 
-			--hgWreckBuildings(ent, EntPos, BlastDamage / 400, BlastDis/8, false)
 			hgBlastDoors(ent, EntPos, BlastDamage / 400, BlastDis/8, false)
 			util.ScreenShake( EntPos, 45, 225, 2.5, 3000 )
 
@@ -309,7 +308,6 @@ local function ExplodeTheItem(self,ent)
 								bullet.DisableLagComp = true
 								bullet.Filter = {ent}
 								bullet.Penetration = 4
-								--bullet.Spread = vecCone * i / self.Fragmentation
 								ent:FireLuaBullets(bullet, true)
 							end
 
@@ -441,7 +439,6 @@ if SERVER then
 				if size <= 15 then return end
 
 				bomb = Tr.Entity
-				--bomb:GetPhysicsObject():SetMass(bomb:GetPhysicsObject():GetMass()+20)
 
 				self.Planted = true
 				self.HaveTheBomb = bomb
@@ -477,30 +474,5 @@ if SERVER then
 
 
 	function SWEP:Reload() -- hell nah
-		--if not self.Planted and not self.PlantedOnSelf then
-		--	local Owner = self:GetOwner()
---
-		--	self.PlantedOnSelf = true
---
---
-		--	self.WorldModel = "models/saraphines/insurgency explosives/ied/insurgency_ied_phone.mdl"
---
-		--	net.Start("ied_have_the_bomb")
-		--	net.WriteEntity(self)
-		--	net.Broadcast()
---
-		--	Owner:EmitSound("snd_jack_hmcd_bombrig.wav",50,100,1,CHAN_AUTO)
---
-		--	self.Planted = true
---
---
-		--	timer.Simple(5, function()
-		--		if IsValid(self) and IsValid(Owner) and self.PlantedOnSelf then
-		--			ExplodeTheItem(self, Owner)
-		--		end
-		--	end)
---
-		--	self:SetNextPrimaryFire(CurTime() + 2)
-		--end
 	end
 end

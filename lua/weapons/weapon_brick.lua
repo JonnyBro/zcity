@@ -102,7 +102,6 @@ function SWEP:CustomAttack2()
         phys:AddAngleVelocity(VectorRand() * 300)
     end
 
-    //ply:EmitSound("weapons/slam/throw.wav",50,math.random(95,105))
     ply:ViewPunch(Angle(0, 0, -8))
     ply:SelectWeapon("weapon_hands_sh")
 
@@ -118,7 +117,7 @@ function SWEP:CustomBlockAnim(addPosLerp, addAngLerp)
     addAngLerp.r = addAngLerp.r + (self:GetBlocking() and -15 or 0)
     addAngLerp.y = addAngLerp.y + (self:GetBlocking() and -90 or 0)
     addAngLerp.p = addAngLerp.p + (self:GetBlocking() and 90 or 0)
-    
+
     return true
 end
 

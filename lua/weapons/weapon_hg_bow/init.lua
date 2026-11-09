@@ -10,7 +10,6 @@ end
 
 
 local bashvpang = Angle(-8,0,0)
--- self:PlayAnim(anim,time,cycling,callback,reverse,sendtoclient)
 function SWEP:PrimaryAttack()
 	if self.CurState == 0.5 then return end
 	local ply = self:GetOwner()
@@ -33,12 +32,9 @@ function SWEP:PrimaryAttack()
 		bullet.Force = 80
 		bullet.AmmoType = "Arrow"
 		bullet.Attacker = ply.suiciding and Entity(0) or ply
-		--bullet.Shooter = ply
 		bullet.IgnoreEntity = not ply.suiciding and (ply.InVehicle and ply:InVehicle() and ply:GetVehicle() or hg.GetCurrentCharacter(ply)) or nil
 		bullet.Penetration = 1
-		--ply:LagCompensation(true)
 		hg.PhysBullet.CreateBullet(bullet)
-		--ply:LagCompensation(false)
 
 		self:SoundEmit("weapons/bow_deerhunter/bow_fire_01.wav", 60, math.random(90, 115), 1)
 		self:SetNextPrimaryFire(CurTime() + 1.1)
@@ -113,7 +109,6 @@ function SWEP:ThinkAdd()
 		if self.CurState == -1 and self.CurState ~= 0.5 then
 			self.CurState = 0.5
 			self:PlayAnim(ply:GetAmmoCount("Arrow") == 0 and "idle_to_aim_empty" or "idle_to_aim")
-			--self:SoundEmit("weapons/bow_deerhunter/bow_pullback_0".. (math.random(2) == 2 and 3 or 1) ..".wav")
 		end
 	else
 		if self.CurState == 1 and self.CurState ~= 0.5 and not ply:IsSprinting() then

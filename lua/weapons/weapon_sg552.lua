@@ -69,7 +69,6 @@ SWEP.ShockMultiplier = 3
 SWEP.ScrappersSlot = "Primary"
 
 SWEP.CustomShell = "556x45"
---SWEP.EjectPos = Vector(0,5,5)
 SWEP.EjectAng = Angle(-5,180,0)
 
 SWEP.Ergonomics = 0.9
@@ -100,7 +99,7 @@ SWEP.LHPos = Vector(14,0.8,-3.7)
 SWEP.LHAng = Angle(-110,-180,0)
 
 function SWEP:AnimationPost()
-	
+
 end
 
 -- RELOAD ANIM AKM

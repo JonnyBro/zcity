@@ -2,16 +2,16 @@ if engine.ActiveGamemode() == "sandbox" then
     if CLIENT then
         local commands = {
             ["/qa"] = function(msg, ply)
-                return "¿ " .. msg .. " ? - "..ply:GetPlayerName() , Color(255, 160, 255) -- 
+                return "¿ " .. msg .. " ? - "..ply:GetPlayerName() , Color(255, 160, 255) --
             end,
             ["/me"] = function(msg, ply)
-                return ply:GetPlayerName().." " .. msg, Color(255, 255, 175) 
+                return ply:GetPlayerName().." " .. msg, Color(255, 255, 175)
             end,
             ["/it"] = function(msg, ply)
-                return msg .. " - " .. ply:GetPlayerName(), Color(140, 140, 200) 
+                return msg .. " - " .. ply:GetPlayerName(), Color(140, 140, 200)
             end,
             ["/try"] = function(msg, ply)
-                return ply:GetPlayerName().. " Trying " .. msg, Color(120, 200, 255) 
+                return ply:GetPlayerName().. " Trying " .. msg, Color(120, 200, 255)
             end
         }
 
@@ -20,7 +20,6 @@ if engine.ActiveGamemode() == "sandbox" then
             local cmd = string.lower(string.Explode(" ", text)[1])
             local txt = string.Explode(" ", text)
             table.remove(txt,1)
-            --print(cmd)
             if commands[cmd] then
                 local message, color = commands[cmd](table.concat( txt, " " ), ply)
                 chat.AddText( color, message )

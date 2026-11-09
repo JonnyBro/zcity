@@ -54,7 +54,7 @@ function MODE:RandomStuff()
 		if crysound then return end
 		local tbl = ents.FindByClass("func_door_rotating")
 		table.Add(ents.FindByClass("prop_door_rotating"))
-		
+
 		local door
 		for i, ent in RandomPairs(tbl) do
 			if DoorIsOpen(ent) then
@@ -140,10 +140,8 @@ function MODE:Intermission()
 	local traitors = {}
 
 
-	//MODE.NextRoundMainTraitors = MODE.NextRoundMainTraitors or {}
 	for i, ply in RandomPairs(player.GetAll()) do
 		if ply.isTraitor or ply:Team() == TEAM_SPECTATOR then continue end
-		//if not MODE.NextRoundMainTraitors[ply:SteamID()] then continue end
 
 		if traitors_needed > 0 then
 			ply.isTraitor = true
@@ -190,7 +188,6 @@ function MODE:Intermission()
 		end
 	end
 
-	-- self.saved.PoliceTime = CurTime() + math.min(self.Types[self.Type].PoliceTime * (#player.GetAll() / 4),self.Types[self.Type].PoliceTime * 2.2)
 	self.saved.PoliceTime = 99999
 	self.PoliceSpawned = false
 	self.PoliceAllowed = false
@@ -319,13 +316,13 @@ local checkPlayers = {}
 local maxLen = math.sqrt(3)
 net.Receive("check_lightness", function(len, ply)
 	local vec = net.ReadVector()
-	
+
 	if vec:Length() > maxLen then return end
 	if vec[1] < 0 or vec[2] < 0 or vec[3] < 0 then return end
 
 	if checkedPlayer and !checkPlayers[ply] then
 		checkPlayers[ply] = true
-		
+
 		checkedPlayer.lightcolor = checkedPlayer.lightcolor or Vector(0.5, 0.5, 0.5)
 		checkedPlayer.lightcolor = LerpVector(0.5, checkedPlayer.lightcolor, vec)
 	end
@@ -342,7 +339,7 @@ function MODE:SelectTheBestVictim()
 
 	for i, ply in ipairs(alive) do
 		if self:SkipVictim(ply) then continue end
-		
+
 		local index = #victims_stats + 1
 
 		victims_stats[index] = {}
@@ -359,7 +356,7 @@ function MODE:SelectTheBestVictim()
 			+ tbl.in_darkness + tbl.in_darkness + tbl.has_a_gun
 			+ tbl.doesnt_move + tbl.randomness
 	end
-	
+
 	self.saved.KillTime = CurTime() + math.random(30, 90) * math.max(#alive / 20, 0.5)
 
 	if #alive == 1 then
@@ -373,7 +370,6 @@ function MODE:SelectTheBestVictim()
 			max_interest = tbl.calculated_interest
 			vicitm = tbl.ply
 		end
-		-- print(tbl.calculated_interest, tbl.ply)
 	end
 
 	return vicitm
@@ -468,16 +464,16 @@ function MODE:RoundThink()
 	local players = zb:CheckAlive()
 
 	self.saved.TimePlayed = (self.saved.TimePlayed or 0) + 0.5
-	
+
 	self.NextLightCheck = self.NextLightCheck or self.saved.TimePlayed + 5
 
 	if self.saved.TimePlayed > self.NextLightCheck then
 		self.NextLightCheck = self.saved.TimePlayed + 5
-		
+
 		if table.Count(counted_players) >= #players then
 			counted_players = {}
 		end
-		
+
 		for i, ply in ipairs(players) do
 			if ply.lightcolor and counted_players[ply] then continue end
 			counted_players[ply] = true
@@ -487,7 +483,7 @@ function MODE:RoundThink()
 			net.Start("check_lightness")
 			net.WriteEntity(ply)
 			net.Broadcast()
-	
+
 			timer.Simple(0.5, function()
 				checkedPlayer = nil
 				checkPlayers = {}
@@ -500,13 +496,9 @@ function MODE:RoundThink()
 	self.CurrentVictim = IsValid(self.CurrentVictim) and self.CurrentVictim:Alive() and self.CurrentVictim or self:SelectTheBestVictim()
 
 	local ply = self.CurrentVictim
-	
-	-- print(ply, CurTime(), MODE.saved.KillTime)
 
 	if !IsValid(ply) then return end
 	if CurTime() < self.saved.KillTime then return end
-
-	--print(ply, CurTime(), MODE.saved.KillTime, true)
 
 	if #players == 1 then
 		ply:KillSilent()
@@ -525,7 +517,7 @@ function MODE:RoundThink()
 			end
 		end
 
-		if flag then -- we can kill him :3	
+		if flag then -- we can kill him :3
 			if math.random(2) == 1 then
 				ply:KillSilent()
 			elseif math.random(2) == 1 then
@@ -593,7 +585,7 @@ function MODE:PlayerDeath(ply)
 
 		if #alive == 1 then
 			MODE.saved.KillTime = CurTime() + 120
-			
+
 			for i, ent in ipairs(ents.FindByClass('env_soundscape*')) do
 				ent:Remove()
 			end

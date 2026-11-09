@@ -122,8 +122,6 @@ SWEP.RHandPos = Vector(-5, -1, 1)
 SWEP.LHandPos = Vector(7, -2, -2)
 SWEP.ShockMultiplier = 3
 SWEP.CustomShell = "762x39"
---SWEP.EjectPos = Vector(-4,0,4)
---SWEP.EjectAng = Angle(0,0,-65)
 
 SWEP.weight = 4
 

@@ -21,11 +21,11 @@ if CLIENT then
 --
 		surface.SetDrawColor( 255, 255, 255, alpha )
 		surface.SetMaterial( self.WepSelectIcon2 )
-	
+
 		surface.DrawTexturedRect( x, y + 10,  wide, wide/2 )
-	
+
 		self:PrintWeaponInfo( x + wide + 20, y + tall * 0.95, alpha )
-	
+
 	end
 end
 

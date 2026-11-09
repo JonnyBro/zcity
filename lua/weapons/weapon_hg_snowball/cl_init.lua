@@ -1,7 +1,7 @@
 include("shared.lua")
 
 SWEP.PrintName = "Snowball"
-SWEP.Instructions = 
+SWEP.Instructions =
 [[
 A snowball is a spherical object made from snow, usually created by scooping snow with the hands and pressing the snow together to compact it into a ball.
 ]]

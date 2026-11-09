@@ -129,7 +129,7 @@ SWEP.FakeMagDropBone = 52
 if CLIENT then
 	local vector_full = Vector(1,1,1)
 	SWEP.MagModel = "models/weapons/arccw/c_ud_m16.mdl"
-	SWEP.FakeReloadEvents = {	
+	SWEP.FakeReloadEvents = {
 		[0.15] = function(self, timeMul)
 			if self:Clip1() > 1 then
 				self:GetWM():ManipulateBoneScale(52, vector_origin)
@@ -150,11 +150,9 @@ if CLIENT then
 					ent:ManipulateBoneScale(i, vector_origin)
 				end
 				ent:ManipulateBoneScale(52, vector_full)
-				--ent:ManipulateBoneScale(55, vector_full)
 
 				self:GetWM():ManipulateBoneScale(52, vector_origin)
 				self:GetWM():ManipulateBoneScale(55, vector_origin)
-				--self:GetOwner():PullLHTowards("ValveBiped.Bip01_L_Thigh", 0.5 * timeMul)
 			end
 		end,
 		[0.50] = function(self, timeMul)

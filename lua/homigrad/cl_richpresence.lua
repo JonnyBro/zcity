@@ -20,11 +20,6 @@ function StartDiscordPresence(arguments)
 		if ip == "loopback" then
 			rpc_data["state"] = "Local Server"
 			showip = "Local Server"
-		--[[else
-            rpc_data["state"] = string.Replace(ip, ":27015", "")
-
-            rpc_data["buttonPrimaryLabel"] = "Join Server"
-            rpc_data["buttonPrimaryUrl"] = "steam://connect/" .. ip]]
 		end
 
 		rpc_data["partySize"] = player.GetCount()
@@ -108,5 +103,3 @@ hook.Add("PostGamemodeLoaded", "UpdateDiscordStatus", function()
 	StartDiscordPresence()
 	StartSteamPresence()
 end)
-
---print("steam: "..tostring(util.IsBinaryModuleInstalled("steamrichpresencer")),"discord: "..tostring(util.IsBinaryModuleInstalled("gdiscord")))

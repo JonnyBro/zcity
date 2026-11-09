@@ -38,7 +38,6 @@ end
 hg.Appearance.GenerateRandomName = GenerateRandomName
 -- Check access to all
 local access = {}
---["STEAM_0:1:163575696"] = true -- distac our custom model creator
 local hg_appearance_access_for_all = ConVarExists("hg_appearance_access_for_all") and GetConVar("hg_appearance_access_for_all") or CreateConVar("hg_appearance_access_for_all", 1, {FCVAR_REPLICATED, FCVAR_NEVER_AS_STRING, FCVAR_ARCHIVE}, "Toggle free items in appearance for everyone", 0, 1)
 if SERVER then
 	cvars.AddChangeCallback("hg_appearance_access_for_all", function(convar_name, value_old, value_new) SetGlobalBool("hg_appearance_access_for_all", hg_appearance_access_for_all:GetBool()) end)
@@ -238,10 +237,6 @@ hg.Appearance.ClothesDesc = {
 
 -- Facemaps
 hg.Appearance.FacemapsSlots = hg.Appearance.FacemapsSlots or {}
---["matname"] = {
---     ["facemapname"] = "facemap-material"
---     ["facemapname2"] = "facemap-material2"
---}
 hg.Appearance.FacemapsModels = hg.Appearance.FacemapsModels or {}
 local function AddFacemap(matOverride, strName, matMaterial, model)
 	hg.Appearance.FacemapsSlots[matOverride] = hg.Appearance.FacemapsSlots[matOverride] or {}
@@ -473,9 +468,6 @@ hg.Appearance.ValidateFunctions = {
 	AClothes = function(tbl)
 		if not istable(tbl) then return false end
 		if table.Count(tbl) > 3 then return false end
-		--for k, v in ipairs(tbl) do
-		--    if !hg.Appearance.Clothes[1][v] and !hg.Appearance.Clothes[2][v] then return false end
-		--end
 		return true
 	end,
 	AName = function(str)
@@ -483,23 +475,19 @@ hg.Appearance.ValidateFunctions = {
 		return not IsInvalidName(str)
 	end,
 	AColor = function(clr)
-		--if !IsColor(clr) then return false end
 		return true
 	end,
 	AAttachments = function(tbl)
 		if not istable(tbl) then return false end
 		if table.Count(tbl) > 3 then return false, "Too many" end
 		local occupatedSlots = {}
-		--local removeReasons = ""
 		for k, v in ipairs(tbl) do
 			if not hg.Accessories[v] then
-				--removeReasons = removeReasons + v + " - invalid accsesory\n" or "\n"  tbl[k] = ""
 				continue
 			end
 
 			if occupatedSlots[hg.Accessories[v].placement] then
 				tbl[k] = ""
-				--removeReasons = removeReasons + v + " - removed occupeated slot accsesory\n" or "\n"
 				continue
 			end
 
@@ -522,7 +510,6 @@ local function AppearanceValidater(tblAppearance)
 	local bValidAName = VaildFuncs.AName(tblAppearance.AName)
 	local bValidAColor = VaildFuncs.AColor(tblAppearance.AColor)
 	local bValidAAttachments = VaildFuncs.AAttachments(tblAppearance.AAttachments)
-	--print(bValidAModel,bValidAClothes,bValidAName,bValidAColor,bValidAAttachments)
 	if bValidAModel and bValidAClothes and bValidAName and bValidAColor and bValidAAttachments then return true end
 	return false
 end
@@ -583,6 +570,3 @@ function entmeta:GetSubMaterialIdByName(strName)
 	end
 	return id
 end
-
--- function plymeta:GetFacemapSlot()
--- end

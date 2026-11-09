@@ -105,7 +105,7 @@ if CLIENT then
 	net.Receive("change_posture", function()
 		local ply = net.ReadEntity()
 		local pos = net.ReadInt(8)
-		
+
 		ply.posture = pos
 	end)
 else
@@ -152,7 +152,7 @@ if SERVER then
 		net.Broadcast()
 	end)
 else
-	net.Receive("hg_viewgun", function() 
+	net.Receive("hg_viewgun", function()
 		local ent = net.ReadEntity()
 		local time = net.ReadFloat()
 		ent.inspect = time
@@ -164,9 +164,9 @@ if CLIENT then
 	hook.Add("radialOptions", "weapon_manipulations", function()
 		local wep = lply:GetActiveWeapon()
 		local organism = lply.organism or {}
-		
+
 		if !lply:Alive() or !organism or organism.otrub or !organism.canmove then return end
-		
+
 		local attmenu = {
 			[1] = function()
 				RunConsoleCommand("hg_get_attachments", 0)
@@ -183,7 +183,7 @@ if CLIENT then
 
 			return
 		end
-		
+
         local tbl = {
             [1] = {
                 [1] = function(mouseClick)
@@ -224,17 +224,14 @@ if CLIENT then
         if wep.GetDrum then
             local tbl3 = {function() RunConsoleCommand("hg_rolldrum") end, "Roll Drum"}
             tbl[#tbl + 1] = tbl3
-        
-            --if wep:Clip1() > 0 then return end
-            --if primaryAmmoCount <= 0 then return end
-        
+
             local drum = wep:GetDrum()
-            
+
             local drum1 = {}
             for i = 1, #drum do
                 drum1[i] = "Slot №"..tostring(i)
             end
-        
+
             local tbl4 = {
                 function(mouseClick, val)
                     RunConsoleCommand("hg_insertbullet", val)
@@ -243,7 +240,7 @@ if CLIENT then
                 true,
                 drum1
             }
-            
+
             tbl[#tbl + 1] = tbl4
         end
 
@@ -252,7 +249,7 @@ if CLIENT then
                 [1] = function()
                     RunConsoleCommand("hg_inspect")
                 end,
-                [2] = "Inspect" 
+                [2] = "Inspect"
             }
         end
 
@@ -261,18 +258,18 @@ if CLIENT then
                 [1] = function()
                     RunConsoleCommand("hg_unload_ammo", 0)
                 end,
-                [2] = "Unload" 
+                [2] = "Unload"
             }
         elseif (wep:Clip1() == 0 or wep.AllwaysChangeAmmo) and wep.AmmoTypes and not wep.reload then
             local ammotypes = {}
-            
+
             for k, ammotype in ipairs(wep.AmmoTypes) do
                 ammotypes[k] = ammotype[1]
-            end 
+            end
 
             tbl[#tbl + 1] = {
                 function(mouseClick, chosen)
-                    RunConsoleCommand("hg_change_ammotype", chosen) 
+                    RunConsoleCommand("hg_change_ammotype", chosen)
                 end,
                 "Change Ammo Type",
                 true,
@@ -286,7 +283,7 @@ if CLIENT then
                 [1] = function()
                     RunConsoleCommand("hmcd_togglelaser")
                 end,
-                [2] = "Toggle Laser" 
+                [2] = "Toggle Laser"
             }
 		end
 

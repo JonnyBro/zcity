@@ -90,7 +90,7 @@ local caninjectbone = {
 	["ValveBiped.Bip01_Neck1"] = true,
 }
 
-function SWEP:CanInject(ent,bone) 
+function SWEP:CanInject(ent,bone)
 
     local matrix = ent:GetBoneMatrix(ent:TranslatePhysBoneToBone(bone))
     local pos = matrix:GetTranslation()

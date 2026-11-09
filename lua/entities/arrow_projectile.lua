@@ -18,7 +18,6 @@ ENT.Force = 3
 --}
 
 if SERVER then
-	--local angg = Angle(0, 90, 0)
 	function ENT:Initialize()
 		self:SetModel(self.Model)
 		self:PhysicsInit(SOLID_VPHYSICS)
@@ -27,7 +26,6 @@ if SERVER then
 		self:SetCollisionGroup(COLLISION_GROUP_WEAPON)
 		self:DrawShadow(true)
 		self:SetUseType(SIMPLE_USE)
-		--self:SetAngles(-self:GetAngles())
 		local phys = self:GetPhysicsObject()
 		if phys:IsValid() then
 			phys:SetMass(1)
@@ -45,10 +43,10 @@ if SERVER then
 			end
 
 			local mat = self.HitEntity:GetBoneMatrix(self.HitEntity:TranslatePhysBoneToBone(self.phys_bone_id or 0))
-			
+
 			if mat then
 				local lpos, lang = WorldToLocal(self:GetPos(), angle_zero, mat:GetTranslation(), mat:GetAngles())
-				
+
 				for i = 1, 5 do
 					hg.organism.AddWoundManual(self.HitEntity.organism.owner, 50, vector_origin, AngleRand(-180, 180), self.HitEntity:GetBoneName(self.HitEntity:TranslatePhysBoneToBone(self.phys_bone_id)), CurTime() + math.Rand(0, 2))
 				end
@@ -56,24 +54,10 @@ if SERVER then
 
 			self:EmitSound("arrow_tear.wav")
 		end
-		
+
 		self:Remove()
 	end
 end
 
 function ENT:PostDraw()
-	--if(hg.PhysSilk)then
-	--	self.Silks = self.Silks or {}
---
-	--	for silk_desired_key, silk_desired in ipairs(self.DesiredSilks) do
-	--		if(IsValid(self.Silks[silk_desired_key]))then
-	--			-- self.Silks[silk_desired_key].Pos = self:LocalToWorld(silk_desired.EntityOffset)
-	--		else
-	--			local silk = table.Copy(silk_desired)
-	--			silk.Pos = self:LocalToWorld(silk_desired.EntityOffset)
-	--			silk.Entity = self
-	--			self.Silks[silk_desired_key] = hg.PhysSilk.CreateSilk(silk, true)
-	--		end
-	--	end
-	--end
 end

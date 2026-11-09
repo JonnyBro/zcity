@@ -485,8 +485,6 @@ local throttle, fuel, needle, speedLerp = 0, 0, 0, 0
 function ENT:DrawVehicleHUD( screenW, screenH )
     local playerListWidth = BaseClass.DrawVehicleHUD( self, screenW, screenH )
 
-    -- draw.SimpleText(self:GetFuel(), nil, 100, 100)
-
     if not Config.showHUD then return end
     if self.HasExtraFunctions then return end
 

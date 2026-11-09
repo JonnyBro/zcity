@@ -108,7 +108,6 @@ local whitelist = {
 	["weapon_adrenaline"] = true,
 	["weapon_bloodbag"] = true,
 	["weapon_naloxone"] = true,
-	--["weapon_tourniquet"] = true,--it doesnt actually touch the wound
 	["weapon_bigbandage_sh"] = true,
 	["weapon_fentanyl"] = true,
 	["weapon_hg_glassshard"] = true,
@@ -156,12 +155,6 @@ if CLIENT then
 		end
         frame:SetDeleteOnClose(true)
 
-        --frame.Paint = function(self, w, h)
-        --    draw.RoundedBox(10, 0, 0, w, h, col1) 
-        --    surface.SetDrawColor(255, 0, 0, 255) 
-        --    surface.DrawOutlinedRect(0, 0, w, h)
-        --end
-
 		local dscroll = vgui.Create("DScrollPanel", frame)
 		dscroll:Dock(FILL)
 
@@ -172,10 +165,10 @@ if CLIENT then
 
 			table.insert(weps, wep)
 		end
-		
+
 		for i, wep in ipairs(weps) do
 			if not whitelist[wep:GetClass()] then continue end
-			
+
 			local but = vgui.Create("DButton", dscroll)
 			but:SetText("Poison " .. wep.PrintName)
 			but:SetFont("HomigradFontSmall")
@@ -185,9 +178,6 @@ if CLIENT then
 
 			but.Paint = function(self, w, h)
 				PaintButton(self,w,h)
-				--[[draw.RoundedBox(10, 0, 0, w, h, col2) 
-				surface.SetDrawColor(255, 0, 0, 255) 
-				surface.DrawOutlinedRect(0, 0, w, h)]]
 			end
 
 			but.DoClick = function()
@@ -222,7 +212,7 @@ if SERVER then
 		local weps = ply:GetWeapons()
 		for i, wep in ipairs(ents.FindInSphere(ply:GetPos(), 64)) do
 			if !wep:IsWeapon() or IsValid(wep:GetOwner()) then continue end
-			
+
 			table.insert(weps, wep)
 		end
 
@@ -248,7 +238,7 @@ function SWEP:DoPoison(ent)
     local owner = self:GetOwner()
 
     owner:EmitSound("snd_jack_hmcd_needleprick.wav",30)
-	
+
 	ent.poisoned2 = true
 
     self:Remove()
@@ -264,7 +254,7 @@ if SERVER then
 	hook.Add("Org Think", "poison4",function(owner, org, timeValue)
 		if not IsValid(owner) or not owner:IsPlayer() or not owner:Alive() then return end
 		if (not org.poison4) or (not org.alive) then return end
-		
+
 		if (not org.poison4notificate) and ((org.poison4 + 20) < CurTime()) then
 			org.poison4notificate = true
 			org.owner:Notify("Breathing is... oddly harder...", true, "poison4", 3)

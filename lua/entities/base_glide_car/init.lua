@@ -493,7 +493,7 @@ function ENT:UpdateSteering( dt )
     self:SetSteering( inputSteer )
     self.steerAngle[2] = -inputSteer * self:GetMaxSteerAngle()
 
-    -- Reduce front wheel sideways friction when trying to do a J-turn 
+    -- Reduce front wheel sideways friction when trying to do a J-turn
     if self.forwardSpeed < -100 then
         self.jTurnMultiplier = 0.5
     else
@@ -634,8 +634,6 @@ function ENT:WheelThink( dt )
 
     frontBrake, rearBrake = selfTbl.frontBrake, selfTbl.rearBrake
     groundedCount, avgRPM, totalSideSlip, totalForwardSlip = 0, 0, 0, 0
-    
-    --self.steeringNeedNoise = 0
 
     for _, w in EntityPairs( selfTbl.wheels ) do
         w:Update( self, steerAngle, isAsleep, dt )
@@ -663,7 +661,7 @@ function ENT:WheelThink( dt )
         if state.isOnGround then
             groundedCount = groundedCount + 1
         end
-        
+
         if hg_glide_steering_realism:GetBool() and w.isFrontWheel and badMaterials[w:GetContactSurface()] then
             self.steeringNeedNoise = CurTime() + 0.1
         end

@@ -70,7 +70,7 @@ end
 
 net.Receive("check_lightness", function(len)
 	local ply = net.ReadEntity()
-	
+
 	if IsValid(ply) then
 		net.Start("check_lightness")
 		net.WriteVector(MODE:CheckInDarkness(ply))
@@ -119,7 +119,7 @@ function MODE:RenderScreenspaceEffects()
 		hg.fearphrase2 = nil
 		return
 	end
-	
+
 	local intensity = CurTime() - ghost
 
 	local time = 60
@@ -205,7 +205,6 @@ function MODE:Player_Death(ply)
 			end)
 
 			self:CreateTimer("fear", 5, 1, function()
-				--RunConsoleCommand("cl_soundscape_flush")
 				hg.CreateNotification(table.Random(notifs))
 
 				self:CreateTimer("fear2", 115, 1, function()
@@ -236,7 +235,7 @@ function MODE:RoundStart()
 		end
 
 		local pos = lply:GetPos() + Vector(math.Rand(-512, 512), math.Rand(-512, 512), math.Rand(0, 512))
-		
+
 		EmitSound(snd, pos, 0, nil)
 		timer.Adjust("FearSounds", math.Rand(40, 90))
 	end)
@@ -259,9 +258,3 @@ function MODE:EntityEmitSound(data)
 		return false
 	end
 end
-
---[[concommand.Add("status", function()
-	for _, ply in ipairs( player.GetAll() ) do
-		print( ply:Nick() .. ", " .. ply:SteamID() .. "\n" )
-	end
-end)--]]

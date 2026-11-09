@@ -100,8 +100,6 @@ end
 
 function SWEP:ModelCreated(model)
 	if CLIENT and self:GetWM() and not isbool(self:GetWM()) and isstring(self.FakeBodyGroups) then
-		--self:GetWM():ManipulateBoneScale(14, vector_full)
-		--self:GetWM():ManipulateBoneScale(15, vector_full)
 		self:GetWM():SetBodyGroups(self.FakeBodyGroups)
 		self:UpdateMagazineBodygroup()
 	end
@@ -265,7 +263,6 @@ function SWEP:DrawPost()
 		vec[3] = 0*self.shooanim
 		wep:ManipulateBonePosition(8,vec,false)
 
-		--self:UpdateMagazineBodygroup()
 	end
 end
 

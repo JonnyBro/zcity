@@ -27,7 +27,7 @@ if CLIENT then
 		self.visState = state
 
 		if self.flames then
-			if self.flames:IsValid() then 
+			if self.flames:IsValid() then
 				self.flames:StopEmission()
 			end
 		end
@@ -50,7 +50,7 @@ if CLIENT then
 		)
 	end
 
-	
+
 	local pullForceControlPointIndex = 2
 	-- The stateMul table defines how far to set the pull control point for each state
 	-- The bigger the distance, the less effect the control point has
@@ -124,13 +124,6 @@ if SERVER then
 			end
 		end)
 
-		-- Dampen the ball and add a random velocity
-		--if IsValid(self) then
-		--	local phys = self:GetPhysicsObject()
-		--	phys:SetDamping(math.Rand(2, 8), 1)
-		--	phys:AddVelocity(VectorRand() * phys:GetEnergy() * 0.002)
-		--end
-
 		self:TimedRemoval()
 	end
 
@@ -186,7 +179,7 @@ if SERVER then
 		if self:RandomStickSkip() then return end
 
 		local ent = colData.HitEntity
-		
+
 		if ent then
 			if self.ignore[ent] or vFireIsVFireEnt(ent) then return end
 		end
@@ -198,7 +191,7 @@ if SERVER then
 		else
 			self.stuck = self:AttemptFireStick()
 		end
-		
+
 		if self.stuck then
 			hook.Run("vFireBallStuckFire", self, ent)
 		end
@@ -279,7 +272,7 @@ function ENT:Initialize()
 
 		self.LOD = false
 		self.visLOD = false
-	
+
 		-- Start working
 		self:RedoParticles(1)
 		self:Think()
@@ -320,9 +313,9 @@ function ENT:Think()
 		local state = self:GetFireState()
 		self.lastState = state
 		if state != lastState then -- We changed states
-	
+
 			shouldRedoParticles = true
-			
+
 			-- Make sure we'll always draw ourselves
 			local renderSize = state * 20
 			self:SetRenderBounds(Vector(0, 0, 0), Vector(0, 0, 0), Vector(renderSize, renderSize, renderSize))

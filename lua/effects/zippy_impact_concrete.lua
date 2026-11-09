@@ -16,7 +16,7 @@ function EFFECT:Init(data)
 
     for i = 1,8*intensity do
         local smoke = emitter:Add(smoke_mats[math.random(#smoke_mats)], pos)
-        
+
         smoke:SetStartAlpha(math.Rand(33, 66))
         smoke:SetEndAlpha(0)
         smoke:SetColor(255,255,255)
@@ -33,7 +33,7 @@ function EFFECT:Init(data)
 
     for i = 1,15*intensity do
         local pebble = emitter:Add("effects/fleck_cement" .. math.random(1, 2), pos+normal*8)
-        
+
         pebble:SetStartAlpha(255)
         pebble:SetEndAlpha(0)
         pebble:SetCollide(true)

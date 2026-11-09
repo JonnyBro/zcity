@@ -1,4 +1,4 @@
- 
+
 local att, ent, oldEntView
 follow = follow or nil
 local vecZero, vecFull, angZero = Vector(0, 0, 0), Vector(1, 1, 1), Angle(0, 0, 0)
@@ -40,12 +40,12 @@ hook.Add("InputMouseApply", "fakeCameraAngles", function(cmd, x, y, angle)
 		realangle:Normalize()
 		angle = realangle
 	end
-	
+
 	tbl.cmd = cmd
 	tbl.x = x
 	tbl.y = y
 	tbl.angle = angle
-	
+
 	if cc then
 		tbl.angle = realangle
 	end
@@ -60,7 +60,7 @@ hook.Add("InputMouseApply", "fakeCameraAngles", function(cmd, x, y, angle)
 	x = tbl.x
 	y = tbl.y
 	angle = tbl.angle
-	
+
 	if cc then
 		realangle = tbl.angle
 	end
@@ -80,7 +80,7 @@ hook.Add("InputMouseApply", "fakeCameraAngles", function(cmd, x, y, angle)
 	else
 		cmd:SetViewAngles(angle)
 	end
-	
+
 	lply.fakeangles = angle
 
 	return true
@@ -123,11 +123,6 @@ hook.Add("HG.InputMouseApply", "fakeCameraAngles2", function(tbl)
 		lean_lerp = 0
 	end
 
-	--[[local follow
-	if not lply:OnGround() and lply:GetMoveType() ~= MOVETYPE_NOCLIP then
-		follow = follow or lply
-	end]]
-
 	if lply:InVehicle() and not IsValid(follow) and !(hg.NoCameraInCar(lply:GetVehicle()) or hg.NoFakeInCar(lply:GetVehicle())) then
 		tbl.override_angle = true
 		tbl.angle = angle_zero
@@ -136,7 +131,7 @@ hook.Add("HG.InputMouseApply", "fakeCameraAngles2", function(tbl)
 
 	if !IsValid(follow) then
 		tbl.angle.roll = lean_lerp * 10
-		
+
 		return
 	end
 
@@ -149,11 +144,11 @@ hook.Add("HG.InputMouseApply", "fakeCameraAngles2", function(tbl)
 	angle.roll = angle.roll
 	angle.roll = math.NormalizeAngle(angle.roll)
 	local adda = 1--math.Clamp((0.7 - math.abs(angle.roll / 90)), 0, 1) * math.Clamp((0.7 - math.abs(angle.pitch / 90)), 0, 1)
-	
+
 	local angle2 = -(-angle)
 	rollang = follow == lply.OldRagdoll and 0 or rollang
 	angle2.roll = rollang
-	
+
 	if GetGlobalBool("hg_shitty_fake", true) and math.abs(math.AngleDifference(rollang, angle.roll)) < 60 then
 		angle = LerpAngleFT(follow == lply.OldRagdoll and 0.1 or 0.01, angle, angle2)--math.Approach(angle.roll, rollang, adda * ftlerped * 80)
 	end
@@ -168,15 +163,8 @@ hook.Add("HG.InputMouseApply", "fakeCameraAngles2", function(tbl)
     local q_pitch = Quaternion():SetAngleAxis(y / 50, vecUpY)
     local q_yaw = Quaternion():SetAngleAxis(-x / 50, vecUpZ)
     local q_roll = Quaternion():SetAngleAxis(lean_lerp * 0.5 + huy + x / 50 * math.abs(angle.pitch / 90), vecUpX)
-	
-	q = q * q_pitch * q_yaw * q_roll
 
-	--oldangs = oldangs or q
-	--local diffq = -(-q):Invert() * oldangs * 1
-	--oldangs = -(-q)
-	--if diffq then lerpedq:SLerp(diffq, 0.1) end
-	
-	--q = q * lerpedq
+	q = q * q_pitch * q_yaw * q_roll
 
     local newAng = q:Angle() --thank you, Bara :3
 
@@ -191,7 +179,7 @@ hook.Add("HG.InputMouseApply", "fakeCameraAngles2", function(tbl)
 	if lply:InVehicle() then
 		angle.roll = 0
 	end
-	
+
 	tbl.override_angle = true
 	tbl.angle = angle
 end)
@@ -219,17 +207,17 @@ CalcView = function(ply, origin, angles, fov, znear, zfar)
 	local oldangles = -(-angles)
 	fov = hg_fov:GetInt()
 	lerpfovadd2 = LerpFT(0.1, lerpfovadd2, zooming and -25 or 0)
-	
+
 	if not lply:Alive() then
 		fakeTimer = fakeTimer or CurTime() + 30
 	end
-	
+
 	if not lply:Alive() and follow and ((fakeTimer < CurTime()) or lply:KeyPressed(IN_RELOAD) or lply:KeyPressed(IN_ATTACK) or lply:KeyPressed(IN_ATTACK2)) then
 		follow = nil
 
 		return
 	end
-	
+
 	if not lply:Alive() and not follow then
 		return hook.Run("HG_CalcView", ply, origin, angles, fov, znear, zfar)
 	end
@@ -258,23 +246,23 @@ CalcView = function(ply, origin, angles, fov, znear, zfar)
 	if not IsValid(ply) then return end
 	if not IsValid(follow) then return end
 	if not follow:LookupBone("ValveBiped.Bip01_Head1") then return end
-	
+
 	local vpang = GetViewPunchAngles2() + GetViewPunchAngles3()
 	vpang[3] = 0
 
 	view.fov = GetConVar("hg_fov"):GetInt()
 	firstPerson = GetViewEntity() == lply
-	
+
 	if not firstPerson then return end
 
 	att = follow:GetAttachment(follow:LookupAttachment("eyes"))
 	if not att or not istable(att) then return end
 	ang = angles
 	ang:Normalize()
-	
+
 	att_Ang = att.Ang
 	att_Ang:Normalize()
-	
+
 	local _, ot = WorldToLocal(vector_origin, ang, vector_origin, att_Ang)
 	ot:Normalize()
 
@@ -283,10 +271,8 @@ CalcView = function(ply, origin, angles, fov, znear, zfar)
 
 	local _, angEye = LocalToWorld(vector_origin, ot, vector_origin, att_Ang)
 	angEye:Normalize()
-	
+
 	angEye[3] = false--[[!hg_newfakecam:GetBool()]] and (math.Round(ply.fakeangles[3] / 180) * 180) or (ply.fakeangles and ply.fakeangles[3] or 0)
-	--angEye = ang
-	--angEye = att_Ang
 
 	if ply:InVehicle() then
 		angEye = angles
@@ -297,13 +283,11 @@ CalcView = function(ply, origin, angles, fov, znear, zfar)
 	end
 
 	local cshs_fake = hg_cshs_fake:GetBool() or (ply.organism and ply.organism.otrub) or (!hg.KeyDown(ply, IN_USE) and !ply:InVehicle()) or (follow:GetVelocity():Length() > 350 and !ply:InVehicle())
-	
+
 	if IsValid(ply.OldRagdoll) then DrawPlayerRagdoll(follow, ply) end
 
 	local pos = hg.eye(ply, 10, follow, att_Ang)
 
-	--local dot = ang:Forward():Dot((pos - att.Pos):GetNormalized())
-	
 
 	if cshs_fake then
 		deathlerp = LerpFT(0.1,deathlerp,not ply.bGetUp and 1 or 0)
@@ -322,7 +306,7 @@ CalcView = function(ply, origin, angles, fov, znear, zfar)
 	end
 
 	hg.cam_things(ply, view, angleZero)
-	
+
 	if hg_thirdperson:GetBool() or hg.RagdollCombatInUse(ply) or (fakeTimer and fakeTimer > CurTime()) then
 		if hg_firstperson_death:GetBool() then
 			deathlerp = LerpFT(0.05,deathlerp,1)
@@ -342,7 +326,7 @@ CalcView = function(ply, origin, angles, fov, znear, zfar)
 			lerpasad = Lerp(0.1, lerpasad, (IsAimingNoScope(ply) and 0 or 1))
 
 			local ang = ply:EyeAngles()
-			
+
 			if !hg_firstperson_ragdoll:GetBool() then
 				local tr = {}
 				tr.start = pos
@@ -360,7 +344,7 @@ CalcView = function(ply, origin, angles, fov, znear, zfar)
 	else
 		view.origin = pos
 	end
-	
+
 	view.angles:Add(ply:GetViewPunchAngles())
 	//view.origin, view.angles = HGAddView(lply, view.origin, view.angles, 0)
 
@@ -374,13 +358,11 @@ CalcView = function(ply, origin, angles, fov, znear, zfar)
 	if ply.gettingup and (ply.gettingup + 1 - CurTime()) > 0 then
 		local k = 1 - (ply.gettingup + 1 - CurTime())
 		local k2 = math.max(k - 0.5, 0) * 2
-		//view.origin = LerpVector(k2, view.origin, oldorigin)
 		view.angles = LerpAngle(k2, view.angles, oldangles)
 	end
-	//view.angles = angles
 
 	view = hook.Run("Camera", ply, view.origin, view.angles, view, vector_origin) or view
-	
+
 	if GetCoolCameraBool() and !hg_cshs_fake:GetBool() and ply:Alive() then
 		local angcool = realangle + GetViewPunchAngles() * 0.2 - vpang
 		view.angles = LerpAngle(deathlerp,angcool,deathLocalAng)
@@ -392,13 +374,9 @@ CalcView = function(ply, origin, angles, fov, znear, zfar)
 	end
 
 	local wep = ply:GetActiveWeapon()
-	
+
 	k = Lerp(0.1, k, ply:KeyDown(IN_JUMP) and 1 or 0)
-	--[[if wep.GetMuzzleAtt then
-		wep:WorldModel_Transform()
-		wep:DrawAttachments()
-	end--]]
-	
+
 	if ply.organism and ply.organism.otrub then view.angles = att_Ang end
 
 	if hg_gopro:GetBool() and hg_allow_gopro:GetBool() then
@@ -428,18 +406,12 @@ function net.ReadEntity2()
 
 end
 
---hook.Add("EntityNetworkedVarChanged","huhuhuasd",function()
-	
---end)
-
 local hook_Run = hook.Run
 local indexes = {}
 net.Receive("Player Ragdoll", function()
-	--local ply, ragdoll_index = net.ReadEntity(), net.ReadInt(32) --,net_ReadTable()
 	local ply, ragdoll, ragdoll_index = net.ReadEntity(), net.ReadEntity2() --,net_ReadTable()
 	if not ragdoll_index then return end
 	local ragdoll = IsValid(ragdoll) and ragdoll
-	--print(ragdoll)
 
 	ply.ragdoll_index = ragdoll_index
 end)
@@ -453,14 +425,13 @@ hook.Add("NetworkEntityCreated", "HG_GiveRenderOverride", function(ragdoll)
 				if not self:GetNWString("PlayerName") then return end
 				local ply = self:GetNWEntity("ply")
 				local ply = (IsValid(ply) and ply:IsPlayer() and ply:Alive() and ply.FakeRagdoll == self) and ply or self
-				
+
 				hg.renderOverride(ply, self, flags)
 			end
 		end
 
 		for _, v in ipairs(ents.FindInSphere(ragdoll:GetPos(),16)) do
 			if IsValid(v) and v:IsPlayer() and v:GetModel() == ragdoll:GetModel() then
-				--ragdoll:SetNWString("PlayerName", v:Name())
 				ragdoll:SetNWVector("PlayerColor", v:GetPlayerColor())
 				ragdoll.PredictedAccessories = v:GetNetVar("Accessories","none")
 				ragdoll.PredictedArmor = v:GetNetVar("Armor",{})
@@ -475,38 +446,33 @@ end)
 --h
 hook.Add("RagdollEntityCreated", "RagdollFinder", function(ply, ent, key)
 	if not IsValid(ply) then return end
-	--print(ply)
 	local oldrag = ply.FakeRagdoll
 	ply.bGetUp = false
-	
+
 	if IsValid(ent) then
 		ent.RenderOverride = function(self, flags)
 			if not IsValid(self) or self:IsDormant() then return end
 			if not self:GetBonePosition(1) or self:GetBonePosition(1):IsEqualTol(self:GetPos(), 0.01) then return end
 			local ply = (IsValid(ply) and ply:IsPlayer() and ply:Alive() and ply.FakeRagdoll == self) and ply or self
-			
+
 			hg.renderOverride(ply, self, flags)
 		end
 	end
-	
+
 	ply.FakeRagdoll = (key == "FakeRagdoll" and ent or ply.FakeRagdoll)-- or (key == "RagdollDeath" and IsValid(ply.FakeRagdoll) and ply.FakeRagdoll or ent)
-	
+
 	if key == "RagdollDeath" and ply == LocalPlayer() then
 		ply.FakeRagdoll = IsValid(ply.FakeRagdoll) and ply.FakeRagdoll or ent
 	end
 
-	--if key == "RagdollDeath" then ply.FakeRagdoll = nil return end
-
-	--ply:SetNWEntity("FakeRagdoll", ent)
-	--if not IsValid(oldrag) then oldrag = ent end
 	hook.Run("ServerRagdollTransferDecals", ply, ent)
 
-	 
+
 
 	local ragdoll = ply.FakeRagdoll
-	
+
 	ragdoll = IsValid(ragdoll) and ragdoll
-	
+
 	if ply == lply then
 		follow = ragdoll
 
@@ -514,7 +480,6 @@ hook.Add("RagdollEntityCreated", "RagdollFinder", function(ply, ent, key)
 			if IsValid(tblfollow[1]) then
 				//tblfollow[1]:ManipulateBoneScale(tblfollow[1]:LookupBone("ValveBiped.Bip01_Head1"),vecFull)
 			elseif IsValid(follow) and not follow:GetManipulateBoneScale(follow:LookupBone("ValveBiped.Bip01_Head1")):IsEqualTol(vecZero,0.001) then
-				//follow:ManipulateBoneScale(follow:LookupBone("ValveBiped.Bip01_Head1"),vecPochtiZero)
 			end
 
 			tblfollow[1] = follow
@@ -527,12 +492,10 @@ hook.Add("RagdollEntityCreated", "RagdollFinder", function(ply, ent, key)
 		ragdoll.organism = ply.organism
 
 		hg.ragdolls[#hg.ragdolls + 1] = ragdoll
-		
+
 		ragdoll:CallOnRemove("RagdollRemove",function()
 			hook.Run("RagdollRemove",ply,ragdoll)
 		end)
-
-		//ply.FakeRagdollOld = nil
 
 		ply.FakeRagdoll = ragdoll
 		hook_Run("Fake", ply, ragdoll)
@@ -543,16 +506,13 @@ hook.Add("RagdollEntityCreated", "RagdollFinder", function(ply, ent, key)
 
 		if IsValid(ply) then ply:SetNoDraw(false) end
 		ply:SetRenderMode(RENDERMODE_NORMAL)
-		
+
 		oldrag.ply = nil
-		//ply.FakeRagdollOld = oldrag
 
 		ply.FakeRagdoll = nil
 
 		hook_Run("FakeUp", ply, ragdoll)
 	end
-	
-	--if IsValid(ply) and ply.BoneScaleChange then ply:BoneScaleChange() end
 
 	ply.ragdollindex = nil
 end)
@@ -586,44 +546,8 @@ function playerMeta:IsFirstPerson()
 	end
 end
 
--- local ents_FindByClass = ents.FindByClass
--- function playerMeta:BoneScaleChange()
--- 	do return end
--- 	local firstPerson = LocalPlayer():IsFirstPerson()
--- 	local viewEnt = LocalPlayer():GetPlayerViewEntity()
-	
--- 	for i,ent in ipairs(ents_FindByClass("prop_ragdoll")) do
--- 		if not ent:LookupBone("ValveBiped.Bip01_Head1") then continue end
--- 		if ent:GetManipulateBoneScale(ent:LookupBone("ValveBiped.Bip01_Head1")) == vector_origin then continue end
--- 		--if not hg.RagdollOwner(ent) then continue end
--- 		if ent == viewEnt then
--- 			ent:ManipulateBoneScale(ent:LookupBone("ValveBiped.Bip01_Head1"),firstPerson and vecPochtiZero or vecFull)
--- 		else
--- 			ent:ManipulateBoneScale(ent:LookupBone("ValveBiped.Bip01_Head1"),vecFull)
--- 		end
--- 	end
-
--- 	for i,ent in player.Iterator() do
--- 		if not ent:LookupBone("ValveBiped.Bip01_Head1") then continue end
--- 		if ent:GetManipulateBoneScale(ent:LookupBone("ValveBiped.Bip01_Head1")) == vector_origin then continue end
--- 		if ent == viewEnt then
--- 			ent:ManipulateBoneScale(ent:LookupBone("ValveBiped.Bip01_Head1"),firstPerson and vecPochtiZero or vecFull)
--- 		else
--- 			ent:ManipulateBoneScale(ent:LookupBone("ValveBiped.Bip01_Head1"),vecFull)
--- 		end
--- 	end
--- end
-
--- hook.Add("PostCleanupMap","wtfdude",function()
--- 	LocalPlayer():BoneScaleChange()
--- end)
-
 local function funcrag(ply, name, oldval, ragdoll)
-	--ragdoll = IsValid(ragdoll) and ragdoll or IsValid(ply:GetNWEntity("FakeRagdoll")) and ply:GetNWEntity("FakeRagdoll") or ply:GetNWEntity("RagdollDeath")
-	--if ply.onetime then return end
-	--ply.onetime = true
 	pcall(hook.Run, "RagdollEntityCreated", ply, ragdoll, name)
-	--ply.onetime = false
 end
 
 hook.Add("PlayerInitialSpawn","asdfgacke",function(ply)
@@ -654,16 +578,13 @@ function hg.RagdollOwner(ragdoll)
 	return IsValid(ply) and ply:GetNWEntity("FakeRagdoll") == ragdoll and ply
 end
 
-hook.Add("Player_Death", "Fake", function(ply)		
+hook.Add("Player_Death", "Fake", function(ply)
 	if ply != lply then return end
-	
+
 	fakeTimer = CurTime() + 5
 
 	hg.override[ply] = nil
 
-	-- timer.Simple(0.5 * math.max(ply:Ping() / 30,1),function()
-	-- 	//ply:BoneScaleChange()
-	-- end)
 end)
 
 function hg.GetCurrentCharacter(ply)
@@ -674,7 +595,7 @@ end
 
 hook.Add("Player Spawn", "fuckingremoveragdoll", function(ply)
 	local ragdoll = ply:GetNWEntity("FakeRagdoll")
-	
+
 	if IsValid(ragdoll) then
 		ragdoll:SetNWEntity("ply", NULL)
 		ragdoll:ManipulateBoneScale(ragdoll:LookupBone("ValveBiped.Bip01_Head1"), Vector(1, 1, 1))
@@ -684,7 +605,7 @@ hook.Add("Player Spawn", "fuckingremoveragdoll", function(ply)
 		ply.FakeRagdoll.ply = nil
 		ply.FakeRagdoll = nil
 	end
-	
+
 	if ply == lply then
 		fakeTimer = nil
 		follow = nil
@@ -741,23 +662,4 @@ end)
 	--		ent:SetNetVar("Accessories", ply:GetNetVar("Accessories","none"))
 	--	end
 	--end
-end)]]
-
---[[local sphereRadius = 12
-hook.Add("Move","PushAwayRagdolls",function(ply) --// lagging
-	do return end
-	if not ply:Alive() and not hg.GetCurrentCharacter(ply):IsPlayer() then return end
-	local playerPos = ply:GetPos()
-    local sphereCenter = playerPos
-    local entities = ents.FindInSphere(sphereCenter, sphereRadius)
-    for _, ent in ipairs(entities) do
-		if not ent:IsRagdoll() then continue end
-		ent.pushCooldown = ent.pushCooldown or 0
-		if ent.pushCooldown < CurTime() then
-			if ply:GetVelocity():Length() > 200 then
-				ViewPunch(Angle(15,math.random(-1,1),0))
-			end
-		end
-		ent.pushCooldown = CurTime() + 0.1
-    end
 end)]]

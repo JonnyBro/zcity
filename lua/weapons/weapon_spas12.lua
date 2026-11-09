@@ -1,4 +1,3 @@
---ents.Reg(nil,"weapon_m4super")
 SWEP.Base = "weapon_m4super"
 SWEP.Spawnable = true
 SWEP.AdminOnly = false
@@ -132,35 +131,26 @@ SWEP.AnimsEvents = {
 	["sgreload_start_empty"] = {
 		[0.2] = function(self)
 			self:EmitSound("weapons/arccw_ud/m1014/breechload.ogg")
-			--self:GetWM():ManipulateBoneScale(47, vector_full)
 		end,
 		[0.8] = function(self)
 			self:EmitSound("weapons/arccw_ud/m1014/breechclose.ogg")
 		end,
 		[0.9] = function(self)
-			--self:GetWM():ManipulateBoneScale(47, vector_origin)
 		end,
 	},
 	["sgreload_insert"] = {
 		[0.0] = function(self)
 			self:EmitSound("weapons/arccw_ur/spas12/shell-insert-0"..math.random(1,9)..".ogg")
-			--
-			--self:GetWM():ManipulateBoneScale(47, vector_full)
 		end,
 		[0.8] = function(self)
-			--self:GetWM():ManipulateBoneScale(47, vector_origin)
 		end,
 	},
 	["cycle"] = {
 		[0.0] = function(self)
 			self:EmitSound("weapons/arccw_ur/spas12/forearm_back.ogg")
-			--
-			--self:GetWM():ManipulateBoneScale(47, vector_full)
 		end,
 		[0.3] = function(self)
 			self:EmitSound("weapons/arccw_ur/spas12/forearm_forward.ogg")
-			--
-			--self:GetWM():ManipulateBoneScale(47, vector_full)
 		end
 	}
 }
@@ -173,8 +163,6 @@ function SWEP:ModelCreated(model)
 		self:GetWM():ManipulateBoneScale(57, vector_origin)
 		self:GetWM():ManipulateBoneScale(58, vector_origin)
 		self:GetWM():SetBodyGroups(self.FakeBodyGroups)
-		--local ent = self:GetWM()
-		--ent:SetColor(Color(255,0,0))
 	end
 end
 
@@ -197,15 +185,11 @@ function SWEP:DrawPost()
 		vec[2] = 4*self.shooanim
 		vec[3] = 0
 		wep:ManipulateBonePosition(45,vec,false)
-		--vec[1] = -1*self.ReloadSlideOffset
-		--vec[2] = 0.09*self.ReloadSlideOffset
-		--vec[3] = -0.06*self.ReloadSlideOffset
-		--wep:ManipulateBonePosition(2,vec,false)
 	end
 end
 
 local function cock(self,time)
-	
+
 	if SERVER then
 		self:Draw(true)
 	end
@@ -221,9 +205,8 @@ local function cock(self,time)
 	net.WriteBool(self.drawBullet)
 	net.WriteFloat(CurTime())
 	net.Broadcast()
-	
+
 	self.Primary.Next = CurTime() + self.AnimDraw + self.Primary.Wait
-	--self:PlaySnd(self.CockSound or "weapons/shotgun/shotgun_cock.wav",true,CHAN_AUTO)
 
 	local ply = self:GetOwner()
 
@@ -246,35 +229,33 @@ end
 
 local function reloadFunc(self)
 	if not SERVER then return end
-	
+
 	self:SetNetVar("shootgunReload",CurTime() + 1.1)
 
 	if self.MagIndex then
 		self:GetWM():ManipulateBoneScale(self.MagIndex, vector_full)
 	end
-	--self:GetOwner():PullLHTowards("ValveBiped.Bip01_Spine2", 0.58)
 
-	self:PlayAnim(self.AnimList["insert"] or "sgreload_insert", 1, false, function() 
-		self:InsertAmmo(1) 
+	self:PlayAnim(self.AnimList["insert"] or "sgreload_insert", 1, false, function()
+		self:InsertAmmo(1)
 		if self.MagIndex then
 			self:GetWM():ManipulateBoneScale(self.MagIndex, vector_origin)
 		end
-		
+
 		local key = hg.KeyDown(self:GetOwner(), IN_RELOAD)
-		--print("reload",key)
-		
+
 		if key and self:CanReload() then
 			reloadFunc(self)
 			return
 		end
 
 		if !self.drawBullet then
-			
-			self:PlayAnim(self.AnimList["finish_empty"] or "sgreload_finish_empty", 1,false,function(self)  
-				self:SetNetVar("shootgunReload",0) 
+
+			self:PlayAnim(self.AnimList["finish_empty"] or "sgreload_finish_empty", 1,false,function(self)
+				self:SetNetVar("shootgunReload",0)
 				cock(self,1)
-				self:PlayAnim(self.AnimList["cycle"] or "cycle", 1,false,nil,false,true) 
-			end,false,true) 
+				self:PlayAnim(self.AnimList["cycle"] or "cycle", 1,false,nil,false,true)
+			end,false,true)
 		else
 			self:PlayAnim(self.AnimList["finish"] or "sgreload_finish", 1, false, function(self) self:SetNetVar("shootgunReload",0) end, false, true)
 		end
@@ -282,7 +263,6 @@ local function reloadFunc(self)
 end
 
 function SWEP:Reload(time)
-	--print(self:GetNetVar("shootgunReload",0))
 	local ply = self:GetOwner()
 	if ply.organism and (ply.organism.larmamputated or ply.organism.rarmamputated) then return end
 	if self.AnimStart_Draw > CurTime() - 0.5 then return end
@@ -290,7 +270,6 @@ function SWEP:Reload(time)
 	if self.reloadCoolDown > CurTime() then return end
 	if self.Primary.Next > CurTime() then return end
 	if self:GetNetVar("shootgunReload",0) > CurTime() then return end
-	--print(self.drawBullet)
 	if not self:CanReload() and not self.drawBullet and SERVER then
 		cock(self,1)
 		self:SetNetVar("shootgunReload",CurTime() + 1.3)
@@ -302,7 +281,7 @@ function SWEP:Reload(time)
 
 	if SERVER then
 		self:SetNetVar("shootgunReload",CurTime() + 1.1)
-		self:PlayAnim(self.AnimList["start"] or "sgreload_start",1,false,function() 
+		self:PlayAnim(self.AnimList["start"] or "sgreload_start",1,false,function()
 			reloadFunc(self)
 		end,
 		false,true)

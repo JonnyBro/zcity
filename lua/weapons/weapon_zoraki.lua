@@ -12,8 +12,6 @@ SWEP.WepSelectIcon2 = Material("entities/zcity/zoraki.png")
 SWEP.IconOverride = "entities/zcity/zoraki.png"
 
 SWEP.CustomShell = "9x18"
---SWEP.EjectPos = Vector(0,-20,5)
---SWEP.EjectAng = Angle(0,90,0)
 
 SWEP.weight = 0.8
 SWEP.punchmul = 1.5
@@ -194,9 +192,9 @@ if CLIENT then
 		local view = render.GetViewSetup(true)
 
 		local dot = view.angles:Forward():Dot(tr.Normal)
-		
+
 		local pos = tr.StartPos:ToScreen()
-		
+
 		if dot < -0.5 and pos.x > 0 and pos.x < ScrW() and pos.y > 0 and pos.y < ScrH() and hg.isVisible(lply:EyePos(), tr.StartPos, {lply, self}, MASK_VISIBLE) then
 			hg.AddFlash(view.origin, dot, tr.StartPos, 30, 3000)
 		end

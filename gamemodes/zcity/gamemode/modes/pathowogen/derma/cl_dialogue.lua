@@ -40,28 +40,6 @@ function PANEL:Init()
 
 	surface.PlaySound("zbattle/dialogue/radio_talk.ogg")
 
-	-- timer.Simple(1.2, function()
-	--     self:CreateAnimation(#text / 20, {
-	--         index = 1,
-	--         target = {
-	--             textpos = #text
-	--         },
-	--         easing = "linear",
-	--         bIgnoreConfig = true,
-	--         Think = function()
-	--             local newtext = string.sub(text, 0, self.textpos)
-
-	--             if self.currenttext != newtext then
-	--                 sound.PlayFile("sound/zbattle/dialogue/commander_talk2.ogg", "", function() end)
-	--                 self.currenttext = newtext
-	--                 self.text:SetText(newtext)
-	--             end
-	--         end,
-	--         OnComplete = function()
-	--         end
-	--     })
-	-- end)
-
 	self.appearAlpha = 255
 	self.appearProgress = 0
 
@@ -74,8 +52,6 @@ function PANEL:Init()
 		easing = "linear",
 		bIgnoreConfig = true,
 		Think = function()
-			-- self:SetSize(sw * 0.22 * self.appearProgress, sh * 0.12)
-			-- self:SetAlpha(255 * self.appearProgress)
 		end,
 		OnComplete = function()
 		end
@@ -96,9 +72,6 @@ function PANEL:Init()
 
 	self.timebetween = SysTime() + 1.2
 
-	-- timer.Simple(15, function()
-	-- 	self:Close()
-	-- end)
 end
 
 local glow = Material("zbattle/borderglow2.png")
@@ -201,7 +174,6 @@ function PANEL:Close()
 		easing = "linear",
 		bIgnoreConfig = true,
 		Think = function()
-			-- self:SetSize(sw * 0.22 * self.appearProgress, sh * 0.12)
 			self:SetAlpha(255 * self.appearProgress / 2)
 		end,
 		OnComplete = function()

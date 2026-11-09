@@ -3,7 +3,6 @@ bloodparticles_hook = bloodparticles_hook or {}
 
 local tr = {
     mask = MASK_SOLID_BRUSHONLY,
-	--filter = function(ent) return not ent:IsPlayer() and not ent:IsRagdoll() end
 }
 
 local vecZero = Vector(0,0,0)
@@ -55,11 +54,11 @@ bloodparticles_hook[4] = function(mul)
 
         local pos = part[1]
         local posSet = part[2]
-        
+
         tr.start = posSet
         tr.endpos = tr.start + part[3] * mul
         result = util_TraceLine(tr)
-        
+
         local hitPos = result.HitPos
 
         local up = hitPos[3] - pos[3]
@@ -68,15 +67,6 @@ bloodparticles_hook[4] = function(mul)
 
         if result.Hit or part[7] - time <= 0 then
             table_remove(hg.bloodparticles2, i)
-            
-            --util.Decal("Water.Blood", pos + result.HitNormal, pos - result.HitNormal, ents.FindInSphere(pos, 1))
-
-            --local newvec = result.Normal:Angle()
-            --newvec:RotateAroundAxis(result.HitNormal, 180)
-            --newvec = newvec:Forward() * part[3] * mul
---
-            --pos:Set(posSet)
-            --posSet:Set(hitPos + newvec)
 
             continue
         else
@@ -88,12 +78,7 @@ bloodparticles_hook[4] = function(mul)
 
         if bit.band(util.PointContents(pos + vector_up * 7), CONTENTS_WATER) != CONTENTS_WATER then
             part[3][3] = -5
-            --pos:Add(-vector_up * up)
-            --posSet:Add(-vector_up * up)
-            --hg.addBloodPart(part[1], part[3] * 2)
 
-			--table_remove(hg.bloodparticles2, i)
-			--continue
         end
     end
 end

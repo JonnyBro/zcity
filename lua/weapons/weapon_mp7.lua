@@ -19,7 +19,6 @@ SWEP.AttachmentAng = Angle(0,0,90)
 
 SWEP.CanEpicRun = true
 SWEP.EpicRunPos = Vector(2,10,7)
-//SWEP.IsPistol = true
 SWEP.FakeReloadSounds = {
 	[0.22] = "weapons/universal/uni_crawl_l_03.wav",
 	[0.4] = "weapons/tfa_ins2/mp7/magout.wav",
@@ -27,7 +26,6 @@ SWEP.FakeReloadSounds = {
 	[0.65] = "weapons/universal/uni_crawl_l_02.wav",
 	[0.8] = "weapons/tfa_ins2/mp7/magin.wav",
 	[0.94] = "weapons/universal/uni_crawl_l_04.wav",
-	--[0.9] = "zcitysnd/sound/weapons/m9/handling/m9_maghit.wav",
 
 }
 SWEP.FakeEmptyReloadSounds = {
@@ -40,7 +38,6 @@ SWEP.FakeEmptyReloadSounds = {
 	[0.83] = "weapons/tfa_ins2/mp7/boltback.wav",
 	[0.92] = "weapons/tfa_ins2/mp7/boltrelease.wav",
 	[1.02] = "weapons/universal/uni_crawl_l_04.wav",
-	--[0.9] = "zcitysnd/sound/weapons/m9/handling/m9_maghit.wav",
 
 }
 SWEP.MagModel = "models/eu_homicide/mp7_magazine.mdl"
@@ -57,25 +54,23 @@ SWEP.ViewPunchDiv = 60
 SWEP.FakeMagDropBone = 14
 
 SWEP.FakeReloadEvents = {
-	[0.2] = function( self, timeMul ) 
+	[0.2] = function( self, timeMul )
 		if CLIENT and self:Clip1() < 1 then
-			--self:GetWM():SetBodygroup(1,1)
-			--self:GetOwner():PullLHTowards("ValveBiped.Bip01_L_Thigh", 1.5 * timeMul)
-		end 
+		end
 	end,
-	[0.35] = function( self ) 
+	[0.35] = function( self )
 		if CLIENT and self:Clip1() < 1 then
 			hg.CreateMag( self, Vector(0,55,-55) )
 			self:GetWM():ManipulateBoneScale(14, vector_origin)
 			self:GetWM():ManipulateBoneScale(15, vector_origin)
-		end 
+		end
 	end,
-	[0.45] = function( self ) 
+	[0.45] = function( self )
 		if CLIENT and self:Clip1() < 1 then
 			self:GetWM():SetBodygroup(1,0)
 			self:GetWM():ManipulateBoneScale(14, vector_full)
 			self:GetWM():ManipulateBoneScale(15, vector_full)
-		end 
+		end
 	end,
 }
 
@@ -89,7 +84,6 @@ SWEP.WepSelectIcon2 = Material("vgui/hud/tfa_ins2_mp7.png")
 SWEP.IconOverride = "vgui/hud/tfa_ins2_mp7.png"
 
 SWEP.CustomShell = "556x45"
-//SWEP.EjectPos = Vector(-2.5,0,-3)
 SWEP.EjectAng = Angle(0,40,-15)
 
 SWEP.ShockMultiplier = 2
@@ -186,21 +180,12 @@ SWEP.LHAng = Angle(-40,15,-100)
 SWEP.ShootAnimMul = 2
 
 function SWEP:AnimHoldPost(model)
-	--self:BoneSet("l_finger0", Vector(0, 0, 0), Angle(-5, -10, 0))
-	--self:BoneSet("l_finger02", Vector(0, 0, 0), Angle(0, 25, 0))
-	--self:BoneSet("l_finger01", Vector(0, 0, 0), Angle(-25, 40, 0))
-	--self:BoneSet("l_finger1", Vector(0, 0, 0), Angle(-10, -40, 0))
-	--self:BoneSet("l_finger11", Vector(0, 0, 0), Angle(-10, -40, 0))
-	--self:BoneSet("l_finger2", Vector(0, 0, 0), Angle(-5, -50, 0))
-	--self:BoneSet("l_finger21", Vector(0, 0, 0), Angle(0, -10, 0))
 end
 
 function SWEP:DrawPost()
 	local wep = self:GetWeaponEntity()
 	if CLIENT and IsValid(wep) then
 		self.shooanim = LerpFT(0.4,self.shooanim or 0,self:Clip1() > 0 and 0 or 0)
-		--wep:ManipulateBonePosition(2,Vector(0 ,0 ,-1.8*self.shooanim ),false)
-		--wep:ManipulateBonePosition(1,Vector(-0.5*self.ReloadSlideOffset ,0 ,0.1*self.ReloadSlideOffset),false)
 	end
 end
 

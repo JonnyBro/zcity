@@ -21,7 +21,7 @@ function CLASS.On(self)
             "terrorist_band"
         }
         self:SetNetVar("Accessories", Appearance.AAttachments or "none")
-        
+
         self.CurAppearance = Appearance
     end)
 end
@@ -32,7 +32,7 @@ function CLASS.Guilt(self, victim)
     if victim:GetPlayerClass() == self:GetPlayerClass() then
         return 1
     end
-    
+
     if victim == zb.hostage then
         return 1
     end

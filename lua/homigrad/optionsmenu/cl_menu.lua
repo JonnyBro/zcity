@@ -2,35 +2,31 @@
 
 local modes = {}
 modes.slider = function(optiondata, panel)
-    -- optiondata = {convar = "convarname",desc = "descreption", min = 123, max = 123}
     local DermaNumSlider = vgui.Create( "DNumSlider", panel )
     DermaNumSlider:Dock( TOP )
-    DermaNumSlider:DockMargin(10,5,5,2.5)	
-    DermaNumSlider:SetSize(50,45)	
-    DermaNumSlider:SetText( optiondata.convar .. "\n" .. optiondata.desc )	
-    DermaNumSlider:SetMin( optiondata.min )				 	
-    DermaNumSlider:SetMax( optiondata.max )				
-    DermaNumSlider:SetDecimals( optiondata.decimals or 0 )				
-    DermaNumSlider:SetConVar( optiondata.convar )	
+    DermaNumSlider:DockMargin(10,5,5,2.5)
+    DermaNumSlider:SetSize(50,45)
+    DermaNumSlider:SetText( optiondata.convar .. "\n" .. optiondata.desc )
+    DermaNumSlider:SetMin( optiondata.min )
+    DermaNumSlider:SetMax( optiondata.max )
+    DermaNumSlider:SetDecimals( optiondata.decimals or 0 )
+    DermaNumSlider:SetConVar( optiondata.convar )
     DermaNumSlider:SizeToContents()
 end
 modes.switcher = function(optiondata, panel)
-    -- optiondata = {convar = "convarname",desc = "descreption"}
     local DermaCheckbox = panel:Add( "DCheckBoxLabel" )
 	DermaCheckbox:Dock( TOP )
     DermaCheckbox:DockMargin(10,5,10,2.5)
 	DermaCheckbox:SetText( optiondata.convar .. "\n" .. optiondata.desc )
 	DermaCheckbox:SetConVar( optiondata.convar )
 	DermaCheckbox:SetValue( GetConVar(optiondata.convar):GetBool() )
-	DermaCheckbox:SizeToContents()		
+	DermaCheckbox:SizeToContents()
 end
 modes.binder = function(optiondata, panel)
-    -- optiondata = {convar = "convarname",desc = "descreption"}
 end
 
 local options = {}
 
--- optiondata = {desc = "descreption", and mode vars}
 function hg.AddOptionPanel( convarname, mode, optiondata, category )
     optiondata = optiondata or {}
     category = category or "other"
@@ -63,26 +59,14 @@ local function CreateOptionsMenu()
 	local posX,posY = ScrW() / 2 - sizeX / 2,ScrH() / 2 - sizeY / 2
 
     local MainFrame = vgui.Create("ZFrame") -- The name of the panel we don't have to parent it.
-    MainFrame:SetPos( posX, posY ) -- Set the position to 100x by 100y. 
+    MainFrame:SetPos( posX, posY ) -- Set the position to 100x by 100y.
     MainFrame:SetSize( sizeX, sizeY ) -- Set the size to 300x by 200y.
     MainFrame:SetTitle( "ZCity options" ) -- Set the title in the top left to "Derma Frame".
     MainFrame:MakePopup() -- Makes your mouse be able to move around.
-    //function MainFrame:Paint( w, h )
-    //    draw.RoundedBox( 0, 2.5, 2.5, w-5, h-5, Color( 0, 0, 0, 140) )
-    //    BlurBackground(MainFrame)
-    //    surface.SetDrawColor( 255, 0, 0, 128)
-    //    surface.DrawOutlinedRect( 0, 0, w, h, 2.5 )
-    //end
 
     local DScrollPanel = vgui.Create("DScrollPanel", MainFrame)
 	DScrollPanel:SetPos(10, 50)
 	DScrollPanel:SetSize(sizeX - 20, sizeY - 60)
-	--function DScrollPanel:Paint( w, h )
-	--	BlurBackground(self)
---
-	--	surface.SetDrawColor( 255, 0, 0, 128)
-    --    surface.DrawOutlinedRect( 0, 0, w, h, 2.5 )
-	--end
 
     local DLabel = vgui.Create( "DLabel", DScrollPanel )
     DLabel:Dock(TOP)
@@ -90,17 +74,17 @@ local function CreateOptionsMenu()
     DLabel:SetText( "Optimization" )
 
     for k,v in pairs(options["optimization"]) do
-       
+
         modes[v[1]](v[2],DScrollPanel)
     end
-    
+
     local DLabel = vgui.Create( "DLabel", DScrollPanel )
     DLabel:Dock(TOP)
     DLabel:DockMargin(20,15,5,2.5)
     DLabel:SetText( "Other" )
 
     for k,v in pairs(options["other"]) do
-       
+
         modes[v[1]](v[2],DScrollPanel)
     end
 end

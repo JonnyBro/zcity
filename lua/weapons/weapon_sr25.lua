@@ -55,7 +55,7 @@ if CLIENT then
 				hg.CreateMag( self, Vector(0,0,-50), "111111")
 				self:GetWM():ManipulateBoneScale(56, vecPochtiZero)
 
-			end 
+			end
 		end,
 		[0.4] = function( self, timeMul )
 			if self:Clip1() < 1 then
@@ -78,8 +78,6 @@ SWEP.IconOverride = "vgui/hud/tfa_ins2_sr25_eft.png"
 SWEP.weight = 3.5
 SWEP.weaponInvCategory = 1
 SWEP.CustomShell = "762x51"
---SWEP.EjectPos = Vector(-2,0,4)
---SWEP.EjectAng = Angle(0,0,0)
 SWEP.AutomaticDraw = true
 SWEP.UseCustomWorldModel = false
 SWEP.Primary.ClipSize = 20
@@ -183,10 +181,6 @@ SWEP.cameraShakeMul = 2
 SWEP.ShootAnimMul = 5
 
 function SWEP:AnimHoldPost()
-	--self:BoneSet("l_finger0", Vector(0, 0, 0), Angle(0, -20, 40))
-	--self:BoneSet("l_finger02", Vector(0, 0, 0), Angle(0, 25, 0))
-	--self:BoneSet("l_finger1", Vector(0, 0, 0), Angle(0, -5, 0))
-	--self:BoneSet("l_finger2", Vector(0, 0, 0), Angle(0, -5, 0))
 end
 
 function SWEP:DrawPost()
@@ -194,7 +188,6 @@ function SWEP:DrawPost()
 	if CLIENT and IsValid(wep) then
 		self.shooanim = LerpFT(0.4,self.shooanim or 0,self:Clip1() > 0 and 0 or 0)
 		wep:ManipulateBonePosition(54,Vector(0 ,1.8*self.shooanim ,0 ),false)
-		--wep:ManipulateBonePosition(7,Vector(-1*self.ReloadSlideOffset ,0.09*self.ReloadSlideOffset ,-(0.18/3)*self.ReloadSlideOffset ),false)
 	end
 end
 

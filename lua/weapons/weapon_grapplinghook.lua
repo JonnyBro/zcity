@@ -181,7 +181,6 @@ function SWEP:Think()
 				self:SetBack(math.Clamp(BackAmt + 15, 0, 100))
 				self:SetThrowPower(math.Clamp(self:GetThrowPower() + 5 * self.ThrowChargeSpeed, 1, 130))
 				self.ThrowChargeSpeed = (-2.7 + (owner.organism.stamina[1] / 45)) * 0.15
-				--print(self.ThrowChargeSpeed)
 			end
 		end
 
@@ -197,7 +196,6 @@ function SWEP:Windup()
 	self:SetCurrentState("Winding")
 	self:SetThrowPower(1)
 	self.JustThrew = false
-	--self:SetHoldType("grenade")
 end
 
 function SWEP:Throw()
@@ -416,9 +414,6 @@ if CLIENT then
 
 					self.DatWorldModel:SetRenderOrigin(ThePos)
 					self.DatWorldModel:SetRenderAngles(Ang)
-					--local Mat=Matrix()
-					--Mat:Scale(Vector(.9,.4,.9))
-					--self.DatWorldModel:EnableMatrix("RenderMultiply",Mat)
 					local R, G, B = render.GetColorModulation()
 					render.SetColorModulation(.1, .1, .1)
 					self.DatWorldModel:DrawModel()

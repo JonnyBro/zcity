@@ -1,5 +1,5 @@
 local function check(self, ent, ply)
-    if not ply:ZCTools_GetAccess() then return false end 
+    if not ply:ZCTools_GetAccess() then return false end
 	if ( !IsValid( ent ) ) then return false end
 	if ( ent:IsPlayer() ) then return true end
     local pEnt = hg.RagdollOwner( ent )
@@ -13,10 +13,10 @@ properties.Add( "notify", {
 	Filter = check,
 	Action = function( self, ent ) -- The action to perform upon using the property ( Clientside )
         Derma_StringRequest(
-            "Notify ".. ent:GetPlayerName(), 
+            "Notify ".. ent:GetPlayerName(),
             "Write a message",
             "",
-            function(text) 
+            function(text)
                 self:MsgStart()
                     net.WriteEntity( ent )
                     net.WriteString( text )
@@ -29,13 +29,12 @@ properties.Add( "notify", {
 		local ent = net.ReadEntity()
         local text = net.ReadString()
 
-		--if ( !properties.CanBeTargeted( ent, ply ) ) then return end
 		if ( !self:Filter( ent, ply ) ) then return end
         ent = hg.RagdollOwner( ent ) or ent
 
 		ent:Notify( text, 0 )
 		print(tostring(ply:Nick() or ply) .." has notfied ".. tostring(ent:Nick() or ent) .." with the following message; "..text)
-	end 
+	end
 } )
 
 properties.Add( "givegun", {
@@ -46,10 +45,10 @@ properties.Add( "givegun", {
 	Filter = check,
 	Action = function( self, ent ) -- The action to perform upon using the property ( Clientside )
         Derma_StringRequest(
-            "Give ".. ent:GetPlayerName(), 
+            "Give ".. ent:GetPlayerName(),
             "Write a entity class name",
             "",
-            function(text) 
+            function(text)
                 self:MsgStart()
                     net.WriteEntity( ent )
                     net.WriteString( text )
@@ -61,7 +60,6 @@ properties.Add( "givegun", {
 	Receive = function( self, length, ply ) -- The action to perform upon using the property ( Serverside )
 		local ent = net.ReadEntity()
         local text = net.ReadString()
-		--if ( !properties.CanBeTargeted( ent, ply ) ) then return end
 		if ( !self:Filter( ent, ply ) ) then return end
         ent = hg.RagdollOwner( ent ) or ent
 
@@ -69,7 +67,7 @@ properties.Add( "givegun", {
         if not IsValid(spawned) then return end
         spawned:Use(ent)
 		print(tostring(ply:Nick() or ply) .." has given ".. tostring(ent:Nick() or ent) .." a SWEP; "..text)
-	end 
+	end
 } )
 
 properties.Add( "strip", {
@@ -95,13 +93,12 @@ properties.Add( "strip", {
 	Receive = function( self, length, ply ) -- The action to perform upon using the property ( Serverside )
 		local ent = net.ReadEntity()
 
-		--if ( !properties.CanBeTargeted( ent, ply ) ) then return end
 		if ( !self:Filter( ent, ply ) ) then return end
         ent = hg.RagdollOwner( ent ) or ent
 		ent:StripWeapons( )
         ent:Give("weapon_hands_sh")
 		print(tostring(ply:Nick() or ply) .." has stripped ".. tostring(ent:Nick() or ent) .." of their weapons.")
-	end 
+	end
 } )
 
 properties.Add( "fullstrip", {
@@ -127,13 +124,12 @@ properties.Add( "fullstrip", {
 	Receive = function( self, length, ply ) -- The action to perform upon using the property ( Serverside )
 		local ent = net.ReadEntity()
 
-		--if ( !properties.CanBeTargeted( ent, ply ) ) then return end
 		if ( !self:Filter( ent, ply ) ) then return end
         ent = hg.RagdollOwner( ent ) or ent
 
 		ent:StripWeapons( )
 		print(tostring(ply:Nick() or ply) .." has full stripped ".. tostring(ent:Nick() or ent) .." of their weapons and fist.")
-	end 
+	end
 } )
 
 properties.Add( "reset_org", {
@@ -159,13 +155,12 @@ properties.Add( "reset_org", {
 	Receive = function( self, length, ply ) -- The action to perform upon using the property ( Serverside )
 		local ent = net.ReadEntity()
 
-		--if ( !properties.CanBeTargeted( ent, ply ) ) then return end
 		if ( !self:Filter( ent, ply ) ) then return end
         ent = hg.RagdollOwner( ent ) or ent
-        
+
 		hg.organism.Clear( ent.organism )
 		print(tostring(ply:Nick() or ply) .." reset the health of ".. tostring(ent:Nick() or ent))
-	end 
+	end
 } )
 
 properties.Add( "freeze", {
@@ -174,7 +169,7 @@ properties.Add( "freeze", {
 	MenuIcon = "icon16/control_pause_blue.png", -- The icon to display next to the property
 
 	Filter = function( self, ent, ply )
-        if not ply:ZCTools_GetAccess() then return false end 
+        if not ply:ZCTools_GetAccess() then return false end
 	    if ( !IsValid( ent ) ) then return false end
         local pEnt = hg.RagdollOwner( ent ) or ent
         self.MenuLabel = pEnt:IsPlayer() and pEnt:IsFrozen() and "Unfreeze" or "Freeze"
@@ -190,13 +185,12 @@ properties.Add( "freeze", {
 	Receive = function( self, length, ply ) -- The action to perform upon using the property ( Serverside )
 		local ent = net.ReadEntity()
 
-		--if ( !properties.CanBeTargeted( ent, ply ) ) then return end
 		if ( !self:Filter( ent, ply ) ) then return end
         ent = hg.RagdollOwner( ent ) or ent
-        
+
 		ent:Freeze(not ent:IsFrozen())
 		print(tostring(ply:Nick() or ply) .. (ent:IsFrozen() and " has frozen " or " has unfrozen ").. tostring(ent:Nick() or ent))
-	end 
+	end
 } )
 
 properties.Add( "snatch", {
@@ -206,7 +200,7 @@ properties.Add( "snatch", {
 
 	Filter = function(self, ent, ply)
         if !CurrentRound then return false end
-        
+
         return check(self, ent, ply)
     end,
 	Action = function( self, ent ) -- The action to perform upon using the property ( Clientside )
@@ -226,7 +220,6 @@ properties.Add( "snatch", {
 	Receive = function( self, length, ply ) -- The action to perform upon using the property ( Serverside )
 		local ent = net.ReadEntity()
 
-		--if ( !properties.CanBeTargeted( ent, ply ) ) then return end
 		if ( !self:Filter( ent, ply ) ) then return end
         ent = hg.RagdollOwner( ent ) or ent
 
@@ -234,7 +227,7 @@ properties.Add( "snatch", {
         bot.Victim = ent
         bot:Spawn()
 		print(tostring(ply:Nick() or ply) .." has snatched ".. tostring(ent:Nick() or ent))
-	end 
+	end
 } )
 
 properties.Add( "ragdollize", {
@@ -261,7 +254,7 @@ properties.Add( "ragdollize", {
 			print(tostring(ply:Nick() or ply) .." has unstunned ".. tostring(ent:Nick() or ent))
 			hg.FakeUp(ent)
 		end
-	end 
+	end
 } )
 
 properties.Add( "vomit", {
@@ -283,7 +276,7 @@ properties.Add( "vomit", {
 
 		hg.organism.Vomit(ent)
 		print(tostring(ply:Nick() or ply) .." forced ".. tostring(ent:Nick() or ent) .." to vomit.")
-	end 
+	end
 } )
 
 properties.Add( "lobotomize", {
@@ -299,10 +292,10 @@ properties.Add( "lobotomize", {
 	end,
 	Receive = function( self, length, ply ) -- The action to perform upon using the property ( Serverside )
 		local ent = net.ReadEntity()
-        
+
 		if not self:Filter(ent, ply) then return end
         ent = hg.RagdollOwner(ent) or ent
-        
+
         ent.organism.brain = ent.organism.brain + 0.05
         ply:ChatPrint("Lobotomized brain to "..math.Round(ent.organism.brain * 100).."%")
         print(tostring(ply:Nick() or ply) .." has lobotomized ".. tostring(ent:Nick() or ent))
@@ -310,7 +303,7 @@ properties.Add( "lobotomize", {
         if ent.organism.brain >= 0.25 and ent.organism.brain < 0.3 then
             ply:ChatPrint("Consciousness loss on the next lobotomization!")
         end
-    end 
+    end
 } )
 
 properties.Add("killsilent", {
@@ -331,7 +324,7 @@ properties.Add("killsilent", {
         ent = hg.RagdollOwner( ent ) or ent
 		print(tostring(ply:Nick() or ply) .." has silently killed ".. tostring(ent:Nick() or ent))
 		ent:Kill()
-	end 
+	end
 })
 
 properties.Add("removeply", {
@@ -353,7 +346,7 @@ properties.Add("removeply", {
 		print(tostring(ply:Nick() or ply) .." has removed ".. tostring(ent:Nick() or ent))
 		ent:KillSilent()
 		ent:Remove()
-	end 
+	end
 })
 
 properties.Add( "setplayerclass", {
@@ -393,7 +386,7 @@ properties.Add( "setplayerclass", {
 			opt:SetIsCheckable(true)
 			opt.OnChecked = function(s, checked)
 				self:PlayerClass(ent, name)
-			end	
+			end
 		end
 	end
 } )
@@ -468,10 +461,10 @@ properties.Add( "break_limb", {
 	Receive = function( self, length, ply )
 		local ent = net.ReadEntity()
 		local limb = net.ReadUInt( 8 )
-        
+
 		if not self:Filter(ent, ply) then return end
        	ent = hg.RagdollOwner(ent) or hg.GetCurrentCharacter(ent) or ent
-        
+
         local dmgInfo = DamageInfo()
 		if limb == 0 then
             hg.BreakNeck(ent)
@@ -545,10 +538,10 @@ properties.Add( "amputate_limb", {
 	Receive = function( self, length, ply )
 		local ent = net.ReadEntity()
 		local limb = net.ReadUInt( 8 )
-        
+
 		if not self:Filter(ent, ply) then return end
         ent = hg.RagdollOwner(ent) or ent
-        
+
         local dmgInfo = DamageInfo()
 		if limb == 0 then
 			if SERVER and not ent.noHead then
@@ -627,7 +620,6 @@ properties.Add( "door_unlock", {
 local defaultinv = {
     Weapons = {},
     Ammo = {},
-    --Armor = {}, -- not used anywhere right now, armor is in netvars "Armor" and "zc_equipment"
     Attachments = {}
 }
 local function Respawn(ply,body)
@@ -635,14 +627,11 @@ local function Respawn(ply,body)
         ply:Kill()
     end
     ply.gottarespawn = true
-    //OverrideSpawn = true
     timer.Simple(0.1, function()
         ply:Spawn()
-        //OverrideSpawn = false
         timer.Simple(0.1, function()
             ply.inventory = table.Copy(body.inventory or defaultinv)
-            --PrintTable(ply.inventory)
-            
+
             ply:SetNetVar("Inventory", ply.inventory)
             ply:SetNetVar("Armor",body:GetNetVar( "Armor", {} ))
             ply:SetNetVar("HideArmorRender", body:GetNetVar("HideArmorRender", false))
@@ -650,14 +639,12 @@ local function Respawn(ply,body)
             body:SetNetVar("HideArmorRender", false)
 
             for k,v in pairs( ply.inventory["Weapons"] ) do
-                --print(k,v)
                 if v == true or not IsValid(v) then continue end
                 v:SetParent( ply )
                 v:SetOwner( ply )
                 v:Use( ply )
             end
             for k,v in pairs( ply.inventory["Ammo"] ) do
-                --print(k,v)
                 ply:SetAmmo( v, k )
             end
             ply:Give( "weapon_hands_sh" )
@@ -699,7 +686,7 @@ properties.Add( "respawn_ply_in_rag", {
 	MenuIcon = "icon16/heart.png", -- The icon to display next to the property
 
 	Filter = function( self, ent, ply )
-        if not ply:ZCTools_GetAccess() then return false end 
+        if not ply:ZCTools_GetAccess() then return false end
 	    if ( !IsValid( ent ) ) then return false end
         local pEnt = hg.RagdollOwner( ent ) or ent
         if ( pEnt:IsRagdoll() ) then return true end
@@ -713,17 +700,15 @@ properties.Add( "respawn_ply_in_rag", {
                     net.WriteEntity( ply )
                 self:MsgEnd()
         end)
-        
+
 	end,
 	Receive = function( self, length, ply ) -- The action to perform upon using the property ( Serverside )
 		local ent = net.ReadEntity()
         local sPly = net.ReadEntity()
-		--if ( !properties.CanBeTargeted( ent, ply ) ) then return end
 		if ( !self:Filter( ent, ply ) ) then return end
-        --ent = hg.RagdollOwner( ent ) or ent
-        
+
 		Respawn(sPly,ent)
-	end 
+	end
 } )
 
 properties.Add( "respawn_lply_in_rag", {
@@ -732,7 +717,7 @@ properties.Add( "respawn_lply_in_rag", {
 	MenuIcon = "icon16/heart.png", -- The icon to display next to the property
 
 	Filter = function( self, ent, ply )
-        if not ply:ZCTools_GetAccess() then return false end 
+        if not ply:ZCTools_GetAccess() then return false end
 	    if ( !IsValid( ent ) ) then return false end
         local pEnt = hg.RagdollOwner( ent ) or ent
         if ( pEnt:IsRagdoll() ) then return true end
@@ -750,17 +735,15 @@ properties.Add( "respawn_lply_in_rag", {
                 self:MsgEnd()
             end,
         	"No"
-        )    
+        )
 	end,
 	Receive = function( self, length, ply ) -- The action to perform upon using the property ( Serverside )
 		local ent = net.ReadEntity()
         local sPly = net.ReadEntity()
-		--if ( !properties.CanBeTargeted( ent, ply ) ) then return end
 		if ( !self:Filter( ent, ply ) ) then return end
-        --ent = hg.RagdollOwner( ent ) or ent
-        
+
 		Respawn(sPly,ent)
-	end 
+	end
 } )
 
 properties.Add( "respawn_ragply_in_rag", {
@@ -769,7 +752,7 @@ properties.Add( "respawn_ragply_in_rag", {
 	MenuIcon = "icon16/heart.png", -- The icon to display next to the property
 
 	Filter = function( self, ent, ply )
-        if not ply:ZCTools_GetAccess() then return false end 
+        if not ply:ZCTools_GetAccess() then return false end
 	    if ( !IsValid( ent ) ) then return false end
         local pEnt = hg.RagdollOwner( ent ) or ent
         if ( pEnt:IsRagdoll() ) then return true end
@@ -786,19 +769,15 @@ properties.Add( "respawn_ragply_in_rag", {
                 self:MsgEnd()
             end,
         	"No"
-        )    
+        )
 	end,
 	Receive = function( self, length, ply ) -- The action to perform upon using the property ( Serverside )
 		local ent = net.ReadEntity()
         local sPly = ent.ply
-		--if ( !properties.CanBeTargeted( ent, ply ) ) then return end
 		if ( !self:Filter( ent, ply ) ) then return end
         if not sPly then return end
-        --ent = hg.RagdollOwner( ent ) or ent
-        
+
 		Respawn(sPly,ent)
-	end 
+	end
 } )
 
-
---hg.Fake(owner, body)

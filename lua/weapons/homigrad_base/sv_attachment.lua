@@ -17,7 +17,6 @@ net.Receive("ZB_AttachAdd", function(len, ply)
 	local att = net.ReadString()
 	local wep = ply:GetActiveWeapon()
 	hg.AddAttachment(ply,wep,att)
-	//ply:SetNetVar("Inventory",ply.inventory)
 end)
 
 function hg.AddAttachment(ply,wep,att)
@@ -43,7 +42,7 @@ function hg.AddAttachment(ply,wep,att)
 
 	if not wep.attachments[placement].noblock then
 		local restrictAtt = hg.attachments[placement][att].restrictatt
-		
+
 		for i,att in pairs(wep.attachments) do
 			if not att or not istable(att) or table.IsEmpty(att) or att[1] == "empty" then continue end
 			if restrictAtt then
@@ -65,35 +64,33 @@ function hg.AddAttachment(ply,wep,att)
 		ply:ChatPrint("There is no space for this attachment.")
 		return
 	end
-	
-	--if not wep.availableAttachments[placement] then return end
+
 	local i
 	if wep.availableAttachments[placement] then
 		for n, atta in pairs(wep.availableAttachments[placement]) do
 			i = istable(atta) and atta[1] == att and n or i
 		end
 	end
-	
-	--if not i then ply:ChatPrint("You cant place this attachment on this weapon.") return end
+
 	local mountType = wep.availableAttachments[placement] and wep.availableAttachments[placement]["mountType"]
 	local mountType2 = hg.attachments[placement][att] and hg.attachments[placement][att].mountType
 	if not wep.availableAttachments[placement] then return end
-	
+
 	if not wep.availableAttachments[placement][i] and not (mountType or mountType2) then return end
 	local mounts = istable(mountType) and table.HasValue(mountType, hg.attachments[placement][att].mountType) or mountType == mountType2
-	
+
 	if not mounts then
 		return
 	end
-	
+
 
 	wep:AttachAnim()
 	timer.Simple(0.5,function()
 		if wep:IsValid() then
 			if not table.HasValue(ply.inventory.Attachments, att) then return end
-				
+
 			table.RemoveByValue(ply.inventory.Attachments, att)
-			
+
 			ply:SetNetVar("Inventory", ply.inventory)
 
 			wep.attachments[placement] = i and wep.availableAttachments[placement][i] or {att, {}}
@@ -106,7 +103,7 @@ end
 
 function hg.AddAttachmentForce(ply,wep,att)
 	if not IsValid(wep) or not wep.attachments or att == "" then return end
-	
+
 	if att and istable(att) then
 		for i,atta in pairs(att) do
 			hg.AddAttachmentForce(ply,wep,atta)
@@ -122,7 +119,7 @@ function hg.AddAttachmentForce(ply,wep,att)
 
 	if not wep.attachments[placement].noblock then
 		local restrictAtt = hg.attachments[placement][att].restrictatt
-		
+
 		for i,att in pairs(wep.attachments) do
 			if not att or not istable(att) or table.IsEmpty(att) or att[1] == "empty" then continue end
 		end
@@ -130,22 +127,20 @@ function hg.AddAttachmentForce(ply,wep,att)
 
 	if not placement then return end
 
-	--if not wep.availableAttachments[placement] then return end
 	local i
 	if wep.availableAttachments[placement] then
 		for n, atta in pairs(wep.availableAttachments[placement]) do
 			i = istable(atta) and atta[1] == att and n or i
 		end
 	end
-	
-	--if not i then ply:ChatPrint("You cant place this attachment on this weapon.") return end
+
 	local mountType = wep.availableAttachments[placement] and wep.availableAttachments[placement]["mountType"]
 	local mountType2 = hg.attachments[placement][att] and hg.attachments[placement][att].mountType
 	if not wep.availableAttachments[placement] then return end
-	
+
 	if not wep.availableAttachments[placement][i] and not (mountType or mountType2) then return end
 	local mounts = istable(mountType) and table.HasValue(mountType, hg.attachments[placement][att].mountType) or mountType == mountType2
-	
+
 	if not mounts then
 		return
 	end
@@ -165,10 +160,6 @@ net.Receive("ZB_AttachRemove", function(len, ply)
 	if wep:GetNWFloat("addAttachment", 0) + 1 > CurTime() then return end
 	if not IsValid(ply) then return end
 	if ply.organism.larmamputated or ply.organism.rarmamputated then return end
-	--[[if table.HasValue(ply.inventory.Attachments, att) then
-		ply:ChatPrint("You already have that attachment.")
-		return
-	end--]]
 
 	local placement = nil
 	for plc, tbl in pairs(hg.attachments) do
@@ -184,7 +175,7 @@ net.Receive("ZB_AttachRemove", function(len, ply)
 	for n, atta in pairs(wep.availableAttachments[placement]) do
 		i = istable(atta) and atta[1] == "empty" and n or i
 	end
-	
+
 	wep:AttachAnim()
 	timer.Simple(0.5, function()
 		if IsValid(wep) then
@@ -229,8 +220,5 @@ function SWEP:SyncAtts(ply)
 end
 
 net.Receive("sync_atts", function(len, ply)
-	--local self = net.ReadEntity()
-	--if self:GetOwner() != ply then return end
 
-	--self:SyncAtts(ply)
 end)

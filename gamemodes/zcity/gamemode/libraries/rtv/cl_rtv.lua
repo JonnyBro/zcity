@@ -34,7 +34,7 @@ function zb.RTVMenu()
         MapButton:Dock(TOP)
         MapButton:DockMargin(0, 5, 0, 0)
         MapButton:SetSize(0, ScrH() * 0.06)
-        
+
         if v == "random" then
             MapButton:SetText("Random Map")
             MapButton.Map = "random"
@@ -57,10 +57,10 @@ function zb.RTVMenu()
 
         function MapButton:Think()
             self.Votes = votes[self.Map] or 0
-            if self.Map ~= "random" and self.Map == winmap then 
-                self.Win = true 
-            else 
-                self.Win = false 
+            if self.Map ~= "random" and self.Map == winmap then
+                self.Win = true
+            else
+                self.Win = false
             end
         end
 

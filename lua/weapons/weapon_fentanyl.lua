@@ -82,9 +82,8 @@ if SERVER then
 		if ent == hg.GetCurrentCharacter(owner) and hg_healanims:GetBool() then
 			self:SetHolding(math.Clamp(self:GetHolding() + 100, 0, 50))
 
-			--if self:GetHolding() < 100 then return end
 		end
-		
+
 		local entOwner = IsValid(owner.FakeRagdoll) and owner.FakeRagdoll or owner
 
 		local injected = math.min(FrameTime() * 1, self.modeValues[1])
@@ -110,8 +109,6 @@ if SERVER then
 		if self.modeValues[1] != 0 then
 			entOwner:EmitSound("pshiksnd")
 		else
-			//owner:SelectWeapon("weapon_hands_sh")
-			//self:Remove()
 		end
 	end
 end

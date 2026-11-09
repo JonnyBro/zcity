@@ -78,7 +78,7 @@ function hg.DrawAffliction(x, y, w, h, amt, index_or_name, alpha, text)
 	local r, g, b, a = affliction[3]:Unpack()
 	if affliction[4] then g = math.max((1 - amt) - 0.2, 0) * 255 end
 	if alpha then a = alpha end
-	
+
 	surface.SetDrawColor(r, g, b, a)
 	surface.SetMaterial(affliction[2])
 	surface.DrawTexturedRect(x, y, w, h)

@@ -6,7 +6,6 @@ hook.Add("PlayerButtonDown", "NI_PlayerButtonDown", function(ply, key)
 		local weps = ply:GetWeapons()
 		for i = 1, #weps do
 			local wep = weps[i]
-			--if wep == ply:GetActiveWeapon() then continue end
 
 			local icon = type(wep.WepSelectIcon) == "IMaterial" and wep.WepSelectIcon or (type(wep.WepSelectIcon2) == "IMaterial" and wep.WepSelectIcon2)
 			tbl1[#tbl1 + 1] = {

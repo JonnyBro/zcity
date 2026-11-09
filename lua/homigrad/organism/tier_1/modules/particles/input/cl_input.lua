@@ -8,7 +8,6 @@ for i = 1, 6 do
 	mats[i]:SetTexture("$basetexture",Material("decals/blood" .. i):GetTexture("$basetexture"))
 end
 
---local mat_huy = Material("sprites/mat_jack_irregularcircle")
 local texture = Material("decals/z_blood1"):GetTexture("$basetexture")
 local mat_huy = Material("effects/blood_core")
 mat_huy:SetTexture("$basetexture",texture)
@@ -16,9 +15,6 @@ mat_huy:SetTexture("$basetexture",texture)
 local cloudmat = Material("effects/smoke_b")
 
 --оставь это лучше выглядит
---[[for i = 4, 6 do
-	mats[i-3] = Material("homigrad/decals/bld" .. i)
-end]]
 local countmats = #mats
 hg.bloodparticles1 = hg.bloodparticles1 or {}
 hg.bloodparticles2 = hg.bloodparticles2 or {}
@@ -26,9 +22,6 @@ local vecZero = Vector(0, 0, 0)
 local lastplaced = SysTime()
 local hg_blood_fps = ConVarExists("hg_blood_fps") and GetConVar("hg_blood_fps") or CreateClientConVar("hg_blood_fps", 24, true, nil, "fps to draw blood", 12, 165)
 local function addBloodPart(pos, vel, mat, w, h, artery, kishki, owner)
-	--local fps = 1 / hg_blood_fps:GetInt() * 1
-	--if lastplaced + fps > SysTime() then return end
-	--lastplaced = SysTime()
 	if LocalPlayer():GetNetVar("disappearance", nil) or (IsValid(owner) and owner:GetNetVar("disappearance", nil)) then return end
 
 	pos = pos + vecZero
@@ -38,7 +31,7 @@ local function addBloodPart(pos, vel, mat, w, h, artery, kishki, owner)
 	pos2:Set(pos)
 
 	if #hg.bloodparticles1 > 200 then table.remove(hg.bloodparticles1, 1) end
-	
+
 	hg.bloodparticles1[#hg.bloodparticles1 + 1] = {pos, pos2, vel, mat or mat_huy, w or 2, h or 2, CurTime(), artery = artery, kishki = kishki, owner = owner, start_velocity = IsValid(owner) and owner:GetVelocity() or vector_origin}
 end
 
@@ -52,10 +45,8 @@ local function addBloodPart2(pos, vel, mat, w, h, time, water, owner)
 
 	local pos2 = Vector()
 	pos2:Set(pos)
-	
+
 	if #hg.bloodparticles2 > 200 then table.remove(hg.bloodparticles2, 1) end
-	--if water and math.random(2) == 1 then return end
-	--if water and math.random(3) > 1 then return end
 
 	hg.bloodparticles2[#hg.bloodparticles2 + 1] = {pos, pos2, vel, mat or cloudmat, w or 60, h or 60, CurTime() + time, time, water = water, owner = owner}
 end
@@ -71,7 +62,7 @@ local function impact(pos,vel,mul)
 	local max = math.min(mul,8)
 	local iters = math.ceil(math.random(1, max) * 2.5)
 	local velnorm = -vel:GetNormalized() * 5
-	
+
 	if hg_bloodimpacts:GetBool() then
 		addBloodPart2(pos + velnorm, -vel + Vector(Rand(-10, 10), Rand(-10, 10), Rand(-10, 10)) * 5, nil, 25, 25, 0.3)
 		addBloodPart2(pos + velnorm, -vel / 2 + Vector(Rand(-10, 10), Rand(-10, 10), Rand(-10, 10)) * 5, nil, 25, 25, 0.3)
@@ -101,7 +92,7 @@ local function explode(pos, size, force)
 	for x = 1, xx * size do
 		for y = 1, yy * size do
 			addBloodPart2(pos + VectorRand(-10,10), VectorRand(-100,100) * size, cloudmat, 25, 25, 1)
-			
+
 			local dir = Vector(0, 0, -1)
 			dir:Rotate(Angle(h * y * Rand(0.9, 1.1), w * x * Rand(0.9, 1.1), 0))
 			dir[3] = dir[3] + Rand(0.5, 1.5)
@@ -121,7 +112,7 @@ local limbs = {
 hook.Add("HG_OrganismChanged", "explodelegs", function(oldorg, org)
 	local ply = org.owner
 	local ent = hg.GetCurrentCharacter(ply)
-	
+
 	for ind, nam in pairs(limbs) do
 		if !oldorg[ind.."amputated"] and org[ind.."amputated"] then
 			local bone = ent:LookupBone(nam)
@@ -148,10 +139,6 @@ hg.explode = explode
 net.Receive("addfountain",function()
 	local ent = net.ReadEntity()
 	local force = net.ReadVector()
-	
-	--local bone = net.ReadInt(8)
-	--local lpos = net.ReadVector()
-	--local lang = net.ReadAngle()
 
 	if not IsValid(ent) then return end
 
@@ -166,7 +153,7 @@ end)
 
 net.Receive("bloodsquirt", function()
 	local ent = net.ReadEntity()
-	
+
 	if not IsValid(ent) then return end
 
 	local bone = net.ReadString()
@@ -178,7 +165,6 @@ net.Receive("bloodsquirt", function()
 
 	local ent = hg.RagdollOwner(ent) or ent
 
-	//local mat = ent:GetBoneMatrix(bone)
 	local localPos, localDir = WorldToLocal(pos, dir:Angle(), mat:GetTranslation(), mat:GetAngles())
 
 	local name = "squirtblood"..ent:EntIndex()..dir[1]
@@ -200,17 +186,9 @@ net.Receive("bloodsquirt", function()
 	timer.Adjust(name, 0)
 end)
 
---net.Receive("blood particle explode", function() explode(net.ReadVector()) end)
-
---[[concommand.Add("testpart", function()
-	if not LocalPlayer():IsAdmin() then return end
-	local pos = Vector(0, 0, 0)
-	addBloodPart(pos, Vector(25, 0, 0), mat_huy, math.random(10, 15), math.random(10, 15))
-end)]]
-
 net.Receive("bloodsquirt2", function()
 	local ent = net.ReadEntity()
-	
+
 	if not IsValid(ent) then return end
 
 	local bone = net.ReadString()
@@ -223,7 +201,6 @@ net.Receive("bloodsquirt2", function()
 	local ent = hg.RagdollOwner(ent) or ent
 	local ply = ent
 
-	//local mat = ent:GetBoneMatrix(bone)
 	local localPos, localDir = WorldToLocal(pos, dir:Angle(), mat:GetTranslation(), mat:GetAngles())
 
 	if ply == lply then
@@ -246,10 +223,8 @@ net.Receive("bloodsquirt2", function()
 			ViewPunch(Angle(15,0,0))
 		end
 
-		--ent:SetFlexWeight(ent:GetFlexIDByName("jaw_drop"), 1)
-
 		local pos, dir = LocalToWorld(localPos, localDir, mat:GetTranslation(), mat:GetAngles())
-		
+
 		if lply == ply then
 			dir = lply:EyeAngles()
 		end

@@ -18,8 +18,6 @@ SWEP.AttachmentAng = Angle(0,0,0)
 SWEP.FakeAttachment = "muzzle"
 
 
-//PrintBones(Entity(1):GetActiveWeapon():GetWM())
-
 
 function SWEP:RevolverPostInit()
 	self.FakeEmptyReloadSounds = {
@@ -46,20 +44,15 @@ function SWEP:RevolverPostInit()
 		if CLIENT and IsValid(wep) and not self:ShouldUseFakeModel() then
 			self.DrumAng = LerpFT(0.05,self.DrumAng or 0,self:GetNWInt("drumroll",0))
 			wep:ManipulateBoneAngles(43,Angle(0,-(360/6)*self.DrumAng,0))
-			--wep:ManipulateBoneAngles(4,Angle(0,45*(1-self.shooanim) ,0))
-			--wep:ManipulateBoneAngles(2,Angle(0,0,85*-self.ReloadSlideOffset))
 		end
 	end
 end
 
 function SWEP:OnCantReload()
-	--inspect1
-	--print("huy")
 	if self.Inspecting and self.Inspecting > CurTime() then return end
 	self.Inspecting = CurTime() + 3
 	self:PlayAnim("inspect"..math.random(1,2),3,false,function(self)
 		self:PlayAnim("idle",1)
-		--self.Inspecting = false
 	end,false,true)
 
 end
@@ -73,7 +66,6 @@ SWEP.AnimsEvents = {
 			self:EmitSound("weapons/tfa_ins2/thanez_cobra/revolver_cock_hammer_ready.wav",55)
 		end,
 		[0.45] = function(self)
-			--self:EmitSound("weapons/kf2_winchester/leveropen.wav",55)
 		end,
 		[0.7] = function(self)
 			self:EmitSound("weapons/tfa_ins2/thanez_cobra/revolver_cock_hammer.wav",55)
@@ -109,7 +101,7 @@ if CLIENT then
 			for i = 45, 50 do
 				self:GetWM():ManipulateBoneScale(i, vector_full)
 			end
-			
+
 		end,
 
 		[0.56] = function( self, timeMul )
@@ -119,7 +111,7 @@ if CLIENT then
 				for i = 1, #drum do
 					if self.CustomShell and drum[i] == -1 then
 						local pos, ang = self:GetWM():GetBonePosition(45)
-						self:MakeShell(self.CustomShell, pos, ang, Vector(0,0,0)) 
+						self:MakeShell(self.CustomShell, pos, ang, Vector(0,0,0))
 					end
 				end
 			end
@@ -127,7 +119,7 @@ if CLIENT then
 				self:GetWM():ManipulateBoneScale(i, vector_origin)
 			end
 		end,
-		[0.75] = function( self ) 
+		[0.75] = function( self )
 			for i = 45, 50 do
 				self:GetWM():ManipulateBoneScale(i, vector_full)
 			end
@@ -135,9 +127,9 @@ if CLIENT then
 				self:GetWM():ManipulateBoneScale(i, vector_full)
 			end
 		end,
-		[0.9] = function( self ) 
+		[0.9] = function( self )
 		end,
-		[0.92] = function( self ) 
+		[0.92] = function( self )
 			for i = 52, 53 do
 				self:GetWM():ManipulateBoneScale(i, vector_origin)
 			end
@@ -256,14 +248,10 @@ function SWEP:DrawPost()
 	if CLIENT and IsValid(wep) then
 		self.DrumAng = LerpFT( 0.05, self.DrumAng or 0,self:GetNWInt("drumroll",0) )
 		wep:ManipulateBoneAngles(43,Angle(0,0,-(360/6)*(self.reload and 0 or self.DrumAng)))
-		--wep:ManipulateBoneAngles(5,Angle(0,45*(1-self.shooanim) ,0))
-		--wep:ManipulateBoneAngles(3,Angle(0,85*-self.ReloadSlideOffset,0))
 	end
 end
 
 function SWEP:AnimHoldPost(model)
-	--self:BoneSet("l_finger0", vector_zero, finger1)
-    --self:BoneSet("l_finger02", vector_zero, finger2)
 end
 
 

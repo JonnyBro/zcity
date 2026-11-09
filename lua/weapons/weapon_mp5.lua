@@ -44,7 +44,7 @@ SWEP.FakeEmptyReloadSounds = {
 	[0.85] = "weapons/arccw_ur/mp5/chamber.ogg"
 }
 
-SWEP.MagModel = "models/bshields/drgordon/weapons/h&k/h&k_mp5a3_30_round_9x19mm_magazine.mdl" 
+SWEP.MagModel = "models/bshields/drgordon/weapons/h&k/h&k_mp5a3_30_round_9x19mm_magazine.mdl"
 
 SWEP.DropMagBone = 45
 SWEP.lmagpos = Vector(0,0,0)
@@ -73,10 +73,9 @@ if CLIENT then
 			self:GetWM():ManipulateBoneScale(47, vector_origin)
 		end,
 		[0.16] = function( self, timeMul )
-			--self:GetOwner():PullLHTowards("ValveBiped.Bip01_Spine2", 0.58 * timeMul)
 		end,
 		[0.25] = function( self, timeMul )
-			self:GetOwner():PullLHTowards("ValveBiped.Bip01_Spine2", 0.5 * timeMul,nil,nil,function() 
+			self:GetOwner():PullLHTowards("ValveBiped.Bip01_Spine2", 0.5 * timeMul,nil,nil,function()
 				self:GetWM():ManipulateBoneScale(53, vector_full)
 				self:GetWM():ManipulateBoneScale(44, vector_full)
 				self:GetWM():ManipulateBoneScale(45, vector_full)
@@ -88,14 +87,11 @@ if CLIENT then
 				self:GetWM():ManipulateBoneScale(44, vector_origin)
 				self:GetWM():ManipulateBoneScale(45, vector_origin)
 				self:GetWM():ManipulateBoneScale(46, vector_origin)
-				self:GetOwner():PullLHTowards("ValveBiped.Bip01_Spine2", 1 * timeMul,nil,nil,function() 
+				self:GetOwner():PullLHTowards("ValveBiped.Bip01_Spine2", 1 * timeMul,nil,nil,function()
 					self:GetWM():ManipulateBoneScale(44, vector_origin)
 					self:GetWM():ManipulateBoneScale(45, vector_origin)
 					self:GetWM():ManipulateBoneScale(46, vector_origin)
 				end)
-				--self:GetWM():ManipulateBoneScale(44, vector_origin)
-				--self:GetWM():ManipulateBoneScale(45, vector_origin)
-				--self:GetWM():ManipulateBoneScale(46, vector_origin)
 			end
 		end,
 		[0.50] = function(self,timeMul)
@@ -137,8 +133,6 @@ SWEP.WepSelectIcon2 = Material("vgui/hud/tfa_ins2_mp5a4.png")
 SWEP.IconOverride = "vgui/hud/tfa_ins2_mp5a4.png"
 
 SWEP.CustomShell = "9x19"
---SWEP.EjectPos = Vector(0,-20,5)
---SWEP.EjectAng = Angle(0,90,0)
 
 SWEP.LocalMuzzlePos = Vector(14.706,-0.488,3.525)
 SWEP.LocalMuzzleAng = Angle(0.4,.09,0)
@@ -229,7 +223,6 @@ function SWEP:AnimHoldPost(model)
 	if CLIENT and IsValid(model) then
 		self.shooanim = LerpFT(0.4,self.shooanim or 0,self:Clip1() > 0 and 0 or 0)
 		model:ManipulateBonePosition(58,Vector(0 ,1.8*self.shooanim ,0),false)
-		--PrintTable(model:GetChildBones())
 	end
 end
 
@@ -294,7 +287,7 @@ SWEP.ReloadAnimLHAng = {
 	Angle(-80,0,120),
 	Angle(-80,0,120),
 	Angle(-80,0,120),
-	Angle(-80,0,120),	
+	Angle(-80,0,120),
 	Angle(0,0,0),
 	Angle(0,0,0)
 }

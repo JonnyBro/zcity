@@ -41,7 +41,7 @@ COMMANDS.respawn = {
 
 			local hands = ply2:Give("weapon_hands_sh")
 			ply2:SelectWeapon(hands)
-			
+
 			ply:ChatPrint(ply2:Name().. " | Respawned")
 		end
 	end,

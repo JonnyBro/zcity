@@ -18,13 +18,13 @@ local function GetSquadForCombine(ply)
         end
         if #data.members < CombineSquads.squadSize then return name end
     end
-    
+
     local available = {}
     for _, cs in ipairs(callsigns) do
         if not CombineSquads.usedCallsigns[cs] then table.insert(available, cs) end
     end
     if #available == 0 then return callsigns[math.random(#callsigns)] end
-    
+
     local newName = available[math.random(#available)]
     CombineSquads.usedCallsigns[newName] = true
     CombineSquads.squads[newName] = {members = {}, usedNumbers = {}}
@@ -33,19 +33,19 @@ end
 
 local function AssignCombineCallsign(ply, isLeader)
     if math.random(1, 1000) <= 1 then return "Scug" end
-    
+
     if isLeader then return leader_callsigns[math.random(#leader_callsigns)] .. "-1" end
-    
+
     local squadName = GetSquadForCombine(ply)
     local squad = CombineSquads.squads[squadName]
     if not squad then return callsigns[math.random(#callsigns)] .. "-" .. math.random(10, 99) end
-    
+
     local num
     repeat num = math.random(10, 99) until not squad.usedNumbers[num]
     squad.usedNumbers[num] = true
     table.insert(squad.members, ply)
     CombineSquads.playerSquad[ply] = squadName
-    
+
     return squadName .. "-" .. num
 end
 
@@ -126,7 +126,7 @@ local combine_subclasses = {
             {
                 weapon = "weapon_osipr",
                 ammo_mult = 3,
-                extra_balls = 3 
+                extra_balls = 3
             }
         }
     },
@@ -257,7 +257,7 @@ local function giveSubClassLoadout(ply, subclass)
                 if item.ammo_mult then
                     ply:GiveAmmo(wep:GetMaxClip1() * item.ammo_mult, wep:GetPrimaryAmmoType(), true)
                 end
-                --;; пример кастомной какахи 
+                --;; пример кастомной какахи
                 if item.count then
                     wep.count = item.count
                 end
@@ -339,7 +339,6 @@ function CLASS.On(self, data)
     hook.Add( "OnEntityCreated", "relation_shipdo"..index, function( ent )
         if not IsValid(self) then hook.Remove("OnEntityCreated","relation_shipdo"..index) return end
         if ( ent:IsNPC() ) then
-            --print(ent:GetClass())
             if table.HasValue(combines,ent:GetClass()) then
                 ent:AddEntityRelationship( self, D_LI, 0 )
             end
@@ -488,7 +487,7 @@ if CLIENT then
 
     local silentlerp = 0
     local silentclr = Color(0,255,255,220)
-    
+
     function CLASS.HUDPaint(self)
         if not self:Alive() then return end
         local lply = LocalPlayer()
@@ -738,15 +737,6 @@ if SERVER then
         [HITGROUP_LEFTLEG]  = true
     }
     hook.Add("HomigradDamage","Combine_painsounds",function(ply, dmgInfo, hitgroup, ent)
-        --[[if ply.PlayerClassName == "Combine" then
-            ply.painCD = ply.painCD or 0
-            if hitgroups_sounds[hitgroup] and ply.painCD < CurTime() and ply.organism and not ply.organism.otrub and ply:Alive() then
-                local snd = "npc/combine_soldier/pain" .. math.random(1,3) .. ".wav"
-                ent:EmitSound(snd,80,ply.VoicePitch)
-                ply.painCD = CurTime() + SoundDuration(snd)
-                ply.lastPhr = snd
-            end
-        end--]]
     end)
 
     hook.Add("HGReloading","Combine_reloadalert",function(wep)
@@ -799,7 +789,7 @@ if CLIENT then
 
     hook.Add("HG_NoSoundproof","CombineNoSoundproof",function(pPly, lply)
         if pPly.PlayerClassName == "Combine" and pPly:Alive() and lply.PlayerClassName == "Combine" and lply:Alive() then
-            return true 
+            return true
         end
     end)
 end

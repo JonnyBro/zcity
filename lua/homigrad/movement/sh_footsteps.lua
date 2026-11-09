@@ -16,7 +16,7 @@ local hg_coolcamera = ConVarExists("hg_coolcamera") and GetConVar("hg_coolcamera
 		local vel = ply:GetVelocity()
 		local len = vel:Length()
 		local ent = hg.GetCurrentCharacter(ply)
-		
+
 		local sprint = hg.KeyDown(ply, IN_SPEED)
 		ply.lastStepTime = CurTime() + 0.7 * (sprint and 1.5 or 1) * (1 / math_max(len, sprint and 200 or 150)) * 100
 

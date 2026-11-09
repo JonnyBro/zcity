@@ -24,8 +24,8 @@ function ENT:Initialize()
 		end
 		self.DieTime=CurTime()+self.DeathTime
 		util.SpriteTrail( self, 0, Color( 200, 200, 0 ), false, 15, 1, 0.4, 1 / ( 15 + 1 ) * 0.5, "trails/plasma" )
-		
-						
+
+
 		self.AcquiredGenes = self.AcquiredGenes or {}
 		self.GeneticData = self.GeneticData or {}
 	end
@@ -54,20 +54,9 @@ function ENT:PhysicsCollide(coldata)
 	ent:TakeDamageInfo(dmg)
 
 	self:TryInfect(ent,20,(IsValid(self:GetOwner()) and self:GetOwner()) or self)
-	
+
 	self:Remove()
 end
---[[
-function ENT:Touch(ent)
-	if(SERVER)then
-		local dmg = DamageInfo()
-		dmg:SetDamage(10)
-		dmg:SetAttacker(self:GetOwner() or self)
-		dmg:SetInflictor(self)
-		ent:TakeDamageInfo(dmg)
-		self:Remove()
-	end
-end]]
 
 function ENT:Draw()
 

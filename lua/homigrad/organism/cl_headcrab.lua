@@ -13,14 +13,13 @@ end)
 
 local offsetVec = Vector(-1,0,0)
 local offsetAng = Angle(-90,-90,-20)
---hook.Add("PostDrawPlayerRagdoll","hg-drawplayer",function(ent,ply)
 function hg.RenderHeadcrab(ent, ply)
     if not IsValid(ply.headcrabmodel) then
         ply.headcrabmodel = ClientsideModel(ply:GetNetVar("headcrab"))
-        
+
         local model = ply.headcrabmodel
         model:SetNoDraw(true)
-        
+
         ent:CallOnRemove("removefunc",function()
             if IsValid(model) then
                 model:Remove()
@@ -39,10 +38,9 @@ function hg.RenderHeadcrab(ent, ply)
         return
     end
     local pos,ang = LocalToWorld(offsetVec,offsetAng,head:GetTranslation(),head:GetAngles())
-    
+
     if not IsValid(model) then return end
     model:SetRenderOrigin(pos)
     model:SetRenderAngles(ang)
     model:DrawModel()
 end
---end)

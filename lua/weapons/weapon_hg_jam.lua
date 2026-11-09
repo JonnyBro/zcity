@@ -145,7 +145,7 @@ end
 if CLIENT then
 	local csent = ClientsideModel(SWEP.WorldModel)
 	csent:SetNoDraw(true)
-	
+
 	function SWEP:DrawHUD()
 		if self:GetPlaced() then return end
 		if not IsValid(csent) then
@@ -175,7 +175,7 @@ end
 
 function SWEP:PrimaryAttack()
 	local ply = self:GetOwner()
-	
+
 	if not self:GetPlaced() then
 		local tr = ply:GetEyeTrace()
 		if not tr.Hit or tr.HitSky or not InPlacementRadius(ply, tr) or not (IsValid(tr.Entity) and doors[tr.Entity:GetClass()]) then return end
@@ -186,7 +186,7 @@ function SWEP:PrimaryAttack()
 		if CLIENT then return end
 		local pos, ang = tr.HitPos, tr.HitNormal:Angle()
 		pos = pos + ang:Forward() * 2
-		
+
 		self:PlaceSLAM(pos, ang, tr)
 	end
 end

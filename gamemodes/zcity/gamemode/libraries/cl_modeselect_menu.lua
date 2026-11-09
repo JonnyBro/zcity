@@ -214,7 +214,6 @@ if CLIENT then
             surface.DrawRect(0, h - 3, w, 3)
             draw.RoundedBox(0, 16, h / 2 - 4, 8, 8, statusCol)
             draw.SimpleText(mode.name, "ZB_QM_Item", 34, h / 2 - 8, COL_TEXT, TEXT_ALIGN_LEFT, TEXT_ALIGN_CENTER)
-            --draw.SimpleText(forced and "proverka" or statusText, "ZB_QM_Small", 34, h / 2 + 11, forced and COL_ORANGE or COL_TEXT_DIM, TEXT_ALIGN_LEFT, TEXT_ALIGN_CENTER)
         end
         local toggle = CreateToggle(row,
             function() return zb.forcemode == mode.key end,

@@ -29,7 +29,7 @@ function hg.DrawBlur(panel, amount, passes, alpha)
 		for i = -(passes or 0.2), 1, 0.2 do
 			blur:SetFloat("$blur", i * amount)
 			blur:Recompute()
-			
+
 			render.UpdateScreenEffectTexture()
 			surface.DrawTexturedRect(x * -1, y * -1, ScrW(), ScrH())
 		end
@@ -61,7 +61,6 @@ end )
 if CLIENT then
 	hook.Add( "PlayerBindPress", "PlayerBindPressExample", function( ply, bind, pressed )
 		if ( string.find( bind, "+menu" ) ) then
-			--return true
 		end
 	end )
 
@@ -121,7 +120,7 @@ function zb:CheckPlaying()
 	for _, ply in player.Iterator() do
 		if ply:Team() == TEAM_SPECTATOR then continue end
 		if not ply:Alive() then continue end
-		
+
 		tbl[#tbl + 1] = ply
 	end
 	return tbl

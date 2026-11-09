@@ -5,14 +5,9 @@ function CLASS.Off(self)
 
 	ApplyAppearance(self,false,false,false,true)
 
-	-- if self.oldspeed then
-	-- 	self:SetRunSpeed(self.oldspeed)
-	-- 	self.oldspeed = nil
-	-- end
-
 	if SERVER then
 		self.organism.bloodtype = self.oldbloodtype or "o-"
-		
+
 		hg.ClearArmorRestrictions(self)
 	end
 
@@ -40,12 +35,6 @@ local oneofus = {
 }
 
 local function Randomize(self)
-	-- for _, bg in ipairs(self:GetBodyGroups()) do
-	-- 	if bg.id > 0 and bg.num > 0 then
-	-- 		self:SetBodygroup(bg.id, math.random(0, bg.num - 1))
-	-- 	end
-	-- end
-	-- self:SetSkin(math.random(0, 5))
 
 	if SERVER then
 		self:SetSkin(4)
@@ -61,7 +50,6 @@ local function Randomize(self)
 		Appearance.AColthes = ""
 		local plycolor = Color(Appearance.AColor.r, Appearance.AColor.g, Appearance.AColor.b)
 
-		-- local plycolor = self:GetPlayerColor()
 		if plycolor then
 			local h, s, l = plycolor:ToHSL()
 			plycolor = HSLToColor(h, s / 4, l * 2)
@@ -104,15 +92,12 @@ function CLASS.On(self, data)
 
 	if data.instant then
 		if SERVER then
-			-- self.oldspeed = self:GetRunSpeed()
-			-- self:SetRunSpeed(3000)
 			self.JumpPowerMul = 1.5
 			self.SpeedGainClassMul = 5
 			self.StaminaExhaustMul = 0.75
 			self:SetNWInt("SpeedGainClassMul", self.SpeedGainClassMul)
-	
+
 			self.armors = {}
-			//self.armors["torso"] = "cmb_armor"
 			self.armors["head"] = "protovisor"
 			self:SyncArmor()
 
@@ -139,16 +124,12 @@ function CLASS.On(self, data)
 	end
 
 	hook.Run("HG_OnAssimilation", self)
-	-- Randomize(self)
 
 	if CLIENT then
 		if lply == self then
 			vgui.Create("ZB_FurLoading")
-			-- atlaschat.font:SetString("ZB_ProotOSChat")
 			hg.furcrack = {}
 		end
-
-		//local ent = hg.GetCurrentCharacter(self)
 
 		if IsValid(self.mdlfur) then
 			self.mdlfur:Remove()
@@ -164,8 +145,6 @@ function CLASS.On(self, data)
 
 		return
 	else
-		-- self.oldspeed = self:GetRunSpeed()
-		-- self:SetRunSpeed(3000)
 		self.JumpPowerMul = 1.5
 		self.SpeedGainClassMul = 5
 		self:SetNWInt("SpeedGainClassMul", self.SpeedGainClassMul)
@@ -174,7 +153,6 @@ function CLASS.On(self, data)
 		hg.SetArmorRestrictions(self, {all = true})
 
 		self.armors = {}
-		//self.armors["torso"] = "cmb_armor"
 		self.armors["head"] = "protovisor"
 		self:SyncArmor()
 
@@ -188,8 +166,6 @@ function CLASS.On(self, data)
 			end
 		end
 	end
-
-	-- self:SetNWString("PlayerName", rank .. " " .. Appearance.AName)
 
 	hg.Fake(self, nil, true)
 	timer.Create("furry"..self:EntIndex(), 1.6, 1, function()
@@ -244,70 +220,14 @@ if CLIENT then
 	})
 end
 
--- local symbols = {
--- 	[1] = {
--- 		symbol = "▓▓",
--- 		value = 7
--- 	},
--- 	[2] = {
--- 		symbol = "▒▒",
--- 		value = 4
--- 	},
--- 	[3] = {
--- 		symbol = "░░",
--- 		value = 1
--- 	},
--- }
-
 // old shit!!!!!!
-
--- local aimvectorsmooth = Angle()
--- local hpcolor = Color(229, 56, 26)
--- local shadow = Color(0, 0, 0, 150)
--- local healthlerp = 0
--- local shadowbar = Color(50, 50, 75, 50)
 
 -- -- 	draw.GlowingText("INTEGRITY", "ZB_ProotLarge", w / 2, h * 0.8, ColorAlpha(bluewhite, 255), ColorAlpha(bluewhite, 255), ColorAlpha(bluewhite, 255), TEXT_ALIGN_CENTER)
 -- -- 	draw.GlowingText("NOMINAL", "ZB_ProotLarge", w / 2, h * 0.85, ColorAlpha(bluewhite, 255), ColorAlpha(bluewhite, 255), ColorAlpha(bluewhite, 255), TEXT_ALIGN_CENTER)
 
--- 	local frametime = 1 - math.exp(-0.5 * FrameTime())
--- 	if frametime > 0.01 then
--- 		frametime = 0.01
--- 	end
-
--- 	draw.SimpleText(":", "ZB_ProotLarge", sw * 0.2, sh * 0.8, color_black, TEXT_ALIGN_CENTER, TEXT_ALIGN_CENTER)
--- 	draw.SimpleTextOutlined("ЦЕЛОСТНОСТЬ:", "ZB_ProotLarge", sw * 0.2, sh * 0.8, bluewhite, TEXT_ALIGN_CENTER, TEXT_ALIGN_CENTER, 1, ColorAlpha(shadow, 50))
--- 		draw.GlowingText("ЦЕЛОСТНОСТЬ:", "ZB_ProotLarge2", sw * 0.2, sh * 0.8, ColorAlpha(bluewhite, 255), ColorAlpha(bluewhite, 200), ColorAlpha(bluewhite, 100), TEXT_ALIGN_CENTER)
-
--- 	local HealthBar = ""
-
--- 	local health = LocalPlayer():Health()
--- 	healthlerp = Lerp(FrameTime(), healthlerp, health)
-
--- 	for i = 0, 9 do
--- 		if math.Round(healthlerp) >= ((i + 1) * (LocalPlayer():GetMaxHealth() / 10)) then
--- 			HealthBar = HealthBar .. "██ "
--- 		else
--- 			local LastDigits = healthlerp - (i * (LocalPlayer():GetMaxHealth() / 10))
-
--- 			local symbol = "  "
-
--- 			for i2 = 1, 3 do
--- 				if LastDigits >= symbols[i2].value then
--- 					symbol = symbols[i2].symbol
--- 					break
--- 				end
--- 			end
-
--- 			HealthBar = HealthBar .. symbol
--- 		end
--- 	end
-
 -- 	draw.SimpleText("██ ██ ██ ██ ██ ██ ██ ██ ██ ██", "ZB_ProotLarge", sw * 0.12, sh * 0.81, shadowbar)
 -- 	draw.SimpleText(HealthBar, "ZB_ProotLarge", sw * 0.12 + 1, sh * 0.81 + 1, shadow)
 -- 	-- draw.SimpleTextOutlined(HealthBar, "ZB_ProotLarge", sw * 0.12, sh * 0.81, hpcolor, nil, nil, 1, ColorAlpha(shadow, 50))
-
--- 	draw.GlowingText(HealthBar, "ZB_ProotLarge2", sw * 0.12, sh * 0.81, ColorAlpha(bluewhite, 255), ColorAlpha(bluewhite, 200), ColorAlpha(bluewhite, 100))
 
 local xbars = 17
 local ybars = 30
@@ -324,8 +244,6 @@ function CLASS.HUDPaint(self)
 	assimilation = Lerp(1, assimilation, lply:GetLocalVar("assimilation", 0))
 
 	alpha = LerpFT(0.1, alpha, IsValid(carryent) and carryent.organism and carryent.organism.alive and carryent.organism.owner.PlayerClassName != "furry" and hg.KeyDown(lply, IN_ATTACK) and 255 or 0)
-	-- render.PushFilterMag(TEXFILTER.ANISOTROPIC)
-	-- render.PushFilterMin(TEXFILTER.ANISOTROPIC)
 
 	surface.SetFont("ZB_ProotOSAssimilation")
 	surface.SetTextColor(50, 50, 50, alpha)
@@ -349,48 +267,9 @@ function CLASS.HUDPaint(self)
 		surface.SetTextPos(sw * 0.5 - w * 0.5, sh * 0.75 - h - ScreenScale(5))
 		surface.DrawText(txt)
 
-		-- surface.SetDrawColor(255, 255, 255)
-		-- surface.DrawRect(0, 0, sw, sh)
 	render.SetScissorRect( 0, 0, 0, 0, false )
 
 
-	-- if !lply.testpluv then return end
-
-	-- local sw, sh = ScrW(), ScrH()
-
-	-- BootUpProgress = Lerp(FrameTime() / 2, BootUpProgress, 1)
-
-	-- //grid sweep
-	-- surface.SetDrawColor(0, 0, 0)
-	-- surface.DrawRect(-10, -10, sw + 10, sh + 10)
-
-	-- surface.SetDrawColor(4, 19, 22)
-
-	-- for i = 1, (ybars + 1) do
-	-- 	surface.DrawRect((sw / ybars) * i - (CurTime() * 30 % (sw / ybars)), 0, ScreenScale(1), sh)
-	-- end
-
-	-- for i = 1, (xbars + 1) do
-	-- 	surface.DrawRect(0, (sh / xbars) * (i - 1) + (CurTime() * 30 % (sh / xbars)), sw, ScreenScale(1))
-	-- end
-
-	-- local text = "Now loading..."
-	-- local trim = 12 + (math.Round(CurTime()) % 3)
-
-	-- text = string.Left(text, trim)
-
-	-- draw.GlowingText("OwOS", "ZB_ProotOSLarge", sw * 0.5, sh * 0.4, ColorAlpha(bluewhite, 255), ColorAlpha(bluewhite, 235), ColorAlpha(bluewhite, 10), TEXT_ALIGN_CENTER)
-	-- draw.GlowingText(text, "ZB_ProotOSMedium", sw * 0.46, sh * 0.485, ColorAlpha(bluewhite, 255), ColorAlpha(bluewhite, 50), ColorAlpha(bluewhite, 10))
-
-	-- surface.SetDrawColor(bluewhite)
-	-- surface.DrawRect(sw * 0.4, sh * 0.52, sw * 0.2 * BootUpProgress, sh * 0.02)
-
-	-- surface.SetDrawColor(149, 121, 214)
-	-- surface.SetMaterial(gradient_l)
-	-- surface.DrawTexturedRect(sw * 0.4, sh * 0.52, sw * 0.2 * BootUpProgress, sh * 0.02)
-
-	-- surface.SetDrawColor(bluewhite)
-	-- surface.DrawOutlinedRect(sw * 0.4 - 5, sh * 0.52 - 5, sw * 0.2 + 10, sh * 0.02 + 10)
 end
 
 function CLASS.Guilt(self, victim)
@@ -408,9 +287,6 @@ local rnd4 = math.Rand(1, 999)
 
 local amount = 0.4
 hg.furcrack = {
-	-- ["intensity"]	=	0.12508668005466,
-	-- ["x"]	=	0.59191020339656,
-	-- ["y"]	=	0.11713030567233,
 }
 
 hook.Add("RenderScreenspaceEffects","proot_HUD",function()
@@ -528,7 +404,7 @@ if CLIENT then
 		render.DrawSphere(pos, radius + 0.25, detailWithDs, detailWithDs, invisibleColor)
 
 		render.SetStencilCompareFunction(STENCIL_NOTEQUAL)
-		
+
 		cam.IgnoreZ(true)
 
 		render.SetStencilReferenceValue(1)
@@ -604,8 +480,6 @@ if CLIENT then
 
 	hook.Add("HUDPaint", "FindPrey", function()
 		if lply.PlayerClassName != "furry" then return end
-
-		-- PrintTable(foundPrey)
 
 		local scrW, scrH = ScrW(), ScrH()
 
@@ -700,7 +574,7 @@ if CLIENT then
 
 			return
 		end
-		
+
 		local time = hg.converging[ply]
 
 		if !IsValid(ent) then
@@ -708,19 +582,19 @@ if CLIENT then
 
 			return
 		end
-		
+
 		local status = math.ease.OutSine(1 - math.Clamp((time - CurTime() + 3) / 3, 0, 1))
-		
+
 		if status == 1 then
 			hg.converging[ply] = nil
-			
+
 			if IsValid(ply.mdlfur) then
 				ply.mdlfur:Remove()
 			end
 
 			return
 		end
-		
+
 		render.SetStencilEnable( true )
 
 		render.ClearStencil()
@@ -749,7 +623,6 @@ if CLIENT then
 		render.DrawSphere(pos, 48 * math.max(status - 0.7, 0), 32, 32, color_white)
 		local pos = ent:GetBoneMatrix(ent:LookupBone("ValveBiped.Bip01_R_Foot")):GetTranslation()
 		render.DrawSphere(pos, 48 * math.max(status - 0.2, 0), 32, 32, color_white)
-		//render.DrawSphere(pos + VectorRand(-16, 16), 64 * status, 32, 32, color_white)
 
 		render.SetStencilFailOperation( STENCILOPERATION_KEEP )
 		render.SetStencilCompareFunction( STENCILCOMPARISONFUNCTION_EQUAL )
@@ -762,29 +635,6 @@ if CLIENT then
 			mdl:SetPos(ent:GetPos())
 			mdl:SetupBones()
 			ent:SetupBones()
-			//PrintBones(mdl)
-			/*for i = 0, mdl:GetBoneCount() - 1 do
-				local bon = ent:LookupBone(mdl:GetBoneName(i))
-				if !bon then continue end
-				local m1 = mdl:GetBoneMatrix(i)
-				local m2 = ent:GetBoneMatrix(bon)
-
-				if !m1 or !m2 then continue end
-				
-				local q1 = Quaternion()
-				q1:SetMatrix(m1)
-
-				local q2 = Quaternion()
-				q2:SetMatrix(m2)
-				local q3 = q1:SLerp(q2, status)
-
-				local newmat = Matrix()
-				newmat:SetTranslation(LerpVector(status, m1:GetTranslation(), m2:GetTranslation()))
-				newmat:SetAngles(q3:Angle())
-
-				hg.bone_apply_matrix(ent, i, newmat)
-				//hg.bone_apply_matrix(mdl, i, newmat)
-			end*/
 			for i = 0, mdl:GetBoneCount() - 1 do
 				local nam = ent:GetBoneName(i)
 				if !validBones[nam] then continue end
@@ -794,7 +644,6 @@ if CLIENT then
 
 				hg.bone_apply_matrix(mdl, bon, m1)
 			end
-			//ent:DrawModel()
 			mdl:DrawModel()
 		end
 
@@ -803,7 +652,7 @@ if CLIENT then
 		ent:DrawModel()
 
 		render.DepthRange( 0, 1 )
-		
+
 		render.SetStencilWriteMask( 0xFF )
 		render.SetStencilTestMask( 0xFF )
 		render.SetStencilReferenceValue( 0 )
@@ -911,7 +760,6 @@ if CLIENT then
 
     hook.Add("SetupMove","PNV_ThinkFur",function(ply, mv, cmd)
         if ply:Alive() and ply.PlayerClassName == "furry" then
-            --if input.IsKeyDown(KEY_F) and not gui.IsGameUIVisible() and not IsValid(vgui.GetKeyboardFocus()) and (CurTime() > next_toggle_time) then
 			if bit.band(cmd:GetImpulse(), 100) == 100 then
 				togglePNV()
                 next_toggle_time = CurTime() + toggle_cooldown

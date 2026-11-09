@@ -28,7 +28,7 @@ function CLASS.On(self)
 	for _, bg in ipairs(self:GetBodyGroups()) do
 		self:SetBodygroup(bg.id, math.random(0, bg.num))
 	end
-    
+
     local inv = self:GetNetVar("Inventory", {})
     inv["Weapons"] = inv["Weapons"] or {}
     inv["Weapons"]["hg_sling"] = true

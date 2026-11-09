@@ -110,7 +110,6 @@ end
 function SWEP:PrimaryAttack()
     if self:Clip1() <= 0 then return end
 
-    --self:SetNextPrimaryFire(CurTime() + 1)
     self:SetHolding(math.min(self:GetHolding() + 8, 100))
     if self:GetHolding() < 100 then return end
 
@@ -121,26 +120,26 @@ function SWEP:PrimaryAttack()
     if tr.Entity and tr.Entity.OnMatches then
         tr.Entity:OnMatches()
         self:TakePrimaryAmmo(1)
-        return 
+        return
     end
 
     if SERVER then
         local ent = ents.Create("ent_zcity_match")
         if not IsValid(ent) then return end
-		
+
 		local owner = self:GetOwner() -- салат ты реально furry какой self.Owner -- да
-        
+
         local boneIndex = owner:LookupBone("ValveBiped.Bip01_R_Hand")
         if not boneIndex then return end
-        
+
         local pos, ang = owner:GetBonePosition(boneIndex)
         if not pos or not ang then return end
-        
+
         pos = pos + ang:Forward() * 16
-        
+
         ent:SetPos(pos)
         ent:SetAngles(-ang)
-        
+
         ent:Spawn()
 
         ent.debil = owner
@@ -170,7 +169,7 @@ if CLIENT then
 		local toScreen = tr.HitPos:ToScreen()
 		local Size = math.max(math.min(1 - (tr and tr.Fraction or 0), 1), 0.1)
 		local x, y = tr.HitPos:ToScreen().x, tr.HitPos:ToScreen().y
-	
+
 		lerpthing = Lerp(0.1, lerpthing, tr.Hit and 1 or 0)
 		colWhite.a = 255 * Size * lerpthing
 		surface.SetDrawColor(colWhite)

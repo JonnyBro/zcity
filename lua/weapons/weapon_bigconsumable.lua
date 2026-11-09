@@ -60,7 +60,7 @@ SWEP.Eating = 0
 SWEP.CDEating = 0
 
 function SWEP:SetupDataTables()
-	self:NetworkVar( "String", "CurModel" ) 
+	self:NetworkVar( "String", "CurModel" )
 	self:NetworkVar( "Float", 0, "Holding" )
 end
 
@@ -73,7 +73,7 @@ function SWEP:DrawWorldModel2()
 	if not IsValid(WorldModel) then return end
 
 	WorldModel:SetModelScale(self.ModelScale or 1)
-	
+
 	if IsValid(owner) then
 		local ent = hg.GetCurrentCharacter(owner)
 		local offsetVec = self.offsetVec
@@ -103,7 +103,7 @@ function SWEP:InitializeAdd()
 	self:SetCurModel( model )
 	self.WorldModel = model
 	if SERVER then
-		timer.Simple(0, function() 
+		timer.Simple(0, function()
 			self:PhysicsInit(SOLID_VPHYSICS)
 
 			if IsValid(self:GetPhysicsObject()) then
@@ -171,7 +171,7 @@ if SERVER then
 
 		org.satiety = org.satiety + 25/5
 		owner:ViewPunch(ang_eat)
-		
+
 		ent:EmitSound( self.WaterModel[self.WorldModel] and "snd_jack_hmcd_drink"..math.random(3)..".wav" or "snd_jack_hmcd_eat"..math.random(4)..".wav", 60, math.random(95, 105))
 		self.CDEating = CurTime() + 0.5
 		self.Eating = self.Eating + 1
@@ -183,7 +183,7 @@ if SERVER then
 			end
 			self:Remove()
 		end
-		
+
 		return true
 	end
 end

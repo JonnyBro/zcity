@@ -123,7 +123,7 @@ if CLIENT then
 		for i = 1, 5 do
 			for j = 1, 11 do
 				local mat = Material("effects/droplets/drop"..j.."_"..i)
-				
+
 				mat:SetFloat("$decalscale", i * 0.07)
 			end
 		end
@@ -135,7 +135,7 @@ if CLIENT then
 
             "$decalscale" "0.02"
             "$decalscalevariation" "0.02"
-            "$decal" "1" 
+            "$decal" "1"
             "$nocull" "1"
             "$translucent" "1"
 
@@ -145,7 +145,7 @@ if CLIENT then
             }
         */
     end
-    
+
     hook.Add("InitPostEntity", "decalFunc", function()
         func()
     end)

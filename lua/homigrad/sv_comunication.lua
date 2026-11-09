@@ -3,7 +3,7 @@ local chat_dist_whisper = 100
 
 --\\Whisper
 	util.AddNetworkString("ChatWhisper")
-	
+
 	net.Receive("ChatWhisper", function(len, ply)
 		ply.ChatWhisper = net.ReadBool()
 	end)
@@ -13,7 +13,7 @@ local function ChatLogic(output, input, isChat, teamonly, text)
 	if not IsValid(output) then return true, true end
 	if not IsValid(input) then return false end
 	local result, is3D = hook.Run("CanListenOthers",output,input,isChat,teamonly,text)
-	
+
 	if result ~= nil then return result,is3D end
 
 	local chat_dist = chat_dist_normal
@@ -31,12 +31,12 @@ local function ChatLogic(output, input, isChat, teamonly, text)
 	elseif not output:Alive() and not input:Alive() then
 		return true
 	else
-		if not input:Alive() and output:Alive() then 
+		if not input:Alive() and output:Alive() then
 			if input:GetPos():Distance(output:GetPos()) < chat_dist and input:TestPVS( output ) and not teamonly then
 				return true, true
 			else
 				return false
-			end 
+			end
 		end
 		if not output:Alive() and input:Team() == 1002 and input:Alive() then return true end
 
@@ -87,7 +87,7 @@ local function funca(ply, txt)
 		end
 		txt = table.concat(chars)
 	end
-	
+
 	if bUnintelligeble then
 		local iter = utf8.codes(txt)
 		local len = 0
@@ -132,7 +132,7 @@ end)
 
 hook.Add("HG_PlayerSay", "furrifyPhraseOwO", function(ply, txt)
 	local text = txt[1]
-	
+
 	if hg_furcity:GetBool() or ply.PlayerClassName == "furry" then
 		text = hg.FurrifyPhrase(text)
 	end
@@ -163,10 +163,9 @@ hook.Add("PlayerCanHearPlayersVoice", "RealisticVoice", function(listener,speake
 	local result,is3D = ChatLogic(speaker,listener,false,false)
 	local speak = speaker:IsSpeaking()
 	speaker.IsSpeak = speak
-	
+
 	if speaker.IsOldSpeak ~= speaker.IsSpeak then
 		speaker.IsOldSpeak = speak
-		--print("huy")
 		if speak then hook.Run( "StartVoice", speaker, listener ) else hook.Run( "EndVoice", speaker, listener )  end
 	end
 

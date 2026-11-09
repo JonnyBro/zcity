@@ -32,9 +32,7 @@ local ExpTypes = {
         local SelfPos, Owner = Ent:LocalToWorld(Ent:OBBCenter()), (Ent.owner or Ent)
 		local rad = (Force / 8)
         util.BlastDamage(Ent, Owner, SelfPos, rad / 0.01905, Force * 2)
-		--hgWreckBuildings(Ent, SelfPos, Force / 50)
 		hgBlastDoors(Ent, SelfPos, Force / 50, Force / 15)
-		--ParticleEffect("pcf_jack_incendiary_ground_sm2",SelfPos + vector_up * 1,vector_up:Angle())
 		hg.ExplosionEffect(SelfPos, Force / 0.2, 80)
 
         net.Start("hg_booom")
@@ -44,7 +42,7 @@ local ExpTypes = {
 
 		if not IsValid(Ent) then return end
 		local multi = math.min(Mass / 5, 20)
-		
+
 		local Tr = util.QuickTrace(SelfPos, -vector_up*500, {Ent})
 		local fire = CreateVFire(game.GetWorld(), Tr.HitPos, Tr.HitNormal, 150 / 7 * multi, Ent)
 		if IsValid(fire) then
@@ -65,7 +63,7 @@ local ExpTypes = {
 			if IsValid(phys) then
 				entsCount = entsCount + 1
 			end
-			
+
 			local phys = enta:GetPhysicsObject()
 			local force = (enta:GetPos() - SelfPos)
 			local len = force:Length()
@@ -152,10 +150,8 @@ local ExpTypes = {
 		local rad = (Force / 8)
         local SelfPos, Owner = Ent:LocalToWorld(Ent:OBBCenter()), (Ent.owner or Ent)
         util.BlastDamage(Ent, Owner, SelfPos, (Force/7.5) / 0.01905, Force * 1)
-		--hgWreckBuildings(Ent, SelfPos, Force / 50)
 		hgBlastDoors(Ent, SelfPos, Force / 50)
 
-        --ParticleEffect("pcf_jack_groundsplode_medium",SelfPos + vector_up * 1,vector_up:Angle())
 		hg.ExplosionEffect(SelfPos, Force / 0.2, 80)
 
         net.Start("hg_booom")
@@ -172,7 +168,7 @@ local ExpTypes = {
 			if IsValid(phys) then
 				entsCount = entsCount + 1
 			end
-			
+
 			local phys = enta:GetPhysicsObject()
 			local force = (enta:GetPos() - SelfPos)
 			local len = force:Length()
@@ -259,10 +255,8 @@ local ExpTypes = {
 		local rad = (Force / 8)
         local SelfPos, Owner = Ent:LocalToWorld(Ent:OBBCenter()), (Ent.owner or Ent)
         util.BlastDamage(Ent, Owner, SelfPos, (Force / 7.5) / 0.01905, Force * 1)
-		--hgWreckBuildings(Ent, SelfPos, Force / 50)
 		hgBlastDoors(Ent, SelfPos, Force / 50)
 
-        --ParticleEffect("pcf_jack_groundsplode_small",SelfPos + vector_up * 1,vector_up:Angle())
 		hg.ExplosionEffect(SelfPos, Force / 0.2, 80)
 
         net.Start("hg_booom")
@@ -279,7 +273,7 @@ local ExpTypes = {
 			if IsValid(phys) then
 				entsCount = entsCount + 1
 			end
-			
+
 			local phys = enta:GetPhysicsObject()
 			local force = (enta:GetPos() - SelfPos)
 			local len = force:Length()
@@ -324,7 +318,7 @@ local ExpTypes = {
 function hg.PropExplosion(Ent, ExpType, Force, Mass)
 	if Ent.HasExploded then return end
 	Ent.HasExploded = true
-	
+
     ExpTypes[ExpType](Ent,Force, Mass)
 end
 
@@ -352,12 +346,11 @@ hook.Add("EntityTakeDamage", "ExplosiveDamage", function( target, dmginfo )
 			if target.hp <= 0 and ( !target.Volume or target.Volume > 0 ) and not target.babahnut then
 				local tbl = expItems[target:GetModel()]
 				target.babahnut = true
-				
+
 				hg.PropExplosion( target, tbl.ExpType, (target.Volume or tbl.Force) * 2, target:GetPhysicsObject():GetMass() )
 			end
 		end
 
-		--dmginfo:SetDamageType(DMG_ACID)
 		dmginfo:ScaleDamage(0)
 
 		return true

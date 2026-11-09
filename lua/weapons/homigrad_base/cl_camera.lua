@@ -69,10 +69,10 @@ function SWEP:GetZoomPos(recoilZoomPos, view, eyePos)
 		mat:SetTranslation(self.FakePos)
 		mat:SetAngles(self.FakeAng)
 		mat = mat:GetInverse()
-		pos, ang = LocalToWorld(mat:GetTranslation(), mat:GetAngles(),att.Pos 
-			+ att.Ang:Up() * (self.GunCamPos and self.GunCamPos["x"] or 5) 
-			+ att.Ang:Forward() * (self.GunCamPos and self.GunCamPos["y"] or -10) 
-			+ att.Ang:Right() * ( self.GunCamPos and self.GunCamPos["z"] or -4.2), 
+		pos, ang = LocalToWorld(mat:GetTranslation(), mat:GetAngles(),att.Pos
+			+ att.Ang:Up() * (self.GunCamPos and self.GunCamPos["x"] or 5)
+			+ att.Ang:Forward() * (self.GunCamPos and self.GunCamPos["y"] or -10)
+			+ att.Ang:Right() * ( self.GunCamPos and self.GunCamPos["z"] or -4.2),
 		att.Ang)
 
 		return pos, ang
@@ -82,18 +82,17 @@ function SWEP:GetZoomPos(recoilZoomPos, view, eyePos)
 	if isSettingZoom then
 		zoomPos = zoomPosSetter
 	end
-	
+
 	local pos2, ang2 = self:GetTrace(true, nil, nil, true)
 
 	local posZoom = LocalToWorld(zoomPos, angle_zero, pos, ang2)
-	
+
 	local override = self:GetCameraOverride(view)
 	if override then
 		posZoom = override
 	end
-	
+
 	local viewangs = self.prankang + view.angles
-	--posZoom:Add(viewangs:Forward() * -10)
 
 	if eyePos then
 		if self:HasAttachment("sight","optic") then
@@ -104,8 +103,6 @@ function SWEP:GetZoomPos(recoilZoomPos, view, eyePos)
 			posZoom = posZoom + ang2:Forward() * dist - recoilZoomPos * 0.5
 		end
 	end
-	--posZoom:Add(viewangs:Forward() * -10)
-	--posZoom:Add(ang2:Forward() * 10)
 	return posZoom, ang2
 end
 
@@ -120,12 +117,11 @@ local blurintens = CreateClientConVar("hg_weaponshotblur_mul", "0.03", true, fal
 local shouldblur = CreateClientConVar("hg_weaponshotblur_enable", "1", true, false,"Enable shotblur",0,1)
 local hg_nofovzoom = CreateClientConVar("hg_nofovzoom", "0", true, false, "Enable fov zooming when aiming", 0, 1)
 local hg_show_hitposmuzzle = ConVarExists("hg_show_hitposmuzzle") and GetConVar("hg_show_hitposmuzzle") or CreateClientConVar("hg_show_hitposmuzzle", "0", false, false, "shows weapons crosshair, work only ведьма admin rank or sv_cheats 1")
---local hg_aiminganim = ConVarExists("hg_aiminganim") and GetConVar("hg_aiminganim") or CreateClientConVar("hg_aiminganim", "0", false, false, "change the way you aim your gun")
 
 function SWEP:Blur(x,y,w,z)
 	if not shouldblur:GetBool() then return nil end
 	local primary = self.Primary
-	
+
 	local fraction = self:GetAnimPos_Shoot2(self.lastShoot or 0, 0.01 * (math.max((self.weight or 1) - 1,0.1) * 5 + 1))
 
 	w = w + fraction * - blurintens:GetFloat()
@@ -165,13 +161,8 @@ function SWEP:Camera(eyePos, eyeAng, view, vellen, ply)
 	if not IsValid(self) then return end
 	ply = ply or self:GetOwner()
 	gun = self:GetWeaponEntity()
-	
-	//if self.drawnlasttime != CurTime() then
-		//self.drawnlasttime = CurTime()
-		hg.DrawWorldModel(self, true)
 
-		//self:GetTrace(true, nil, nil, true)
-	//end
+		hg.DrawWorldModel(self, true)
 
 	if not ply.GetAimVector then return end
 
@@ -179,18 +170,15 @@ function SWEP:Camera(eyePos, eyeAng, view, vellen, ply)
 
 	local aimvec = ply:GetAimVector():Angle()
 	local up, right, forward = aimvec:Up(), aimvec:Right(), aimvec:Forward()
-	
+
 	local cocking = (self:GetNetVar("shootgunReload", 0) > CurTime()) or self.reload
-	--print(self:GetNetVar("shootgunReload", 0))
 	local posZoom, angPos = self:GetZoomPos(recoilZoomPos, view, eyePos)
-	
+
 	local inpain = ply.organism and ply.organism.pain and ply.organism.pain > 50
 	local painmul = 0.5 - math.Clamp((((ply.organism.pain or 0) - 50) / 50), 0, 0.5)
-	
+
 	painmul = painmul * 2
-	--local noZoomHelmet = (ply.armors and (not ply.armors["head"] or not hg.armor.head[ply.armors["head"]] or not hg.armor.head[ply.armors["head"]].cantsight or self:IsPistolHoldType()))
 	local zooming = self:IsZoom() --and noZoomHelmet
-	--print(zooming)
 	local justzoomed = zooming and !oldzoom
 	lastzoom = (justzoomed or (cocking or self.shot2 == 1)) and CurTime() or lastzoom
 
@@ -199,15 +187,14 @@ function SWEP:Camera(eyePos, eyeAng, view, vellen, ply)
 		vellen = vellen:Length()
 	end
 	local slowlyZooming = math.Clamp((lastzoom - CurTime() + tta) / tta, inpain and 1 - (0.9 * painmul) or (0.10 * (math.Clamp(vellen / 200 * (ply:Crouching() and 0.5 or 1), 0, 1) * 15 + 1)), 1)
-	
+
 	if lastPosSelected + 0.1 * (inpain and 0.1 or 1) < CurTime() then
 		lastPosSelected = CurTime()
-		--randomPos = 0.75 * VectorRand(-0.75, 0.75)
 		randomPos = (inpain and 1.5 - (1 * painmul) or 1) * ((lastzoom - CurTime() + tta) < 0 and ply.organism and ply.organism.holdingbreath and 0.25 or 1) * 0.5 * Vector(math.random(2) == 1 and math.Rand(-0.25, -0.35) or math.Rand(0.25, 0.35), math.random(2) == 1 and math.Rand(-0.75, -0.5) or math.Rand(0.5, 0.75), math.Rand(-0.1, 0.45))
 	end
 
 	randomPosL = LerpFT(0.05 * (inpain and 25 - (24 * painmul) or 1), randomPosL, randomPos)
-	
+
 	scopedLerpAddvec = LerpVectorFT(((self.shot2 == 1) and 0.6 or 0.06 - self.shot2 * 0.4) * (cocking and 0.25 or 1) * (inpain and 1 or 1), scopedLerpAddvec, (cocking and 1 or 1) * (justzoomed and 0.5 or 1) * (self.shot2 == 1 and 0.8 or 0.5) * 3 * randomPosL * slowlyZooming)
 	if !hg_oldsights:GetBool() then
 		if not (ply:IsSuperAdmin() and hg_setzoompos:GetBool()) then
@@ -223,22 +210,17 @@ function SWEP:Camera(eyePos, eyeAng, view, vellen, ply)
 		view.angles:RotateAroundAxis(view.angles:Up(), self.GunCamAng and self.GunCamAng[2] or -80)
 		view.angles:RotateAroundAxis(view.angles:Forward(), self.GunCamAng and self.GunCamAng[3] or 0 )
 		local fraction = self:GetAnimPos_Shoot2(self.lastShoot or 0, 0.01 * (math.max((self.weight or 1) - 1,0.1) * 5 + 1))
-		--print(CurTime() - self.lastShoot )
 		view.origin = view.origin + VectorRand(-fraction,fraction) * fraction/12
 		view.angles = view.angles + AngleRand(-fraction,fraction) * fraction
-		return view 
+		return view
 	end
 	angZoom = -(-eyeAng)
 
 	local posIdle = eyePos
 	local angIdle = eyeAng
 	local zoom = self:IsZoom() and (IsValid(ply.FakeRagdoll) or ((self.lerpaddcloseanim * self.closeanimdis) < 3)) and (self:GetNetVar("shootgunReload", 0) < CurTime())// and (posIdle:IsEqualTol(posZoom,20))))
-	
-	--if hg_aiminganim:GetBool() then
+
 		self.k = Lerp(self.Ergonomics * FrameTime() * 2, self.k or 0, zoom and 1 or 0)
-	--else
-		--self.k = math.Approach(self.k or 0, zoom and 1 or 0, FrameTime() * 2)
-	--end
 
 	if self.deploy or self.holster then self.k = 0 end
 
@@ -265,11 +247,10 @@ function SWEP:Camera(eyePos, eyeAng, view, vellen, ply)
 	local angRand = AngleRand(-k4 * 2, k4 * 2) * 0.2
 	lerpedAdren:Add(angRand)
 	lerpedAdren = LerpFT(0.1, lerpedAdren, angle_zero)
-	--ViewPunch(angRand)
 	local ang = ply:EyeAngles()
 	ang:Add(lerpedAdren * 1)
 	ply:SetEyeAngles(ang)
-	
+
 	local angRand2 = AngleRand(-0.1, 0.1)
 
 	if (ply.Karma or 100) < 70 then
@@ -279,52 +260,43 @@ function SWEP:Camera(eyePos, eyeAng, view, vellen, ply)
 	local angfuk = angfuk23
 	angfuk[2] = -position_difference3[2]/40
 
-	//ViewPunch2(angfuk)
-
-	--local shootLerp = self.Anim_RecoilLerp
-	--view.fov = Lerp(shootLerp,view.fov,view.fov - 5 * self.Penetration / 15)
 	local outputPos, outputAng
 	local animpos = (self.AdditionalAng or Angle(0, 0, 0))[2] / 20 + (self.AdditionalAng2 or Angle(0, 0, 0))[2] / 20 - self.AdditionalPos2[2] / 15 --:GetAnimShoot2()
 	local eyeSpray = -(-self.EyeSpray)
 	local mult = (hg.GunPositions[ply] and hg.GunPositions[ply][1] and (hg.GunPositions[ply][1] / 4 + 1) / 2 + 1 or 1) / 2
-	
+
 	local spray = self:GetCameraSprayValues(animpos) * mult
 
 	spray = spray + animpos * 6 * k * mult * ply:EyeAngles():Up()
-
-	//angIdle:Add(-angle_difference*2)
-	//angZoom:Add(-angle_difference*1)
 
 	local mulhuy = (self:IsPistolHoldType() or self.PistolKinda) and 2 or (((ply.posture == 1 and not self:IsZoom()) or ply.posture == 7 or ply.posture == 8) and 2 or 0.75)
 	local shit = 0.2 * mulhuy / game.GetTimeScale()
 	local animpos3 = self:GetAnimShoot2(shit, true) / shit
 	local shit2 = (1 / self.weight) * (self.NumBullet or 3) / 3
-	
+
 	angZoom:Add(self.prankang or angle_zero)
 	local postshake_mul = hg_wepbase_postshake_mul:GetFloat()
 	posZoom:Add(VectorRand(-postshake_mul, postshake_mul) * animpos3 * shit2) -- Shot Shake
 
 	local fraction2 = math.ease.InCubic(self:GetAnimPos_Shoot2(self.lastShoot or 0, 1))
-	
+
 	outputPos = LerpVector(k, posIdle, posZoom)
 	outputAng = LerpAngle(k, angIdle, angIdle)
-
-	--outputPos:Add(VectorRand(-1, 1) * (math.random(2) == 1 and 1 or -1) * 0.05 * fraction2)
 
 	if zoom or hg.KeyDown(ply, IN_SPEED) then offsetView = LerpFT(0.07, offsetView, angZero) end
 
 	outputAng:Add(-eyeSpray * 10)
-	
+
 	outputPos:Add(-(angle_difference_localvec * 30 * (-k + 2) * 2) / (self.Ergonomics or 1) + position_difference23 * 0.25 * (-k + 1.25))
 	outputPos:Add(spray * 1.1)
-	
+
 	local fthuy = ftlerped * 150
 
 	angle_spray[3] = math.Rand(-self.sprayAngles[3], self.sprayAngles[3]) * 60 * game.GetTimeScale() * 0.7
 	angle_spray[1] = math.Rand(-self.sprayAngles[3], self.sprayAngles[3]) * 12 * game.GetTimeScale() * 0.7
 	angle_spray[2] = math.Rand(-self.sprayAngles[3], self.sprayAngles[3]) * 12 * game.GetTimeScale() * 0.7
 	outputAng:Add(angle_spray)
-	
+
 	local imm = (organism and organism.immobilization) or 0
 	if type(imm) ~= "number" then imm = 0 end
 	local adr = (organism and organism.adrenaline) or 0
@@ -376,43 +348,10 @@ function SWEP:Camera(eyePos, eyeAng, view, vellen, ply)
 	return view
 end
 
-hook.Add( "Think", "DOFThink", function()
-
-end)
-
-hook.Add( "Think", "DOFThink2", function()
-	do return end
-	local wep = lply:GetActiveWeapon()
-	
-	if !ishgweapon(wep) then return end
-
-	local k = 1 - math.ease.InOutCubic(wep.k * 1)
-	if k > 0.9 then k = 0 end
-
-	DOF_SPACING = Lerp(k, 512, 112)
-	DOF_OFFSET = Lerp(k, 512, 40)
-
-	if k > 0.05 then
-		if !DOF_ENABLED then
-			DOF_ENABLED = true
-
-			DOF_Start()
-		end
-	else
-		if DOF_ENABLED then
-			timer.Simple(0, function()
-				DOF_Kill()
-			end)
-
-			DOF_ENABLED = false
-		end
-	end
-end)
-
 function SWEP:GetCameraSprayValues()
 	local owner = self:GetOwner()
 	local spray = self.EyeSpray + GetViewPunchAngles2() * 0.25 + GetViewPunchAngles3() * 0.25
-	
+
 	local _, newspr = LocalToWorld(vector_origin, spray * 8, vector_origin, owner:EyeAngles())
 
 	return newspr:Forward() - owner:EyeAngles():Forward()
@@ -456,7 +395,7 @@ hook.Add("HUDPaint", "homigrad-test-att", function()
 	if not wep.GetWeaponEntity then return end
 	local gun = wep:GetWeaponEntity()
 	if not IsValid(gun) then return end
-	
+
 	local attmuzle = wep:GetMuzzleAtt(gun, true)
 	local att = gun:GetAttachment(gun:LookupAttachment(wep.FakeEjectBrassATT or "ejectbrass")) or gun:GetAttachment(gun:LookupAttachment("shell"))
 	local pos, ang
@@ -474,43 +413,8 @@ hook.Add("HUDPaint", "homigrad-test-att", function()
 	posa = (pos + ang:Forward()):ToScreen()
 	draw.RoundedBox(0, posa.x - 2, posa.y - 2, 4, 4, blue)
 
-	//draw.RoundedBox(0, ScrW() / 2 - 2, ScrH() / 2 - 2, 4, 4, white3)
 end)
 
 local pp_dof_initlength = CreateClientConVar("pp_dof_initlength", "256", true, false)
 local pp_dof_spacing = CreateClientConVar("pp_dof_spacing", "512", true, false)
 local pp_dof = CreateClientConVar("pp_dof", "0", false, false)
---local potatopc = GetConVar("hg_potatopc") or CreateClientConVar("hg_potatopc", "0", true, false, "enable this if you are noob", 0, 1)
---hook.Add("Think", "DOFThink", function()
-	--if not GAMEMODE:PostProcessPermitted("dof") or not pp_dof:GetBool() or potatopc:GetInt() or 0 >= 1 then return end
-	--DOF_SPACING = pp_dof_spacing:GetFloat()
-	--DOF_OFFSET = pp_dof_initlength:GetFloat()
---end)
-
---[[local angleHuy = Angle(0,-90,0)
-local someVec = Vector(0,0,36)
-hook.Add("PreDrawTranslucentRenderables","huy",function()
-	 
-	local firstPerson = true--lply == GetViewEntity()
-	if firstPerson then
-		lply:ManipulateBoneAngles(lply:LookupBone("ValveBiped.Bip01_Spine1"),angleHuy)
-		playerModel = playerModel or ClientsideModel(lply:GetModel())
-
-		--local pos,ang = lply:GetBonePosition(0)
-
-		playerModel:SetPos(lply:GetPos())
-
-		--ang:RotateAroundAxis(ang:Right(),90)
-		--ang:RotateAroundAxis(ang:Forward(),-90)
-		local ang = lply:EyeAngles()
-		ang[1] = 0
-		playerModel:SetAngles(ang)
-		local ang = lply:EyeAngles()
-
-		playerModel:ManipulateBoneAngles(playerModel:LookupBone("ValveBiped.Bip01_Head1"),Angle(ang[3],-ang[1],0))
-
-		playerModel:ManipulateBonePosition(0,playerModel:WorldToLocal(lply:GetBonePosition(0)) - someVec,false)
-		playerModel:ManipulateBoneAngles(playerModel:LookupBone("ValveBiped.Bip01_L_Thigh"),-angleHuy)
-		playerModel:ManipulateBoneAngles(playerModel:LookupBone("ValveBiped.Bip01_R_Thigh"),-angleHuy)
-	end
-end)]]

@@ -12,11 +12,11 @@ local function drop(ply, wep, newWeapon, vel)
 	timer.Simple(isWep and 0.0 or 0.0,function()
 		if not IsValid(ply) or not IsValid(wep) then return end
 		local pos, ang
-		
+
 		if wep.WorldModel_Transform then
 			pos, ang = wep:WorldModel_Transform(true)
 		end
-		
+
 		if not IsValid(newWeapon) then
 			ply:SelectWeapon("weapon_hands_sh")
 			ply:SetActiveWeapon(ply:GetWeapon("weapon_hands_sh"))
@@ -26,7 +26,7 @@ local function drop(ply, wep, newWeapon, vel)
 		end
 
 		ply:DropWeapon(wep, nil, not IsValid(wep.fakeGun) and (eyeAngles:Forward() * (isnumber(vel) and vel or 250)) + ply:GetVelocity() or nil)
-		
+
 		wep.init = true
 		wep.IsSpawned = true
 
@@ -46,7 +46,7 @@ local function drop(ply, wep, newWeapon, vel)
 
 		ply:ViewPunch(Angle(-1,5,-2))
 		wep:SetOwner()
-		if IsValid(wep.fakeGun) then wep:RemoveFake() end	
+		if IsValid(wep.fakeGun) then wep:RemoveFake() end
 	end)
 end
 

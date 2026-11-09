@@ -92,14 +92,14 @@ COMMANDS.help = {function(ply,args)
 		local list = {}
 		for name in pairs(COMMANDS) do list[#list + 1] = name end
 		table.sort(list,function(a,b) return a > b end)
-        
+
 		for _,name in pairs(list) do
 			local cmd = COMMANDS[name]
             if not COMMAND_ACCES(ply,cmd) then continue end
-            
+
 			local argsList = cmd[3]
 			if argsList then argsList = " - " .. argsList else argsList = "" end
-            
+
 			text = text .. "	" .. name .. argsList .. "\n"
 		end
 	end
@@ -116,7 +116,7 @@ if SERVER then
 
     COMMANDS.zc_god = {function(ply)
         if not ply.organism then return end
-        
+
         ply.organism.godmode = !ply.organism.godmode
 		ply:Notify(ply.organism.godmode and "now i'm immortal..." or "now i'm mortal")
 		return
@@ -139,10 +139,10 @@ if SERVER then
             return
         end
 
-        local targetNickPartial = string.lower(args[1]) 
+        local targetNickPartial = string.lower(args[1])
         local target = nil
         for _, player in player.Iterator() do
-            if string.find(string.lower(player:Nick()), targetNickPartial) then 
+            if string.find(string.lower(player:Nick()), targetNickPartial) then
                 target = player
                 break
             end
@@ -186,10 +186,10 @@ if SERVER then
             return
         end
 
-        local targetNickPartial = string.lower(args[1]) 
+        local targetNickPartial = string.lower(args[1])
         local target = nil
         for _, player in player.Iterator() do
-            if string.find(string.lower(player:Nick()), targetNickPartial) then 
+            if string.find(string.lower(player:Nick()), targetNickPartial) then
                 target = player
                 break
             end
@@ -199,15 +199,15 @@ if SERVER then
             ply:ChatPrint("Player not found: " .. args[1])
             return
         end
-        
-        table.remove(args, 1) 
+
+        table.remove(args, 1)
         local message = table.concat(args, " ")
-        
+
         if message == "" then
             ply:ChatPrint("Message cannot be empty!")
             return
         end
-        
+
         target:Notify(message, 0)
         ply:ChatPrint("Sent notification to " .. target:GetName() .. ": " .. message)
 

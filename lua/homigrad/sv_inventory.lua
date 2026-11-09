@@ -105,7 +105,6 @@ local VirtualItems = {
         end
 
         inv.Ammo = ply:GetAmmo()
-        --inv.Armor = inv.Armor or {} -- not used anywhere right now, armor is in netvars "Armor" and "zc_equipment"
         inv.Attachments = inv.Attachments or {}
 
         ply:SetNetVar("Inventory", inv)

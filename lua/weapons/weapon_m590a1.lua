@@ -125,11 +125,8 @@ SWEP.AnimsEvents = {
 		[0.0] = function(self, mdl)
 			self:EmitSound("weapons/arccw_ud/870/shell-insert-0"..math.random(1,3)..".ogg")
 			mdl:ManipulateBoneScale(mdl:LookupBone("Shell"), Vector(1, 1, 1))
-			--
-			--self:GetWM():ManipulateBoneScale(47, vector_full)
 		end,
 		[0.8] = function(self, mdl)
-			--self:GetWM():ManipulateBoneScale(47, vector_origin)
 		end,
 	},
 	["base_reload_end"] = {
@@ -140,60 +137,17 @@ SWEP.AnimsEvents = {
 	["base_fire_cock_2"] = {
 		[0.0] = function(self)
 			self:EmitSound("weapons/arccw_ud/870/rack_1.ogg")
-			--
-			--self:GetWM():ManipulateBoneScale(47, vector_full)
 		end,
 		[0.1] = function(self)
 			self:EmitSound("weapons/arccw_ud/870/eject.ogg")
-			--
-			--self:GetWM():ManipulateBoneScale(47, vector_full)
 		end,
 		[0.2] = function(self)
 			self:EmitSound("weapons/arccw_ud/870/rack_2.ogg")
-			--
-			--self:GetWM():ManipulateBoneScale(47, vector_full)
 		end
 	}
 }
 
 SWEP.stupidgun = true
-
---[[SWEP.BMerge = nil
-function SWEP:SetupBoneMerge(mdl)
-	if not mdl then return end
-
-	local owner = self:GetOwner()
-	if not IsValid(owner) then return end
-
-	local vm = self:GetWeaponEntity()
-	if not IsValid(vm) then return end
-
-	if not IsValid(self.BMerge) then
-		self.BMerge = ClientsideModel(mdl, RENDERGROUP_VIEWMODEL)
-		if IsValid(self.BMerge) then
-			self.BMerge:SetPos(vm:GetPos())
-			self.BMerge:SetAngles(vm:GetAngles())
-			self.BMerge:AddEffects(EF_BONEMERGE)
-			self.BMerge:SetNoDraw(true)
-			self.BMerge:SetParent(vm)
-			self.BMerge:SetupBones()
-			self.BMerge:DrawModel()
-		end
-	end
-end
-
-function SWEP:DrawPost() --!! оно на груди не видно а еще целится невозможно
-	local owner = self:GetOwner()
-	if IsValid(owner) and owner.GetActiveWeapon and IsValid(owner:GetActiveWeapon()) then
-		if owner:GetActiveWeapon() ~= nil and owner:GetActiveWeapon() ~= NULL and owner:GetActiveWeapon() ~= self then return end
-	end
-	if not IsValid(self.BMerge) then
-		self:SetupBoneMerge("models/weapons/upgrades/a_standard_m590.mdl")
-	else
-		self.BMerge:SetupBones()
-		self.BMerge:DrawModel()
-	end
-end]]
 
 function SWEP:ModelCreated(mdl)
 	mdl:ManipulateBoneScale(mdl:LookupBone("Shell"), vector_origin)
@@ -208,7 +162,6 @@ function SWEP:AnimationPost()
 		sin = sin * 1
 	end
 	sin = sin * 2
-	--sin = math.ease.InOutExpo(sin)
 	sin = math.ease.InOutSine(sin)
 
 	if sin > 0 then
@@ -234,7 +187,7 @@ function SWEP:GetAnimPos_Draw(time)
 end
 
 local function cock(self,time)
-	
+
 	if SERVER then
 		self:Draw(true)
 	end
@@ -250,7 +203,7 @@ local function cock(self,time)
 		net.WriteBool(self.drawBullet)
 		net.WriteFloat(CurTime())
 	net.Broadcast()
-	
+
 	self.Primary.Next = CurTime() + self.AnimDraw + self.Primary.Wait
 	if CLIENT then self:PlaySnd(self.CockSound or "weapons/shotgun/shotgun_cock.wav",true,CHAN_AUTO) end
 
@@ -274,16 +227,15 @@ local function reloadFunc(self)
 	if self.MagIndex then
 		self:GetWM():ManipulateBoneScale(self.MagIndex, vector_full)
 	end
-	
-	self:PlayAnim(self.AnimList["insert"] or "sgreload_insert", 1, false, function() 
-		self:InsertAmmo(1) 
+
+	self:PlayAnim(self.AnimList["insert"] or "sgreload_insert", 1, false, function()
+		self:InsertAmmo(1)
 		if self.MagIndex then
 			self:GetWM():ManipulateBoneScale(self.MagIndex, vector_origin)
 		end
-		
+
 		local key = hg.KeyDown(self:GetOwner(), IN_RELOAD)
-		--print("reload",key)
-		
+
 		if key and self:CanReload() then
 			reloadFunc(self)
 			return
@@ -291,9 +243,9 @@ local function reloadFunc(self)
 
 		if !self.drawBullet then
 			cock(self,1)
-			self:PlayAnim(self.AnimList["finish_empty"] or "sgreload_finish_empty", 1, false, function(self) self:SetNetVar("shootgunReload", 0) end, false, true) 
+			self:PlayAnim(self.AnimList["finish_empty"] or "sgreload_finish_empty", 1, false, function(self) self:SetNetVar("shootgunReload", 0) end, false, true)
 		else
-			self:PlayAnim(self.AnimList["finish"] or "sgreload_finish", 1, false, function(self) self:SetNetVar("shootgunReload", 0) end, false, true) 
+			self:PlayAnim(self.AnimList["finish"] or "sgreload_finish", 1, false, function(self) self:SetNetVar("shootgunReload", 0) end, false, true)
 		end
 	end, false, true)
 end
@@ -301,7 +253,6 @@ end
 SWEP.FakeEjectBrassATT = "2"
 
 function SWEP:Reload(time)
-	--print(self:GetNetVar("shootgunReload",0))
 	if self.AnimStart_Draw > CurTime() - 0.5 then return end
 	if not self:CanUse() then return end
 	if self.reloadCoolDown > CurTime() then return end
@@ -322,7 +273,7 @@ function SWEP:Reload(time)
 	if SERVER then
 		self:SetNetVar("shootgunReload", CurTime() + 1.1)
 
-		self:PlayAnim(self.AnimList["start"] or "sgreload_start",1,false,function() 
+		self:PlayAnim(self.AnimList["start"] or "sgreload_start",1,false,function()
 			reloadFunc(self)
 		end,
 		false, true)

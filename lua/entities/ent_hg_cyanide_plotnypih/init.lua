@@ -36,13 +36,13 @@ function ENT:Think()
 		if not tbl then continue end
 		local pos,vel,time = tbl[1],tbl[2],tbl[3]
 		if time < CurTime() then self.particles[i] = false continue end
-		
+
 		tbl[2] = vel - vector_up * 0.3
 
 		local tr = util.TraceLine({start = pos,endpos = pos + vel,filter = self,mask = MASK_SOLID_BRUSHONLY})
-		
+
 		tbl[1] = (tr.Hit and tr.HitPos or pos + vel)
-		
+
 		local velLen = vel:Length()
 		if tr.Hit then
 			local vec = vel:Angle()

@@ -8,9 +8,6 @@ local EXP = zb.Experience
 
 EXP.OpenedMenu = EXP.OpenedMenu or nil
 
---local function BG()
---    
---end
 local gradient_u = Material("vgui/gradient-u")
 
 local blurMat = Material("pp/blurscreen")
@@ -62,13 +59,12 @@ net.Receive("zb_xp_get",function()
     local ply = net.ReadEntity()
     ply.skill = net.ReadFloat()
     ply.exp = net.ReadInt(19)
-    --print(ply.exp,ply.skill)
     if needCallback then
         if IsValid(EXP.OpenedAccount) then
             EXP.OpenedAccount:Remove()
             EXP.OpenedAccount = nil
         end
-        
+
         EXP.OpenedAccount = vgui.Create("ZB_AccountFrame")
         local AcMenu = EXP.OpenedAccount
         AcMenu:MakePopup()

@@ -1,4 +1,3 @@
---ents.Reg(nil,"weapon_m4super")
 SWEP.Base = "weapon_m4super"
 SWEP.Spawnable = true
 SWEP.AdminOnly = false
@@ -20,7 +19,6 @@ SWEP.WorldModelFake = "models/weapons/arccw/c_ud_m1014.mdl"
 --uncomment for funny
 SWEP.FakePos = Vector(-10, 3.035, 3.45)
 SWEP.FakeAng = Angle(0, 0, 1)
---SWEP.MagIndex = 47
 SWEP.FakeAttachment = "1"
 SWEP.AttachmentPos = Vector(-5,-0.05,0.7)
 SWEP.AttachmentAng = Angle(0,0,-90)
@@ -84,8 +82,6 @@ SWEP.weight = 4
 SWEP.ScrappersSlot = "Primary"
 SWEP.weaponInvCategory = 1
 SWEP.CustomShell = "12x70"
---SWEP.EjectPos = Vector(-5,0,10)
---SWEP.EjectAng = Angle(-80,-90,0)
 SWEP.UseCustomWorldModel = false
 SWEP.Primary.ClipSize = 7
 SWEP.Primary.DefaultClip = 7
@@ -149,8 +145,6 @@ function SWEP:ModelCreated(model)
 	if CLIENT and self:GetWM() and not isbool(self:GetWM()) and isstring(self.FakeBodyGroups) then
 		self:GetWM():ManipulateBoneScale(47, vector_origin)
 		self:GetWM():SetBodyGroups(self.FakeBodyGroups)
-		--local ent = self:GetWM()
-		--ent:SetColor(Color(255,0,0))
 	end
 end
 
@@ -176,15 +170,11 @@ function SWEP:DrawPost()
 		vec[2] = 0
 		vec[3] = -3*self.shooanim
 		wep:ManipulateBonePosition(42,vec,false)
-		--vec[1] = -1*self.ReloadSlideOffset
-		--vec[2] = 0.09*self.ReloadSlideOffset
-		--vec[3] = -0.06*self.ReloadSlideOffset
-		--wep:ManipulateBonePosition(2,vec,false)
 	end
 end
 
 local function cock(self,time)
-	
+
 	if SERVER then
 		self:Draw(true)
 	end
@@ -200,9 +190,8 @@ local function cock(self,time)
 	net.WriteBool(self.drawBullet)
 	net.WriteFloat(CurTime())
 	net.Broadcast()
-	
+
 	self.Primary.Next = CurTime() + self.AnimDraw + self.Primary.Wait
-	--self:PlaySnd(self.CockSound or "weapons/shotgun/shotgun_cock.wav",true,CHAN_AUTO)
 
 	local ply = self:GetOwner()
 
@@ -217,31 +206,28 @@ local vector_full = Vector(1,1,1)
 
 local function reloadFunc(self)
 	if not SERVER then return end
-	
+
 	self:SetNetVar("shootgunReload",CurTime() + 1.1)
 
 	self:GetWM():ManipulateBoneScale(47, vector_full)
-	--self:GetOwner():PullLHTowards("ValveBiped.Bip01_Spine2", 0.58)
 
-	self:PlayAnim(self.AnimList["insert"] or "sgreload_insert", 1, false, function() 
-		self:InsertAmmo(1) 
+	self:PlayAnim(self.AnimList["insert"] or "sgreload_insert", 1, false, function()
+		self:InsertAmmo(1)
 		self:GetWM():ManipulateBoneScale(47, vector_origin)
-		
+
 		local key = hg.KeyDown(self:GetOwner(), IN_RELOAD)
-		--print("reload",key)
-		
+
 		if key and self:CanReload() then
 			reloadFunc(self)
 			return
 		end
 
 
-		self:PlayAnim(self.AnimList["finish"] or "sgreload_finish", 1,false,function(self) self:SetNetVar("shootgunReload",0) end,false,true) 
+		self:PlayAnim(self.AnimList["finish"] or "sgreload_finish", 1,false,function(self) self:SetNetVar("shootgunReload",0) end,false,true)
 	end, false, true)
 end
 
 function SWEP:Reload(time)
-	--print(self:GetNetVar("shootgunReload",0))
 	local ply = self:GetOwner()
 	if ply.organism and (ply.organism.larmamputated or ply.organism.rarmamputated) then return end
 	if self.AnimStart_Draw > CurTime() - 0.5 then return end
@@ -257,15 +243,14 @@ function SWEP:Reload(time)
 	end
 
 	if not self:CanReload() then return end
-	--self:GetWM():ManipulateBoneScale(47, vector_full)
 	if SERVER then
 		self:SetNetVar("shootgunReload",CurTime() + (self:Clip1() == 0 and 2.1 or 1.1))
-		
+
 		local anim = self:Clip1() == 0 and "start_empty" or "start"
-		self:PlayAnim(self.AnimList[anim] or "sgreload_start",self:Clip1() == 0 and 2 or 1,false,function() 
+		self:PlayAnim(self.AnimList[anim] or "sgreload_start",self:Clip1() == 0 and 2 or 1,false,function()
 			self:SetNetVar("shootgunReload",CurTime() + 1.1)
 			if anim == "start_empty" then
-				self:InsertAmmo(1) 
+				self:InsertAmmo(1)
 				cock(self,1)
 			end
 			reloadFunc(self)
@@ -303,8 +288,6 @@ SWEP.AnimsEvents = {
 		end,
 	}
 }
---local common = ")/arccw_uc/common/"
---{s = {common .. "cloth_2.ogg", common .. "cloth_3.ogg", common .. "cloth_4.ogg", common .. "cloth_6.ogg", common .. "rattle.ogg"}, t = 0.05},
 
 --local to head
 SWEP.RHPos = Vector(1,-4.5,3)

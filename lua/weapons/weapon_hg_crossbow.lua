@@ -35,11 +35,9 @@ SWEP.FakeReloadSounds = {}
 
 SWEP.FakeEmptyReloadSounds = {
 	[0.18] = "weapons/universal/uni_crawl_l_03.wav",
-	--[0.37] = "weapons/m4a1/m4a1_magrelease.wav",
 	[0.62] = "weapons/tfa_hl2r/crossbow/reload1.wav",
 	[0.75] = "weapons/tfa_hl2r/crossbow/bolt_load2.wav",
 	[0.84] = "weapons/universal/uni_crawl_l_04.wav",
-	--[0.92] = "weapons/m45/m45_boltrelease.wav",
 }
 
 SWEP.lmagpos = Vector(0,0,0)
@@ -116,7 +114,7 @@ SWEP.ReloadSound = "weapons/crossbow/reload1.wav"
 SWEP.ReloadSoundes = {
 	"none",
 	"weapons/tfa_hl2r/crossbow/crossbow_deploy.wav",
-	"none",	
+	"none",
 	"weapons/tfa_hl2r/crossbow/bolt_load2.wav",
 	"none",
 	"weapons/tfa_hl2r/ar2/weapon_movement1.wav",
@@ -151,47 +149,26 @@ function SWEP:Shoot(override)
 	primary.Next = CurTime() + primary.Wait
 	self:SetLastShootTime(CurTime())
 	primary.Automatic = weapons.Get(self:GetClass()).Primary.Automatic
-	
+
 	local tr,pos,ang = self:GetTrace(true)
 	local owner = self:GetOwner()
-	
+
 	if SERVER then
 		local dist, point = util.DistanceToLine(pos, pos - ang:Forward() * 50, owner:EyePos())
 
 		--if(GetGlobalBool("PhysBullets_ReplaceDefault", false))then
 		local bullet = {}
-			-- bullet.Num = 1
 		bullet.Pos = point
 		bullet.Dir = ang:Forward()
 		bullet.Speed = 310
-			-- bullet.Force = ammotype.Force or primary.Force
 		bullet.Damage = 500
 		bullet.Force = 80
-			-- bullet.Size = 0.5
-			-- bullet.Spread = ammotype.Spread or self.Primary.Spread or 0
 		bullet.AmmoType = "Armature"
 		bullet.Attacker = owner.suiciding and Entity(0) or owner
 		bullet.IgnoreEntity = not owner.suiciding and (owner.InVehicle and owner:InVehicle() and owner:GetVehicle() or hg.GetCurrentCharacter(owner)) or nil
-			-- bullet.Callback = bulletHit
-			-- bullet.TracerName = self.Tracer or "nil"
-			-- bullet.Speed = ammotype.Speed
-			-- bullet.Distance = ammotype.Distance or 56756
 		bullet.Penetration = 10
 
 		hg.PhysBullet.CreateBullet(bullet)
-			-- self:FireBullets(bullet)
-		--else
-		--	local projectile = ents.Create("crossbow_projectile")
-		--	projectile:SetPos(point)
-		--	projectile:SetAngles(ang)
-		--	projectile:Spawn()
-		--	projectile.Penetration = -(-self.Penetration)
---
-		--	local phys = projectile:GetPhysicsObject()
-		--	if IsValid(phys) then
-		--		phys:SetVelocity(self:GetOwner():GetVelocity() + ang:Forward() * 9000)
-		--	end
-		--end
 	end
 
 	self:EmitShoot()
@@ -204,14 +181,11 @@ SWEP.dort = true
 
 if CLIENT then
 	function SWEP:DrawHUDAdd()
-		//self:DoRT()
 	end
 
 	function SWEP:ReloadStart()
 		if not self or not IsValid(self:GetOwner()) then return end
 		hook.Run("HGReloading", self)
-		--self:SetHold(self.ReloadHold or self.HoldType)
-		--self:GetOwner():SetAnimation(PLAYER_RELOAD)
 	end
 
 	function SWEP:ReloadEnd()
@@ -230,7 +204,7 @@ if CLIENT then
 
 	function SWEP:OwnerChanged()
 		if !IsValid(self:GetWM()) then return end
-		
+
 		self:PlayAnim( self:Clip1() < 1 and "idle_empty" or "idle_is",10,nil,nil,nil,true)
 		self:GetWM():SetSkin(self:Clip1() < 1 and 0 or 1)
 	end

@@ -92,7 +92,6 @@ if CLIENT then
 		if not self or not IsValid(self:GetOwner()) then return end
 		hook.Run("HGReloading", self)
 		self:SetHold(self.ReloadHold or self.HoldType)
-		--self:GetOwner():SetAnimation(PLAYER_RELOAD)
 		if self.ReloadSound then self:GetOwner():EmitSound(self.ReloadSound, 55, 100, 0.8, CHAN_AUTO) end
 	end
 end

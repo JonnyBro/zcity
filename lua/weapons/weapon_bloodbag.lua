@@ -42,7 +42,6 @@ function SWEP:InitializeAdd()
 	if SERVER then
 		if math.random(2) == 1 then
 			self.modeValues[1] = 1
-			//local val,index = table.Random(hg.organism.bloodtypes)
 			self.bloodtype = "o-"
 		end
 	end
@@ -120,7 +119,6 @@ if SERVER then
 		if self:GetOwner():KeyPressed(IN_RELOAD) then
 			local mode = self:GetNetVar("mode",2)
 			self:SetNetVar("mode",((mode + 1) > 2) and 1 or (mode + 1))
-			--self:GetOwner():ChatPrint("You have chosen the " .. self.modeNames2[mode] .. " mode")
 		end
 	end
 
@@ -135,7 +133,7 @@ if SERVER then
 		if not owner:KeyDown(IN_ATTACK) and hg_healanims:GetBool() then
 			self:SetHolding(math.max(self:GetHolding() - 12, 0))
 		end
-		
+
 		if self:GetNetVar("mode",2) == 2 then
 			if self.modeValues[1] != 1 then
 				if owner:KeyDown(IN_ATTACK) or owner:KeyDown(IN_ATTACK2) then
@@ -150,13 +148,13 @@ if SERVER then
 						if ent.organism.furryinfected then
 							self.furryinfected = true
 						end
-						
+
 						if self.poisoned2 then
 							ent.organism.poison4 = CurTime()
-				
+
 							self.poisoned2 = nil
 						end
-						
+
 						ent.organism.blood = math.max(ent.organism.blood - (self.modeValues[1] - old) * 500,0)
 						if self.sndcd < CurTime() and old ~= self.modeValues[1] then
 							owner:EmitSound("zcity/healing/bloodbag_loop_".. math.random(8) ..".wav")
@@ -177,11 +175,10 @@ if SERVER then
 
 						if self.poisoned2 then
 							ent.organism.poison4 = CurTime()
-				
+
 							self.poisoned2 = nil
 						end
 
-						--print(good_type)
 						if good_type then
 							ent.organism.blood = math.min(ent.organism.blood + math.min(FrameTime() * 0.5 * (math.max(ent.organism.pulse / 70,0.3)),self.modeValues[1]) * 500, 5200)
 						else
@@ -205,9 +202,9 @@ if SERVER then
 			end
 		end
 
-		if self.modeValues[1] < 0.00001 then 
-			self.modeValues[1] = 0 
-			self:SetHasBlood(false) 
+		if self.modeValues[1] < 0.00001 then
+			self.modeValues[1] = 0
+			self:SetHasBlood(false)
 			self:SetBodygroup(1,1)
 		else
 			self:SetHasBlood(true)

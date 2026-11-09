@@ -44,7 +44,7 @@ end
 -- Compare this quaternion with another quaternion for equality.
 -- @param  q Another quaternion to compare with.
 -- @return boolean True if the quaternions are equal, false otherwise.
--- 
+--
 function QUATERNION:__eq(q)
 	return self.w == q.w && self.x == q.x && self.y == q.y && self.z == q.z;
 end
@@ -103,11 +103,11 @@ function QUATERNION:SetAngleAxis(theta, axis)
 	return self:Set(math.cos(ang), vec.x * sin, vec.y * sin, vec.z * sin);
 end
 
---- 
+---
 -- Sets the quaternion based on a 4x4 rotation matrix.
 -- @param  m The 4x4 matrix representing the rotation.
 -- @return quaternion The calculated quaternion.
--- 
+--
 function QUATERNION:SetMatrix(m)
 
 	local m11, m12, m13, _, m21, m22, m23, _, m31, m32, m33, _ = m:Unpack();
@@ -250,7 +250,7 @@ end
 -- Calculates the angular difference between two quaternions in degrees.
 -- @param  q The other quaternion to calculate the angular difference with.
 -- @return number The angular difference in degrees.
--- 
+--
 function QUATERNION:AngleDifference(q)
 	return math.deg(math.acos(math.min(math.abs(self:Dot(q)), 1.0)) * 2.0);
 end
@@ -487,7 +487,7 @@ end
 -- @return number The x component.
 -- @return number The y component.
 -- @return number The z component.
--- 
+--
 function QUATERNION:Unpack()
 	return self.w, self.x, self.y, self.z;
 end

@@ -3,17 +3,6 @@ local CurTime = CurTime
 --!! fix ts shit
 --SWEP.endedholster = false
 function SWEP:Holster(wep)--
-	--[[if self.endedholster == true then
-		return true
-	end]]
-
-	--self.endedholster = false
-
-	--[[if wep.deploy ~= nil then
-		return true
-	end
-
-	if self.holster ~= nil then return false end]]
 
 	if self.deploy then
 		self:SetDeploy(0)
@@ -41,8 +30,6 @@ function SWEP:Holster(wep)--
 	self.holster = time + self.CooldownHolster / self.Ergonomics
 	self:SetHolster(self.holster)
 
-	--self.endedholster = true
-
 	return true
 end
 
@@ -50,7 +37,7 @@ local vecZero = Vector(0, 0, 0)
 function SWEP:Holster_End()
 	local owner = self:GetOwner()
 	local wep = IsValid(self:GetHolsterWep()) and self:GetHolsterWep() or owner:GetWeapon("weapon_hands_sh")
-	
+
 	if IsValid(wep) then
 		owner:SetActiveWeapon(wep)
 		wep:Deploy()
@@ -66,7 +53,6 @@ function SWEP:Holster_End()
 		self:SetHolster(0)
 	end
 
-	--self.endedholster = false
 end
 
 local gamemod = engine.ActiveGamemode()
@@ -83,7 +69,7 @@ hook.Add("PlayerSwitchInFake","slingDrop",function(ply,oldWeapon,newWeapon)
 					hg.drop(ply, oldWeapon, newWeapon)
 				end
 			end)
-			
+
 			if not IsValid(ply.FakeRagdoll) then return true end
 		end
 	end
@@ -103,11 +89,9 @@ function SWEP:Deploy()
 
 	self.holster = nil
 	self:SetHolster(0)
-	
+
 	self.deploy = time + self.CooldownDeploy / self.Ergonomics
 	self:SetDeploy(self.deploy)
-
-	--self.endedholster = false
 
 	return true
 end

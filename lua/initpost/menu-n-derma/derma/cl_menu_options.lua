@@ -124,16 +124,15 @@ function hg.CreateCategory(ctgName, ParentPanel, yPos)
     local pppanel = vgui.Create('DPanel', ParentPanel)
     pppanel:SetSize(ParentPanel:GetWide() / 1.05, ParentPanel:GetTall() * 0.07)
     pppanel:SetPos(ParentPanel:GetWide() / 2 -pppanel:GetWide() / 2, yPos)
-    --pppanel:SetText(ctgName)
     pppanel.Paint = function(self,w,h)
         surface.SetDrawColor(60,60,60,145)
         surface.DrawRect(0, 0, w, h)
 		surface.SetDrawColor(42, 42, 42, 184)
 		surface.DrawRect(0, h-5, w, 5)
-    
+
         draw.SimpleText(ctgName, 'ZCity_setiings_category', w / 2, h / 2, color3, TEXT_ALIGN_CENTER, TEXT_ALIGN_CENTER)
     end
-    
+
     return pppanel
 end
 
@@ -185,23 +184,23 @@ local clr_8 = Color(70, 130, 180)
 function hg.CreateButton(buttonData, convarName, ParentPanel, yPos)
     local convar = GetConVar(convarName)
 
-    if not convar then 
-        return 
+    if not convar then
+        return
     end
     local pppanel = vgui.Create('DPanel', ParentPanel)
     pppanel:SetSize(ParentPanel:GetWide()/1.05, ParentPanel:GetTall()/15)
     pppanel:SetPos(ParentPanel:GetWide()/2-pppanel:GetWide()/2, yPos)
-    
+
     surface.SetFont('ZCity_setiings_fine')
     local width2, height2 = surface.GetTextSize(buttonData[3])
-    
+
     convarType = buttonData[6] or hg.GetConVarType(convar)
     pppanel.Paint = function(self,w,h)
         surface.SetDrawColor(43, 43, 43,145)
         surface.DrawRect(0, 0, w, h)
 		surface.SetDrawColor(47, 47, 47,145)
 		surface.DrawRect(0, h-3, w, 3)
-        
+
         draw.SimpleText(buttonData[3], 'ZCity_setiings_fine', 30, h / 2 -height2/2.5, clr_1, TEXT_ALIGN_LEFT, TEXT_ALIGN_CENTER)
         draw.SimpleText(convar:GetHelpText(), 'ZCity_setiings_tiny', 30, h / 2+height2/2, clr_2, TEXT_ALIGN_LEFT, TEXT_ALIGN_CENTER)
     end
@@ -210,41 +209,41 @@ function hg.CreateButton(buttonData, convarName, ParentPanel, yPos)
         local toggle = vgui.Create('DButton', pppanel)
         toggle:SetSize(pppanel:GetWide() / 18, pppanel:GetTall() / 2)
 
-        
+
         toggle:SetPos(pppanel:GetWide() - toggle:GetWide()*1.4 - pppanel:GetWide() / 20, pppanel:GetTall() / 2 - toggle:GetTall() / 2)
         toggle:SetText('')
-        
+
         local animProgress = convar:GetBool() and 1 or 0
         local targetProgress = animProgress
-        
+
         function toggle:Paint(w, h)
             if animProgress ~= targetProgress then
                 animProgress = Lerp(FrameTime() * 8, animProgress, targetProgress)
             end
-            
+
             local bgColor = Color(
-                Lerp(animProgress, 180, 80),  
-                Lerp(animProgress, 30, 120),  
-                Lerp(animProgress, 30, 50)   
+                Lerp(animProgress, 180, 80),
+                Lerp(animProgress, 30, 120),
+                Lerp(animProgress, 30, 50)
             )
-            
+
             local shadowColor = Color(0, 0, 0, Lerp(animProgress, 150, 40))
             surface.SetDrawColor(clr_3)
             draw.RoundedBox(0, 0, 0, w, h, clr_3)
-            
+
             surface.SetDrawColor(clr_5)
             draw.RoundedBox(0, 2, 2, w - 4, h - 4, clr_4)
-            
+
             local slsize = h - 12
             local slPos = Lerp(animProgress, 6, w - slsize - 6)
             surface.SetDrawColor(bgColor)
             draw.RoundedBox(0, slPos, 6, slsize, slsize, bgColor)
             surface.SetDrawColor(shadowColor)
             surface.DrawRect(slPos, slsize+4, slsize, 3)
-    
+
             surface.SetDrawColor(clr_6)
         end
-        
+
         function toggle:DoClick()
             if convar then
                 local newValue = not convar:GetBool()
@@ -254,66 +253,66 @@ function hg.CreateButton(buttonData, convarName, ParentPanel, yPos)
                 targetProgress = newValue and 1 or 0
             end
         end
-        
+
     elseif convarType == 'int' then
         local slider = vgui.Create('DNumSlider', pppanel)
         slider:SetSize(280, 30)
         slider:SetPos(pppanel:GetWide() - 300, pppanel:GetTall() / 2 - 15)
         slider:SetText('')
-        
+
         local min = convar:GetMin() or 0
         local max = convar:GetMax() or 100
         local decimals = buttonData[4] and 2 or 0
-        
+
         slider:SetMin(min)
         slider:SetMax(max)
         slider:SetDecimals(decimals)
         slider:SetValue(decimals > 0 and convar:GetFloat() or convar:GetInt())
-        
+
         function slider:OnValueChanged(val)
             if convar then
                 SetConVarValue(convar, decimals > 0 and math.Round(val, decimals) or math.Round(val))
             end
         end
-        
+
         local valueLabel = vgui.Create('DLabel', pppanel)
         valueLabel:SetPos(pppanel:GetWide() - 350, pppanel:GetTall() / 2 - 8)
         valueLabel:SetSize(50, 20)
         valueLabel:SetText(convar:GetInt())
         valueLabel:SetTextColor(clr_7)
         valueLabel:SetFont('ZCity_setiings_tiny')
-        
+
         slider.Think = function()
             if convar then
                 valueLabel:SetText(convar:GetInt())
             end
         end
-        
+
     elseif convarType == 'string' then
         local textEntry = vgui.Create('DTextEntry', pppanel)
         textEntry:SetSize(pppanel:GetWide()/8, pppanel:GetTall()/2)
         textEntry:SetPos(pppanel:GetWide()-pppanel:GetWide()/8-20, pppanel:GetTall()/2-textEntry:GetTall()/2)
         textEntry:SetText(convar:GetString())
-        textEntry:SetUpdateOnType(true) 
+        textEntry:SetUpdateOnType(true)
         textEntry:SetFont('ZCity_Tiny')
-        
-    
+
+
         textEntry.Paint = function(self, w, h)
             surface.SetDrawColor(30, 30, 30, 255)
             surface.DrawRect(0, 0, w, h)
             surface.SetDrawColor(60, 60, 60, 255)
             surface.DrawOutlinedRect(0, 0, w, h)
-            
+
             self:DrawTextEntryText(color_white, clr_8, color_white)
         end
-        
+
         function textEntry:OnValueChange(val)
             if convar then
                 SetConVarValue(convar, val)
             end
         end
     end
-    
+
     return pppanel
 end
 
@@ -348,7 +347,6 @@ function hg.DrawSettings(ParentPanel)
     local pppanel3 = vgui.Create('DScrollPanel', ParentPanel)
     pppanel3:SetSize(ParentPanel:GetWide(), ParentPanel:GetTall())
     pppanel3:SetPos(0,0)
-    --pppanel3:SetAlpha(0)
     pppanel3.Paint = function()end
     -- 🥴 <- лучший смайлик
 

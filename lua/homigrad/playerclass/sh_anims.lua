@@ -1,11 +1,3 @@
---hook.Add("CalcMainActivity", "PlayerClass", function(ply, velocity)
---	if not ply:Alive() then return end
---	local tab = ply:GetPlayerClass()
---	if tab and tab.CalcMainActivity then
---		ideal, override = tab.CalcMainActivity(ply, velocity)
---		if ideal then return ideal, override end
---	end
---end)
 
 if SERVER then return end
 if concommand.GetTable()["hg_getanim"] then return end
@@ -56,20 +48,3 @@ concommand.Add("hg_getanim", function()
 	list:UpdateContent()
 end)
 intersect_xyPartDeg = 1024
---[[function GM:GrabEarAnimation(pl)
-	if pl:IsTyping() or (pl:GetNWBool("DynamicFlashlight") and IsValid(pl:GetActiveWeapon()) and pl:GetActiveWeapon():GetClass() == "weapon_hands") then
-		pl.ChatGestureWeight = math.Approach(pl.ChatGestureWeight or 0, 1, FrameTime() * 5)
-	elseif pl.ChatGestureWeight and pl.ChatGestureWeight > 0 then
-		pl.ChatGestureWeight = math.Approach(pl.ChatGestureWeight, 0, FrameTime() * 5)
-		if pl.ChatGestureWeight == 0 then pl.ChatGestureWeight = nil end
-	end
-
-	if pl.ChatGestureWeight then
-		if pl:IsPlayingTaunt() then -- Don't show this when we're playing a taunt!
-			return
-		end
-
-		pl:AnimRestartGesture(GESTURE_SLOT_VCD, ACT_GMOD_IN_CHAT, true)
-		pl:AnimSetGestureWeight(GESTURE_SLOT_VCD, pl.ChatGestureWeight)
-	end
-end]]

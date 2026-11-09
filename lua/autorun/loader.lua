@@ -15,13 +15,6 @@ end
 -- 			local tbl = util.JSONToTable(body)
 -- 			hg.Git_LastCommitTime = tbl[1]["committer"]["date"]
 
--- 		end
--- 	)
--- else
--- 	hg.GitHub_ReposOwner = "Unknown"
--- 	hg.GitHub_ReposName = "Please add your github fork"
--- 	hg.Git_CommitNumber = "Unknown"
--- end
 local sides = {
 	["sv_"] = "sv_",
 	["sh_"] = "sh_",

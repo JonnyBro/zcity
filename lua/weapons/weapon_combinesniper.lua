@@ -74,7 +74,7 @@ SWEP.dort = true
 
 if CLIENT then
 	function SWEP:DrawHUDAdd()
-		
+
 	end
 
 	local lfang2 = Angle(0, 30, 0)

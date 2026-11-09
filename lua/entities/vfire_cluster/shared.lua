@@ -65,7 +65,7 @@ function ENT:AddFire(fire)
 	if self.parent.fireClusters then
 		self.parent.fireClusters[self] = GetRelPos(self)
 	end
-	
+
 	-- Increment count
 	self.cnt = self.cnt + 1
 

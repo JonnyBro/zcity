@@ -89,7 +89,7 @@ function SWEP:DrawWorldModel()
 			WorldModel:SetAngles(self:GetAngles())
 			WorldModel:DrawModel()
 		end
-	
+
 		if IsValid(owner.FakeRagdoll) or not IsValid(owner) or (IsValid(owner:GetActiveWeapon()) and owner:GetActiveWeapon() ~= self) then return end
 		WorldModel:DrawModel()
 	end
@@ -102,7 +102,7 @@ function SWEP:Initialize()
 		self.HoldType = "melee"
 		self:SetHold(self.HoldType)
 	end
-	
+
 	self.count = 1
 end
 
@@ -125,7 +125,7 @@ function SWEP:Animation()
 
 	if self.startedattack then
 		local animpos = math.max((self.startedattack + 0.5) - CurTime(),0) * 2
-		
+
 		self:BoneSet("l_upperarm", Vector(0,0,0), Angle(-90 * animpos,-60 * animpos,0))
 		self:BoneSet("r_upperarm", Vector(0,0,0), Angle(-20 * animpos,-40 * animpos,0))
 	end
@@ -134,7 +134,6 @@ function SWEP:Animation()
 		local animpos = math.max((self.starthold + 0.5) - CurTime(),0) * 2
 
 		self:BoneSet("r_finger0", Vector(0,0,0), Angle(70 * animpos,-10 * animpos,0))
-		--self:BoneSet("r_hand", Vector(0,0,0), Angle(20 * animpos,0,0))
 	end
 end
 
@@ -164,7 +163,7 @@ function SWEP:PrimaryAttack()
 	ent.owner = ply
 	ent.localshit = veczero
 	ent.poisoned2 = self.poisoned2
-	
+
 	if self.bombowner then
 		ent.bombowner = self.bombowner
 		ent.bombowner.HaveTheBomb = ent

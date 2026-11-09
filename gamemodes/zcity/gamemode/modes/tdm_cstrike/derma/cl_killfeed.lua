@@ -73,7 +73,7 @@ function PANEL:Init()
     end)
 	sound.PlayFile("homigrad/vgui/deathnotice.wav", "", function() end)
 
-    
+
 
     timer.Simple(6, function()
         if IsValid(self) then

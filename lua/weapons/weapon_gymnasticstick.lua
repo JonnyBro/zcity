@@ -90,18 +90,17 @@ SWEP.DesiredSilks = {	--; WARNING POINTER
 function SWEP:DrawPostWorldModel()
 	if(hg.PhysSilk)then
 		local model_ent = self.worldModel
-		
+
 		if(IsValid(self.worldModel2))then
 			model_ent = self.worldModel2
 		end
-		
+
 		model_ent.Silk_RenderPos = model_ent:GetRenderOrigin()
 		model_ent.Silk_RenderAngles = model_ent:GetRenderAngles()
 		self.Silks = self.Silks or {}
 
 		for silk_desired_key, silk_desired in ipairs(self.DesiredSilks) do
 			if(IsValid(self.Silks[silk_desired_key]))then
-				-- self.Silks[silk_desired_key].Pos = self:LocalToWorld(silk_desired.EntityOffset)
 			else
 				local silk = table.Copy(silk_desired)
 				silk.Pos = model_ent:LocalToWorld(silk_desired.EntityOffset)
@@ -111,18 +110,3 @@ function SWEP:DrawPostWorldModel()
 		end
 	end
 end
---[[
-function SWEP:CanSecondaryAttack()
-    self.DamageType = DMG_CLUB
-    self.AttackHit = "Canister.ImpactHard"
-    self.Attack2Hit = "Canister.ImpactHard"
-    return true
-end
-
-function SWEP:CanPrimaryAttack()
-    self.DamageType = DMG_CLUB
-    self.AttackHit = "Concrete.ImpactHard"
-    self.Attack2Hit = "Concrete.ImpactHard"
-    return true
-end
-]]

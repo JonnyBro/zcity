@@ -1,4 +1,3 @@
---local Organism = hg.organism
 hg.organism.module = hg.organism.module or {}
 local module = hg.organism.module
 hg.organism.lastindex = hg.organism.lastindex or 1000000
@@ -88,10 +87,10 @@ hook.Add("Org Clear", "Main", function(org)
 	end
 
 	org.allowholster = false
-	
+
 	org.just_damaged_bone = nil
 	org.LodgedEntities = nil
-	
+
 	org.dmgstack = {}
 
 	org.SpawnedBrainChunks = nil
@@ -229,7 +228,6 @@ local function send_bareinfo(org)
 	sendtable.noradrenalineActive = org.noradrenalineActive
 
 	local rf = RecipientFilter()
-	--rf:AddAllPlayers()
 	rf:AddPVS(org.owner:GetPos())
 	if org.owner:IsPlayer() then rf:RemovePlayer(org.owner) end
 
@@ -334,7 +332,7 @@ hook.Add("Org Think", "Main", function(owner, org, timeValue)
 	else
 		org.alive = false
 	end
-	
+
 	org.needotrub = false
 	org.needfake = false
 	if isPly then
@@ -426,28 +424,6 @@ hook.Add("Org Think", "Main", function(owner, org, timeValue)
 		end
 	end
 
-	--[[if isPly then
-		local aimed = false
-
-		local entities = ents.FindInCone(owner:EyePos(), owner:GetAimVector(), 128, math.cos(math.rad(90)))
-		for i, ent in ipairs(entities) do
-			if !ent:IsPlayer() then continue end
-			if ent == owner then continue end
-
-			if ishgweapon(ent:GetActiveWeapon()) and ent:GetAimVector():Dot((ent:EyePos() - owner:EyePos()):GetNormalized()) < -0.95 then
-				aimed = true
-			end
-		end
-
-		if aimed then
-			owner.aimed_at = owner.aimed_at or 0
-			owner.aimed_at = math.Approach(owner.aimed_at, 1, timeValue / 5)
-			org.fearadd = org.fearadd + timeValue * 2
-		else
-			owner.aimed_at = owner.aimed_at or 0
-			owner.aimed_at = math.Approach(owner.aimed_at, 0, timeValue / 5)
-		end
-	end--]]
 	--bullshit
 
 	if org.otrub then
@@ -464,7 +440,7 @@ hook.Add("Org Think", "Main", function(owner, org, timeValue)
 
 	org.canmove = (org.spine2 < hg.organism.fake_spine2 and org.spine3 < hg.organism.fake_spine3) and not org.otrub
 	org.canmovehead = (org.spine3 < hg.organism.fake_spine3) and not org.otrub
-	
+
 	if not (org.canmove and org.canmovehead and (org.stun - CurTime()) < 0) then org.needfake = true end
 	if (org.blood < 2700) then org.needfake = true end
 
@@ -504,12 +480,9 @@ hook.Add("Org Think", "Main", function(owner, org, timeValue)
 	end
 
 	if org.otrub and isPly and org.owner:Alive() then
-		//org.owner:ScreenFade(SCREENFADE.PURGE, color_black, 0.5, 0)
-		//org.owner:ConCommand("soundfade 100 99999")
 	end
 
 	if not org.otrub and isPly and org.owner:Alive() then
-		--org.owner:ConCommand("soundfade 0 1")
 	end
 
 	if just_went_uncon then
@@ -524,7 +497,7 @@ hook.Add("Org Think", "Main", function(owner, org, timeValue)
 
 	org.otrub = org.needotrub
 	org.fake = org.needfake
-	
+
 	if org.needfake and owner:IsNPC() then
 		local dmgInfo = DamageInfo()
 		dmgInfo:SetDamage(10000)
@@ -551,7 +524,6 @@ hook.Add("Org Think", "Main", function(owner, org, timeValue)
 		if not org.likely_phrase then org.likely_phrase = 0 end
 
 		org.likely_phrase = math.max(org.likely_phrase + math.Rand(0, mul) / 100, 0)
-		//print(org.likely_phrase)
 		if org.likely_phrase >= 1 and !hg.GetCurrentCharacter(owner):IsOnFire() then
 			org.likely_phrase = 0
 
@@ -589,7 +561,6 @@ end)
 hook.Add("Org Think", "regenerationberserk", function(owner, org, timeValue)
 	if not owner:IsPlayer() or not owner:Alive() then return end
 	if !owner:IsBerserk() then return end
-	//if org.heartstop then return end
 
 	org.blood = math.Approach(org.blood, 5000, timeValue * 60)
 
@@ -644,7 +615,7 @@ end)
 hook.Add("Org Think", "regenerationnoradrenaline", function(owner, org, timeValue)
 	if not owner:IsPlayer() or not owner:Alive() then return end
 	if org.noradrenaline <= 0 then return end
-	
+
 	local regen = timeValue / 60 * org.noradrenaline
 
 	org.lungsR[1] = math.max(org.lungsR[1] - regen, 0)
@@ -669,7 +640,6 @@ hook.Add("Org Think", "regenerationnoradrenaline", function(owner, org, timeValu
 
 	org.pulse = math.Approach(org.pulse, 70, regen * 10)
 	org.heartbeat = math.Approach(org.heartbeat, 220, regen * 10)
-	--org.stamina.regen = math.Approach(org.stamina.regen, 1.2, regen * 10)
 
 	org.lungsfunction = true
 	org.heartstop = false
@@ -795,7 +765,7 @@ local function fixlimb(org, key, fixer)
 		org.fearadd = org.fearadd + 0.3
 
 		org.owner:EmitSound("physics/body/body_medium_impact_soft"..math.random(7)..".wav", 65)
-		
+
 		if fixer.Profession != "doctor" and math.random(5) == 1 then
 			local dmgInfo = DamageInfo()
 			dmgInfo:SetDamage(50)

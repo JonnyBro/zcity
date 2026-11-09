@@ -94,12 +94,6 @@ local finger5 = Angle(0,-65,-15)
 local finger6 = Angle(15,-5,-15)
 
 function SWEP:AnimHoldPost()
-	--self:BoneSet("r_finger0", vector_zero, finger6)
-	--self:BoneSet("l_finger0", vector_zero, finger1)
-    --self:BoneSet("l_finger02", vector_zero, finger2)
-	--self:BoneSet("l_finger1", vector_zero, finger3)
-	--self:BoneSet("r_finger1", vector_zero, finger4)
-	--self:BoneSet("r_finger11", vector_zero, finger5)
 end
 SWEP.ShootAnimMul = 4
 

@@ -1,6 +1,3 @@
--- if(SERVER)then
-	-- PrintMessage(HUD_PRINTTALK, "Use 'stats_help' concommand to understand the stats")
--- end
 
 ABNORMALTIESHELP = ABNORMALTIESHELP or {}
 ABNORMALTIESHELP.Stats={
@@ -239,11 +236,11 @@ function ABNORMALTIESHELP:OpenStats(Recipe)
 		end
 	end
 	if(IsValid(ABNORMALTIESHELP.Panel))then ABNORMALTIESHELP.Panel:Remove() end
-	
+
 	ABNORMALTIESHELP.Panel = vgui.Create("DFrame")
 	local frame = ABNORMALTIESHELP.Panel
 	local size={math.max(ScrW()/4,640),math.max(ScrH()/2.5,640)}
-	
+
 	frame:SetTitle("")
 	frame:SetSize(size[1], 0)
 	frame:SizeTo(size[1], size[2], 0.1)
@@ -264,16 +261,16 @@ function ABNORMALTIESHELP:OpenStats(Recipe)
 		local fancyayy1 ={
 			{ x = 0, y = 1 },
 			{ x = w+40, y = -4 },
-			{ x = w, y = h-1 },		
+			{ x = w, y = h-1 },
 			{ x = 0, y = h }
 		}
 		draw.NoTexture()
 		surface.SetDrawColor( 50, 50, 50, 255 )
 		surface.DrawPoly(fancyayy1)
 	end
-	
 
-	
+
+
 	frame.Label = Label(ABNORMALTIESHELP.Stats[Recipe].Name, frame)
 	frame.Label:SetFont("CloseCaption_Bold")
 	frame.Label:Dock( TOP )
@@ -312,7 +309,7 @@ function ABNORMALTIESHELP:OpenStats(Recipe)
 	frame.Next.DoClick = function()
 		ABNORMALTIESHELP:OpenStats(Recipe + 1)
 	end
-	
+
 	if(ABNORMALTIESHELP.Stats[Recipe].Requirement)then
 		net.Start("Abnormalties(SendOpenedPage)")
 			net.WriteUInt(Recipe, 8)
@@ -331,7 +328,7 @@ net.Receive("Abnormalties(SendOpenedPage)", function(len, ply)
 	local page_desc = net.ReadString()
 	ABNORMALTIESHELP.Stats[page].Name = page_name
 	ABNORMALTIESHELP.Stats[page].Desc = page_desc
-	
+
 	ABNORMALTIESHELP:OpenStats(page)
 end)
 --//

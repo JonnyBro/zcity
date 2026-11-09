@@ -13,7 +13,6 @@ MODE.Chance = 0.04
 
 local radius = nil
 local mapsize = 7500
--- MODE.MapSize = mapsize
 
 util.AddNetworkString("dm_start")
 util.AddNetworkString("dm_end")
@@ -30,7 +29,7 @@ function MODE:Intermission()
 		if ply:Team() == TEAM_SPECTATOR then
 			continue
 		end
-		
+
 		ApplyAppearance(ply)
 		ply:SetupTeam(0)
 		table.insert(poses, ply:GetPos())
@@ -52,7 +51,7 @@ function MODE:Intermission()
 
 	zonepoint = centerpoint
 	zonedistance = dist
-	
+
 	net.Start("dm_start")
 		net.WriteVector(zonepoint)
 		net.WriteFloat(zonedistance)
@@ -164,7 +163,7 @@ function MODE:RoundStart()
 		local inv = ply:GetNetVar("Inventory")
 		inv["Weapons"]["hg_sling"] = true
 		ply:SetNetVar("Inventory", inv)
-		
+
 		local gun = ply:Give(loadout.primary)
 		if IsValid(gun) then
 			ply:GiveAmmo(gun:GetMaxClip1() * loadout.ammo, gun:GetPrimaryAmmoType(), true)
@@ -231,12 +230,12 @@ hook.Add("Think","bober",function(ply)
 	local pos = zonepoint
 	local radius = MODE.GetZoneRadius()
 	local radiussqr = radius * radius
-	
+
 	for i, ent in ents.Iterator() do
 		if pos:DistToSqr(ent:GetPos()) > radiussqr then
 			if ent:IsPlayer() then
 				hg.LightStunPlayer(ent)
-				
+
 				continue
 			end
 
@@ -247,7 +246,7 @@ hook.Add("Think","bober",function(ply)
 
 				continue
 			end
-			
+
 			if string.find(ent:GetClass(), "prop_") and !hg.expItems[ent:GetModel()] then
 				MakeDissolver(ent, ent:GetPos(), 0)
 			end
@@ -293,7 +292,7 @@ function MODE:EndRound()
 	timer.Simple(2,function()
 		net.Start("dm_end")
 		local ent = zb:CheckAlive(true)[1]
-		
+
 		if IsValid(ent) then
 			ent:GiveExp(math.random(150,200))
 			ent:GiveSkill(math.Rand(0.2,0.3))

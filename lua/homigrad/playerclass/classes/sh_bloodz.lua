@@ -35,6 +35,6 @@ function CLASS.On(self)
     self:SetNetVar("Inventory", inv)
 
     self:SetSubMaterial()
-    
+
     self.CurAppearance = Appearance
 end

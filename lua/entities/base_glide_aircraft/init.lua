@@ -545,7 +545,7 @@ do
 
     function ENT:PhysicsCollide( data )
         BaseClass.PhysicsCollide( self, data )
-        
+
         if data.TheirSurfaceProps ~= 76 then -- default_silent
             return
         end

@@ -33,13 +33,13 @@ hook.Add("Think","SWARM",function()
 		_SWARM_IGNOREDSP = true
 		LocalPlayer():SetDSP(math.Round(31,33),false)
 		_SWARM_IGNOREDSP = nil
-		
+
 		if(SWARM_PsychEnd<=CurTime())then
 			SWARM_PsychEnd = nil
 			LocalPlayer():SetDSP(_SWARM_NEWDSP,_SWARM_NEWFR)
 		end
 	end
-	
+
 	if(SWARM_KnockoutEnd)then
 		if(SWARM_KnockoutEnd<=CurTime())then
 			SWARM_KnockoutEnd = nil
@@ -78,18 +78,5 @@ local SWARM_tex_flora = Material("vgui/swarm/flora")
 local SWARM_tex_blackout = Material("vgui/swarm/blackout")
 SWARM_Lerp_Perc = 0
 hook.Add("PostDrawHUD", "Swarm", function()
-	-- local perc = LocalPlayer():GetNWInt("SwarmPercent")
-	-- SWARM_Lerp_Perc = Lerp(FrameTime()*0.5,SWARM_Lerp_Perc,perc)
-	
-	-- if(SWARM_Lerp_Perc>1)then
-		-- surface.SetDrawColor(255,255,255,SWARM_Lerp_Perc)
-		-- surface.SetMaterial(SWARM_tex_flora)
-		-- surface.DrawTexturedRect(0,0,ScrW(),ScrH())
 
-		-- if(SWARM_Lerp_Perc>170)then
-			-- surface.SetDrawColor(255,255,255,math.min((SWARM_Lerp_Perc-170)/20,1)*255)
-			-- surface.SetMaterial(SWARM_tex_blackout)
-			-- surface.DrawTexturedRect(0,0,ScrW(),ScrH())			
-		-- end
-	-- end
 end )

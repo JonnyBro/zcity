@@ -14,8 +14,6 @@ SWEP.WepSelectIcon2 = Material("pwb/sprites/m98b.png")
 SWEP.IconOverride = "entities/weapon_pwb_m98b.png"
 
 SWEP.CustomShell = ".338Lapua"
---SWEP.EjectPos = Vector(0,-20,5)
---SWEP.EjectAng = Angle(0,90,0)
 
 SWEP.CanSuicide = false
 
@@ -150,7 +148,7 @@ function SWEP:AnimationPostPost()
 	else
 		sin = sin * 1
 	end
-	
+
 	if sin > 0 then
 		sin = sin * 2
 		sin = math.ease.InOutSine(sin)
@@ -268,11 +266,6 @@ function SWEP:Step_Reload(time)
 end
 
 if SERVER then return end
---[[net.Receive("hgwep reload", function()
-	local self = net.ReadEntity()
-	local time = net.ReadFloat()
-	if self.Reload then self:Reload(time) end
-end)--]]
 
 function SWEP:Reload(time)
 	if not time then return end
@@ -285,8 +278,6 @@ end
 
 function SWEP:ReloadStart()
 	if not self or not IsValid(self:GetOwner()) then return end
-	--self:SetHold(self.ReloadHold or self.HoldType)
-	--self:GetOwner():SetAnimation(PLAYER_RELOAD)
 end
 
 -- RELOAD ANIM AKM

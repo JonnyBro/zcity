@@ -47,7 +47,7 @@ if CLIENT then
 				hg.CreateMag( self, Vector(0,0,-50) )
 				self:GetWM():ManipulateBoneScale(40, vecPochtiZero)
 
-			end 
+			end
 		end,
 		[0.4] = function( self, timeMul )
 			if self:Clip1() < 1 then
@@ -135,7 +135,6 @@ end
 
 SWEP.Ergonomics = 0.9
 SWEP.HaveModel = "models/pwb/weapons/w_akm.mdl"
---SWEP.ShellEject = "EjectBrass_338Mag"
 SWEP.CustomShell = "762x39"
 
 SWEP.Penetration = 15
@@ -164,9 +163,6 @@ SWEP.LHAng = Angle(-110,-180,0)
 SWEP.ShootAnimMul = 3
 
 function SWEP:PrimaryShootPost()
-	--if CLIENT then
-	--	self:PlayAnim("base_fire",1,false)
-	--end
 end
 
 function SWEP:DrawPost()

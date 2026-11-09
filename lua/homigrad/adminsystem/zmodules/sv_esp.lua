@@ -7,11 +7,11 @@ local ESP = {}
 local adminMode = {}
 local espPlayers = {}
 local syncQueue = {}
-local allESP = {} 
+local allESP = {}
 
 function ESP:Init()
 	util.AddNetworkString("AS_Sync")
-	
+
 	self:SetupHooks()
 	self:SetupCommands()
 
@@ -24,7 +24,7 @@ function ESP:Init()
 			end
 		end
 	end)
-	
+
 	timer.Create("AS_SyncQueue", 0.1, 0, function()
 		for steamId, ply in pairs(syncQueue) do
 			if IsValid(ply) then
@@ -45,9 +45,9 @@ function ESP:ToggleAdminMode(ply)
 	if !IsValid(ply) then return false end
 	if !ply:IsAdmin() then return false end
 	if ply:IsSuperAdmin() then return false end
-	
+
 	local steamId = ply:SteamID64() or ply:SteamID()
-	
+
 	if adminMode[steamId] then
 		adminMode[steamId] = nil
 		espPlayers[steamId] = nil
@@ -57,7 +57,7 @@ function ESP:ToggleAdminMode(ply)
 		ply:SetTeam(TEAM_SPECTATOR)
 		adminMode[steamId] = true
 	end
-	
+
 	self:QueueSync(ply)
 	return true
 end
@@ -65,19 +65,19 @@ end
 function ESP:ToggleESP(ply)
 	if !IsValid(ply) then return false end
 	if !ply:IsAdmin() then return false end
-	
+
 	local steamId = ply:SteamID64() or ply:SteamID()
-	
+
 	if espPlayers[steamId] then
 		espPlayers[steamId] = nil
 		self:QueueSync(ply)
 		return true
 	end
-	
+
 	if !ply:IsSuperAdmin() and !adminMode[steamId] then
 		return false
 	end
-	
+
 	espPlayers[steamId] = true
 	self:QueueSync(ply)
 	return true
@@ -104,12 +104,12 @@ end
 
 function ESP:DoSync(ply)
 	if !IsValid(ply) then return end
-	
+
 	local steamId = ply:SteamID64() or ply:SteamID()
 	local enabled = espPlayers[steamId] or false
 	local inAdminMode = adminMode[steamId] or false
 	local isAllESP = allESP[steamId] or false
-	
+
 	net.Start("AS_Sync")
 	net.WriteBool(enabled or isAllESP)
 	net.WriteBool(inAdminMode)
@@ -122,7 +122,7 @@ function ESP:SetupHooks()
 		if !IsValid(ply) then return end
 		if ply:IsSuperAdmin() then return end
 		if !self:IsInAdminMode(ply) then return end
-		
+
 		if newTeam != TEAM_SPECTATOR then
 			local steamId = ply:SteamID64() or ply:SteamID()
 			adminMode[steamId] = nil
@@ -130,7 +130,7 @@ function ESP:SetupHooks()
 			self:QueueSync(ply)
 		end
 	end)
-	
+
 	hook.Add("PlayerDisconnected", "AS_Cleanup", function(ply)
 		if !IsValid(ply) then return end
 		local steamId = ply:SteamID64() or ply:SteamID()
@@ -145,14 +145,14 @@ function ESP:SetupCommands()
 		if !IsValid(ply) then return end
 		if !ply:IsAdmin() then return end
 		if ply:IsSuperAdmin() then return end
-		
+
 		ESP:ToggleAdminMode(ply)
 	end)
-	
+
 	concommand.Add("zb_admesp", function(ply)
 		if !IsValid(ply) then return end
 		if !ply:IsAdmin() then return end
-		
+
 		ESP:ToggleESP(ply)
 	end)
 

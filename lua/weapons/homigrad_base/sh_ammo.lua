@@ -1,21 +1,6 @@
 AddCSLuaFile()
 hg.ammotypes = hg.ammotypes or {}
 
-/*
-BulletSettings = {
-			Damage = 8,
-			Force = 5,
-			Penetration = 4,
-			Shell = "9x18",
-			Speed = 259,
-			Diameter = 11.19,
-			Distance = 10,
-			Mass = 10,
-			AirResistMul = 0.0001,
-			NumBullet = 1,
-		}
-*/
-
 function SWEP:ApplyAmmoChanges(type_)
 	if not self.AmmoTypes or not istable(self.AmmoTypes) then
 		print("ЭРРАР: Таблица не валдинайа")
@@ -46,7 +31,6 @@ function SWEP:ApplyAmmoChanges(type_)
 	self.Primary.Damage = ammotype.Damage
 	self.Penetration = ammotype.Penetration
 	self.NumBullet = ammotype.NumBullet
-	--self.Primary.Force = ammotype.Force
 
 	if SERVER then
 		net.Start("syncAmmoChanges")

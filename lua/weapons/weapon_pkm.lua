@@ -92,7 +92,6 @@ SWEP.FakeReloadSounds = {
 	[0.35] = "weapons/pkm/bullet.wav",
 	[0.52] = "weapons/pkm/boxout.wav",
 	[0.69] = "weapons/pkm/boxin.wav",
-	--[0.37] = "weapons/m4a1/m4a1_magrelease.wav",
 	[0.75] = "weapons/pkm/chain.wav",
 	[0.83] = "weapons/pkm/coverdown.wav",
 	[0.87] = "weapons/pkm/coversmack.wav",
@@ -106,13 +105,11 @@ SWEP.FakeEmptyReloadSounds = {
 	[0.35] = "weapons/pkm/bullet.wav",
 	[0.52] = "weapons/pkm/boxout.wav",
 	[0.69] = "weapons/pkm/boxin.wav",
-	--[0.37] = "weapons/m4a1/m4a1_magrelease.wav",
 	[0.75] = "weapons/pkm/chain.wav",
 	[0.83] = "weapons/pkm/coverdown.wav",
 	[0.87] = "weapons/pkm/coversmack.wav",
 	[0.97] = "weapons/pkm/bolt.wav",
 }
---SWEP.MagModel = "models/weapons/zcity/w_glockmag.mdl"
 SWEP.FakeReloadEvents = {
 	[0.5] = function( self )
 		if CLIENT then
@@ -200,8 +197,6 @@ local ang1 = Angle(30, -15, 0)
 local ang2 = Angle(0, 10, 0)
 
 function SWEP:AnimHoldPost()
-	--self:BoneSet("l_finger0", vector_origin, ang1)
-	--self:BoneSet("l_finger02", vector_origin, ang2)
 end
 
 -- RELOAD ANIM AKM

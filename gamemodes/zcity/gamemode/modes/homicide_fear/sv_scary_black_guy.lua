@@ -20,7 +20,6 @@ local function GetNearBehindPos(pos, viewer, viewerAng)
     }).HitPos
 
     local dist = return_pos:Distance(pos)
-    --viewer:ChatPrint(dist)
     return ((dist < 850 and  dist > 5) and return_pos) or false
 end
 
@@ -43,7 +42,7 @@ function EVENT:StartScare( ply )
     local EndIndex = self.Ent:EntIndex()
     timer.Simple(1,function()
         if IsValid(ply) and ply:Alive() then return end
-        ply:SendLua("Entity("..EndIndex.."):EmitSound(\"cry1.wav\")") -- 
+        ply:SendLua("Entity("..EndIndex.."):EmitSound(\"cry1.wav\")") --
     end)
     self.Started = CurTime()
 end
@@ -55,7 +54,6 @@ function EVENT:Think( ply )
     if !ply:Alive() then self:StopScare() return end
     if !IsValid(self.Ent) then self:StopScare() return end
     if self.Started + 60 < CurTime() then self:StopScare() return end
-    --self.Ent:SetAngles((ply:EyePos() - self.Ent:GetPos()):Angle())
     local pos = self.Ent:GetPos() + vector_up * 32
     if IsLookingAt(ply, pos, 0.75) and hg.isVisible(pos,ply:EyePos(),{self.Ent, ply},MASK_VISIBLE) then
         self.LookinTime = self.LookinTime or CurTime() + 1
@@ -63,7 +61,7 @@ function EVENT:Think( ply )
             self:Run(ply)
         end
     end
-    
+
 end
 
 function EVENT:IsActive( ply )

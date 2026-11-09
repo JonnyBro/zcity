@@ -27,7 +27,7 @@ function ENT:Initialize()
 
 	timer.Simple(0.5,function()
 		if not IsValid(self) then return end
-		
+
 		self:SetOwner()
 	end)
 end
@@ -50,8 +50,7 @@ function ENT:PhysicsCollide(data, phys)
 	tr.start = pos
 	tr.endpos = pos + data.OurOldVelocity:GetNormalized() * 32
 	tr.filter = self
-	--if util.TraceLine(tr).Entity != data.HitEntity and not self.dont_account_for_placement then return end
-	
+
 	self.Penetration = self.penetration or 1
 	local dmginfo = DamageInfo()
 	dmginfo:SetAttacker(self.owner)
@@ -97,7 +96,7 @@ function ENT:PhysicsCollide(data, phys)
 		local tbl = {}
 		tbl.LodgedEntities = org.LodgedEntities
 		tbl.owner = org.owner
-	
+
 		net.WriteTable(tbl)
 		net.WriteBool(true)
 		net.WriteBool(false)

@@ -85,13 +85,9 @@ function SWEP:PrintWeaponInfo( x, y, alpha )
         self.InfoMarkup = markup.Parse( str, 250 )
     end
 
-    x = ScrW()*0.85   
+    x = ScrW()*0.85
     y = ScrH()*0.055
 
-    --surface.SetDrawColor( 0, 0, 0, alpha-25 )
-    --surface.SetTexture( self.SpeechBubbleLid )
---
-    --surface.DrawTexturedRect( 0, 0 - 64 - 6, 128, 64 )
     draw.RoundedBox( 1, x - 5, y - 6, 260, self.InfoMarkup:GetHeight() + 18, Color( 0, 0, 0, alpha-15 ) )
 
     self.InfoMarkup:Draw( x + 5, y + 5, nil, nil, alpha )
@@ -183,12 +179,6 @@ end
 -----------------------------------------------------------]]
 function SWEP:GetTracerOrigin()
 
---[[
-	local ply = self:GetOwner()
-	local pos = ply:EyePos() + ply:EyeAngles():Right() * -5
-	return pos
---]]
-
 end
 
 --[[---------------------------------------------------------
@@ -197,7 +187,7 @@ end
 -----------------------------------------------------------]]
 
 function SWEP:FireAnimationEvent( pos, ang, event, options )
-	
+
 	if ( !self.CSMuzzleFlashes ) then return end
 
 	-- CS Muzzle flashes

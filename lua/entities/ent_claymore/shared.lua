@@ -19,7 +19,7 @@ ENT.offsetAng = Angle(1, 90, 0)
 function ENT:Think()
     local pos, ang = self:GetPos(), self:GetAngles()
     local pos, ang = LocalToWorld(self.offsetPos, self.offsetAng, pos, ang)
- 
+
     local halfAngle = self.DetectionAngle / 2
     local angleStep = self.DetectionAngle / (self.DetectionRays - 1)
     local triggered = false
@@ -45,7 +45,7 @@ function ENT:Think()
             break
         end
     end
-    
+
     if SERVER and triggered and self.MotionTriggerIsActivated then
         self:ActivateExplosive()
     end

@@ -22,8 +22,6 @@ SWEP.FakeReloadSounds = {
 	[0.35] = "weapons/hmcd_ar2/ar2_magout.wav",
 	[0.75] = "weapons/hmcd_ar2/ar2_magin.wav",
 	[0.85] = "weapons/hmcd_ar2/ar2_push.wav"
-	--[0.82] = "weapons/ar2/ar2_reload_rotate.wav",
-	--[0.92] = "weapons/ar2/ar2_reload_push.wav"
 }
 SWEP.FakeEmptyReloadSounds = {
 	[0.17] = "weapons/hmcd_ar2/ar2_rotate.wav",
@@ -55,7 +53,7 @@ if CLIENT then
 				self:GetWM():ManipulateBoneScale(1, vecPochtiZero)
 				self:GetOwner():PullLHTowards("ValveBiped.Bip01_Spine2", 0.8 * timeMul)
 
-			end 
+			end
 		end,
 		[0.6] = function( self, timeMul )
 			if self:Clip1() < 1 then
@@ -63,7 +61,7 @@ if CLIENT then
 				self:GetWM():ManipulateBoneScale(1, vector_full)
 			else
 
-			end 
+			end
 			self.AnimList["idle"] = "idle"
 			self.AnimList["reload"] = "reload"
 		end,
@@ -88,7 +86,7 @@ SWEP.Primary.Automatic = true
 SWEP.Primary.Ammo = "Pulse"
 SWEP.Primary.Cone = 0
 SWEP.Primary.Damage = 50
-SWEP.Primary.Spread = 0 
+SWEP.Primary.Spread = 0
 SWEP.Primary.Force = 50
 SWEP.Primary.Sound = {"weapons/hmcd_ar2/fire1.wav", 85, 90, 100}
 SWEP.Primary.SoundEmpty = {"zcitysnd/sound/weapons/mk18/handling/mk18_empty.wav", 75, 100, 105, CHAN_WEAPON, 2}
@@ -103,7 +101,6 @@ SWEP.weight = 3.5
 SWEP.NoWINCHESTERFIRE = true
 SWEP.punchmul = 0.5
 SWEP.punchspeed = 1
---SWEP.podkid = 1.1
 
 SWEP.PPSMuzzleEffect = "new_ar2_muzzle" -- shared in sh_effects.lu
 
@@ -175,13 +172,12 @@ SWEP.LHAng = Angle(0-10,0,-90)
 local finger1 = Angle(45,-25,50)
 
 function SWEP:AnimHoldPost(model)
-	--self:BoneSet("l_finger0", vector_zero, finger1)
 end
 
 function SWEP:PrimaryShootPost()
 	if CLIENT then
 		if self:Clip1() == 0 then self:PlayAnim(self:Clip1() >= 1 and (self:Clip1() > 1 and "fire1_is" or "fire_midempty_is" ) or "fire_last_ironsight", 1) end
-		
+
 		if self:Clip1() < 2 then
 			self.AnimList["idle"] = "idle_midempty"
 			self.AnimList["reload"] = "reload_midempty"

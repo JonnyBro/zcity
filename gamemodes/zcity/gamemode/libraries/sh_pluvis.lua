@@ -5,7 +5,7 @@ if CLIENT then
         faded = true
         fade = 0
         timer.Simple(6,function()
-           hook.Add("RenderScreenspaceEffects","ZB_ScreenFade",function()   
+           hook.Add("RenderScreenspaceEffects","ZB_ScreenFade",function()
                 surface.SetDrawColor(0,0,0,255 * fade)
                 surface.DrawRect(-1,-1,ScrW() + 1,ScrH() + 1)
                 fade = Lerp(FrameTime()*10, fade, 2)

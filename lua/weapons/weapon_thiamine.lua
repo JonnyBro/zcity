@@ -92,7 +92,6 @@ if SERVER then
 
 		local org = ent.organism
 		if not org then return end
-		//if ent ~= self:GetOwner() and not ent.organism.otrub then return end
 		if !org.analgesiaAdd or !self.modeValues or !self.modeValues[1] then return end
 
 		local owner = self:GetOwner()
@@ -106,14 +105,14 @@ if SERVER then
 		entOwner:EmitSound("snd_jack_hmcd_pillsuse.wav", 60, math.random(95, 105))
 
 		org.thiamine = math.min(org.thiamine + 1, 1)
-		
+
 		self.modeValues[1] = 0
 		if self.modeValues[1] == 0 then
 			owner:SelectWeapon("weapon_hands_sh")
 			self:SpawnGarbage(nil, nil, "snd_jack_hmcd_foodbounce.wav")
 			self:Remove()
 		end
-		
+
 		return true
 	end
 end
