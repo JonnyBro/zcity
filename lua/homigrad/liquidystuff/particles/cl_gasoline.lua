@@ -22,7 +22,6 @@ for i = 1, 3 do
 	mats_huy[i] = Material("homigrad/decals/bld" .. i + 3)
 end
 
-
 local tr_out = {}
 local tr = {
 	mask = MASK_SOLID_BRUSHONLY,
@@ -34,10 +33,8 @@ local vecDown = Vector(0, 0, -40)
 local vecZero = Vector(0, 0, 0)
 local LerpVector = LerpVector
 local math_random = math.random
-local util_Decal = util.Decal
 local util_TraceLine = util.TraceLine
 local render_SetMaterial = render.SetMaterial
-local render_DrawSprite = render.DrawSprite
 local col = Color( 131, 70, 21, 250)
 
 local function hash_hit(pos, nrm)

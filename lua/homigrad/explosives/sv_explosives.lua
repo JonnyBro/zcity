@@ -2,14 +2,6 @@
 util.AddNetworkString("hg_booom")
 hg = hg or {}
 
-function hg.FindOtherExplosive(inflictor,pos,radius)
-
-end
-
-function hg.MakeCombinedExplosion()
-
-end
-
 local DebrisSounds = {
     "explosion_debris/interior/explosion_debris_sprinkle_interior_wave01.wav",
     "explosion_debris/interior/explosion_debris_sprinkle_interior_wave010.wav",
@@ -186,7 +178,6 @@ local ExpTypes = {
 
 			if tr.Entity != enta then forceadd = forceadd / 5 continue end
 
-
 			if enta:IsPlayer() then
 				hg.AddForceRag(enta, 0, forceadd * 0.5, 0.5)
 				hg.AddForceRag(enta, 1, forceadd * 0.5, 0.5)
@@ -290,7 +281,6 @@ local ExpTypes = {
 			end
 
 			if tr.Entity != enta then forceadd = forceadd / 5 continue end
-
 
 			if enta:IsPlayer() then
 				hg.AddForceRag(enta, 0, forceadd * 0.5, 0.5)

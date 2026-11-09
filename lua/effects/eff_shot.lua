@@ -2,8 +2,6 @@ EFFECT.Material = Material("particle/water/waterdrop_001a_refract")
 EFFECT.Color = Color(255, 255, 255)
 EFFECT.Width = 4
 
-local BulletsMinDistance = 5
-
 local tracer = {
 	TracerBody = Material("particle/fire"),
 	TracerTail = Material("effects/laser_tracer"),
@@ -44,7 +42,6 @@ function EFFECT:Think()
 
     if self.AddVelocity then
         local ang = self.Velocity:Angle()
-        local addvel = self.AddVelocity
 
         self.Velocity = self.Velocity + self.AddVelocity
         self.AddVelocity = self.AddVelocity / 4
@@ -66,8 +63,6 @@ function EFFECT:Think()
     self:NextThink(CurTime() + 0.05)
     return self.DieTime > CurTime()
 end
-
-local vecZero = Vector(0,0,0)
 
 function EFFECT:Render()
     local bullet = self.bullet

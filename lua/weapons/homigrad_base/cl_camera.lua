@@ -3,7 +3,6 @@ local vecZero, angZero = Vector(0, 0, 0), Angle(0, 0, 0)
 local eyeAngL = EyeAngles()
 local angZoom = Angle(0, 0, 0)
 local k, k2, passive = 0, 0, 0
-local vec1 = Vector(-1, 0, 0)
 local angfuk23 = Angle(0,0,0)
 
 SWEP.ZoomPos = Vector()
@@ -15,14 +14,9 @@ SWEP.Ergonomics = 1
 local Lerp, LerpVector, LerpAngle = Lerp, LerpVector, LerpAngle
 local ply
 local math_sin, math_cos = math.sin, math.cos
-local math_Clamp = math.Clamp
 local CurTime = CurTime
 local gun
-local traceBuilder = {}
-local util_TraceLine = util.TraceLine
-local dof_zoom = 0
 disthuy = 0
-local angRandLerp = Angle(0,0,0)
 local angle_spray = Angle(0,0,0)
 local fovlerp = 0
 
@@ -92,8 +86,6 @@ function SWEP:GetZoomPos(recoilZoomPos, view, eyePos)
 		posZoom = override
 	end
 
-	local viewangs = self.prankang + view.angles
-
 	if eyePos then
 		if self:HasAttachment("sight","optic") then
 			posZoom = posZoom - recoilZoomPos * 0.25 - ang2:Forward() * (self.AdditionalPos2[1]) * 0.5 + ang2:Forward() * 1
@@ -106,10 +98,6 @@ function SWEP:GetZoomPos(recoilZoomPos, view, eyePos)
 	return posZoom, ang2
 end
 
-function SWEP:GetZoomValue()
-	return k or 0
-end
-
 SWEP.punchmul = 1
 SWEP.punchspeed = 1
 
@@ -120,7 +108,6 @@ local hg_show_hitposmuzzle = ConVarExists("hg_show_hitposmuzzle") and GetConVar(
 
 function SWEP:Blur(x,y,w,z)
 	if not shouldblur:GetBool() then return nil end
-	local primary = self.Primary
 
 	local fraction = self:GetAnimPos_Shoot2(self.lastShoot or 0, 0.01 * (math.max((self.weight or 1) - 1,0.1) * 5 + 1))
 
@@ -145,7 +132,6 @@ local fov_mode_lerp = 0
 
 local hg_oldsights = CreateConVar("hg_oldsights", "0", {FCVAR_ARCHIVE, FCVAR_NOTIFY, FCVAR_REPLICATED}, "No camera wobble when aiming")
 local hg_wepbase_postshake_mul = CreateConVar("hg_wepbase_postshake_mul", "0.02", {FCVAR_ARCHIVE, FCVAR_NOTIFY, FCVAR_REPLICATED}, "Mul post shake after shoot, new default = 0.02, old default = 0.05", 0, 1)
-
 
 local angZero = Angle(0,0,0)
 
@@ -290,8 +276,6 @@ function SWEP:Camera(eyePos, eyeAng, view, vellen, ply)
 	outputPos:Add(-(angle_difference_localvec * 30 * (-k + 2) * 2) / (self.Ergonomics or 1) + position_difference23 * 0.25 * (-k + 1.25))
 	outputPos:Add(spray * 1.1)
 
-	local fthuy = ftlerped * 150
-
 	angle_spray[3] = math.Rand(-self.sprayAngles[3], self.sprayAngles[3]) * 60 * game.GetTimeScale() * 0.7
 	angle_spray[1] = math.Rand(-self.sprayAngles[3], self.sprayAngles[3]) * 12 * game.GetTimeScale() * 0.7
 	angle_spray[2] = math.Rand(-self.sprayAngles[3], self.sprayAngles[3]) * 12 * game.GetTimeScale() * 0.7
@@ -361,13 +345,8 @@ function SWEP:ChangeCameraPassive(value)
 	return value
 end
 
-function SWEP:IsEyeAng()
-	return self.reload or self.deploy or self.holster or self:IsSprinting() or not self:GetOwner():OnGround()
-end
-
 local white = Color(255, 255, 255)
 local white2 = Color(150, 150, 150)
-local white3 = Color(0, 0, 0)
 local red = Color(250, 100, 100)
 local green = Color(100, 250, 100)
 local blue = Color(100, 100, 250)

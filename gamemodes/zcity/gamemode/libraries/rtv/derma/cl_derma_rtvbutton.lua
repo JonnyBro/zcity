@@ -1,9 +1,6 @@
 --
 local PANEL = {}
 
-local blurMat = Material("pp/blurscreen")
-local Dynamic = 0
-
 BlurBackground = BlurBackground or hg.DrawBlur
 
 function PANEL:Init()
@@ -23,7 +20,6 @@ function PANEL:Init()
     self.disabled = false
     self.selected = false
 end
-
 
 function PANEL:Paint(w, h)
     if self.disabled then return end

@@ -6,8 +6,6 @@
 <<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<
 ---------------------------------------------------------------------------]]
 
-
-
 --[[-------------------------------------------------------------------------
 vFire Globals
 ---------------------------------------------------------------------------]]
@@ -144,7 +142,6 @@ hook.Add("vFireRemoved", "vFiresCountDecrement", function(fire)
 	end
 end)
 
-
 --[[-------------------------------------------------------------------------
 Tickrates Management
 ---------------------------------------------------------------------------]]
@@ -176,18 +173,6 @@ if SERVER then
 	end
 end
 
-
-
-
-
-
-
-
-
-
-
-
-
 --[[-------------------------------------------------------------------------
 ConVars
 ---------------------------------------------------------------------------]]
@@ -202,7 +187,6 @@ if CLIENT or SERVER then
 	end
 
 	-- Used to calcualte the wind flow of a given position
-	local windExposureCheckDist = 10000
 	function vFireCalcWindExposure(pos, filter)
 		return 1
 	end
@@ -227,7 +211,6 @@ if CLIENT then
 		vFireLODs = math.Clamp(vFireLODsConVar:GetInt(), 0, 2)
 	end)
 
-
 	--[[-------------------------------------------------------------------------
 	Toggle fire glows
 	---------------------------------------------------------------------------]]
@@ -236,7 +219,6 @@ if CLIENT then
 	cvars.AddChangeCallback("vfire_enable_glows", function(convar, old, new)
 		vFireEnableGlows = vFireEnableGlowsConVar:GetBool()
 	end)
-
 
 	--[[-------------------------------------------------------------------------
 	Toggle fire dynamic lights
@@ -247,7 +229,6 @@ if CLIENT then
 		vFireEnableLights = vFireEnableLightsConVar:GetBool()
 	end)
 
-
 	--[[-------------------------------------------------------------------------
 	Set fire light brightness
 	---------------------------------------------------------------------------]]
@@ -256,9 +237,6 @@ if CLIENT then
 	cvars.AddChangeCallback("vfire_light_brightness", function(convar, old, new)
 		vFireLightMul = vFireLightMulConVar:GetFloat()
 	end)
-
-
-
 
 	--[[-------------------------------------------------------------------------
 	Reset all ConVars
@@ -283,7 +261,6 @@ if SERVER then
 		vFireUpdateThinkThrottle()
 	end)
 
-
 	--[[-------------------------------------------------------------------------
 	Toggle fire damage
 	---------------------------------------------------------------------------]]
@@ -292,7 +269,6 @@ if SERVER then
 	cvars.AddChangeCallback("vfire_enable_damage", function(convar, old, new)
 		vFireEnableDamage = vFireEnableDamageConVar:GetBool()
 	end)
-
 
 	--[[-------------------------------------------------------------------------
 	Toggle fire damage for players in vehicles
@@ -303,7 +279,6 @@ if SERVER then
 		vFireEnableDamageInVehicles = vFireEnableDamageInVehiclesConVar:GetBool()
 	end)
 
-
 	--[[-------------------------------------------------------------------------
 	Set fire damage multiplier
 	---------------------------------------------------------------------------]]
@@ -312,7 +287,6 @@ if SERVER then
 	cvars.AddChangeCallback("vfire_damage_multiplier", function(convar, old, new)
 		vFireDamageMultiplier = vFireDamageMultiplierConVar:GetFloat()
 	end)
-
 
 	--[[-------------------------------------------------------------------------
 	Toggle explosion fire balls
@@ -323,7 +297,6 @@ if SERVER then
 		vFireEnableExplosionFires = vFireEnableExplosionFiresConVar:GetBool()
 	end)
 
-
 	--[[-------------------------------------------------------------------------
 	Toggle enhanced explosion effects
 	---------------------------------------------------------------------------]]
@@ -332,7 +305,6 @@ if SERVER then
 	cvars.AddChangeCallback("vfire_enable_explosion_effects", function(convar, old, new)
 		vFireEnableExplosionEffects = vFireEnableExplosionEffectsConVar:GetBool()
 	end)
-
 
 	--[[-------------------------------------------------------------------------
 	Toggle fire decals
@@ -343,7 +315,6 @@ if SERVER then
 		vFireEnableDecals = vFireEnableDecalsConVar:GetBool()
 	end)
 
-
 	--[[-------------------------------------------------------------------------
 	Set fire decal probability
 	---------------------------------------------------------------------------]]
@@ -352,7 +323,6 @@ if SERVER then
 	cvars.AddChangeCallback("vfire_decal_probability", function(convar, old, new)
 		vFireDecalProbability = vFireDecalProbabilityConVar:GetFloat()
 	end)
-
 
 	--[[-------------------------------------------------------------------------
 	Toggle fire spread
@@ -363,7 +333,6 @@ if SERVER then
 		vFireEnableSpread = vFireEnableSpreadConVar:GetBool()
 	end)
 
-
 	--[[-------------------------------------------------------------------------
 	Set fire spread rate
 	---------------------------------------------------------------------------]]
@@ -372,7 +341,6 @@ if SERVER then
 	cvars.AddChangeCallback("vfire_spread_delay", function(convar, old, new)
 		vFireSpreadThinkTickRate = math.Max(vFireSpreadRateConVar:GetFloat(), 0.0001)
 	end)
-
 
 	--[[-------------------------------------------------------------------------
 	Set fire decay rate
@@ -383,7 +351,6 @@ if SERVER then
 		vFireDecayRate = math.Clamp(vFireDecayRateConVar:GetFloat(), 0, 1)
 	end)
 
-
 	--[[-------------------------------------------------------------------------
 	Toggle custom NPC behavior
 	---------------------------------------------------------------------------]]
@@ -393,7 +360,6 @@ if SERVER then
 		vFireEnableNPCBehavior = vFireEnableNPCBehaviorConVar:GetBool()
 	end)
 
-
 	--[[-------------------------------------------------------------------------
 	Add cluster feed - in the 'prettified' name of spread boost
 	---------------------------------------------------------------------------]]
@@ -402,7 +368,6 @@ if SERVER then
 	cvars.AddChangeCallback("vfire_spread_boost", function(convar, old, new)
 		vFireClusterFeed = math.Max(vFireClusterFeedConVar:GetFloat(), 0)
 	end)
-
 
 	--[[-------------------------------------------------------------------------
 	Remove all fires
@@ -415,9 +380,6 @@ if SERVER then
 			fire:Remove()
 		end
 	end)
-
-
-
 
 	--[[-------------------------------------------------------------------------
 	Reset all ConVars
@@ -442,21 +404,6 @@ if SERVER then
 	end)
 end
 
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
 --[[-------------------------------------------------------------------------
 Life Throttle Calculation
 ---------------------------------------------------------------------------]]
@@ -466,7 +413,6 @@ if SERVER then
 		vFireLifeThrottle = math.Max(vFiresCount * 1.5, 10) * vFireDecayRate * vFireThrottleMultiplier
 	end
 end
-
 
 if SERVER then
 	--[[-------------------------------------------------------------------------
@@ -520,7 +466,6 @@ if SERVER then
 	function vFireMatToFuelRate(mat)
 		return matsFuelRate[mat] or matTypesFuelRate[mat] or 0.5
 	end
-
 
 	--[[-------------------------------------------------------------------------
 	Feeding materials - what feed will each material give?
@@ -584,12 +529,9 @@ if SERVER then
 		end
 	end
 
-
 	--[[-------------------------------------------------------------------------
 
-
 	Main fuel taking function
-
 
 	---------------------------------------------------------------------------]]
 	function vFireTakeFuel(ent, fuelTake)
@@ -603,8 +545,6 @@ if SERVER then
 			ent.vFireFuelAmount = ent.vFireFuelAmount - take
 			return take
 		end
-
-
 
 		-- We don't have a fuel factor cached, initialize it
 		ent.vFireFuelAmount = 0
@@ -625,7 +565,6 @@ if SERVER then
 			ent.vFireFuelRate = 1
 
 		elseif ent:GetClass() == "vfire_cluster" then
-
 
 			local parent = ent.parent
 
@@ -657,9 +596,7 @@ if SERVER then
 
 			ent.vFireFuelRate = fuelRate
 
-
 		else
-
 
 			local phys = ent:GetPhysicsObject()
 			if IsValid(phys) then
@@ -679,7 +616,6 @@ if SERVER then
 				end
 			end
 
-
 		end
 
 		-- We're done with initialization, don't forget to return a value
@@ -690,40 +626,6 @@ if SERVER then
 	end
 
 end
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
 
 if CLIENT then
 
@@ -779,11 +681,6 @@ if CLIENT then
 		return LOD
 	end
 
-
-
-
-
-
 	--[[-------------------------------------------------------------------------
 	Particle systems control point manipulation
 	---------------------------------------------------------------------------]]
@@ -795,11 +692,6 @@ if CLIENT then
 		end
 	end
 end
-
-
-
-
-
 
 --[[-------------------------------------------------------------------------
 Console notifications
@@ -819,16 +711,6 @@ if CLIENT then
 		vFireMessage("vFire performs best with gmod_mcore_test set to 1, enable it and restart your game for changes to take effect.")
 	end
 end
-
-
-
-
-
-
-
-
-
-
 
 --[[-------------------------------------------------------------------------
 Content Loading
@@ -866,7 +748,6 @@ game.AddParticles("particles/vFire_Flames_Huge_LOD.pcf")
 game.AddParticles("particles/vFire_Flames_Gigantic_LOD.pcf")
 game.AddParticles("particles/vFire_Flames_Inferno_LOD.pcf")
 
-
 game.AddParticles("particles/vFire_Burst_Infant.pcf")
 game.AddParticles("particles/vFire_Burst_Lines.pcf")
 game.AddParticles("particles/vFire_Burst_Main.pcf")
@@ -874,7 +755,6 @@ game.AddParticles("particles/vFire_Burst_Main_Big.pcf")
 game.AddParticles("particles/vFire_Burst_Plume.pcf")
 game.AddParticles("particles/vFire_Burst_Trail.pcf")
 game.AddParticles("particles/vFire_Burst_Trail_Plume.pcf")
-
 
 PrecacheParticleSystem("vFire_Base_Tiny")
 PrecacheParticleSystem("vFire_Base_Small")
@@ -908,7 +788,6 @@ PrecacheParticleSystem("vFire_Flames_Huge_LOD")
 PrecacheParticleSystem("vFire_Flames_Gigantic_LOD")
 PrecacheParticleSystem("vFire_Flames_Inferno_LOD")
 
-
 PrecacheParticleSystem("vFire_Burst_Infant")
 PrecacheParticleSystem("vFire_Burst_Lines")
 PrecacheParticleSystem("vFire_Burst_Main")
@@ -916,8 +795,6 @@ PrecacheParticleSystem("vFire_Burst_Main_Big")
 PrecacheParticleSystem("vFire_Burst_Plume")
 PrecacheParticleSystem("vFire_Burst_Trail")
 PrecacheParticleSystem("vFire_Burst_Trail_Plume")
-
-
 
 --[[-------------------------------------------------------------------------
 Loop sounds
@@ -927,7 +804,6 @@ list.Add("vFireLoopSounds", "ambient/fire/fire_big_loop1.wav")
 list.Add("vFireLoopSounds", "ambient/fire/fire_med_loop1.wav")
 list.Add("vFireLoopSounds", "ambient/fire/fire_small1.wav")
 list.Add("vFireLoopSounds", "ambient/fire/fire_small_loop2.wav")
-
 
 --[[-------------------------------------------------------------------------
 Decal loading
@@ -940,14 +816,12 @@ list.Add("VScorches_Tiny", "Decals/vFireScorch4_Tiny")
 list.Add("VScorches_Tiny", "Decals/vFireScorch5_Tiny")
 game.AddDecal("VScorch_Tiny", list.Get("VScorches_Tiny"))
 
-
 list.Add("VScorches_Small", "Decals/vFireScorch1_Small")
 list.Add("VScorches_Small", "Decals/vFireScorch2_Small")
 list.Add("VScorches_Small", "Decals/vFireScorch3_Small")
 list.Add("VScorches_Small", "Decals/vFireScorch4_Small")
 list.Add("VScorches_Small", "Decals/vFireScorch5_Small")
 game.AddDecal("VScorch_Small", list.Get("VScorches_Small"))
-
 
 list.Add("VScorches_Medium", "Decals/vFireScorch1_Medium")
 list.Add("VScorches_Medium", "Decals/vFireScorch2_Medium")
@@ -956,14 +830,12 @@ list.Add("VScorches_Medium", "Decals/vFireScorch4_Medium")
 list.Add("VScorches_Medium", "Decals/vFireScorch5_Medium")
 game.AddDecal("VScorch_Medium", list.Get("VScorches_Medium"))
 
-
 list.Add("VScorches_Big", "Decals/vFireScorch1_Big")
 list.Add("VScorches_Big", "Decals/vFireScorch2_Big")
 list.Add("VScorches_Big", "Decals/vFireScorch3_Big")
 list.Add("VScorches_Big", "Decals/vFireScorch4_Big")
 list.Add("VScorches_Big", "Decals/vFireScorch5_Big")
 game.AddDecal("VScorch_Big", list.Get("VScorches_Big"))
-
 
 list.Add("VScorches_Huge", "Decals/vFireScorch1_Huge")
 list.Add("VScorches_Huge", "Decals/vFireScorch2_Huge")
@@ -972,7 +844,6 @@ list.Add("VScorches_Huge", "Decals/vFireScorch4_Huge")
 list.Add("VScorches_Huge", "Decals/vFireScorch5_Huge")
 game.AddDecal("VScorch_Huge", list.Get("VScorches_Huge"))
 
-
 list.Add("VScorches_Gigantic", "Decals/vFireScorch1_Gigantic")
 list.Add("VScorches_Gigantic", "Decals/vFireScorch2_Gigantic")
 list.Add("VScorches_Gigantic", "Decals/vFireScorch3_Gigantic")
@@ -980,14 +851,12 @@ list.Add("VScorches_Gigantic", "Decals/vFireScorch4_Gigantic")
 list.Add("VScorches_Gigantic", "Decals/vFireScorch5_Gigantic")
 game.AddDecal("VScorch_Gigantic", list.Get("VScorches_Gigantic"))
 
-
 list.Add("VScorches_Inferno", "Decals/vFireScorch1_Inferno")
 list.Add("VScorches_Inferno", "Decals/vFireScorch2_Inferno")
 list.Add("VScorches_Inferno", "Decals/vFireScorch3_Inferno")
 list.Add("VScorches_Inferno", "Decals/vFireScorch4_Inferno")
 list.Add("VScorches_Inferno", "Decals/vFireScorch5_Inferno")
 game.AddDecal("VScorch_Inferno", list.Get("VScorches_Inferno"))
-
 
 -- Edit our decal materials through Lua because we have a lot of VMTs and I'm lazy
 if CLIENT then
@@ -1015,7 +884,6 @@ if CLIENT then
 		end
 	end)
 end
-
 
 list.Add("vFireSmoke", "particle/smokesprites_0001")
 list.Add("vFireSmoke", "particle/smokesprites_0002")
@@ -1048,9 +916,6 @@ list.Add("vFireExplosionSounds", "weapons/explode5.wav")
 list.Add("vFireDirt", "particle/particle_debris_01")
 list.Add("vFireDirt", "particle/particle_debris_02")
 
-
-
-
 --[[-------------------------------------------------------------------------
 Create a refract material -- Unused for performance reasons
 ---------------------------------------------------------------------------]]
@@ -1059,35 +924,17 @@ Create a refract material -- Unused for performance reasons
 -- 	vFireRefractMat:SetFloat("$bluramount", 0)
 -- 	vFireRefractMat:SetFloat("$refractamount", 0.025)
 
-
-
-
-
-
-
-
-
-
-
-
-
-
-
 --[[-------------------------------------------------------------------------
-
 
 Specifics & External Support
 
-
 ---------------------------------------------------------------------------]]
-
 
 	--[[-------------------------------------------------------------------------
 	Make it easy for other addons to check if we're installed
 	---------------------------------------------------------------------------]]
 	vFireInstalled = true
 	vFireVersion = 1
-
 
 	--[[-------------------------------------------------------------------------
 	Provide lower light brightness in HL2 maps
@@ -1099,7 +946,6 @@ Specifics & External Support
 			vFireLightMul = vFireLightMul * 0.165
 		end
 	end
-
 
 	--[[-------------------------------------------------------------------------
 	Soft extinguishing support for 'Fire Extinguisher' https://steamcommunity.com/sharedfiles/filedetails/?id=104607228
@@ -1127,7 +973,6 @@ Specifics & External Support
 
 			local CATEGORY = "vFire"
 
-
 			--[[-------------------------------------------------------------------------
 			Remove all fires the player is looking at
 			---------------------------------------------------------------------------]]
@@ -1150,7 +995,6 @@ Specifics & External Support
 			vextinguish:defaultAccess(ULib.ACCESS_ADMIN)
 			vextinguish:help("Extinguish fires you're looking at.")
 
-
 			--[[-------------------------------------------------------------------------
 			Remove all fires
 			---------------------------------------------------------------------------]]
@@ -1167,7 +1011,6 @@ Specifics & External Support
 			local vextinguishall = ulx.command(CATEGORY, "ulx vextinguishall", ulx.vextinguishall, "!vextinguishall")
 			vextinguishall:defaultAccess(ULib.ACCESS_ADMIN)
 			vextinguishall:help("Extinguish all fires.")
-
 
 			--[[-------------------------------------------------------------------------
 			Place fires

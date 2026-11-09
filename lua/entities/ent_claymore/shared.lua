@@ -12,7 +12,6 @@ ENT.DetectionAngle = 60
 ENT.DetectionDistance = 700
 ENT.DetectionRays = 5
 
-local developer = GetConVar("developer")
 ENT.offsetPos = Vector(0, 2, 11.5)
 ENT.offsetAng = Angle(1, 90, 0)
 

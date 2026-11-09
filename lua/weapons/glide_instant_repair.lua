@@ -15,7 +15,6 @@ if CLIENT then
 end
 
 local CurTime = CurTime
-local REPAIR_SOUND = "glide/train/track_clank_%d.wav"
 local anims_rnd = {
 	ACT_HL2MP_GESTURE_RANGE_ATTACK_KNIFE,
 	ACT_HL2MP_GESTURE_RANGE_ATTACK_MELEE,

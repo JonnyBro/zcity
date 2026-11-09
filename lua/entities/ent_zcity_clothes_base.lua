@@ -31,7 +31,6 @@ ENT.NamePos = Vector(12,1.5,4.6)
 ENT.NameAng = Angle(0,-90,0)
 
 --\\ Render Equipment
-    local vec = Vector(1,1,1)
     function ENT:RenderOnBody(entDrawOn)
         local fem = ThatPlyIsFemale(entDrawOn)
 

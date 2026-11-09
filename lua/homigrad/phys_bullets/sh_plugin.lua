@@ -979,8 +979,6 @@ hook.Add("EntityFireBullets", "あPhysBullets", function(ent, bullet)
 				bullet.Spread = Vector(bullet.Spread, bullet.Spread, 0)
 			end
 
-			local att = bullet.Attacker
-
 			PLUGIN.CreateBullet(bullet)
 		end
 
@@ -992,4 +990,3 @@ end)
 	-- PLUGIN:Include("sv_plugin.lua")
 	-- PLUGIN:Include("cl_plugin.lua")
 --//
-

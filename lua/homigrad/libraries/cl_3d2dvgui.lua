@@ -93,10 +93,6 @@ end
 local inputWindows = {}
 local usedpanel = {}
 
-local function isMouseOver(pnl)
-	return pointInsidePanel(pnl, getCursorPos())
-end
-
 local function postPanelEvent(pnl, event, ...)
 	if not IsValid(pnl) or not pnl:IsVisible() or not pointInsidePanel(pnl, getCursorPos()) then return false end
 

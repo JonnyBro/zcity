@@ -45,7 +45,6 @@ local PANEL = {}
 local color_blacky = Color(15,15,15,254)
 local color_reddy = Color(155,0,0,100)
 local gradientUp = surface.GetTextureID("vgui/gradient-d")
-local gradient_r = surface.GetTextureID("vgui/gradient-r")
 
 local function createButton(k,ent,size,Pan,mainpan)
     local but = vgui.Create( "DModelPanel", Pan )
@@ -218,7 +217,6 @@ function PANEL:Init()
     end
     -- UP Panel End
 
-
     self.RPanel = vgui.Create("DModelPanel", self )
     local RPan = self.RPanel
     RPan:Dock( LEFT )
@@ -263,7 +261,6 @@ function PANEL:Init()
                 end
 
             Pan:SizeToContents()
-
 
             function Pan:Paint(w,h)
             end

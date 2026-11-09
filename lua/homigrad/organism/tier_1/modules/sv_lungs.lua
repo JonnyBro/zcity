@@ -329,12 +329,6 @@ module[2] = function(owner, org, timeValue)
 		org.needotrub = true
 	end
 
-	if org.lungsR[1] < 0.5 then
-	end
-
-	if org.lungsL[1] < 0.5 then
-	end
-
 	if owner:IsBerserk() then
 		org.brain = math.min(0.5, org.brain)
 	end

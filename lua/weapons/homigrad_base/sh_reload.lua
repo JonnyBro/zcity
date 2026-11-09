@@ -80,7 +80,6 @@ if CLIENT then
 end
 
 SWEP.ReloadCooldown = 0.1
-local math_min = math.min
 function SWEP:ReloadEnd()
 	self:InsertAmmo(self:GetMaxClip1() - self:Clip1() + (self.drawBullet ~= nil and not self.OpenBolt and 1 or 0))
 	self.ReloadNext = CurTime() + self.ReloadCooldown --я хуй знает чо это
@@ -358,7 +357,6 @@ function SWEP:AnimationReload(time, staminaReload)
 	local lerp2 = time * (#anims2) - floortime2
 	local num1,num2 = anims2[math.Clamp(floortime2,1,#anims2)],anims2[math.Clamp(floortime2+1,1,#anims2)]
 
-
 	self.ReloadSlideOffset = easedLerp(lerp2,num1,num2)
 end
 
@@ -372,10 +370,6 @@ SWEP.FakeReloadSounds = {
 
 SWEP.FakeEmptyReloadSounds = {
 }
-
-function SWEP:FakeReloadFunctions()
-
-end
 
 function SWEP:ReloadSounds(time)
 	if self:ShouldUseFakeModel() then
@@ -410,7 +404,6 @@ end
 
 if SERVER then return end
 
-local vector_full = Vector(1, 1, 1)
 SWEP.StaminaReloadMul = 1
 net.Receive("hgwep reload", function()
 	local self = net.ReadEntity()

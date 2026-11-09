@@ -17,7 +17,6 @@ SWEP.AttachmentPos = Vector(0.05,-0.3,0)
 SWEP.AttachmentAng = Angle(90,0,0)
 SWEP.FakeMagDropBone = 48
 
-
 SWEP.FakeVPShouldUseHand = true
 SWEP.AnimList = {
 	["idle"] = "idle",
@@ -206,21 +205,10 @@ SWEP.RHAng = Angle(0,-5,90)
 SWEP.LHPos = Vector(-1.2,-1.4,-2.8)
 SWEP.LHAng = Angle(5,9,-100)
 
-local finger1 = Angle(-25,10,25)
-local finger2 = Angle(0,25,0)
-local finger3 = Angle(31,1,-25)
-local finger4 = Angle(-10,-5,-5)
-local finger5 = Angle(0,-65,-15)
-local finger6 = Angle(2,-2,-22)
-
-local vector_zero = Vector(0,0,0)
-
 function SWEP:AnimHoldPost()
 end
 
 SWEP.ShootAnimMul = 7
-
-local vector_one = Vector(1,1,1)
 
 function SWEP:DrawPost()
 	local wep = self:GetWeaponEntity()
@@ -233,7 +221,6 @@ end
 SWEP.punchmul = 5
 SWEP.punchspeed = 1
 SWEP.podkid = 2
-
 
 --RELOAD ANIMS PISTOL
 

@@ -59,9 +59,6 @@ end
 
 local gradient_d = Material("vgui/gradient-d")
 
-local blurMat = Material("pp/blurscreen")
-local Dynamic = 0
-
 BlurBackground = hg.DrawBlur
 
 local function PaintFrame(self,w,h)
@@ -79,4 +76,3 @@ function PANEL:Paint( w, h )
 end
 
 vgui.Register( "ZB_AccountFrame", PANEL, "ZFrame" )
-

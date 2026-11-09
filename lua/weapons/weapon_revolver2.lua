@@ -17,7 +17,6 @@ SWEP.AttachmentPos = Vector(-2,-1.6,-23.1)
 SWEP.AttachmentAng = Angle(0,0,90)
 SWEP.MagIndex = 53
 
-
 SWEP.FakeVPShouldUseHand = true
 SWEP.AnimList = {
 	["idle"] = "idle1",
@@ -133,8 +132,6 @@ if CLIENT then
 		end
 	end
 end
-
-
 
 SWEP.WepSelectIcon2 = Material("vgui/wep_jack_hmcd_revolver")
 SWEP.IconOverride = "vgui/wep_jack_hmcd_revolver"
@@ -350,11 +347,6 @@ function SWEP:GetDrum()
 	return self.Drum
 end
 
-function SWEP:SetDrum(drum)
-	self.Drum = drum
-	self.DrumLastPredicted = CurTime() + 1
-end
-
 local phrases = {
 	"Didn't fire...",
 	"Lucky me...",
@@ -464,9 +456,6 @@ SWEP.RHAng = Angle(0,-5,90)
 --local to rh
 SWEP.LHPos = Vector(-1.2,-1.4,-2.8)
 SWEP.LHAng = Angle(5,9,-100)
-
-local finger1 = Angle(-15,0,5)
-local finger2 = Angle(-15,45,-5)
 
 function SWEP:DrawPost()
 	local wep = self:GetWeaponEntity()

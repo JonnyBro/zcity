@@ -729,7 +729,6 @@ hg.attachments.sight = {
 		PhysPos = Vector(1, 0, 0),
 		PhysAng = Angle(0, 90, 0),
 
-
 		drawFunction = function(self,model) -- in swep:drawattachment
 		end,
 
@@ -1501,52 +1500,6 @@ local function initAttachments()
 			scripted_ents.Register(att, "ent_att_" .. attachment)
 		end
 	end
-end
-
-function hg.GetAttachmentTab(att)
-	local found
-
-	for ia,attPos in pairs(hg.attachments) do
-		for i,fatt in pairs(attPos) do
-			if i == att then found = ia end
-		end
-	end
-
-	return found
-end
-
-function hg.GiveAttachment(ply,att)
-	local att = string.Replace(att,"ent_att_","")
-	local inv = ply:GetNetVar("Inventory",{})
-
-	inv["Attachments"] = inv["Attachments"] or {}
-
-	inv["Attachments"][#inv["Attachments"] + 1] = att
-
-	ply:SetNetVar("Inventory",inv)
-end
-
-function hg.NotValidAtt(att)
-	local att = isstring(att) and att or istable(att) and isstring(att[1]) and att[1]
-
-	if att then
-		local att = string.Replace(att,"ent_att_","")
-
-		local valid = false
-		for atta, tbl in pairs(hg.validattachments) do
-			if tbl[att] and tbl[att].valid then
-				valid = true
-			end
-		end
-
-		return not valid
-	end
-
-	return true
-end
-
-function hg.IsValidAtt(att)
-	return not hg.NotValidAtt(att)
 end
 
 initAttachments()

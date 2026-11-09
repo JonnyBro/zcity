@@ -33,7 +33,6 @@ SWEP.FakeAng = Angle(0, 0, 0)
 SWEP.AttachmentPos = Vector(-1.6,-0.1,0)
 SWEP.AttachmentAng = Angle(0,0,0)
 
-
 SWEP.DOZVUK = true
 
 SWEP.FakeReloadSounds = {
@@ -97,7 +96,6 @@ SWEP.punchspeed = 1
 SWEP.CustomShell = "9x19"
 SWEP.norecoil = true
 SWEP.NoWINCHESTERFIRE = true
-
 
 SWEP.ScrappersSlot = "Secondary"
 
@@ -181,13 +179,6 @@ SWEP.RHAng = Angle(0,-5,90)
 --local to rh
 SWEP.LHPos = Vector(-1.2,-1.4,-2.8)
 SWEP.LHAng = Angle(5,9,-100)
-
-local finger1 = Angle(-65,50,-70)
-local finger2 = Angle(-10,-10,-0)
-local finger3 = Angle(31,1,-25)
-local finger4 = Angle(-10,-5,-5)
-local finger5 = Angle(0,-65,-15)
-local finger6 = Angle(15,-5,-15)
 
 function SWEP:AnimHoldPost()
 
@@ -273,7 +264,6 @@ SWEP.ReloadAnimWepAng = {
 	Angle(0,0,0),
 	Angle(0,0,0),
 }
-
 
 -- Inspect Assault
 

@@ -18,7 +18,6 @@ local result
 local util_TraceLine, util_TraceHull = util.TraceLine, util.TraceHull
 local math_Clamp = math.Clamp
 local Round, Max, abs = math.Round, math.max, math.abs
-local compression = 12
 local traceBuilder = {
 	filter = lply,
 	mins = -Vector(5, 5, 5),
@@ -27,12 +26,7 @@ local traceBuilder = {
 	collisiongroup = COLLISION_GROUP_DEBRIS
 }
 
-local anglesYaw = Angle(0, 0, 0)
-local vecVel = Vector(0, 0, 0)
-local angVel = Angle(0, 0, 0)
 local limit = 4
-local sideMul = 5
-local eyeAngL = Angle(0, 0, 0)
 local IsValid = IsValid
 
 local hg_fov = ConVarExists("hg_fov") and GetConVar("hg_fov") or CreateClientConVar("hg_fov", "70", true, false, "Change first-person field of view", 75, 100)
@@ -44,11 +38,8 @@ local hg_gopro_z = CreateClientConVar("hg_gopro_z", "0", true, false, "GoPro cam
 
 local oldview = render.GetViewSetup()
 local breathing_amount = 0
-local walk_amount = 0
 local curTime = CurTime()
 local curTime2 = CurTime()
-local angfuk23 = Angle(0,0,0)
-local vecdiff = Vector(0, 0, 0)
 angle_difference_localvec = Vector(0, 0, 0)
 angle_difference_localvec2 = Vector(0, 0, 0)
 angle_difference = Angle(0, 0, 0)
@@ -62,7 +53,6 @@ offsetView = offsetView or Angle(0, 0, 0)
 
 camera_position_addition = Vector(0,0,0)
 
-local swayAng = Angle(0, 0, 0)
 hook.Add("Camera", "Weapon", function(ply, ...)
 	local ply = ply or lply
 	wep = ply:GetActiveWeapon()
@@ -85,8 +75,6 @@ local TickInterval = engine.TickInterval
 
 -- local hg.clamp = hg.hg.clamp
 
-local lerpholdbreath = 1
-
 local velocityAdd = Vector()
 local velocityAddVel = Vector()
 local walkLerped = 0
@@ -99,7 +87,6 @@ function HGAddView(ply, origin, angles, velLen)
 		local org = ply.organism or {}
 		local pulse = org.pulse or 70
 		local adrenaline = org.adrenaline or 0
-		local temp = org.temperature or 36.6
 		local o2 = org.o2 and org.o2[1] or 30
 		local analgesia = org.analgesia or 0
 
@@ -316,8 +303,6 @@ CalcView = function(ply, origin, angles, fov, znear, zfar)
 	end
 
 	local vpang = GetViewPunchAngles2() + GetViewPunchAngles3()
-
-
 
 	if IsValid(follow) then
 		return hg.CalcViewFake(ply, origin, angles, fov, znear, zfar)
@@ -692,10 +677,8 @@ local function renderscene(pos, angle, fov)
 	return true
 end
 
-
 hook.Add("RenderScene", "jopa", renderscene)
 
-local vector_zero = Vector(0,0,0)
 net.Receive("LookAway",function()
 	local ply = net.ReadEntity()
 	local LookX = net.ReadFloat()

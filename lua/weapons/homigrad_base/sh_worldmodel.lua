@@ -27,9 +27,6 @@ function SWEP:GetAnimShoot2(time, force, delay)
 	--/ (FrameTime() / engine.TickInterval())
 	animpos = 1.5 * animpos ^ 3 - 1 * animpos ^ 2
 
-	if animpos > 0 then
-	end
-
 	return animpos
 end
 
@@ -37,14 +34,10 @@ local angZero, vecZero = Angle(0, 0, 0), Vector(0, 0, 0) -- а неисполь�
 
 SWEP.AllowedInspect = true
 
-
 SWEP.lerpaddcloseanim = 0
 SWEP.closeanimdis = 40
 SWEP.WepAngOffset = Angle(0,0,0)
 SWEP.weaponAngLerp = Angle(0,0,0)
-
-local tickInterval = engine.TickInterval -- gde
-local hook_Run = hook.Run
 
 function SWEP:ChangeGunPos(dtime)
 	local ply = self:GetOwner()
@@ -71,8 +64,6 @@ function SWEP:ChangeGunPos(dtime)
 		self.weaponAng:Add(Angle(math.sin(ply.viewingGun - CurTime()) * -5, math.sin(ply.viewingGun - CurTime()) * -5, math.cos(ply.viewingGun+1.5 - CurTime()) * 30))
 		ply.viewingGun = not (self:KeyDown(IN_ATTACK2) or self:KeyDown(IN_ATTACK)) and ply.viewingGun or nil
 	end
-
-	local huya = false//self.lerpaddcloseanim > (self:IsPistolHoldType() and 0.7 or 0.39)
 
 	if (ply.posture == 7 or ply.posture == 8) and not self.reload and not ply.suiciding then
 		--gangsta mode!!!
@@ -107,12 +98,9 @@ SWEP.fuckhands = 0
 
 local math_ApproachAngle = math.ApproachAngle
 
-local torsoadd = Vector(5,5,3)
-
 SWEP.prankang = Angle(0,0,0)
 
 local hg_setzoompos = CreateClientConVar("hg_setzoompos", "0", false, false, "settingzoom", 0, 1)
-local developer = GetConVar("developer")
 
 local localPos = Vector()
 local localAng = Angle()
@@ -262,7 +250,6 @@ SWEP.FakeViewBobBaseBone = ""
 local vec = Vector(1.3,0.2,4.5)
 local lpos, lang = Vector(-5,0,0), Angle(0,0,0)
 local lpos2, lang2 = Vector(0,5,0), Angle(0,0,0)
-local reloadlerp = 0
 SWEP.GetDebug = false
 
 local function DrawWorldModel(self, force)
@@ -592,17 +579,12 @@ function SWEP:WorldModel_Transform(bNoApply, bNoAdditional, model)
 	end
 end
 
-local noSlingBone = "ValveBiped.Bip01_Pelvis"
-local noSlingPos = Vector(9, 3, 0)
-local noSlingAng = Angle(-70, 90, 180)
-
 SWEP.holsteredBone = "ValveBiped.Bip01_Spine2"
 SWEP.holsteredPos = Vector(5, 8, -4)
 SWEP.holsteredAng = Angle(210, 0, 180)
 
 SWEP.addAngle = Angle(0, 0, 0)
 local addAngle = Angle(0, 0, 0)
-local addHolsterPos = Vector(0, 1, 0)
 
 function SWEP:WorldModel_Transform_Holstered()
 	local model, owner = self.worldModel, self:GetOwner()
@@ -793,5 +775,3 @@ end)
 function SWEP:ShouldDrawViewModel()
 	return false
 end
-
-

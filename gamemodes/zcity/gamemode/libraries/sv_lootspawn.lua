@@ -124,7 +124,6 @@ props_junk/cardboard_box004a_present.mdl
 props_c17/woodbarrel001_gleb.mdl -- сами понимаете почему здесь...
 ]]
 
-
 hg.props = {
 	["models/props_c17/shelfunit01a.mdl"] = true,
 	["models/props_c17/door01_left.mdl"] = true,
@@ -428,7 +427,6 @@ local trCheck = {
 	maxs = vecHull,
 }
 
-
 local function MakeRandomSpawns(basepoints,iterations,maxiterations,tbl)
 	if iterations >= maxiterations then return tbl end
 	--я приготовил пельмени с говном вместо мяса
@@ -559,7 +557,6 @@ end)
 if timer.Exists("SpawnTheBoxes") then timer.Remove("SpawnTheBoxes") end
 timer.Create("SpawnTheBoxes", 8, 0, function() hook_Run("Boxes Think") end)
 
-local vec = Vector(0, 0, 64)
 local vec_dist = Vector(500,500,500)
 hook.Add("Boxes Think", "SpawnBoxes", function()
 	if zb.ROUND_STATE ~= 1 or not CurrentRound().LootSpawn then return end
@@ -649,5 +646,3 @@ hook.Add("Boxes Think", "SpawnBoxes", function()
 		huy.AmmoCount = AmmoCount
 	end
 end)
-
-

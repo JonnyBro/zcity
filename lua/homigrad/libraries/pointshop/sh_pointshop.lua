@@ -21,9 +21,6 @@ function PLUGIN:CreateItem( uid, strName, strModel, strBodyGroups, iSkin, vecPos
     }
 end
 
-if SERVER then
-end
-
 if CLIENT then
     local callbacks = {}
 

@@ -56,15 +56,6 @@ function SWEP:Initialize()
 	self:SetBlocking(false)
 end
 
-local ang1 = Angle(90,-15,180)
-local ang2 = Angle(90,15,0)
-
-local ang4 = Angle(0,0,180)
-local ang5 = Angle(0,0,0)
-
-local ang3 = Angle(0,0,180)
-local clamp = math_Clamp
-
 local pickupWhiteList = {
 	["prop_ragdoll"] = true,
 	["prop_physics"] = true,

@@ -20,14 +20,10 @@ local math_random, math_Clamp, CurTime, Color = math.random, math.Clamp, CurTime
 
 local colWhite = Color(255, 255, 255, 255)
 local lerpthing = 1
-local lerpalpha = 0
-local colwhite = Color(0, 0, 0, 0)
-local colred = Color(122, 0, 0, 0)
 
 local ang4 = Angle(0,0,180)
 local ang5 = Angle(0,0,0)
 
-local ang3 = Angle(0,0,180)
 local clamp = math_Clamp
 
 function SWEP:PreDrawViewModel()
@@ -191,7 +187,6 @@ function SWEP:ModelAnim(model, pos, ang)
 		self.lastAddPos = addPos
 	end
 
-
 	local hpos = (self.HoldPos or vector_origin) + vechuy
 	local hang = (self.HoldAng or angle_zero)
 
@@ -256,8 +251,6 @@ function SWEP:SetHandPos(noset)
 	local ent = self:GetNWEntity("carryent")
 	self.rhandik = (self:GetFists()) or (IsValid(ent) and twohands)
 	self.lhandik = (self:GetFists() and hg.CanUseLeftHand(ply)) or IsValid(ent)
-
-	local bones2 = hg.TPIKBonesOther
 
 	local ply_spine_index = ply:LookupBone("ValveBiped.Bip01_Spine4")
 	if !ply_spine_index then return end
@@ -471,7 +464,6 @@ function SWEP:Think()
 			self.PrintName = "Hands"
 		end
 		self.changedName = true
-
 
 	if self:GetBlocking() then
 		if not self.blockSound then

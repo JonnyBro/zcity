@@ -17,8 +17,6 @@ SWEP.AttachmentPos = Vector(0,0,0)
 SWEP.AttachmentAng = Angle(0,0,0)
 SWEP.FakeAttachment = "muzzle"
 
-
-
 function SWEP:RevolverPostInit()
 	self.FakeEmptyReloadSounds = {
 		[0.16] = "weapons/universal/uni_crawl_l_03.wav",
@@ -238,9 +236,6 @@ SWEP.ReloadSoundes = {
 	"none"
 }
 
-local finger1 = Angle(-15,25,0)
-local finger2 = Angle(0,35,45)
-
 function SWEP:DrawPost()
 	local wep = self:GetWeaponEntity()
 	self.vec = self.vec or Vector(0,0,0)
@@ -253,7 +248,6 @@ end
 
 function SWEP:AnimHoldPost(model)
 end
-
 
 --RELOAD ANIMS PISTOL
 

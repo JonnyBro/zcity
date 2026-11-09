@@ -12,7 +12,6 @@ MODE.ForBigMaps = false
 MODE.Chance = 0.04
 
 local radius = nil
-local mapsize = 7500
 
 util.AddNetworkString("dm_start")
 util.AddNetworkString("dm_end")

@@ -23,7 +23,6 @@ MODE.FootStepsLifeTimeMax = 5000
 MODE.FootStepsCriticalAmt = 500
 
 local footMat = Material("thieves/footprint")
-local footMat2 = Material("dog_swep/footprint2")
 
 function MODE.IsRoundTypeSuitableForProfessions()
 	mode_type = MODE.Type or mode_type

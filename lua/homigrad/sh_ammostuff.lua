@@ -107,44 +107,6 @@ local function postpenetration_blood(self, new_vel_normal, len, ricochet, ang_di
 	scrape_blood(self, trace, len, len_before)
 end
 
-local function draw_silk(self)
-	if(IsValid(self.Draw_Model))then
-		--
-	else
-		local model_ent = ClientsideModel(self.FunctionInfo.Model)
-		self.Draw_Model = model_ent
-	end
-
-	local model_ent = self.Draw_Model
-	local vel_ang = self.Vel:Angle()
-
-	model_ent:SetPos(self.Pos)
-	model_ent:SetAngles(vel_ang)
-
-	--if(hg.PhysSilk)then
-	--	if(!self.DesiredSilks)then
-	--		self.DesiredSilks = self.FunctionInfo.DesiredSilks
-	--	end
-	--
-	--	self.Silks = self.Silks or {}	--; TODO, Network translation to entity
---
-	--	for silk_desired_key, silk_desired in ipairs(self.DesiredSilks) do
-	--		local desired_pos, _ = LocalToWorld(silk_desired.EntityOffset, angle_zero, self.Pos, vel_ang)
-	--
-	--		if(IsValid(self.Silks[silk_desired_key]))then
-	--			self.Silks[silk_desired_key].Pos = desired_pos
-	--		else
-	--			local silk = table.Copy(silk_desired)	--; WARNING POINTERS
-	--			silk.Pos = desired_pos
-	--			self.Silks[silk_desired_key] = hg.PhysSilk.CreateSilk(silk, true)
-	--		end
-	--	end
-	--end
-	-- if(self.PathPoints)then
-		-- local color = self.TracerSetings.TracerColor or color_white
-
-end
-
 local function onstopped_silk(self, last_unsure_penetration_pos, reason, trace)
 	if(SERVER)then
 		if(!trace or !trace.HitSky)then
@@ -175,31 +137,6 @@ local function arrow_hit(self, last_unsure_penetration_pos, reason, trace)
 			if(trace)then
 				projectile:Hit(trace.Entity, trace.HitPos + normal * -4, trace.PhysicsBone, normal)
 			end
-		end
-	end
-end
-
-local function preremove_silk(self)
-	if(IsValid(self.Draw_Model))then
-		self.Draw_Model:Remove()
-	end
-
-	if(CLIENT and self.Silks)then
-		HGAmmo_PhysSilkTranslationTable[self.Key] = {	--; СЕЛФ КЕУ МОЖЕТ БЫТЬ ОДИН И ТОТ ЖЕ У 2 ПУЛЬ ЕСЛИ ПРОШЛАЯ УСПЕЛА УДАЛИТЬСЯ
-			Silks = self.Silks,
-			DeathTime = CurTime() + 1,
-		}
-	end
-end
-
-local function postremove_silk(self)
-	if(SERVER)then
-		if(IsValid(self.SpawnedEntity))then
-			net.Start("HGAmmo(TranslateSilkToEntity)")
-				net.WriteUInt(self.Key, hg.PhysBullet.MaxKeyBits)
-				net.WriteUInt(self.SpawnedEntity:EntIndex(), HGAmmo_MaxKeyBits)
-			net.SendPVS(self.SpawnedEntity:GetPos())
-			-- net.Broadcast()	--; PLUG
 		end
 	end
 end
@@ -3320,8 +3257,6 @@ end
 hg.ammotypesallowed = ammotypesallowed
 
 if CLIENT then
-    local blurMat = Material("pp/blurscreen")
-    local Dynamic = 0
 	local red = Color(75,25,25)
 	local panclr = Color( 0, 0, 0, 140)
 

@@ -1,11 +1,4 @@
 
-
-local red = Color(75,25,25)
-local redselected = Color(150,0,0)
-
-local blurMat = Material("pp/blurscreen")
-local Dynamic = 0
-
 BlurBackground = BlurBackground or hg.DrawBlur
 
 local function CreateOptionsMenu()

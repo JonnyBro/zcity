@@ -1,11 +1,5 @@
 local MODE = MODE
 
-
-local NET_COMMANDER_MENU = 1
-local NET_COMMANDER_PURCHASE = 2
-local NET_REQUEST_SUPPORT = 3
-local NET_COMMANDER_NOTIFICATION = 4
-
 util.AddNetworkString("defense_commander_menu")
 util.AddNetworkString("defense_commander_purchase")
 util.AddNetworkString("RequestSupport")
@@ -31,12 +25,10 @@ local function FindAirdropPosition()
     end
     centerPos = centerPos / #validPlayers
 
-
     local attempts = 20
     for i = 1, attempts do
         local randomOffset = Vector(math.random(-800, 800), math.random(-800, 800), 0)
         local dropPos = centerPos + randomOffset
-
 
         local skyCheckHeight = 4000
 
@@ -45,7 +37,6 @@ local function FindAirdropPosition()
             endpos = dropPos,
             mask = MASK_SOLID
         })
-
 
         if skyTrace.HitSky or not skyTrace.Hit then
             local groundTrace = util.TraceLine({
@@ -56,7 +47,6 @@ local function FindAirdropPosition()
 
             if groundTrace.Hit then
                 local finalPos = groundTrace.HitPos + Vector(0, 0, 10)
-
 
                 local spaceCheck = util.TraceHull({
                     start = finalPos,
@@ -77,12 +67,10 @@ local function FindAirdropPosition()
                         end
                     })
 
-
                     if not dropPathTrace.Hit or dropPathTrace.HitPos:Distance(finalPos) < 50 then
                         local adjustedStartHeight = dropPathTrace.Hit
                             and (dropPathTrace.HitPos.z + 500)
                             or startHeight
-
 
                         return finalPos, Vector(finalPos.x, finalPos.y, math.min(adjustedStartHeight, skyCheckHeight))
                     else
@@ -95,7 +83,6 @@ local function FindAirdropPosition()
 
     return nil
 end
-
 
 local function CreateFallingAirdrop(items, requester)
     local dropPos, startPos = FindAirdropPosition()
@@ -126,12 +113,10 @@ local function CreateFallingAirdrop(items, requester)
         end
     end
 
-
     local crate = ents.Create("ent_airdrop")
     crate:SetPos(startPos)
     crate:SetNWString("Contents", table.concat(items, ","))
     crate:Spawn()
-
 
     crate.TargetPos = dropPos
     crate.FallSpeed = 150
@@ -144,7 +129,6 @@ local function CreateFallingAirdrop(items, requester)
     light:SetParent(crate)
     light:Spawn()
     light:Activate()
-
 
     local smoke = ents.Create("env_smoketrail")
     smoke:SetPos(crate:GetPos())
@@ -160,7 +144,6 @@ local function CreateFallingAirdrop(items, requester)
 
     crate:EmitSound("ambient/machines/train_horn_distant1.wav", 100, 100)
 
-
     local fallTimer = "airdrop_fall_" .. crate:EntIndex()
     timer.Create(fallTimer, 0.05, 0, function()
         if not IsValid(crate) then
@@ -173,7 +156,6 @@ local function CreateFallingAirdrop(items, requester)
         local fallVector = (crate.TargetPos - curPos):GetNormalized() * math.min(crate.FallSpeed * 0.05, distToTarget)
 
         crate:SetPos(curPos + fallVector)
-
 
         if IsValid(light) then
             if CurTime() % 1 < 0.5 then
@@ -190,7 +172,6 @@ local function CreateFallingAirdrop(items, requester)
             if IsValid(light) then light:Remove() end
             if IsValid(smoke) then smoke:Remove() end
 
-
             for _, player in player.Iterator() do
                 if player:Alive() and player:Team() ~= TEAM_SPECTATOR then
                     if IsValid(requester) then
@@ -206,13 +187,11 @@ local function CreateFallingAirdrop(items, requester)
     return true
 end
 
-
 local function SpawnSupportTeam(requester)
     if not IsValid(requester) then return false end
 
     local pos = requester:GetPos()
     local spawnPoints = {}
-
 
     for i = 1, 8 do
         local angle = math.rad(i * 45)
@@ -248,7 +227,6 @@ local function SpawnSupportTeam(requester)
         return false
     end
 
-
     local supportModels = {
         "models/player/combine_soldier.mdl",
         "models/player/combine_super_soldier.mdl",
@@ -258,14 +236,12 @@ local function SpawnSupportTeam(requester)
         "models/player/gasmask.mdl"
     }
 
-
     local supportWeapons = {
         "weapon_ar15",
         "weapon_akm",
         "weapon_mp5",
         "weapon_m249"
     }
-
 
     local teamSize = math.random(3, 4)
     local successfulSpawns = 0
@@ -276,7 +252,6 @@ local function SpawnSupportTeam(requester)
         local spawnIndex = math.random(1, #spawnPoints)
         local spawnPos = spawnPoints[spawnIndex]
         table.remove(spawnPoints, spawnIndex)
-
 
         local npc = ents.Create("npc_citizen")
         if not IsValid(npc) then continue end
@@ -289,13 +264,11 @@ local function SpawnSupportTeam(requester)
         npc:SetKeyValue("spawnflags", "256")
         npc:SetKeyValue("SquadName", "CommanderSupportTeam_" .. requester:EntIndex())
 
-
         npc:Spawn()
         npc:Activate()
 
         local weapon = supportWeapons[math.random(#supportWeapons)]
         npc:Give(weapon)
-
 
         npc:AddEntityRelationship(requester, D_LI, 99)
         for _, player in player.Iterator() do
@@ -304,7 +277,6 @@ local function SpawnSupportTeam(requester)
                 player:AddEntityRelationship(npc, D_LI, 99)
             end
         end
-
 
         npc:SetTarget(requester)
         npc:SetSchedule(SCHED_FOLLOW)
@@ -316,7 +288,6 @@ local function SpawnSupportTeam(requester)
 
     if successfulSpawns > 0 then
         requester:ChatPrint("Support team deployed with " .. successfulSpawns .. " soldiers")
-
 
         for _, player in player.Iterator() do
             if player:Alive() and player:Team() != TEAM_SPECTATOR and player != requester then
@@ -332,13 +303,11 @@ local function SpawnSupportTeam(requester)
     return false
 end
 
-
 local function RespawnDeadPlayers(requester)
     if not IsValid(requester) then return false end
 
     local MODE = CurrentRound()
     if not MODE then return false end
-
 
     local deadPlayers = {}
     for _, ply in player.Iterator() do
@@ -354,7 +323,6 @@ local function RespawnDeadPlayers(requester)
         return false
     end
 
-
     if #deadPlayers > 4 then
         table.Shuffle(deadPlayers)
         local selectedPlayers = {}
@@ -364,7 +332,6 @@ local function RespawnDeadPlayers(requester)
         deadPlayers = selectedPlayers
     end
 
-
     local spawnPoints = MODE.GetUsualPlayerSpawnPoints and MODE:GetUsualPlayerSpawnPoints() or {}
     if not spawnPoints or #spawnPoints == 0 then
         if IsValid(requester) then
@@ -372,7 +339,6 @@ local function RespawnDeadPlayers(requester)
         end
         return false
     end
-
 
     local function EquipBaseGear(ply)
         if not ply or not IsValid(ply) then return end
@@ -410,7 +376,6 @@ local function RespawnDeadPlayers(requester)
         ply:Give("weapon_bandage_sh")
         ply:Give("weapon_tourniquet")
 
-
         local role = ply:GetNWString("PlayerRole", "")
         if role == "Medic" then
             ply:Give("weapon_medkit_sh")
@@ -435,7 +400,6 @@ local function RespawnDeadPlayers(requester)
         end
     end
 
-
     local respawnedCount = 0
     for _, ply in ipairs(deadPlayers) do
         if IsValid(ply) and not ply:Alive() and ply:Team() != TEAM_SPECTATOR then
@@ -443,9 +407,7 @@ local function RespawnDeadPlayers(requester)
             local spawnPoint = spawnPoints[math.random(#spawnPoints)]
             local spawnPos = MODE.GetGroundedPlayerSpawn and MODE:GetGroundedPlayerSpawn(spawnPoint) or spawnPoint.pos
 
-
             ply:Spawn()
-
 
             ply:SetPos(spawnPos)
             ply:SetLocalVelocity(vector_origin)
@@ -453,7 +415,6 @@ local function RespawnDeadPlayers(requester)
             if spawnPoint.ang then
                 ply:SetEyeAngles(Angle(0, spawnPoint.ang.y, 0))
             end
-
 
             ply:SetSuppressPickupNotices(true)
             ply.noSound = true
@@ -472,7 +433,6 @@ local function RespawnDeadPlayers(requester)
             ply:SetSuppressPickupNotices(false)
             ply.noSound = false
 
-
             local effectData = EffectData()
             effectData:SetOrigin(ply:GetPos() + Vector(0, 0, 30))
             util.Effect("ManhackSparks", effectData)
@@ -488,7 +448,6 @@ local function RespawnDeadPlayers(requester)
         for _, player in player.Iterator() do
             player:ChatPrint("Commander " .. requester:Nick() .. " has called in reinforcements! " .. respawnedCount .. " players respawned!")
         end
-
 
         for _, ply in player.Iterator() do
             ply:EmitSound("ambient/alarms/combine_bank_alarm_loop1.wav")
@@ -507,7 +466,6 @@ local function RespawnDeadPlayers(requester)
     return false
 end
 
-
 local function FindItemByEntity(entityName)
     for category, items in pairs(DEFENSE_COMMANDER_ITEMS) do
         for _, item in ipairs(items) do
@@ -518,10 +476,6 @@ local function FindItemByEntity(entityName)
     end
     return nil
 end
-
-
-local lastSupportResult = nil
-local lastSupportTime = 0
 
 net.Receive("RequestSupport", function(len, ply)
     if not ply.LastSupportRequestTime then ply.LastSupportRequestTime = 0 end
@@ -549,7 +503,6 @@ net.Receive("RequestSupport", function(len, ply)
     local orderId = string.upper(util.CRC(ply:SteamID() .. CurTime() .. math.random(1, 10000)):sub(1, 7))
     lastSupportRequest = CurTime()
 
-
     ply:ChatPrint("Your order #" .. orderId .. " is on its way!")
 
     local delay = math.random(20, 40)
@@ -574,7 +527,6 @@ net.Receive("RequestSupport", function(len, ply)
     end
 end)
 
-
 net.Receive("defense_commander_purchase", function(len, ply)
     if not ply.LastPurchaseTime then ply.LastPurchaseTime = 0 end
     if CurTime() - ply.LastPurchaseTime < 1 then return end
@@ -593,7 +545,6 @@ net.Receive("defense_commander_purchase", function(len, ply)
     local MODE = CurrentRound()
     if not MODE or MODE.name ~= "defense" then return end
 
-
     if len > 8192 then
         ply:Kick("Net message overflow")
         return
@@ -604,7 +555,6 @@ net.Receive("defense_commander_purchase", function(len, ply)
     local totalCost = 0
     local itemEntities = {}
     local specialItems = {}
-
 
     for _, item in pairs(items) do
         if not item or not item.entity then continue end
@@ -639,7 +589,6 @@ net.Receive("defense_commander_purchase", function(len, ply)
         return
     end
 
-
     ply:SetNWInt("CommanderPoints", currentPoints - totalCost)
 
     net.Start("defense_commander_notification")
@@ -663,7 +612,6 @@ net.Receive("defense_commander_purchase", function(len, ply)
             end
         end
     end
-
 
     if #itemEntities > 0 then
         timer.Simple(5, function()
@@ -704,7 +652,6 @@ net.Receive("defense_commander_purchase", function(len, ply)
         ply:SetNWInt("CommanderPoints", newPoints)
     end
 end)
-
 
 net.Receive("defense_commander_menu", function(len, ply)
 

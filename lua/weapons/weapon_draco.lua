@@ -235,13 +235,7 @@ SWEP.LHAng = Angle(-0,0,-100)
 
 --RELOAD ANIMS SMG????
 
-local finger1 = Angle(0,-20,0)
-local finger2 = Angle(-0, 40, 0)
-
 local finger11 = Angle(-0,20,0)
-local finger21 = Angle(-0, 10, 0)
-
-local angZero = Angle(0, 0, 0)
 
 function SWEP:AnimHoldPost(model)
 	local th = self.HoldType == "revolver"

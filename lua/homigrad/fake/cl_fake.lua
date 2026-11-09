@@ -4,7 +4,6 @@ follow = follow or nil
 local vecZero, vecFull, angZero = Vector(0, 0, 0), Vector(1, 1, 1), Angle(0, 0, 0)
 local vecPochtiZero = Vector(0.1, 0.1, 0.1)
 local view = {}
-local math_Clamp = math.Clamp
 local ang
 local att_Ang, ot
 local angEye = Angle(0, 0, 0)
@@ -87,8 +86,6 @@ hook.Add("InputMouseApply", "fakeCameraAngles", function(cmd, x, y, angle)
 end)
 
 local turned = false
-local anglesadd = Angle()
-local oldangs = Angle()
 local lerpedq = Quaternion()
 local hg_newfakecam = ConVarExists("hg_newfakecam") and GetConVar("hg_newfakecam") or CreateConVar("hg_newfakecam", 0, FCVAR_ARCHIVE, "New camera rotate", 0, 1)
 local rollang = 0
@@ -143,7 +140,6 @@ hook.Add("HG.InputMouseApply", "fakeCameraAngles2", function(tbl)
 
 	angle.roll = angle.roll
 	angle.roll = math.NormalizeAngle(angle.roll)
-	local adda = 1--math.Clamp((0.7 - math.abs(angle.roll / 90)), 0, 1) * math.Clamp((0.7 - math.abs(angle.pitch / 90)), 0, 1)
 
 	local angle2 = -(-angle)
 	rollang = follow == lply.OldRagdoll and 0 or rollang
@@ -193,7 +189,6 @@ local hg_gopro = CreateClientConVar("hg_gopro", "0", true, false, "Toggle GoPro-
 local hg_thirdperson = CreateConVar("hg_thirdperson", "0", FCVAR_REPLICATED, "Toggle third-person camera view", 0, 1)
 
 local k = 0
-local wepPosLerp = Vector(0,0,0)
 local CalcView
 local angleZero = Angle(0,0,0)
 
@@ -239,7 +234,6 @@ CalcView = function(ply, origin, angles, fov, znear, zfar)
 			ply:GetVehicle():GetParent().MovePlayerView = function() end
 		end
 	end
-
 
 	if not lply:Alive() and hg.DeathCam and hg.DeathCamAvailable(ply) then return hg.DeathCam(ply,origin,angles,fov,znear,zfar) end
 
@@ -287,7 +281,6 @@ CalcView = function(ply, origin, angles, fov, znear, zfar)
 	if IsValid(ply.OldRagdoll) then DrawPlayerRagdoll(follow, ply) end
 
 	local pos = hg.eye(ply, 10, follow, att_Ang)
-
 
 	if cshs_fake then
 		deathlerp = LerpFT(0.1,deathlerp,not ply.bGetUp and 1 or 0)
@@ -407,7 +400,6 @@ function net.ReadEntity2()
 end
 
 local hook_Run = hook.Run
-local indexes = {}
 net.Receive("Player Ragdoll", function()
 	local ply, ragdoll, ragdoll_index = net.ReadEntity(), net.ReadEntity2() --,net_ReadTable()
 	if not ragdoll_index then return end
@@ -466,8 +458,6 @@ hook.Add("RagdollEntityCreated", "RagdollFinder", function(ply, ent, key)
 	end
 
 	hook.Run("ServerRagdollTransferDecals", ply, ent)
-
-
 
 	local ragdoll = ply.FakeRagdoll
 
@@ -646,7 +636,6 @@ hook.Add("ServerRagdollTransferDecals","raghuy", function(ent, rag)
         rag.DecalTransferDone = true
     end
 end)
-
 
 --[[hook.Add("OnEntityCreated", "TryCopyAppearanceNow", function( ent )
 	--if not ent:IsRagdoll() then return end

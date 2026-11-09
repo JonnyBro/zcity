@@ -1,5 +1,4 @@
 ﻿local ShockWave = Material("sprites/mat_jack_shockwave_white")
-local Refract = Material("sprites/mat_jack_shockwave")
 local Wake = Material("effects/splashwake1")
 local Shit = Material("sprites/mat_jack_ignorezsprite")
 
@@ -270,7 +269,6 @@ function EFFECT:Render()
 	render.DrawSprite(self.Pos, self.Siyuz, self.Siyuz, Color(255, 255, 255, Opacity))
 	local TimeLeft = self.TimeToDie - CurTime()
 	local TimeFraction = math.Clamp(TimeLeft / (0.015 * self.Scale), 0, 10)
-	local ReverseFraction = 1 - TimeFraction
 	render.SetMaterial(Shit)
 	render.DrawSprite(self.Position, 2000 * TimeFraction * self.Scale, 2000 * TimeFraction * self.Scale, Color(255, 255, 255, 255 * TimeFraction))
 end

@@ -248,7 +248,6 @@ end
 --//
 
 --\\ Render Equipment
-    local vec = Vector(1,1,1)
     function ENT:RenderOnBody(entDrawOn)
     end
 --//

@@ -2,7 +2,6 @@ MODE.name = "event"
 
 local MODE = MODE
 
-local radius = nil
 local mapsize = 7500
 
 local EventersList = {}
@@ -15,7 +14,6 @@ net.Receive("event_start",function()
     roundend = false
     zb.RemoveFade()
 end)
-
 
 net.Receive("event_eventers_update", function()
     EventersList = {}
@@ -32,8 +30,6 @@ local fighter = {
 local eventer = {
     color1 = Color(50,200,50)
 }
-
-local mat = Material("hmcd_dmzone")
 
 local mapsize = 7500
 
@@ -56,7 +52,6 @@ function MODE:HUDPaint()
 
     local eventname = GetGlobalString("ZB_EventName","Event")
     draw.SimpleText("ZCity | "..eventname, "ZB_HomicideMediumLarge", sw * 0.5, sh * 0.1, Color(0,162,255, 255 * fade), TEXT_ALIGN_CENTER, TEXT_ALIGN_CENTER)
-
 
     local isEventer = EventersList[LocalPlayer():SteamID()]
     local Rolename = isEventer and "Eventer" or GetGlobalString("ZB_EventRole","Player")
@@ -97,10 +92,6 @@ local col = Color(255,255,255,255)
 local colSpect1 = Color(75,75,75,255)
 local colSpect2 = Color(255,255,255)
 
-local colorBG = Color(55,55,55,255)
-local colorBGBlacky = Color(40,40,40,255)
-
-local blurMat = Material("pp/blurscreen")
 local Dynamic = 0
 
 BlurBackground = BlurBackground or hg.DrawBlur
@@ -193,7 +184,6 @@ CreateEndMenu = function()
 			surface.SetTextPos(w / 2,h/2 - lengthY/2)
 			surface.DrawText(ply:GetPlayerName() or "He quited...")
 
-
 			local col = colSpect2
 			surface.SetFont( "ZB_InterfaceMediumLarge" )
 			surface.SetTextColor(col.r,col.g,col.b,col.a)
@@ -230,10 +220,7 @@ function MODE:RoundStart()
     end
 end
 
-
 local eventLootTable = {}
-
-
 
 local function CreateLootPollingMenu()
     if IsValid(LootPollingMenu) then
@@ -510,7 +497,6 @@ local function CreateLootPollingMenu()
     return LootPollingMenu
 end
 
-
 net.Receive("event_loot_sync", function()
     eventLootTable = net.ReadTable()
 
@@ -526,7 +512,6 @@ concommand.Add("zb_event_loot_menu", function(ply)
 
     RunConsoleCommand("zb_event_lootpoll")
 end)
-
 
 net.Receive("event_loot_request", function()
     CreateLootPollingMenu()

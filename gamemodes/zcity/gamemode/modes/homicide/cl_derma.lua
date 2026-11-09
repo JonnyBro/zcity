@@ -1,6 +1,5 @@
 local MODE = MODE
 local vgui_color_main = Color(155, 0, 0, 255)
-local vgui_color_bg = Color(50, 50, 50, 255)
 local vgui_color_ready = Color(0, 150, 50, 255)
 local vgui_color_notready = Color(0, 50, 0, 255)
 
@@ -10,10 +9,6 @@ local function set_role(role, mode)
 	else
 		RunConsoleCommand(MODE.ConVarName_SubRole_Traitor, role)
 	end
-end
-
-local function screen_scale_2(num)
-	return ScreenScale(num) / (ScrW() / ScrH())
 end
 
 --\\SubRole View Panel
@@ -76,14 +71,9 @@ function PANEL:PaintOver(w, h)
 
 end
 
-local tex_gradient = surface.GetTextureID("vgui/gradient-d")
-local mata = Material("vgui/traitor_icons/traitor_icon.png")
-
 local rolesmaterials = {
 	["traitor_default_soe"] = Material("vgui/traitor_icons/traitor_icon.png"),
 }
-
-local glow = Material("homigrad/vgui/models/circle.png")
 
 function PANEL:PostPaintPanel(w, h)
 	/*if((self.Mode == "soe" and MODE.ConVar_SubRole_Traitor_SOE:GetString() == self.Role) or (self.Mode != "soe" and MODE.ConVar_SubRole_Traitor:GetString() == self.Role))then

@@ -42,10 +42,6 @@ if CLIENT then
 	local snakes_poses = {}
 	local old_snakesposes = {}
 
-	local function clearSnakes()
-		snakes = {}
-	end
-
 	local function addSnake(index,bodyfunc,numsegments,detail,gravity,followvec,color1,color2,leading_part)
 		leading_part = leading_part or 1
 		local max = numsegments * detail
@@ -338,11 +334,6 @@ if CLIENT then
 	AddOptionPanel( "zmeyka_func", "slider", {desc = "func",min = 1, max = 5}, "general" )
 	AddOptionPanel( "zmeyka_legs", "switcher", {desc = "func"}, "general" )
 
-	local red = Color(75,25,25)
-	local redselected = Color(150,0,0)
-
-	local blurMat = Material("pp/blurscreen")
-	local Dynamic = 0
 	BlurBackground = BlurBackground or hg.DrawBlur
 
 	local function CreateOptionsMenu()

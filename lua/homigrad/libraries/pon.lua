@@ -36,7 +36,6 @@ THANKS TO...
  - VERCAS for the inspiration.
 ]]
 
-
 local pon = {};
 _G.pon = pon;
 
@@ -64,10 +63,8 @@ do
 			cache[ tbl ] = cacheSize;
 		end
 
-
     local first = next(tbl, nil)
     local predictedNumeric = 1
-    local lastKey = nil
     -- starts with a numeric dealio
     if first == 1 then
       output[#output + 1] = '{'
@@ -399,7 +396,6 @@ do
 	decode['?'] = function( self, index, str, cache )
 		return index + 1, nil;
 	end
-
 
 	function pon.decode( data )
 		local _, res = decode[sub(data,1,1)]( decode, 2, data, {});

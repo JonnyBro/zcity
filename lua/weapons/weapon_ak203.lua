@@ -116,8 +116,6 @@ function SWEP:ModelCreated(model)
 	end
 end
 
-
-
 SWEP.GunCamPos = Vector(4,-15,-6)
 SWEP.GunCamAng = Angle(190,-5,-100)
 
@@ -137,8 +135,6 @@ SWEP.ShockMultiplier = 2
 SWEP.Primary.Sound = {"ak74/ak74_fp.wav", 85, 90, 100}
 SWEP.SupressedSound = {"ak74/ak74_suppressed_fp.wav", 65, 90, 100}
 SWEP.Primary.SoundEmpty = {"zcitysnd/sound/weapons/ak47/handling/ak47_empty.wav", 75, 100, 105, CHAN_WEAPON, 2}
-
-
 
 SWEP.WepSelectIcon2 = Material("vgui/icons/ico_ak203.png")
 SWEP.IconOverride = "vgui/icons/ico_ak203.png"
@@ -245,13 +241,6 @@ function SWEP:DrawPost()
 		wep:ManipulateBonePosition(8,vec,false)
 	end
 end
-local lfang4 = Angle(0,70,0)
-local lfang3 = Angle(0,-25,0)
-local lfang2 = Angle(0,46,0)
-local lfang1 = Angle(0,-30,0)
-local lfang0 = Angle(0,-7,0)
-local vec_zero = Vector(0,0,0)
-local l_finger02 = Angle(-10,0,0)
 function SWEP:AnimHoldPost()
 
 end

@@ -274,7 +274,6 @@ COMMANDS.bigmap = {
 	0
 }
 
-
 zb.BigMaps = {
 	["mu_smallotown_v2_snow"] = true,
 	["mu_smallotown_v2_13"] = true,
@@ -476,7 +475,6 @@ function zb.GetModesInfo()
 	return modesInfo
 end
 
-
 function zb.SetRoundList(newList)
 	local newLista = table.Copy(newList)
 	if #newLista > 0 then
@@ -489,20 +487,17 @@ function zb.SetRoundList(newList)
 	end
 end
 
-
 util.AddNetworkString("ZB_SendModesInfo")
 util.AddNetworkString("ZB_SendRoundList")
 util.AddNetworkString("ZB_RequestRoundList")
 util.AddNetworkString("ZB_UpdateRoundList")
 util.AddNetworkString("ZB_NotifyRoundListChange")
 
-
 function zb.SendModesInfoToClient(ply)
 	net.Start("ZB_SendModesInfo")
 		net.WriteTable(zb.GetModesInfo())
 	net.Send(ply)
 end
-
 
 function zb.SendRoundListToClient(ply)
 	net.Start("ZB_SendRoundList")
@@ -518,7 +513,6 @@ function zb.SyncForceModeToAdmins()
 	end
 end
 
-
 hook.Add("PlayerInitialSpawn", "ZB_SendModesOnSpawn", function(ply)
 	if ply:IsAdmin() then
 		timer.Simple(1, function()
@@ -529,7 +523,6 @@ hook.Add("PlayerInitialSpawn", "ZB_SendModesOnSpawn", function(ply)
 		end)
 	end
 end)
-
 
 net.Receive("ZB_RequestRoundList", function(len, ply)
 	if IsValid(ply) and ply:IsAdmin() then
@@ -588,8 +581,6 @@ function zb:RoundStart()
 	end
 
 	nextMode = table.remove(zb.RoundList, 1)
-
-	local currentMode = mode.Type or round
 
 	print("Next game mode is " .. nextMode)
 
@@ -694,7 +685,6 @@ net.Receive("AdminSetGameQueue", function(len, ply)
 		ply:ChatPrint("Game mode queue has been cleared")
 		zb.NotifyQueueModified(ply, "cleared")
 
-
 		timer.Simple(0.2, function()
 			net.Start("QueueEmptiedNotification")
 			net.Send(zb.GetAllAdmins())
@@ -717,7 +707,6 @@ function zb.NotifyQueueModified(ply, action)
 		end
 	end
 
-
 	if #recipients > 0 then
 		net.Start("QueueModifiedNotification")
 		net.WriteString(IsValid(ply) and ply:Nick() or "Server")
@@ -731,7 +720,6 @@ function zb:Unfreeze()
 		if ply:Alive() then ply:Freeze(false) end
 	end
 end
-
 
 function zb:Freeze()
 	for i, ply in player.Iterator() do
@@ -786,7 +774,6 @@ if SERVER then
 	util.AddNetworkString("AdminSetGameMode")
 	util.AddNetworkString("AdminEndRound")
 	util.AddNetworkString("AdminSetGameQueue")
-	util.AddNetworkString("RequestGameQueue")
 	util.AddNetworkString("SendGameQueue")
 	util.AddNetworkString("QueueEmptiedNotification")
 	util.AddNetworkString("QueueModifiedNotification")
@@ -865,7 +852,6 @@ if SERVER then
 		if #modeQueue == 0 then
 			ply:ChatPrint("Game mode queue has been cleared")
 			zb.NotifyQueueModified(ply, "cleared")
-
 
 			timer.Simple(0.2, function()
 				net.Start("QueueEmptiedNotification")

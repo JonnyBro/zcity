@@ -245,7 +245,6 @@ MODE.TraitorActions = {
 
 SetGlobalBool("RolesPlus_Enable", true)
 
-util.AddNetworkString("HMCDPoliceRole")
 util.AddNetworkString("HMCD(StartPlayersRoleSelection)")
 util.AddNetworkString("HMCD(EndPlayersRoleSelection)")
 util.AddNetworkString("HMCD(SetSubRole)")
@@ -855,7 +854,6 @@ function MODE:GetActivePlayers()
 	return valid
 end
 
-
 MODE.deadPoliceCount = MODE.deadPoliceCount or 0
 MODE.swatDeployed = MODE.swatDeployed or false
 MODE.spawnedPoliceCount = MODE.spawnedPoliceCount or 0
@@ -881,7 +879,6 @@ function MODE:RoundThink()
 			end
 		end
 	end
-
 
 	if self.Type ~= "soe" and not self.swatDeployed and self.deadPoliceCount >= (self.spawnedPoliceCount or 4) and self.spawnedPoliceCount > 0 then
 		if not self.Types[self.Type] or not self.Types[self.Type].PoliceAllowed then return end
@@ -1080,15 +1077,12 @@ net.Receive("HMCD(StartPlayersRoleSelection)", function(len, ply)
 end)
 // ...
 
-
 util.AddNetworkString("HMCD_TraitorDeathState")
 util.AddNetworkString("HMCD_RequestTraitorStatuses")
-
 
 function MODE:SendTraitorDeathState(traitor, is_alive)
     if not traitor.CurAppearance then return end
     local name = traitor.CurAppearance.AName
-
 
     local recipients = {}
     for _, ply in player.Iterator() do
@@ -1103,13 +1097,11 @@ function MODE:SendTraitorDeathState(traitor, is_alive)
     net.Send(recipients)
 end
 
-
 hook.Add("PlayerDeath", "HMCD_TraitorDeathTracking", function(ply, _)
     if ply.isTraitor then
         MODE:SendTraitorDeathState(ply, false)
     end
 end)
-
 
 hook.Add("PlayerSpawn", "HMCD_TraitorSpawnTracking", function(ply)
     if ply.isTraitor then
@@ -1129,7 +1121,6 @@ end)
 
 net.Receive("HMCD_RequestTraitorStatuses", function(len, ply)
     if not ply.isTraitor or not ply.MainTraitor then return end
-
 
     for _, other_ply in player.Iterator() do
         if other_ply.isTraitor and other_ply.CurAppearance then
@@ -1177,14 +1168,11 @@ function MODE:RoundStart()
 	MODE.StartRoundTime = CurTime()
 	MODE.RoleChooseRound = false
 
-
 	self.roundStartType = self.Type
-
 
 	self.deadPoliceCount = 0
 	self.swatDeployed = false
 	self.spawnedPoliceCount = 0
-
 
 	timer.Remove("HMCDSpawnSWAT")
 
@@ -1210,7 +1198,6 @@ function MODE:EndRound()
 	timer.Remove("HMCDSpawnSWAT")
 	timer.Remove("SpawnAdditionalPolice")
     timer.Remove("SpawnAdditionalNationalGuard")
-
 
 	self.deadPoliceCount = 0
 	self.swatDeployed = false
@@ -1363,7 +1350,6 @@ hook.Add("Player_Death", "HMCD_PlayerDeath", function(ply, _)
 			end
 		end
 
-
 		if ply.isTraitor then
 
 			if biggest_attacker then
@@ -1434,7 +1420,6 @@ function MODE.SpawnPlayers(spawn_with_subroles)
     end
 
     --= Профессии
-    local professions = {}
     if(spawn_with_subroles and MODE.RoleChooseRoundTypes[MODE.Type])then
         local professions_possible_pre = MODE.RoleChooseRoundTypes[MODE.Type].Professions
 
@@ -1461,7 +1446,6 @@ function MODE.SpawnPlayers(spawn_with_subroles)
                 end
             end
 
-
             if(professions_count_to_satisfy > 0)then
                 for _, ply in RandomPairs(player.GetAll()) do
                     if(ply:Team() != TEAM_SPECTATOR and !ply.Profession)then
@@ -1478,7 +1462,6 @@ function MODE.SpawnPlayers(spawn_with_subroles)
             end
         end
     end
-
 
     local all_players = player.GetAll()
     for idx, current_ply in player.Iterator() do
@@ -1580,7 +1563,6 @@ function MODE.SpawnPlayers(spawn_with_subroles)
                         if (other_ply.isTraitor) then
                             traitor_amt = traitor_amt + 1
 
-
                             if this_player.MainTraitor and other_ply.CurAppearance then
                                 local Appearance = other_ply.CurAppearance
                                 local color = Appearance.AColor or color_white
@@ -1596,7 +1578,6 @@ function MODE.SpawnPlayers(spawn_with_subroles)
                         end
                     end
                 end
-
 
                 net.Start("HMCD_RoundStart")
                     net.WriteBool(this_player.isTraitor)

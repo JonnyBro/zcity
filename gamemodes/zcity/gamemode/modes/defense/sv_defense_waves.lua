@@ -4,7 +4,6 @@ local defenseSpawnMinPlayerDistanceSqr = 550 * 550
 local defenseSpawnVisibilityDot = 0.2
 local defenseSpawnStepDelay = 0.8
 
-
  local _OrigSpawn = SpawnZBaseNPC
  function SpawnZBaseNPC(ply, npcClass, pos, weaponClass)
 
@@ -175,7 +174,6 @@ function MODE:FindNavMeshSpawnPoint(center, minRadius, maxRadius)
     return candidates[math.random(#candidates)]
 end
 
-
 function MODE:AssignNPCTarget(npc)
     if not IsValid(npc) then return end
     local function GetValidPlayers()
@@ -207,7 +205,6 @@ function MODE:StartNewWave()
             timer.Simple(0.5, function()
                 for _, ent in ipairs(ents.FindByClass("prop_ragdoll")) do
                     if IsValid(ent) then
-                        local org = ent.organism
                             for i = 0, ent:GetPhysicsObjectCount() - 1 do
                                 ent:GetPhysicsObjectNum(i):Sleep()
                             end
@@ -235,7 +232,6 @@ function MODE:StartNewWave()
     end
 end
 
-
 function MODE:SpawnWave()
     local spawnPoints = self.GetDefenseAnchorPoints and self:GetDefenseAnchorPoints() or {}
     if not spawnPoints or #spawnPoints == 0 then
@@ -257,7 +253,6 @@ function MODE:SpawnWave()
     self.SpawnBatchID = (self.SpawnBatchID or 0) + 1
     local spawnBatchID = self.SpawnBatchID
 
-
     local hasBoss = false
     for _, npcDef in ipairs(currentWave) do
         if npcDef.boss then
@@ -266,11 +261,9 @@ function MODE:SpawnWave()
         end
     end
 
-
     if hasBoss then
         net.Start("defense_boss_incoming")
         net.Broadcast()
-
 
         for _, ply in player.Iterator() do
             if ply:GetNWString("PlayerRole") == "Commander" and ply:Alive() then
@@ -438,7 +431,6 @@ function MODE:SpawnWave()
                 end)
             end
 
-
             self:AssignNPCTarget(npc)
 
             if queuedNpcDef.relationship then
@@ -475,7 +467,6 @@ function MODE:SpawnWave()
     print("[DEFENSE] Wave " .. self.Wave .. " started with " .. self.NPCCount .. " NPCs")
 end
 
-
 function MODE:OnNPCKilled(npc, attacker, inflictor)
     if not npc or not IsValid(npc) then return end
 
@@ -485,7 +476,6 @@ function MODE:OnNPCKilled(npc, attacker, inflictor)
         self.NPCCount = 0
     end
 
-
     self.Wave = self.Wave or 0
     self.TotalWaves = self.TotalWaves or 6
 
@@ -494,7 +484,6 @@ function MODE:OnNPCKilled(npc, attacker, inflictor)
 
         if self.NPCCount <= 0 and not self.WaveSpawnInProgress then
             self:EndWave()
-
 
             if self.Wave and self.TotalWaves and self.Wave < self.TotalWaves then
                 timer.Simple(1, function()

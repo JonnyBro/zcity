@@ -11,8 +11,6 @@ function CurrentRound()
 end
 
 zb.ROUND_STATE = 0
-local vecZero = Vector(0.2, 0.2, 0.2)
-local vecFull = Vector(1, 1, 1)
 spect,prevspect,viewmode = nil,nil,1
 local hullscale = Vector(0,0,0)
 net.Receive("ZB_SpectatePlayer", function(len)
@@ -45,7 +43,6 @@ net.Receive("updtime",function()
 end)
 
 local blur = Material("pp/blurscreen")
-local blur2 = Material("effects/shaders/zb_blur" )
 local blursettings = {}
 local hg_potatopc
 hg = hg or {}
@@ -412,16 +409,12 @@ hook.Add("InitPostEntity", "furryhuy", function()
 	end
 end)
 
-local colGray = Color(122,122,122,255)
 local colBlue = Color(130,10,10)
 local colBlueUp = Color(160,30,30)
 local col = Color(255,255,255,255)
 
 local colSpect1 = Color(75,75,75,255)
 local colSpect2 = Color(85,85,85,255)
-
-local colorBG = Color(55,55,55,255)
-local colorBGBlacky = Color(40,40,40,255)
 
 hg.muteall = false
 hg.mutespect = false
@@ -464,8 +457,6 @@ local function OpenPlayerSoundSettings(selfa, ply)
 	Menu:AddPanel(volumeSlider)
 	Menu:Open()
 end
-
-
 
 hook.Add("Player Getup", "nomorespect", function(ply)
 	if not hg.mutespect then return end
@@ -908,7 +899,6 @@ concommand.Add("zb_snake", function() -- вот как здесь!
     snakePanel:SetSize(380, 380)
     snakePanel:SetPos(10, 10)
 
-
     frame:SetDraggable(true)
     frame:ShowCloseButton(true)
 
@@ -921,7 +911,6 @@ concommand.Add("zb_snake", function() -- вот как здесь!
     local score = 0
     local gameRunning = true
 
-
     local function spawnFood()
         local validPosition = false
         while not validPosition do
@@ -931,7 +920,6 @@ concommand.Add("zb_snake", function() -- вот как здесь!
             }
             validPosition = true
 
-
             for _, segment in ipairs(snake) do
                 if segment.x == newFood.x and segment.y == newFood.y then
                     validPosition = false
@@ -939,13 +927,11 @@ concommand.Add("zb_snake", function() -- вот как здесь!
                 end
             end
 
-
             if validPosition then
                 food = newFood
             end
         end
     end
-
 
     local function drawSnake()
         surface.SetDrawColor(0, 255, 0, 255)
@@ -954,14 +940,12 @@ concommand.Add("zb_snake", function() -- вот как здесь!
         end
     end
 
-
     local function drawFood()
         if food then
             surface.SetDrawColor(255, 0, 0, 255)
             surface.DrawRect(food.x * gridSize, food.y * gridSize, gridSize - 1, gridSize - 1)
         end
     end
-
 
     local function moveSnake()
         if not gameRunning then return end
@@ -978,11 +962,9 @@ concommand.Add("zb_snake", function() -- вот как здесь!
             head.x = head.x + 1
         end
 
-
         if head.x < 0 or head.x >= gridWidth or head.y < 0 or head.y >= gridHeight then
             gameRunning = false
         end
-
 
         for _, segment in ipairs(snake) do
             if segment.x == head.x and segment.y == head.y then
@@ -990,9 +972,7 @@ concommand.Add("zb_snake", function() -- вот как здесь!
             end
         end
 
-
         table.insert(snake, 1, head)
-
 
         if food and head.x == food.x and head.y == food.y then
             score = score + 1
@@ -1003,7 +983,6 @@ concommand.Add("zb_snake", function() -- вот как здесь!
         end
     end
 
-
     local function resetGame()
         snake = {{x = 10, y = 10}}
         snakeDirection = "RIGHT"
@@ -1011,7 +990,6 @@ concommand.Add("zb_snake", function() -- вот как здесь!
         gameRunning = true
         spawnFood()
     end
-
 
     function snakePanel:Paint(w, h)
         surface.SetDrawColor(50, 50, 50, 255)
@@ -1027,7 +1005,6 @@ concommand.Add("zb_snake", function() -- вот как здесь!
         draw.SimpleText("Score: " .. score, "DermaDefault", 10, 10, color_white, TEXT_ALIGN_LEFT, TEXT_ALIGN_TOP)
     end
 
-
     function frame:OnKeyCodePressed(key) -- ФУРИ МУВ теперь понятно почему лагает змейка
         if key == KEY_W and snakeDirection ~= "DOWN" then
             snakeDirection = "UP"
@@ -1042,7 +1019,6 @@ concommand.Add("zb_snake", function() -- вот как здесь!
         end
     end
 
-
     timer.Create("SnakeGameTimer", 0.2, 0, function()
         if gameRunning then
             moveSnake()
@@ -1050,13 +1026,11 @@ concommand.Add("zb_snake", function() -- вот как здесь!
         snakePanel:InvalidateLayout(true)
     end)
 
-
     frame.OnClose = function()
         timer.Remove("SnakeGameTimer")
         snakeGameOpen = false
         print("[Snake Game] Игра закрыта.") -- НЕ РАБОТАЕТ
     end
-
 
     resetGame()
 end)

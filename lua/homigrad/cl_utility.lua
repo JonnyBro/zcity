@@ -124,13 +124,6 @@ hg.ConVars = hg.ConVars or {}
 		return model
 	end
 
-	function hg.PrintModels()
-		for i,mdl in ipairs(hg.ClientsideModels) do
-			if not IsValid(mdl) then continue end
-			print(mdl,mdl:GetModel())
-		end
-	end
-
 	function hg.ClearClientsideModels()
 		for i,mdl in pairs(hg.ClientsideModels) do
 			if not IsValid(mdl) then continue end
@@ -341,8 +334,6 @@ players : 1 humans, 0 bots (20 max)
 		function Suppress(force)
 			SIB_suppress.Force = math.Clamp(SIB_suppress.Force + force / 1, 0, 10)
 		end
-
-		local pain_mat = Material("sprites/mat_jack_hmcd_narrow")
 
 		local colormodify = {
 			[ "$pp_colour_addr" ] = 0,
@@ -576,7 +567,6 @@ players : 1 humans, 0 bots (20 max)
 		local entities = ents_FindByClass("prop_ragdoll")
 		table_Add(entities, player_GetAll())
 
-		local orgents = {}
 		for ent in pairs(hg.organism_ents) do
 			if !IsValid(ent) then hg.organism_ents[ent] = nil continue end
 
@@ -950,8 +940,6 @@ players : 1 humans, 0 bots (20 max)
 
 	hg.flashes = {}
 	local tab = {}
-
-	local blackout_mat = Material("sprites/mat_jack_hmcd_narrow")
 
 	function hg.AddFlash(eyepos, dot, pos, time, size)
 		time = time or 20

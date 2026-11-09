@@ -5,7 +5,6 @@ local rt = GetRenderTarget("bulletholes-testing2", ScrW(), ScrH())
 local vecHull = Vector(2, 2, 2)
 local coltransparent = Color(0, 0, 0, 0)
 
-local center = Vector()
 local timershit = 0
 
 hg.ConVars = hg.ConVars or {}

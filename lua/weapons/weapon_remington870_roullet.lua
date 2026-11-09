@@ -11,7 +11,6 @@ SWEP.ViewModel = ""
 SWEP.WorldModel = "models/weapons/w_shot_m3super90.mdl"
 SWEP.WorldModelFake = "models/weapons/arccw/c_ud_870.mdl"
 
-
 SWEP.FakePos = Vector(-7, 3.6, 8.2)
 SWEP.FakeAng = Angle(0, 0.1, 2)
 
@@ -50,7 +49,6 @@ SWEP.FakeReloadEvents = {
 SWEP.FakeViewBobBone = "ValveBiped.Bip01_L_Hand"
 SWEP.FakeViewBobBaseBone = "ValveBiped.Bip01_L_UpperArm"
 SWEP.ViewPunchDiv = 30
-
 
 SWEP.FakeVPShouldUseHand = false
 
@@ -112,8 +110,6 @@ SWEP.lengthSub = 20
 SWEP.holsteredBone = "ValveBiped.Bip01_Spine2"
 SWEP.holsteredPos = Vector(4, 8, -6)
 SWEP.holsteredAng = Angle(210, 0, 180)
-
-
 
 SWEP.AnimList = {
 	["idle"] = "idle",
@@ -256,9 +252,6 @@ function SWEP:LoadBullet(strBullet)
 	end
 end
 
-local ang1 = Angle(0, -10, 0)
-local ang2 = Angle(0, -10, 0)
-
 function SWEP:AnimationPost()
 end
 
@@ -391,7 +384,6 @@ end
 function SWEP:CanPrimaryAttack()
 	return not (self:GetNetVar("shootgunReload",0) > CurTime())
 end
-
 
 -- Inspect Assault
 

@@ -142,7 +142,6 @@ function CLASS.On(self, data)
 
 		hg.converging[self] = CurTime()
 
-
 		return
 	else
 		self.JumpPowerMul = 1.5
@@ -200,8 +199,6 @@ function CLASS.On(self, data)
 	end)
 end
 
-local bluewhite = Color(187, 187, 255)
-
 if CLIENT then
 	surface.CreateFont("ZB_ProotLarge", {
 		font = "Bahnschrift",
@@ -229,10 +226,6 @@ end
 -- 	draw.SimpleText(HealthBar, "ZB_ProotLarge", sw * 0.12 + 1, sh * 0.81 + 1, shadow)
 -- 	-- draw.SimpleTextOutlined(HealthBar, "ZB_ProotLarge", sw * 0.12, sh * 0.81, hpcolor, nil, nil, 1, ColorAlpha(shadow, 50))
 
-local xbars = 17
-local ybars = 30
-
-local gradient_l = Material("vgui/gradient-l")
 local assimilation = 0
 local alpha = 0
 
@@ -269,7 +262,6 @@ function CLASS.HUDPaint(self)
 
 	render.SetScissorRect( 0, 0, 0, 0, false )
 
-
 end
 
 function CLASS.Guilt(self, victim)
@@ -285,7 +277,6 @@ local rnd2 = math.Rand(1, 999)
 local rnd3 = math.Rand(1, 999)
 local rnd4 = math.Rand(1, 999)
 
-local amount = 0.4
 hg.furcrack = {
 }
 

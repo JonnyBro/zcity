@@ -130,9 +130,6 @@ hook.Add("HomigradDamage", "GuiltReg", function(ply, dmgInfo, hitgroup, ent, har
     local harm = newharm - oldharmdone
     local amt = harm / maxharm
 
-    if amt > 0.2 or newharm / maxharm > 0.8 then
-    end
-
     if zb and zb.hostage and Victim == zb.hostage then
         zb.hostageLastTouched = Attacker
     end
@@ -185,9 +182,6 @@ hook.Add("HomigradDamage", "GuiltReg", function(ply, dmgInfo, hitgroup, ent, har
     if Attacker:IsBerserk() then return end
 
     local victimWep = Victim:IsPlayer() and IsValid(Victim:GetActiveWeapon()) and Victim:GetActiveWeapon()
-
-    if newharm >= maxharm and oldharmdone < newharm then
-    end
 
     amt = amt * 1
         * (Victim:IsPlayer() and math.Clamp(((Victim.Karma or 100) / 100), 1, 1.2) or 1)

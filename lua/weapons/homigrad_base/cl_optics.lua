@@ -42,9 +42,6 @@ local mat = Material("huy-glass")
 local mat2 = Material("huy-glass")
 SWEP.scopemat = Material("decals/scope.png")
 SWEP.perekrestie = Material("decals/perekrestie3.png")
-local limit = 1
-local vecVel = Vector(0, 0, 0)
-local angZero = Angle(0, 0, 0)
 local vecZero = Vector(0, 0, 0)
 SWEP.localScopePos = Vector(-21, 3.95, -0.2)
 SWEP.scope_blackout = 400
@@ -68,26 +65,6 @@ function surface.DrawTexturedRectRotatedPoint(x, y, w, h, rot, x0, y0)
 	local newx = y0 * s - x0 * c
 	local newy = y0 * c + x0 * s
 	surface.DrawTexturedRectRotated(x + newx, y + newy, w, h, rot)
-end
-
-local addmat_r = Material("CA/add_r")
-local addmat_g = Material("CA/add_g")
-local addmat_b = Material("CA/add_b")
-local vgbm = Material("vgui/black")
-local function DrawCA(rx, gx, bx, ry, gy, by, mater)
-	render.UpdateScreenEffectTexture()
-	addmat_r:SetTexture("$basetexture", mater)
-	addmat_g:SetTexture("$basetexture", mater)
-	addmat_b:SetTexture("$basetexture", mater)
-	local w, h = ScrW(), ScrH()
-	render.SetMaterial(vgbm)
-	render.DrawScreenQuad()
-	render.SetMaterial(addmat_r)
-	render.DrawScreenQuadEx(-rx / 2, -ry / 2, w + rx, h + ry)
-	render.SetMaterial(addmat_g)
-	render.DrawScreenQuadEx(-gx / 2, -gy / 2, w + gx, h + gy)
-	render.SetMaterial(addmat_b)
-	render.DrawScreenQuadEx(-bx / 2, -by / 2, w + bx, h + by)
 end
 
 lodset = false
@@ -250,13 +227,6 @@ end
 
 --
 local vecZero = Vector(0, 0, 0)
-local function WorldToScreen(vWorldPos, vPos, vScale, aRot, verticalScale)
-	local vWorldPos = vWorldPos - vPos
-	vWorldPos:Rotate(Angle(0, -aRot.y, 0))
-	vWorldPos:Rotate(Angle(-aRot.p, 0, 0))
-	vWorldPos:Rotate(Angle(0, 0, -aRot.r))
-	return vWorldPos.x / vScale, (-vWorldPos.y) / (vScale * verticalScale)
-end
 
 SWEP.size = 0.0007
 SWEP.holo_pos = Vector(-0.82, 3.48, 25)
@@ -296,7 +266,6 @@ hook.Add("InitPostEntity","zc_huyhuy",function()
 
 end)
 
-
 gameevent.Listen( "OnRequestFullUpdate" )
 hook.Add( "OnRequestFullUpdate", "RT_shits", function( data )
 	exampleRT = GetRenderTarget( "example_rt", 1024, 1024 )
@@ -312,9 +281,6 @@ hook.Add( "OnRequestFullUpdate", "RT_shits", function( data )
 	mat_Add:SetTexture("$basetexture", exampleRT)
 	mat_Add:SetVector("$color2", Vector(10, 10, 10))
 end )
-
-function SWEP:DoHolo()
-end
 
 local blured
 // ПОЙНТ ТЫ НУБ ПОЛНЫЙ

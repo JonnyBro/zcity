@@ -169,8 +169,6 @@ SWEP.RHAng = Angle(0,0,90)
 SWEP.LHPos = Vector(10.5,-3,-9)
 SWEP.LHAng = Angle(0-10,0,-90)
 
-local finger1 = Angle(45,-25,50)
-
 function SWEP:AnimHoldPost(model)
 end
 

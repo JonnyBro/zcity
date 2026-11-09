@@ -23,7 +23,6 @@ SWEP.FakeEjectBrassATT = "2"
 SWEP.CanEpicRun = true
 SWEP.EpicRunPos = Vector(2,10,2)
 
-
 SWEP.FakeViewBobBone = "CAM_Homefield"
 SWEP.FakeReloadSounds = {
 	[0.22] = "weapons/universal/uni_crawl_l_03.wav",
@@ -120,14 +119,11 @@ function SWEP:ModelCreated(model)
 	end
 end
 
-
-
 SWEP.GunCamPos = Vector(4,-15,-6)
 SWEP.GunCamAng = Angle(190,-5,-100)
 
 SWEP.ReloadHold = nil
 SWEP.FakeVPShouldUseHand = false
-
 
 SWEP.WepSelectIcon2 = Material("vgui/hud/tfa_ins2_mp5a4.png")
 SWEP.IconOverride = "vgui/hud/tfa_ins2_mp5a4.png"
@@ -211,12 +207,6 @@ SWEP.RHAng = Angle(0,-8,90)
 SWEP.LHPos = Vector(11,1.6,-3)
 SWEP.LHAng = Angle(-110,-180,5)
 
-local finger1 = Angle(-15,-22, 20)
-local finger2 = Angle(0, 10, 0)
-local finger3 = Angle(0, -5, -15)
-local finger4 = Angle(-10, -35, 0)
-local finger5 = Angle(0, 40, 0)
-
 SWEP.ShootAnimMul = 2
 
 function SWEP:AnimHoldPost(model)
@@ -225,7 +215,6 @@ function SWEP:AnimHoldPost(model)
 		model:ManipulateBonePosition(58,Vector(0 ,1.8*self.shooanim ,0),false)
 	end
 end
-
 
 -- RELOAD ANIM AKM
 SWEP.ReloadAnimLH = {
@@ -251,7 +240,6 @@ SWEP.ReloadAnimLH = {
 	"reloadend",
 	Vector(0,0,0)
 }
-
 
 SWEP.ReloadSlideAnim = {
 	0,

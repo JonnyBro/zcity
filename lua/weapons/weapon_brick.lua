@@ -54,7 +54,6 @@ SWEP.HP = 20
 
 function SWEP:PrimaryAttackAdd(ent, trace)
     if SERVER then
-		local dmg = self.DamagePrimary
 		local owner = self:GetOwner()
 
 		if ent then

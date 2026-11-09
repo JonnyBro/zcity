@@ -17,7 +17,6 @@ hg.DynaMusic = hg.DynaMusic or {}
 local DMusic = hg.DynaMusic
 
 DMusic.MusicMeta = DMusic.MusicMeta or {}
-local musMeta = DMusic.MusicMeta
 
 DMusic.CurrentPack = DMusic.CurrentPack or "mirrors_edge"
 DMusic.Tracks = DMusic.Tracks or nil

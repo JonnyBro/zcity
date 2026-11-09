@@ -16,7 +16,6 @@ SWEP.FakeAng = Angle(0, 0, 0)
 SWEP.AttachmentPos = Vector(0.5,-1.2,-6.5)
 SWEP.AttachmentAng = Angle(0,0,0)
 
-
 SWEP.FakeVPShouldUseHand = true
 
 SWEP.CantFireFromCollision = true // 2 спусковых крючка все дела
@@ -227,9 +226,6 @@ SWEP.RHAng = Angle(0,-5,90)
 --local to rh
 SWEP.LHPos = Vector(14,-1,-5)
 SWEP.LHAng = Angle(-90,-90,-90)
-
-local finger1 = Angle(-15,0,5)
-local finger2 = Angle(-15,45,-5)
 
 --RELOAD ANIMS PISTOL
 

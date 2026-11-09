@@ -69,8 +69,6 @@ function AS:SetPlayerData(ply, module, data)
 end
 
 if SERVER then
-	util.AddNetworkString("AdminSystem_Sync")
-	util.AddNetworkString("AdminSystem_ModuleAction")
 	util.AddNetworkString("AdminSystem_Notification")
 end
 

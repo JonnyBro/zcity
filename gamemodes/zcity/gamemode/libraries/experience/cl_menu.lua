@@ -3,15 +3,11 @@ zb = zb or {}
 
 zb.Experience = zb.Experience or {}
 
-
 local EXP = zb.Experience
 
 EXP.OpenedMenu = EXP.OpenedMenu or nil
 
 local gradient_u = Material("vgui/gradient-u")
-
-local blurMat = Material("pp/blurscreen")
-local Dynamic = 0
 
 BlurBackground = hg.DrawBlur
 

@@ -18,16 +18,6 @@ function Player:SetPlayerClass(value, data)
 	net.Broadcast()
 end
 
-function Player:GiveSwep(list, mulClip1) -- улучшенный tdm.GiveSwep
-	if not list then return end
-	local wep = self:Give(type(list) == "table" and list[math.random(#list)] or list)
-	mulClip1 = mulClip1 or 3
-	if IsValid(wep) then
-		wep:SetClip1(wep:GetMaxClip1())
-		self:GiveAmmo(wep:GetMaxClip1() * mulClip1, wep:GetPrimaryAmmoType())
-	end
-end
-
 util.AddNetworkString("setupclass")
 hook.Add("PlayerInitializeSpawn", "PlayerClass", function(plySend)
 	for i, ply in player.Iterator() do

@@ -86,13 +86,6 @@ SWEP.RHAng = Angle(0,-5,90)
 SWEP.LHPos = Vector(-0.5,-0.7,-2.13)
 SWEP.LHAng = Angle(5,9,-100)
 
-local finger1 = Angle(-25,10,25)
-local finger2 = Angle(0,25,0)
-local finger3 = Angle(31,1,-25)
-local finger4 = Angle(-10,-5,-5)
-local finger5 = Angle(0,-65,-15)
-local finger6 = Angle(15,-5,-15)
-
 function SWEP:AnimHoldPost()
 end
 SWEP.ShootAnimMul = 4
@@ -188,7 +181,6 @@ SWEP.ReloadAnimWepAng = {
 	Angle(2,6,1),
 	Angle(0,0,0)
 }
-
 
 -- Inspect Assault
 

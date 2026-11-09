@@ -253,13 +253,6 @@ if CLIENT then
 	end
 end
 SWEP.isTPIKBase = true
-function hg.RenderTPIKBase(ent, ply, wep)
-    if wep.DrawWorldModel2 then
-        wep:DrawWorldModel2()
-    else
-        wep:DrawWorldModel()
-    end
-end
 
 local host_timescale = game.GetTimeScale
 
@@ -538,7 +531,6 @@ function SWEP:PlayAnim(anim,time,cycling,callbackFuncName,reverse,sendtoclient,c
                 end
             end)
         end
-
 
     return end
     if not IsValid(self:GetWM()) or not IsValid(self:GetOwner()) or self:GetOwner():GetActiveWeapon() ~= self then

@@ -1,8 +1,5 @@
 local Angle, Vector, AngleRand, VectorRand, math, hook, util, game = Angle, Vector, AngleRand, VectorRand, math, hook, util, game
 
-local ENTITY = FindMetaTable("Entity")
-local PLAYER = FindMetaTable("Player")
-
 hg.ConVars = hg.ConVars or {}
 
 --\\ find lua file
@@ -152,11 +149,8 @@ end
 	FrameTimeClamped = 1/66
 	ftlerped = 1/66
 
-	local def = 1 / 144
-
 	local FrameTime, TickInterval, engine_AbsoluteFrameTime = FrameTime, engine.TickInterval, engine.AbsoluteFrameTime
 	local Lerp, LerpVector, LerpAngle = Lerp, LerpVector, LerpAngle
-	local math_min = math.min
 	local math_Clamp = math.Clamp
 
 	local host_timescale = game.GetTimeScale
@@ -210,13 +204,6 @@ end
 		return min(value / k, 1)
 	end
 
-	function util.safeDiv(a, b)
-		if a == 0 and b == 0 then
-			return 0
-		else
-			return a / b
-		end
-	end
 --//
 --\\ GetListByName
 	function player.GetListByName(name)
@@ -451,7 +438,6 @@ end
 
 		ply:RemoveFlags(FL_NOTARGET)
 
-
 		ply.RenderOverride = function(self, flags)
 			if not IsValid(self) or self:IsDormant() then return end
 			local p,a = self:GetBonePosition(1)
@@ -527,60 +513,9 @@ end
 	end)
 --//
 --\\ addbonecallback
-	function hg.addbonecallback(ent)
-		for i, callback in pairs(ent:GetCallbacks("BuildBonePositions")) do
-			ent:RemoveCallback("BuildBonePositions", i)
-		end
-
-		ent:AddCallback("BuildBonePositions", hg.build_bone_positions)
-	end
 --//
 --\\ RotateAroundPoints
-	function hg.RotateAroundPoint(pos, ang, point, offset, offset_ang)
-		local v = Vector(0, 0, 0)
-		v = v + (point.x * ang:Right())
-		v = v + (point.y * ang:Forward())
-		v = v + (point.z * ang:Up())
 
-		local newang = Angle()
-		newang:Set(ang)
-
-		newang:RotateAroundAxis(ang:Right(), offset_ang.p)
-		newang:RotateAroundAxis(ang:Forward(), offset_ang.r)
-		newang:RotateAroundAxis(ang:Up(), offset_ang.y)
-
-		v = v + newang:Right() * offset.x
-		v = v + newang:Forward() * offset.y
-		v = v + newang:Up() * offset.z
-
-		v = v - (point.x * newang:Right())
-		v = v - (point.y * newang:Forward())
-		v = v - (point.z * newang:Up())
-
-		pos = v + pos
-
-		return pos, newang
-	end
-
-	function hg.RotateAroundPoint2(pos, ang, point, offset, offset_ang)
-
-		local mat = Matrix()
-		mat:SetTranslation(pos)
-		mat:SetAngles(ang)
-		mat:Translate(point)
-
-		local rot_mat = Matrix()
-		rot_mat:SetAngles(offset_ang)
-		rot_mat:Invert()
-
-		mat:Mul(rot_mat)
-
-		mat:Translate(-point)
-
-		mat:Translate(offset)
-
-		return mat:GetTranslation(), mat:GetAngles()
-	end
 --//
 
 local hook_Run = hook.Run
@@ -592,21 +527,6 @@ local IsValid = IsValid
 	end
 --//
 --\\ custom build_bone_positions
-	function hg.build_bone_positions(self, count)
-		local ply, ent
-
-		if self:IsRagdoll() then
-			ply = self:GetNWEntity("ply")
-			ent = self
-		else
-			ply = self
-			ent = IsValid(self.FakeRagdoll) and self.FakeRagdoll or self
-		end
-
-		if IsValid(ply.FakeRagdollOld) then ent = ply.FakeRagdollOld end
-
-		DrawPlayerRagdoll(ent, ply)
-	end
 --//
 --\\ Render Override
 	hg.renderOverride = function(self, ent, flags)
@@ -1602,28 +1522,6 @@ duplicator.Allow( "homigrad_base" )
 			["$translucent"] = 1,
 		})
 
-		function hg.GetCaptureTex()
-			return tex
-		end
-
-		function hg.GetCaptureMat()
-			return myMat
-		end
-
-		function hg.StartCaptureRender()
-			render.PushRenderTarget(tex, 0, 0, ScrW(), ScrH())
-			render.Clear(0, 0, 0, 0, false, false)
-			render.SetWriteDepthToDestAlpha( false )
-		end
-
-		function hg.EndCaptureRender()
-			render.PopRenderTarget()
-		end
-
-		function hg.DrawCaptured()
-			render.SetMaterial(myMat)
-			render.DrawScreenQuad()
-		end
 	end
 --//
 

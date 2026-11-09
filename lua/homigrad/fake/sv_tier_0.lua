@@ -126,12 +126,10 @@ function hg.Ragdoll_Create(ply)
 	bull:Activate()
 	bull:SetNotSolid(true)
 
-
 	for i, ent in ipairs(ents.FindByClass("npc_*")) do
 		if not IsValid(ent) or not ent.AddEntityRelationship then continue end
 		ent:AddEntityRelationship(bull, ent:Disposition(ply))
 	end
-
 
 	for i, ent in ipairs(ents.FindByClass("terminator_*")) do
 		if not IsValid(ent) or not ent.AddEntityRelationship then continue end
@@ -181,7 +179,6 @@ function hg.Ragdoll_Create(ply)
 		ply.AddForceRag[physNum][2] = vecZero
 
 		local bonename = ragdoll:GetBoneName(bone)
-		local hitgroup = hg.bonetohitgroup[bonename]--( ent:IsPlayer() and tr.HitGroup or hg.bonetohitgroup[bonename])
 
 		if hg.amputeetable[bonename] and ply.organism[hg.amputeetable[bonename].."amputated"] then
 			Gib_RemoveBone(ragdoll, bone, physNum, true)
@@ -196,7 +193,6 @@ function hg.Ragdoll_Create(ply)
 			ply:SetEyeAngles(angle_zero)
 
 			local OwOveh = veh:GetModel() == "models/props_junk/popcan01a.mdl"
-			local add = vector_origin
 
 			local OwOcar = false
 			if veh2:GetModel() == "models/vehicles/7seatvan.mdl" then
@@ -336,7 +332,6 @@ hook.Add("PlayerSpawn", "Fake", function(ply)
 	end)
 	ply:SetCanZoom(false)
 end)
-
 
 hg.ragdollFake = hg.ragdollFake or {}
 hook.Add("DoPlayerDeath", "Fake", function(ply)
@@ -503,7 +498,6 @@ end
 
 local hg_ragdollcombat = ConVarExists("hg_ragdollcombat") and GetConVar("hg_ragdollcombat") or CreateConVar("hg_ragdollcombat", 0, {FCVAR_ARCHIVE, FCVAR_NOTIFY, FCVAR_REPLICATED}, "Toggle ragdoll combat-like ragdoll mode (walking, running in ragdoll, etc.)", 0, 1)
 
-local veczero = Vector(0,0,0)
 function hg.SetFreemove(ply, set)
 	if ply:InVehicle() or IsValid(ply.OldRagdoll) then return end
 	if set then
@@ -577,7 +571,6 @@ hook.Add("CanControlFake","stunnednocontrol",function(ply,rag)
 	if (ply.organism.stun - CurTime()) > 0 then return false end
 end)
 
-local util_TraceLine = util.TraceLine
 function hg.FakeUp(ply, forced, instant)
 	local ragdoll = ply.FakeRagdoll
 
@@ -605,7 +598,6 @@ function hg.FakeUp(ply, forced, instant)
 	local pos = hg.GetUpPos(ply, posit, 50, 50)
 
 	if not pos and not forced then return end
-	local oldpos = pos
 
 	hook_Run("Fake Up", ply, ragdoll)
 
@@ -694,8 +686,6 @@ function hg.FakeUp(ply, forced, instant)
 				hg.ragdollFake[ply] = nil
 				ply:SetMoveType(MOVETYPE_WALK)
 
-				if pos then
-				end
 			end)
 		else
 			ply:DrawShadow(true)
@@ -891,7 +881,6 @@ function hg.GetUpPos(target,pos,tries,starttries)
 		return vec
 	end
 	tries = tries - 1
-
 
 	local offset = tries == starttries and vector_origin or VectorRand(-32,32)
 	local newpos = pos + offset

@@ -305,7 +305,6 @@ hook.Add("HUDPaint", "homigrad-organism-debug", function()
 
 	local trent = tr.Entity
 	local organism_otherply = trent.organism or {}
-	local new_organism_otherply = trent.new_organism or {}
 
 	if not organism_otherply or table.IsEmpty(organism_otherply) then return end
 	trent = organism_otherply.owner
@@ -368,7 +367,6 @@ local localpos,localang,bone = Vector(0,0,0),Angle(0,0,0),0
 
 local traveltime = 5
 local hitorgans = {}
-local angZero = Angle(0,0,0)
 local vecFull = Vector(1,1,1)
 local bone0 = Vector()
 local ricochets = {}
@@ -524,30 +522,8 @@ end)
 	--end)
 end)*/
 
-function draw.RotatedText( text, x, y, font, color, ang)
-	render.PushFilterMag( TEXFILTER.ANISOTROPIC )
-	render.PushFilterMin( TEXFILTER.ANISOTROPIC )
-
-	local m = Matrix()
-	m:Translate( Vector( x, y, 0 ) )
-	m:Rotate( Angle( 0, ang, 0 ) )
-
-	surface.SetFont( font )
-	local w, h = surface.GetTextSize( text )
-
-	m:Translate( -Vector( w / 2, h / 2, 0 ) )
-
-	cam.PushModelMatrix( m )
-		draw.DrawText( text, font, 0, 0, color )
-	cam.PopModelMatrix()
-
-	render.PopFilterMag()
-	render.PopFilterMin()
-end
-
 local sizeX, sizeY = ScrW(), ScrH()
 local posX, posY = 0, 0
-
 
 function hg.DeathCamAvailable(ply)
 	return timeHuy and ((timeHuy + traveltime) > CurTime()) and #hg.hits > 0
@@ -598,11 +574,9 @@ end
 local weight = ScreenScale(100)
 local colblack = Color(0,0,0,255)
 local colyellow = Color(255,217,0)
-local colred = Color(135,0,0,255)
 local attpressed
 local attpressed2
 local mathuy = Material("color")
-local meat = Material("models/flesh")
 
 surface.CreateFont( "DefaultFixedDropShadowBig",{
 	font = "DefaultFixedDropShadow",
@@ -746,9 +720,6 @@ hook.Add("HUDPaint","homigrad-wound-debug",function()
 
 			draw.SimpleText("R to skip.", "HomigradFontBig", ScrW() / 3 * 2, ScrH() / 7, color_white)
 			draw.SimpleText("Hit "..tostring(iter).." of "..tostring(#hg.hits).." by "..inf.." from "..attacker, "HomigradFontBig", ScrW() / 3 * 2, ScrH() / 10, color_white)
-
-			local countedorgans = {}
-			local organs2 = {}
 
 		end
 	end

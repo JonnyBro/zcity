@@ -117,8 +117,6 @@ local whitelist = {
 }
 
 if CLIENT then
-	local col1 = Color(0, 0, 0, 150)
-	local col2 = Color(0, 0, 0, 200)
 
 	local gradient_u = Material("vgui/gradient-u")
 	local function PaintButton(self,w,h)

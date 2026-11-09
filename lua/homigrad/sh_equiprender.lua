@@ -1,6 +1,3 @@
-function hg.GetCurrentArmor(ply)
-	return ply:GetNetVar("Armor",{})
-end
 
 if CLIENT then
 	local whitelist = {
@@ -10,21 +7,6 @@ if CLIENT then
 		weapon_crowbar = true,
 		weapon_pistol = true,
 		weapon_crossbow = true
-	}
-
-	local models_female = {
-		["models/player/group01/female_01.mdl"] = true,
-		["models/player/group01/female_02.mdl"] = true,
-		["models/player/group01/female_03.mdl"] = true,
-		["models/player/group01/female_04.mdl"] = true,
-		["models/player/group01/female_05.mdl"] = true,
-		["models/player/group01/female_06.mdl"] = true,
-		["models/player/group03/female_01.mdl"] = true,
-		["models/player/group03/female_02.mdl"] = true,
-		["models/player/group03/female_03.mdl"] = true,
-		["models/player/group03/female_04.mdl"] = true,
-		["models/player/group03/female_05.mdl"] = true,
-		["models/player/group03/police_fem.mdl"] = true
 	}
 
 	local PixVis
@@ -106,7 +88,6 @@ if CLIENT then
 			end
 			return
 		end
-
 
 		if not ent.shouldTransmit or ent.NotSeen then
 			if not ent.modelArmor then return end
@@ -250,7 +231,6 @@ if CLIENT then
 	local BlurAfterNVG = 5
 	local CustomSndPlayed = false
 	local NVGEnabled = false
-	local cd = 0
 
 	hook.Add( "Think", "NVGEnabling", function( )
 		if lply:GetNWBool("NVG_Enabled", false) != NVGEnabled then
@@ -262,7 +242,6 @@ if CLIENT then
 		end
 	end )
 
-	local white = Material("color/white")
 	local brainhemorrhage = Material( "overlays/brainhemorrhageoverlay.png" )
 
 	local hg_gopro = ConVarExists("hg_gopro") and GetConVar("hg_gopro") or CreateClientConVar("hg_gopro", "0", true, false, "Toggle GoPro-like first-person camera view", 0, 1)
@@ -409,7 +388,6 @@ if CLIENT then
 		end
 	end)
 
-
 	concommand.Add("hg_add_equipment", function(ply, cmd, args)
 		local att = args[1]
 		net.Start("hg_add_equipment")
@@ -431,17 +409,9 @@ if CLIENT then
 
 	local plyEquipment = plyEquipment or {}
 	local armors = plyEquipment or {}
-	local drop = true
-	local gray = Color(200, 200, 200)
-	local blue = Color(200, 200, 255)
-	local red = Color(75,25,25)
-	local redselected = Color(150,0,0)
-	local whitey = Color(255, 255, 255)
 	local menuPanel
 	local chosen2
 
-	local blurMat = Material("pp/blurscreen")
-    local Dynamic = 0
 	BlurBackground = BlurBackground or hg.DrawBlur
 
 	local function refreshtbl()

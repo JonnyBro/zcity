@@ -40,8 +40,6 @@ local repeating = {
 // можно сделать чтобы оно просто брало стринг, текущее местоположение буквы и добавляло ещё сверху
 //
 
-
-
 function hg.FurrifyPhrase(msg)
 	local iter = utf8.codes(msg)
 	local len = 0
@@ -51,7 +49,6 @@ function hg.FurrifyPhrase(msg)
 		len = len + 1
 		chars[len] = utf8.char(code)
 	end
-
 
 	--i нельзя менять
 	for i = #chars, 1, -1 do
@@ -194,7 +191,6 @@ if CLIENT then
 
 	hg.CreateNotification = CreateNotification
 	hg.CreateNotificationBerserk = CreateNotificationBerserk
-	local colred = Color(255,0,0)
 
 	local time_spent = CurTime()
 	local coloruse = Color(255,255,255,255)
@@ -214,8 +210,6 @@ if CLIENT then
 	end
 
 	local colBrown = Color(40,40,40)
-	local ColorNotification = Color(48,4,4,0)
-	local maxtimefade = 1
 	local oldclick = 0
 
 	sound.Add({

@@ -57,12 +57,6 @@ function CLASS.On(self)
     self.CurAppearance = Appearance
 end
 
-local function IsLookingAt(ply, targetVec)
-    if not IsValid(ply) or not ply:IsPlayer() then return false end
-    local diff = targetVec - ply:GetShootPos()
-    return ply:GetAimVector():Dot(diff) / diff:Length() >= 0.8
-end
-
 function CLASS.Guilt(self, Victim)
     if CLIENT then return end
 

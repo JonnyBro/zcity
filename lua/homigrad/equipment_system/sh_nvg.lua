@@ -62,8 +62,6 @@ function RenderNVGOverlay(self, ply)
         end
     return end
     local overlayMaterial = self.OverlayMaterial
-    local lightFOV = self.LightFOV
-    local brightness = self.Brightness
     local blurAmmout = self.BlurAmmout
 
     if not IsValid(lply.NVGLamp) then

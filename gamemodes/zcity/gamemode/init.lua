@@ -28,8 +28,6 @@ local default_spawns = {
 	"info_player_zombiemaster", "info_player_fof", "info_player_desperado", "info_player_vigilante", "info_survivor_rescue"
 }
 
-local vecup = Vector(0, 0, 64)
-
 local spawners = {}
 
 local function getRandSpawn()
@@ -349,7 +347,6 @@ function GM:PlayerDeath(ply)
 	ply:Spectate(OBS_MODE_ROAMING)
 	ply:SetHull(-hullscale,hullscale)
 	ply:SetHullDuck(-hullscale,hullscale)
-
 
 	ply.chosenspect = ply:EntIndex()
 	ply.viewmode = 1

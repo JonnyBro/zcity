@@ -1,8 +1,6 @@
 --[[-------------------------------------------------------------------------
 
-
 vFire Creation Interface
-
 
 ---------------------------------------------------------------------------]]
 if SERVER then
@@ -146,8 +144,6 @@ if SERVER then
 
         fire:SetAngles(normal:Angle())
 
-
-
 		-- Place our fire in respect to the parent
 		if vFireIsCharacter(parent) then
 			-- Fix position
@@ -221,10 +217,6 @@ if SERVER then
 		return fire
 	end
 
-
-
-
-
 	--[[-------------------------------------------------------------------------
 	In charge of creating a fire ball that sticks to surfaces
 	---------------------------------------------------------------------------]]
@@ -245,10 +237,6 @@ if SERVER then
 
 		return fireBall
 	end
-
-
-
-
 
 	function CreateVFireEntFires(ent, count)
 		if not IsValid(ent) then return end
@@ -324,23 +312,6 @@ if SERVER then
 	end
 end
 
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
 --[[-------------------------------------------------------------------------
 In charge of creating clientside effects for visual fidelity purposes
 ---------------------------------------------------------------------------]]
@@ -358,7 +329,6 @@ if CLIENT then
 
 		local colGroup = COLLISION_GROUP_IN_VEHICLE
 		if !nocollide then colGroup = COLLISION_GROUP_WORLD end
-
 
 		local dummy = ents.CreateClientProp()
 			dummy:SetNoDraw(true)
@@ -813,7 +783,6 @@ if CLIENT then
 		hook.Add("Think", context, smokeTrailStep)
 	end
 
-
 	--[[-------------------------------------------------------------------------
 	Attaches a fire trail to an entity/position (follow can either be an entity or a vector)
 	---------------------------------------------------------------------------]]
@@ -977,7 +946,6 @@ if CLIENT then
 		end
 	end
 
-
 	--[[-------------------------------------------------------------------------
 	Creates a smoke ball
 	---------------------------------------------------------------------------]]
@@ -1019,7 +987,6 @@ if CLIENT then
 		return dummy
 	end
 
-
 	--[[-------------------------------------------------------------------------
 	Creates a non-physical mushroom explosion effect
 	---------------------------------------------------------------------------]]
@@ -1029,7 +996,6 @@ if CLIENT then
 		if levels <= 0 then return end
 
 		mushRoomID = mushRoomID + 1
-		local timerID = "vFireMushroom"..mushRoomID
 
 		if !startVel then startVel = VectorRand() end
 
@@ -1105,7 +1071,6 @@ if CLIENT then
 		local vel = VectorRand() * math.Rand(0, 30)
 		local lifeTime = math.Rand(0.6, 1.8) + 0.4 * magnitude
 		CreateCSVFireBall(life, pos, vel, lifeTime, canLOD)
-
 
 		-- Play a sound that reflects the stack
 		-- local sndID = math.random(1, math.Min(6, magnitude))

@@ -1,5 +1,4 @@
 hg.organism = hg.organism or {}
-local empty = {}
 local hook_Run = hook.Run
 local Vector = Vector --ыыы
 local vecZero, angZero = Vector(0, 0, 0), Angle(0, 0, 0)
@@ -73,30 +72,12 @@ function hg.organism.ShootMatrix(ent, organs)
 	return boxs, obbCenter, sphereChunk
 end
 
-local util_IntersectRayWithOBB = util.IntersectRayWithOBB
 local math_ceil = math.ceil
-local stepDiv = 1
-local tracePos = Vector(0, 0, 0)
 
 function hg.organism.Trace_Bullet(organs)
 	local organ = box[6] and organs[box[6]][box[7]]
 	return organ and organ[2] or 0
 end
-
-local models_female = {
-	["models/player/group01/female_01.mdl"] = true,
-	["models/player/group01/female_02.mdl"] = true,
-	["models/player/group01/female_03.mdl"] = true,
-	["models/player/group01/female_04.mdl"] = true,
-	["models/player/group01/female_05.mdl"] = true,
-	["models/player/group01/female_06.mdl"] = true,
-	["models/player/group03/female_01.mdl"] = true,
-	["models/player/group03/female_02.mdl"] = true,
-	["models/player/group03/female_03.mdl"] = true,
-	["models/player/group03/female_04.mdl"] = true,
-	["models/player/group03/female_05.mdl"] = true,
-	["models/player/group03/police_fem.mdl"] = true
-}
 
 if SERVER then return end
 

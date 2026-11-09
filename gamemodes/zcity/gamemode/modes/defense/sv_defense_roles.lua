@@ -1,6 +1,5 @@
 local MODE = MODE
 
-util.AddNetworkString("defense_commander_points")
 util.AddNetworkString("defense_commander_notification")
 util.AddNetworkString("defense_player_role_assigned")
 
@@ -10,7 +9,6 @@ function MODE:ClearPlayerRoles()
         ply:SetNWInt("CommanderPoints", 0)
     end
 end
-
 
 function MODE:AddCommanderPoints(points)
     for _, ply in player.Iterator() do
@@ -31,7 +29,6 @@ function MODE:OnWaveComplete()
 
     local pointsPerWave = DEFENSE_COMMANDER_ECONOMY.POINTS_PER_WAVE[self.CurrentSubMode] or 50
 
-
     local isBossWave = false
     if self.IsBossWave and type(self.IsBossWave) == "function" then
         isBossWave = self:IsBossWave()
@@ -49,10 +46,8 @@ function MODE:OnWaveComplete()
         end
     end
 
-
     if isBossWave then
         pointsPerWave = pointsPerWave * 2
-
 
         for _, ply in player.Iterator() do
             if ply:GetNWString("PlayerRole") == "Commander" and ply:Alive() then
@@ -98,10 +93,8 @@ function MODE:AssignPlayerRoles()
         inv["Weapons"]["hg_sling"] = true
         ply:SetNetVar("Inventory", inv)
 
-
         local weaponClass = DEFENSE_WEAPONS[0][math.random(#DEFENSE_WEAPONS[0])]
         local gun = ply:Give(weaponClass)
-
 
         timer.Simple(0.2, function()
             if IsValid(ply) and IsValid(gun) then
@@ -130,7 +123,6 @@ function MODE:AssignPlayerRoles()
     if commander then
         commander:SetNWString("PlayerRole", "Commander")
         commander:SetNWInt("CommanderPoints", DEFENSE_COMMANDER_ECONOMY.STARTING_POINTS)
-
 
         net.Start("defense_player_role_assigned")
         net.WriteString("Commander")
@@ -235,19 +227,5 @@ function MODE:GiveEquipment()
 
         ply:SetSuppressPickupNotices(false)
         ply.noSound = false
-    end
-end
-
-
-function SetCommanderRoleByID(playerID)
-    local ply = Player(playerID)
-    if IsValid(ply) then
-        ply:SetNWString("PlayerRole", "Commander")
-
-        net.Start("defense_player_role_assigned")
-        net.WriteString("Commander")
-        net.Send(ply)
-
-        ply:ChatPrint("u are cmd now")
     end
 end

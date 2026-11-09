@@ -252,7 +252,6 @@ MODE.TypeObjectives.suicidelunatic = {
 	},
 }
 
-
 MODE.TypeObjectives.supermario = {
 	traitor = {
 		objective = "You're the evil Mario! Jump around and take down everyone.",
@@ -317,8 +316,6 @@ function MODE:HUDPaint()
 
 	draw.SimpleText("You are "..Rolename , "ZB_HomicideMediumLarge", sw * 0.5, sh * 0.5, ColorRole, TEXT_ALIGN_CENTER, TEXT_ALIGN_CENTER)
 
-
-
 	local cur_y = sh * 0.5
 
 	if(lply.SubRole and lply.SubRole != "")then
@@ -332,7 +329,6 @@ function MODE:HUDPaint()
 
 		draw.SimpleText("Assistant", "ZB_HomicideMedium", sw * 0.5, cur_y, ColorRole, TEXT_ALIGN_CENTER, TEXT_ALIGN_CENTER)
 	end
-
 
 	if(lply.isTraitor)then
 		cur_y = cur_y + ScreenScale(20)
@@ -424,7 +420,6 @@ net.Receive("hmcd_roundend", function()
 
 	timer.Simple(2.5, function()
 
-
 		lply.isPolice = false
 		lply.isTraitor = false
 		lply.isGunner = false
@@ -458,10 +453,6 @@ local col = Color(255,255,255,255)
 local colSpect1 = Color(75,75,75,255)
 local colSpect2 = Color(255,255,255)
 
-local colorBG = Color(55,55,55,255)
-local colorBGBlacky = Color(40,40,40,255)
-
-local blurMat = Material("pp/blurscreen")
 local Dynamic = 0
 
 BlurBackground = BlurBackground or hg.DrawBlur
@@ -578,7 +569,6 @@ CreateEndMenu = function(traitor)
 			surface.SetTextColor(col.r, col.g, col.b, col.a)
 			surface.SetTextPos(w / 2, h / 2 - lengthY / 2)
 			surface.DrawText(name)
-
 
 			local col = colSpect2
 			surface.SetFont("ZB_InterfaceMediumLarge")

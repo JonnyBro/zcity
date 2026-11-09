@@ -85,7 +85,6 @@ function SWEP:SetupDataTables()
 	end
 end
 
-
 SWEP.usetime = 2
 local math = math
 
@@ -99,7 +98,6 @@ function SWEP:PrimaryAttack()
 		self:PlayAnim("heal")
 	end
 end
-
 
 --// i think it's better to rewrite all of ts stuff below..
 
@@ -321,8 +319,6 @@ if SERVER then
 					end
 
 					local owner = self:GetOwner()
-					if owner.Karma then
-					end
 					ent.bandaged_limbs = ent.bandaged_limbs or {}
 					local bone_name = org.wounds[1][4]
 					if not ent.bandaged_limbs[bone_name] then
@@ -555,11 +551,9 @@ if SERVER then
 	end
 end
 
-
 hg.TourniquetGuys = hg.TourniquetGuys or {}
 
 if SERVER then
-	util.AddNetworkString("send_tourniquets")
 	local tourniqet_bones = {
 		["ValveBiped.Bip01_L_UpperArm"] = {
 			["ValveBiped.Bip01_L_Forearm"] = true,
@@ -705,7 +699,6 @@ if SERVER then
 		ply.bandaged_limbs = {}
 	end)
 
-
 	hook.Add("Fake", "rtourniquetsss", function(ply,ragdoll)
 		if not IsValid(ragdoll) then return end
 
@@ -820,8 +813,6 @@ else
 			model:DrawModel()
 		end
 	end
-
-
 
 	function remove_bandages(ent)
 		if IsValid(ent.bandagesModel) then

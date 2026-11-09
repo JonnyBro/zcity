@@ -19,8 +19,6 @@ function BombInSite(pos, site)
 	return (#pts < 2 or pos:WithinAABox(vec1,vec2))
 end
 
-
-
 local offsetAng = Angle(-90,0,0)
 local offsetVec = Vector(0,0,0)
 
@@ -49,7 +47,6 @@ function ENT:Draw()
 		modelHuybombb = ClientsideModel(self.Model)
 		modelHuybombb:SetNoDraw(true)
 	end
-
 
 	local pos = view.origin + view.angles:Forward() * 25
 	local ang = view.angles
@@ -156,17 +153,8 @@ if IsValid(bombMenu) then
 end
 
 local colGray = Color(122,122,122,255)
-local colBlue = Color(130,10,10)
-local colBlueUp = Color(160,30,30)
 local col = Color(255,255,255,255)
 
-local colSpect1 = Color(75,75,75,255)
-local colSpect2 = Color(85,85,85,255)
-
-local colorBG = Color(55,55,55,255)
-local colorBGBlacky = Color(40,40,40,255)
-
-local blurMat = Material("pp/blurscreen")
 local Dynamic = 0
 
 CreateMenu = function(bomb)
@@ -213,8 +201,6 @@ CreateMenu = function(bomb)
 		surface.SetFont( "ZCity_Fixed_Big" )
 		surface.SetTextColor(col.r,col.g,col.b,col.a)
 		local lengthX, lengthY = surface.GetTextSize(txt)
-
-		local txtcopy = txt
 
 		surface.SetTextPos(x + 30 * size,y + 25 * size)
 		surface.DrawText(txt)
@@ -335,4 +321,3 @@ CreateMenu = function(bomb)
 
 	return bombMenu
 end
-

@@ -88,16 +88,6 @@ local tblweps = {
 	}
 }
 
-
-local tblarmors = {
-	[0] = {
-		{"ent_armor_vest3","ent_armor_helmet2"}
-	},
-	[1] = {
-		{"ent_armor_vest3","ent_armor_helmet2"}
-	}
-}
-
 function MODE:GetPlySpawn(ply)
 end
 
@@ -107,7 +97,6 @@ function MODE:GiveEquipment()
 	self.TPoints = {}
 	table.CopyFromTo(zb.GetMapPoints( "HMCD_TDM_T" ),self.TPoints)
 	timer.Simple(0.1,function()
-		local teamArmorCount = { [0] = 0, [1] = 0 }
 
 		for _, ply in player.Iterator() do
 			if not ply:Alive() then continue end
@@ -127,9 +116,6 @@ function MODE:GiveEquipment()
 			local tbl = tblweps[ply:Team()]
 			local wep = ply:Give(tbl[math.random(#tbl)])
 			ply:GiveAmmo(wep:GetMaxClip1() * 3, wep:GetPrimaryAmmoType())
-
-			if wep.SetDeagleSkin then
-			end
 
 			ply:Give("weapon_bandage_sh")
 			ply:Give("weapon_tourniquet")

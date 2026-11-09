@@ -129,7 +129,6 @@ SWEP.FakeVPShouldUseHand = false
 
 SWEP.BurstNum = 0
 
-
 SWEP.weaponInvCategory = 1
 SWEP.CustomEjectAngle = Angle(0, 0, 90)
 SWEP.Primary.ClipSize = 20
@@ -138,7 +137,6 @@ SWEP.Primary.Automatic = true
 SWEP.Primary.Ammo = "5.56x45 mm"
 
 SWEP.CustomShell = "556x45"
-
 
 SWEP.ScrappersSlot = "Primary"
 SWEP.Primary.Cone = 0
@@ -192,8 +190,6 @@ SWEP.lengthSub = 25
 SWEP.handsAng = Angle(1, -1.5, 0)
 SWEP.DistSound = "m16a4/m16a4_dist.wav"
 
-
-
 SWEP.weight = 3
 
 --local to head
@@ -202,8 +198,6 @@ SWEP.RHAng = Angle(0,-12,90)
 --local to rh
 SWEP.LHPos = Vector(15,1,-3.3)
 SWEP.LHAng = Angle(-110,-180,0)
-
-local finger1 = Angle(25,0, 40)
 
 SWEP.ShootAnimMul = 3
 function SWEP:DrawPost()
@@ -236,7 +230,6 @@ SWEP.InspectAnimWepAng = {
 	Angle(0,0,0)
 }
 
-
 function SWEP:CanPrimaryAttack()
 	local time = CurTime()
 
@@ -251,7 +244,6 @@ function SWEP:CanPrimaryAttack()
 
 	return self.BaseClass.CanPrimaryAttack(self)
 end
-
 
 function SWEP:PrimaryShootPost()
 	self.BurstNum = self.BurstNum + 1

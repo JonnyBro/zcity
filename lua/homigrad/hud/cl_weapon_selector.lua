@@ -48,7 +48,6 @@ end
 
 local scrW, scrH = ScrW(), ScrH()
 
-local AcsentColor = Color(155,0,0)
 local gradient_u = Material("vgui/gradient-d")
 
 function WS.WeaponSelectorDraw( ply )
@@ -70,7 +69,6 @@ function WS.WeaponSelectorDraw( ply )
         if table.Count(slotTbl) < 1 then continue end
         AmmoutSlots = AmmoutSlots + 1
     end
-
 
     for i = 0, #Weapons do
         local slotTbl = Weapons[i]

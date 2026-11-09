@@ -11,7 +11,6 @@ SWEP.ViewModel = ""
 SWEP.WorldModel = "models/weapons/w_shotgun.mdl"
 SWEP.WorldModelFake = "models/weapons/arccw/c_ur_spas12.mdl"
 
-
 --PrintTable(Entity(1):GetActiveWeapon():GetWM():GetAttachments())
 --uncomment for funny
 SWEP.FakePos = Vector(-10, 4.15, 3.85)
@@ -50,7 +49,6 @@ SWEP.FakeViewBobBone = "ValveBiped.Bip01_L_Hand"
 SWEP.FakeViewBobBaseBone = "ValveBiped.Bip01_L_UpperArm"
 SWEP.ViewPunchDiv = 30
 SWEP.DistSound = "weapons/arccw_ud/870/fire_dist.ogg"
-
 
 SWEP.WepSelectIcon2 = Material("vgui/hud/tfa_ins2_spas12")
 SWEP.IconOverride = "vgui/hud/tfa_ins2_spas12"
@@ -166,14 +164,12 @@ function SWEP:ModelCreated(model)
 	end
 end
 
-
 function SWEP:InitializePost()
 	self.AnimStart_Insert = 0
 	self.AnimStart_Draw = 0
 end
 
 local ang1 = Angle(0, -10, 0)
-local ang2 = Angle(0, -10, 0)
 
 function SWEP:DrawPost()
 	local wep = self:GetWeaponEntity()
@@ -212,7 +208,6 @@ local function cock(self,time)
 
 	self.reloadCoolDown = CurTime() + time
 end
-
 
 SWEP.GunCamPos = Vector(6,-12,-5)
 SWEP.GunCamAng = Angle(190,-5,-95)
@@ -291,7 +286,6 @@ end
 function SWEP:CanPrimaryAttack()
 	return not (self:GetNetVar("shootgunReload",0) > CurTime())
 end
-
 
 -- Inspect Assault
 

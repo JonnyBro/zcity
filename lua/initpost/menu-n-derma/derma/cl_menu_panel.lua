@@ -127,7 +127,6 @@ function PANEL:InitializeMarkup()
     return markup.Parse(text)
 end
 
-local color_red = Color(255,25,25,45)
 local clr_gray = Color(255,255,255,25)
 local clr_verygray = Color(10,10,19,235)
 
@@ -170,7 +169,6 @@ function PANEL:Init()
         if v.GamemodeOnly and engine.ActiveGamemode() != "zcity" then continue end
         self:AddSelect(lDock, v.Title, v)
     end
-
 
     local bottomDock = vgui.Create("DPanel", self)
     bottomDock:SetPos(ScreenScale(1), ScrH() - ScrH()/10)
@@ -219,7 +217,6 @@ function PANEL:First( ply )
 end
 
 local gradient_d = surface.GetTextureID("vgui/gradient-d")
-local gradient_r = surface.GetTextureID("vgui/gradient-u")
 local gradient_l = surface.GetTextureID("vgui/gradient-l")
 
 local clr_1 = Color(102,0,0,35)

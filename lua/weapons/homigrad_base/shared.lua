@@ -132,8 +132,6 @@ game.AddParticles("particles/tfa_smoke.pcf")
 PrecacheParticleSystem("smoke_trail_tfa")
 PrecacheParticleSystem("smoke_trail_wild")
 
-local vector_full = Vector(1, 1, 1)
-
 if CLIENT then
 	SWEP.HowToUseInstructions = "<font=ZCity_Tiny>"..string.upper( (input.LookupBinding("+use") or "BIND YOUR +USE KEY PLEASE. WRITE \"bind e +use\" IN CONSOLE FOR THE LOVE OF GOD") ).." to pickup</font>"
 end
@@ -349,7 +347,6 @@ function SWEP:IsZoom()
 	return true
 end
 
-
 function SWEP:CanUse()
 	local owner = self:GetOwner()
 
@@ -483,7 +480,6 @@ function SWEP:PlaySndDist(snd)
 	local dist = owner:GetPos():Distance(view.origin)
 	local time = dist / 17836
 
-
 	local bRoom = util.IsSkyboxVisibleFromPoint(pos)
 
 	timer.Simple(time, function()
@@ -506,7 +502,6 @@ function SWEP:PlaySndDist(snd)
 	end)
 end
 
-local math_Rand = math.Rand
 local matrix, matrixSet
 local math_random = math.random
 local primary
@@ -694,9 +689,6 @@ local hg_highpitchgunfire = ConVarExists("hg_highpitchgunfire") and GetConVar("h
 function SWEP:EmitShoot()
 	if SERVER then return end
 	local snd_new = "sounds_zcity/"..(string.Replace(self:GetClass(),"weapon_","")).."/"
-	local snd_close = snd_new.."close.wav"
-	local snd_suppressor = snd_new.."supressor.wav"
-	local snd_dist = snd_new.."dist.wav"
 
 	local vol = hg_gunshotvolume:GetFloat()
 	local ply = self:GetOwner()
@@ -786,18 +778,10 @@ function SWEP:SetInfo(info)
 	self:SetNetVar("attachments", self.attachments)
 end
 
-local colBlack = Color(0, 0, 0, 125)
-local colWhite = Color(255, 255, 255, 255)
-local yellow = Color(255, 255, 0)
 local vecZero = Vector(0, 0, 0)
 local angZero = Angle(0, 0, 0)
 local lerpAmmoCheck = 0
-local function LerpColor(lerp, source, set)
-	return Lerp(lerp, source.r, set.r), Lerp(lerp, source.g, set.g), Lerp(lerp, source.b, set.b)
-end
 
-local col = Color(0, 0, 0)
-local col2 = Color(0, 0, 0)
 local dynamicmags
 local instructions
 if CLIENT then
@@ -825,20 +809,6 @@ end
 function SWEP:DrawHUDAdd()
 end
 
-local blur = Material( "pp/blurscreen" )
-local function DrawBlurRect(x, y, w, h, dens, alpha)
-
-	local lightness = alpha and 80*math.Clamp(alpha,0,255)/255 or 50
-
-	draw.RoundedBox(0,x,y,w,h,Color(0,0,0,lightness))
-   	surface.SetDrawColor(0,0,0)
-end
-
-
-local scale = 1
-local developer = GetConVar("developer")
-
-
 local function DrawBullet(matIcon, x, y, size, cColor)
 	render.PushFilterMin(TEXFILTER.ANISOTROPIC)
 		surface.SetDrawColor(cColor)
@@ -850,14 +820,11 @@ end
 if CLIENT then
 	local scrW, scrH = ScrW(), ScrH()
 	local lastShoot = 0
-	local StopShowBullet = false
 	local WhiteColor = Color(200,200,200,255)
 
 	local coloruse = Color(255,255,255,255)
 
 	local matPistolAmmo = Material("vgui/hud/bullets/low_caliber.png")
-	local matRfileAmmo = Material("vgui/hud/bullets/high_caliber.png")
-	local matShotgunAmmo = Material("vgui/hud/bullets/buck_caliber.png")
 	local lerpAmmoCheck = 0
 	local ammoCheck = 0
 	local color_bg = Color(0,0,0,150)
@@ -968,7 +935,6 @@ if CLIENT then
 end
 
 if CLIENT then
-	local hook_Run = hook.Run
 	hook.Add("Think", "homigrad-weapons", function()
 		for i,wep in ipairs(hg.weapons) do
 
@@ -1015,7 +981,6 @@ local CurTime = CurTime
 if CLIENT then
 	SWEP.particleEffect = nil
 
-	local vecSmoke = Vector(255, 255, 255)
 	function SWEP:MuzzleEffect(time_)
 		if self.NoMuzzleEffects then return end
 		local att = self:GetMuzzleAtt(gun, true)
@@ -1023,9 +988,6 @@ if CLIENT then
 		local pos, ang = att.Pos, att.Ang
 
 		local owner = self:GetOwner()
-
-		local lastdmg = self.dmgStack
-		local lastdmgMul = lastdmg / 100
 
 		if time_ < 0.5 and self.SprayI == 0 then
 			if not IsValid(self.particleEffect) then
@@ -1232,8 +1194,6 @@ function SWEP:CoreStep()
 	self:ClearAnims()
 
 	if CLIENT then
-		if self.Primary.Next + 1 < time then
-		end
 	end
 
 	local stam = (owner.organism ~= nil and owner.organism.stamina and owner.organism.stamina[1]) or 180
@@ -1328,16 +1288,8 @@ if CLIENT then
 	end
 end
 
-function SWEP:GunOverHead(height)
-	local tr, pos, ang = self:GetTrace()
-	local owner = self:GetOwner()
-	local eyepos = hg.eye(owner)
-	return eyepos[3] + 10 < (height and height[3] or pos[3]) or eyepos:DistToSqr(height or pos) > 40 * 40
-end
-
 local vecZero = Vector(0, 0, 0)
 local angZero = Angle(0, 0, 0)
-local hullVec = Vector(2, 2, 2)
 
 function SWEP:DoImpactEffect( tr, nDamageType )
 	if CLIENT then return true end
@@ -1373,12 +1325,8 @@ local funcNil = function() end
 local angPosture3 = Angle(45, 45, -25)
 local angPosture3pistol = Angle(5, 65, 0)
 local angPosture4 = Angle(40, -30, -40)
-local angPosture5 = Angle(5, 5, 0)
-local angPosture6 = Angle(30, 20, 0)
 local angPosture7 = Angle(5, -30, 0)
 local angPosture8 = Angle(40, 10, -30)
-local angSuicide = Angle(-35, 120, 0)
-local angReload = Angle(-20, 10, 0)
 
 local angLegkick = Angle(80, 120, 70)
 local posLegkick = Vector(12,-8,1)
@@ -1532,9 +1480,6 @@ SWEP.vecSuicideRifle = Vector(2,-19,-1)
 SWEP.angSuicideRifle = Angle(15,100,90)
 SWEP.vecSuicideRifle2 = Vector(14, -22, 0)
 SWEP.angSuicideRifle2 = Angle(14,118,90)
-local function isCrouching(ply)
-	return (hg.KeyDown(ply,IN_DUCK)) and ply:OnGround()
-end
 
 local angle_huy = Angle(0, 0, 0)
 
@@ -1544,10 +1489,6 @@ SWEP.pitch = 0
 
 SWEP.CloseAnimAddVec = Vector()
 SWEP.CloseAnimAddAng = Angle()
-
-local function isSprinting(ply)
-	return ply:IsSprinting() and ply:GetVelocity():LengthSqr() > 30000 and ply:OnGround()
-end
 
 local bashvpang1, bashvpang2, bashvpang3, bashvpang4 = Angle(-4, -2, 0), Angle(6, 4, 4), Angle(-3, 10, 0), Angle(2, -2, 0)
 
@@ -1561,7 +1502,6 @@ function SWEP:GetAdditionalValues()
 	if SERVER and dtime < 0.1 then return end
 
 	dtime = dtime * game.GetTimeScale()
-
 
 	if CLIENT and not (ply == LocalPlayer() or ply == LocalPlayer():GetNWEntity("spect")) then
 	end
@@ -1809,7 +1749,6 @@ function SWEP:GetAdditionalValues()
 
 	local skillissue = ply.organism and ply.organism.recoilmul or 1
 
-
 	local speed_add = math.Clamp(1 / skillissue,0.5,1.5)
 
 	if not suiciding and !self.norecoil then
@@ -1890,8 +1829,6 @@ end
 function SWEP:ShouldDoZManip()
 	return !self.reload
 end
-
-function SWEP:AnimHands() end
 
 vector_temp = Vector(0, 0, 0)
 

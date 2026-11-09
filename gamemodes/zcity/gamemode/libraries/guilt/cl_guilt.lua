@@ -44,22 +44,7 @@ net.Receive("open_guilt_menu", function()
     OpenMenu(tbl)
 end)
 
-local colGray = Color(122,122,122,255)
 local BlurBackground = hg.BlurBackground
-
-local function harmdone(harm)
-    if harm >= 9 then
-        return "killed you."
-    elseif harm >= 5 then
-        return "basically killed you."
-    elseif harm >= 2 then
-        return "seriously injured you."
-    elseif harm >= 1 then
-        return "mildly injured you."
-    else
-        return "damaged you a bit."
-    end
-end
 
 local showstuff = CurTime() + 5
 hook.Add("Player_Death","karmacheck",function(ply)

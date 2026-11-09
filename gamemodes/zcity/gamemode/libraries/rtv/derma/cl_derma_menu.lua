@@ -1,9 +1,6 @@
 --
 local PANEL = {}
 
-local blurMat = Material("pp/blurscreen")
-local Dynamic = 0
-
 BlurBackground = hg.DrawBlur
 
 function PANEL:Paint( w, h )

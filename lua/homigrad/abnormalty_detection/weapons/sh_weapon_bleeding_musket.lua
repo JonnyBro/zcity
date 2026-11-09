@@ -147,11 +147,6 @@ SWEP.RHAng = Angle(-8,-30,65)
 SWEP.LHPos = Vector(17,0,-3.5)
 SWEP.LHAng = Angle(-90,-0,-180)
 
-local finger1 = Angle(10, -20, 0)
-local finger2 = Angle(-0, 90, 0)
-local finger3 = Angle(0, -25, 0)
-local finger4 = Angle(0, -10, 0)
-
 function SWEP:AnimHoldPost(model)
 	if self.reload then return end
 

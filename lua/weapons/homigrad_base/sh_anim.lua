@@ -20,7 +20,6 @@ hook.Add("Bones", "homigrad-weapons-bone", function(ply)
 end)
 
 local vecZero = Vector(0, 0, 0)
-local vecZero2 = Vector(0, 0, 0)
 local angZero = Angle(0, 0, 0)
 local CurTime = CurTime
 function SWEP:Animation()
@@ -84,13 +83,9 @@ function SWEP:BoneSet(lookup_name, vec, ang, layer, lerp)
 	end
 end
 
-
 function SWEP:AnimHoldPost(model)
 end
 
-
-local angHold1 = Angle(-10, -5, 0)
-local angHold2 = Angle(-10, 5, 0)
 SWEP.handsAng = Angle(0, 0, 0)
 local plyAng, handAng, handPos, addAng, _ = Angle(0, 0, 0), Angle(0, 0, 0), vecZero, Angle(0, 0, 0), vecZero
 
@@ -122,11 +117,6 @@ hg.postureFunctions = {
 		if self.IsPistolHoldType and not self:IsPistolHoldType() then ply.posture = 0 end
 	end,
 }
-
-function SWEP:ReadyStance()
-	local ply = self:GetOwner()
-	return self:IsSprinting() or ply.posture == 4 or ply.posture == 3
-end
 
 function SWEP:AnimHold()
 	self.rotfuckinghands = self.IsPistolHoldType and not self:IsPistolHoldType()
@@ -167,11 +157,8 @@ function SWEP:AnimHold()
 		ply:SetIK(false)
 	end
 
-	if CLIENT then
-	end
 end
 
-local vecZoom1 = Vector(1, -1, 0)
 local angZoom1 = Angle(0, 0, 0)
 function SWEP:AnimZoom()
 	local owner = self:GetOwner()
@@ -214,9 +201,7 @@ function SWEP:AnimApply_ShootRecoil(time)
 		end
 end
 
-local hullVec = Vector(0, 0, 0)
 local angZero = Angle(0, 0, 0)
-local vecAsd2 = Vector(-45, 4, 1)
 SWEP.lengthSub = 0
 function SWEP:CloseAnim(dtime)
 	--do return end
@@ -260,19 +245,8 @@ function SWEP:CloseAnim(dtime)
 	return dist, tr
 end
 
-local vec3 = Vector(0, 0, 2)
-function SWEP:AnimApply_RecoilCameraZoom()
-	local vecrand = VectorRand(-0.1, 0.1)
-	vecrand[3] = vec3[3]
-	self.Anim_RecoilCameraZoomSet = vec3
-end
-
 local function isMoving(ply)
 	return ply:GetVelocity():LengthSqr() > 30*30 and ply:OnGround()
-end
-
-local function isCrouching(ply)
-	return (hg.KeyDown(ply,IN_DUCK) or ply:Crouching()) and ply:OnGround()
 end
 
 local ang1 = Angle(0, -10, -20)
@@ -281,7 +255,6 @@ local ang3 = Angle(0, 20, 0)
 local ang4 = Angle(-30, 0, 0)
 local ang5 = Angle(10, 0, 10)
 local ang6 = Angle(30, 25, 18)
-local ang7 = Angle(-10, -10, -10)
 local ang8 = Angle(-20, 0, 0)
 local ang9 = Angle(30, 0, 0)
 local ang10 = Angle(35, 0, 0)
@@ -295,7 +268,6 @@ Angle(3, 0, 0), Angle(2, -5, 0), Angle(4, -5, 0), Angle(-5, -8, 0), Angle(35, -2
 hook.Add("Bones", "homigrad-lean-bone", function(ply, dtime)
 	ply.weightmul = weightmul or hg.CalculateWeight(ply, 140)
 
-	local mul = ply.weightmul ^ 2
 	local ragdollcombat = hg.RagdollCombatInUse(ply)
 	local isragdoll = IsValid(ply.FakeRagdoll) and !IsValid(ply:GetNWEntity("FakeRagdollOld"))
 	local left = ((isragdoll and !ragdollcombat and hg.KeyDown(ply, IN_MOVERIGHT)) or hg.KeyDown(ply, IN_ALT2)) and not hg.KeyDown(ply, IN_ALT1)
@@ -315,8 +287,6 @@ hook.Add("Bones", "homigrad-lean-bone", function(ply, dtime)
 			ply.organism.stamina.subadd = 0.85 * math.max(ply.organism.stamina[1]/ply.organism.stamina.range,0.85)
 		end
 
-		if ply.takeOldLeanStamina != leanStamina then
-		end
 		if (!ply.SetPlayerLeanCD or ply.SetPlayerLeanCD < CurTime()) and ply.lean != ply:GetNWFloat("PlayerLean",0) then
 			ply:SetNWFloat("PlayerLean",ply.lean)
 			ply.SetPlayerLeanCD = CurTime() + 0.15

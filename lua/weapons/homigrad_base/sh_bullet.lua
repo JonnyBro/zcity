@@ -270,10 +270,6 @@ local function callbackBullet(self, tr, dmg, force, bullet, penetration)
 	end
 end
 
-function SWEP:CallbackBullet(self, tr)
-	return callbackBullet(self, tr)
-end
-
 local hg_potatopc
 
 local shootDecals, shootDecalRand = {}, 1
@@ -288,29 +284,7 @@ end
 game.AddDecal("Impact.ShootPowderAdd", "decals/burn01a")
 
 local ipairs, ents = ipairs, ents
-local ents_FindInCone = ents.FindInCone
-local vectorup = Vector(0, 0, 25)
 local ang = math.cos( math.rad( 125 ) )
-local function gasInertia(pos, force, dir, self, tr)
-	for _, ent in ipairs(ents_FindInCone(pos, dir, force, ang)) do
-		if IsValid(ent) and not ent:IsNPC() and not ent:IsPlayer() then
-			local phys = ent:GetPhysicsObject()
-
-			if (ent:GetClass() == "func_breakable_surf") and !tr.HitPos then
-			end
-
-			if IsValid(phys) then
-				if phys:GetMass() > 5 then continue end
-				local entpos = ent:GetPos()
-				local dist = pos:Distance(entpos)
-				local falloff = 1.5 - (dist / (force))
-
-				phys:Wake()
-				phys:ApplyForceCenter( ( ( (pos - entpos):GetNormalized() + dir) * 2 * ((-phys:GetMass() / 1.5) * (force / 5)) + vectorup ) * falloff)
-			end
-		end
-	end
-end
 
 local allowedMats = {
 	[MAT_CONCRETE] = true,
@@ -350,8 +324,6 @@ hg.bulletHit = bulletHit
 hg.callbackBullet = callbackBullet
 
 local bullet = {}
-local empty = {}
-local vecCone = Vector(0, 0, 0)
 local cone, att, att2, owner, primary, ang
 local math_Rand, math_random = math.Rand, math.random
 local gun
@@ -411,7 +383,6 @@ function SWEP:GetMuzzleAtt(ent, trueAtt, supressorAdd)
 		local pos, ang = att.Pos, att.Ang
 
 		local pos, ang = LocalToWorld(attPos, attAng, pos, ang)
-
 
 		att.Pos = pos
 		att.Ang = ang
@@ -496,49 +467,10 @@ end
 SWEP.ShellEject = "EjectBrass_556"
 SWEP.MuzzleEffectType = 1
 
-
-local images_muzzle = {
-	[2] = {"effects/muzzleflash1", "effects/muzzleflash2", "effects/muzzleflash3", "effects/muzzleflash4"},
-	[3] = {"effects/gunshipmuzzle","effects/combinemuzzle2"}
-}
 local vecZero = Vector(0, 0, 0)
-local image_distort = "sprites/heatwave"
 
 SWEP.PPSMuzzleEffect = "pcf_jack_mf_mpistol" -- shared in sh_effects.lua
 SWEP.PPSMuzzleEffectSuppress = "pcf_jack_mf_suppressed"
-
-function SWEP:GetLocalHuynyis()
-	local gun = self:GetWeaponEntity()
-	local owner = self:GetOwner()
-
-	local atth = gun:GetAttachment(gun:LookupAttachment("muzzle"))
-	local atth = atth ~= nil and atth or gun:GetAttachment(gun:LookupAttachment("muzzle_flash"))
-
-	local att2 = self:GetMuzzleAtt(gun,false)
-	local muzzle_local_pos,muzzle_local_ang = WorldToLocal(att2.Pos,att2.Ang,gun:GetPos(),gun:GetAngles())
-	if atth then
-		muzzle_local_pos,muzzle_local_ang = LocalToWorld(self.attPos,self.attAng,muzzle_local_pos,muzzle_local_ang)
-	end
-	if not IsValid(owner.FakeRagdoll) then
-		muzzle_local_ang:RotateAroundAxis(muzzle_local_ang:Up(),-(self.rotatehuy or 0))
-	end
-
-	return muzzle_local_pos,muzzle_local_ang
-end
-
-function SWEP:GetRealDebilAttachment(muzzle_local_pos,muzzle_local_ang)
-	if not IsValid(owner) then return end
-	local gun = self:GetWeaponEntity()
-	local owner = self:GetOwner()
-	local eyeang = owner:GetAimVector():Angle()
-	eyeang[3] = eyeang[3] + (owner:EyeAngles()[3])
-	local eyeang = eyeang + (self.weaponAngLerp or angZero)
-	local _,ang2 = LocalToWorld(vector_origin,muzzle_local_ang,vector_origin,eyeang)
-	local pos,ang = LocalToWorld(muzzle_local_pos,muzzle_local_ang,gun:GetPos(),gun:GetAngles())
-	local angh = (owner.suiciding or IsValid(owner.FakeRagdoll)) and ang or ang2
-
-	return pos,angh
-end
 
 function SWEP:FireBullet()
     local gun = self:GetWeaponEntity()

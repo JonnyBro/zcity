@@ -44,7 +44,6 @@ local function playEffects( ent, data )
     local inflictorEyepos = data:GetAttacker():EyePos()
     local effectData = EffectData()
 
-
     local tempBloodPos = ( hitPos + ( ( inflictorEyepos - hitPos ):GetNormalized() * math_random( -25, -200 ) ) ) + Vector( math_random( -15, 15 ), math_random( -15, 15 ), 0 )
     local bloodPos = tempBloodPos - vecbloodpos
 
@@ -191,7 +190,6 @@ hook.Add( "Think", "Dumalkasniper", function()
 	end
 end )
 
-
 hook.Add("EntityTakeDamage", "HL2Shit", function(target, dmginfo)
 	if not IsValid(target) then return end
 
@@ -211,14 +209,12 @@ hook.Add("EntityTakeDamage", "HL2Shit", function(target, dmginfo)
 		end
 	end
 
-
 	if target.IsDying then return true end
 
 	local damage = dmginfo:GetDamage()
 	local dmgType = dmginfo:GetDamageType()
 	local attacker = dmginfo:GetAttacker()
 	local inflictor = dmginfo:GetInflictor()
-
 
 	local function DestroyVehicle(reason)
 		if target.IsDying then return end
@@ -453,7 +449,6 @@ hook.Add( "ScalePlayerDamage", "FlinchPlayersOnHit", function(ply, grp)
 		net.Broadcast()
 	end
 end )
-
 
 util.AddNetworkString("add_supression")
 
@@ -1623,7 +1618,6 @@ hook.Add("Org Think", "BodyTemperature", function(owner, org, timeValue) -- пе
 	local temp = (IsVisibleSkyBox and temp or 20) + warming * 5
 
 	local isFreezing = temp < 0
-	local isHeating = temp > 30
 
 	local MaxWarmMul = 1
 	local warmLoseMul = 1
@@ -1748,7 +1742,6 @@ hook.Add("SetupMove", "bm_force_foosteps", function(ply, mv)
 		if fsteptime != fsteptime then return end
 		if fsteptime < 100 then return end
 
-
 		ply:PlayStepSound(0.25)
 
 		ply.bm_fsteptime = fsteptime
@@ -1846,7 +1839,6 @@ if !istable(gmnetwork) and util.IsBinaryModuleInstalled("network") then
 		print("\n STUPID FURRY gmnetwork ERROR: "..err.."\n")
 	end
 end
-
 
 hook.Add("SetupMove", "AntiCrouchSpam", function(ply, mvd, cmd) -- на самом деле довольно безполезная херня просто нельзя спамить присядом лол
 	if !ply:Alive() or !hg.GetCurrentCharacter( ply ):IsPlayer() then return end

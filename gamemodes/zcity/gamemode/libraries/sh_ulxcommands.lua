@@ -2,10 +2,6 @@ if not ulx then return end
 
 local CATEGORY_NAME = "Voting"
 
-if SERVER then
-    util.AddNetworkString("ulx_votemode")
-end
-
 local function voteModeDone(t)
     local results = t.results
     local winner

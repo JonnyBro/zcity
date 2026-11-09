@@ -35,8 +35,6 @@ local rigorBones = {
 	"ValveBiped.Bip01_Head1", "ValveBiped.Bip01_Spine", "ValveBiped.Bip01_Spine1", "ValveBiped.Bip01_Spine2",
 }
 
-
-
 local fencingArmBones = {
 	{"ValveBiped.Bip01_R_Hand", "ValveBiped.Bip01_R_UpperArm", 1.0},
 	{"ValveBiped.Bip01_L_Hand", "ValveBiped.Bip01_L_UpperArm", 1.0},
@@ -91,7 +89,6 @@ end
 
 local function processRigor(rag, fade)
 	if not rag.rigorActive then return end
-	local damp = RIGOR_DAMP * fade + 0.5
 
 	for i = 1, #rigorBones do
 		local bone = rag:LookupBone(rigorBones[i])
@@ -124,7 +121,6 @@ local function applyFencingToPlayer(ply, org)
 	org.fencing = true
 	org.fencingEnd = CurTime() + dur
 	org.fencingDur = dur
-
 
 	if ply.FakeRagdoll and IsValid(ply.FakeRagdoll) then
 		local rag = ply.FakeRagdoll

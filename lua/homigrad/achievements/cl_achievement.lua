@@ -21,50 +21,6 @@ local function PaintButton(self,w,h)
     surface.DrawTexturedRect( 0, 0, w, h )
 end
 
-local function createButton(frame, ach, text, func)
-    local button = vgui.Create("DButton", frame)
-
-    ach.img = isstring(ach.img) and Material(ach.img) or ach.img
-
-    local localach = hg.achievements.GetLocalAchievements()
-    local desc = markup.Parse("<font=HomigradFontMedium>"..ach.description.."<font>", 500 )
-
-    local x,y = frame:LocalToScreen(button:GetPos())
-    function button:Paint(w,h)
-		PaintButton(self,w,h)
-        local view = render.GetViewSetup(true)
-        local pos,ang = view.origin,view.angles
-        ang:RotateAroundAxis( ang:Up(), -90 )
-	    ang:RotateAroundAxis( ang:Forward(), 90 )
-
-        self.lerpcolor = Lerp(FrameTime() * 10,self.lerpcolor or 0,self:IsHovered() and 255 or 0)
-
-        local val = localach[ach.key] and localach[ach.key].value or ach.start_value
-        local amt = ScreenScale(1)
-
-        surface.SetFont("HomigradFont")
-        local txt = ach.name..(ach.showpercent and " | " or "")..(ach.showpercent and (val / ach.needed_value * 100).."%" or "")
-        local wt,ht = surface.GetTextSize(txt)
-        surface.SetTextColor(255,255,255)
-        surface.SetTextPos(w / 2 - (wt / 2), (ht / 2) * (1-(self.lerpcolor / 255)*5))
-        surface.DrawText(txt)
-
-        desc:Draw(w / 2,(h + desc:GetHeight()) - ((h/2) + desc:GetHeight()) * (self.lerpcolor / 255), TEXT_ALIGN_CENTER, TEXT_ALIGN_CENTER)
-
-        surface.SetDrawColor(255,255,255,10)
-        draw.NoTexture()
-        surface.DrawTexturedRectRotated(w - self.lerpcolor / 255 * 100 + 50,0,10,400,-30)
-        surface.DrawTexturedRectRotated(w - self.lerpcolor / 255 * 100 + 80,0,10,400,-30)
-    end
-
-    button:SetText("")
-    button:SetSize(0,ScreenScale(22))
-    button:Dock(TOP)
-    button:DockMargin(0,0,0,ScreenScale(2.5))
-    button.DoClick = function(self) func(self) end
-    return button
-end
-
 local function createButton_2(frame, ach, text, func, y)
     local button = vgui.Create("DButton", frame)
 
@@ -81,7 +37,6 @@ local function createButton_2(frame, ach, text, func, y)
         ang:RotateAroundAxis( ang:Forward(), 90 )
 
         local val = localach[ach.key] and localach[ach.key].value or ach.start_value
-        local amt = ScreenScale(1)
 
         surface.SetFont("HomigradFont")
 
@@ -115,15 +70,6 @@ local function createButton_2(frame, ach, text, func, y)
 end
 
 local gradient_d = Material("vgui/gradient-d")
-local function PaintFrame(self,w,h)
-	BlurBackground(self)
-    surface.SetDrawColor(50, 0, 0, 155)
-    surface.SetMaterial(gradient_d)
-    surface.DrawTexturedRect( 0, 0, w, h )
-
-	surface.SetDrawColor( 150, 0, 0, 128)
-    surface.DrawOutlinedRect( 0, 0, w, h, 2.5 )
-end
 
 function hg.DrawAchievmentsMenu(ParentPanel)
     hg.achievements.LoadAchievements()

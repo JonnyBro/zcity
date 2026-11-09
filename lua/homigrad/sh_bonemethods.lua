@@ -30,22 +30,6 @@ hg.bone.client_only = {
 	["l_finger41"] = "ValveBiped.Bip01_L_Finger41",
 }
 
-local PLAYER = FindMetaTable("Player")
-
-function PLAYER:MBPosition(bone, pos)
-
-	timer.Simple(0, function()
-		self:ManipulateBonePosition(bone, pos)
-	end)
-end
-
-function PLAYER:MBAngles(bone, ang)
-
-	timer.Simple(0, function()
-		self:ManipulateBoneAngles(bone, ang)
-	end)
-end
-
 hg.bone.matrixManual_Name = tbl
 
 local matrix, matrixSet
@@ -84,10 +68,7 @@ hook.Add("Player Getup", "homigrad-bones", function(ply) reset(ply) end)
 local CurTime, LerpVector, LerpAngle = CurTime, LerpVector, LerpAngle
 local m, mSet, mAngle, mPos
 local vecZero, angZero = Vector(0, 0, 0), Angle(0, 0, 0)
-local tickInterval = engine.TickInterval
 local FrameTime = FrameTime
-local math_min = math.min
-local mul = 1
 local timeHuy = CurTime()
 local hook_Run = hook.Run
 local angle = FindMetaTable("Angle")

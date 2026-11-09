@@ -1,9 +1,5 @@
 local MODE = MODE
 MODE.NetSize_ChemicalResistanceBits = 8
-local chemical_degrade_speeds = {
-	["HCN"] = 1,
-	["KCN"] = 0.5,
-}
 
 MODE.DisarmReach = 90
 MODE.NoDisarmWeapons = {
@@ -177,7 +173,6 @@ function MODE.ContinueBreakingOtherNeck(ply)
 					MODE.BreakOtherNeck(ply, break_data.Victim, aim_ent)
 				end
 
-
 				MODE.StopBreakingOtherNeck(ply)
 			end
 		else
@@ -326,7 +321,6 @@ function MODE.ContinueDisarmingOther(ply)
 				if(SERVER)then
 					MODE.DisarmOther(ply, victim, aim_ent)
 				end
-
 
 				MODE.StopDisarmingOther(ply)
 			end

@@ -175,8 +175,6 @@ SWEP.Primary.SoundEmpty = {"weapons/newakm/akmm_empty.wav", 75, 100, 105, CHAN_W
 
 SWEP.DistSound = "weapons/newakm/akmm_dist.wav"
 
-
-
 SWEP.WepSelectIcon2 = Material("pwb/sprites/akm.png")
 SWEP.IconOverride = "entities/arc9_eft_akm.png"
 SWEP.ScrappersSlot = "Primary"
@@ -264,7 +262,6 @@ SWEP.lengthSub = 20
 SWEP.handsAng = Angle(3, -1, 0)
 SWEP.AimHands = Vector(-4, 0.5, -4)
 
-
 SWEP.weight = 4
 
 --local to head
@@ -288,13 +285,6 @@ function SWEP:DrawPost()
 		wep:ManipulateBonePosition(8,vec,false)
 	end
 end
-local lfang4 = Angle(0,70,0)
-local lfang3 = Angle(0,-25,0)
-local lfang2 = Angle(0,46,0)
-local lfang1 = Angle(0,-30,0)
-local lfang0 = Angle(0,-7,0)
-local vec_zero = Vector(0,0,0)
-local l_finger02 = Angle(-10,0,0)
 function SWEP:AnimHoldPost()
 
 end

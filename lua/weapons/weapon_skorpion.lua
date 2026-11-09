@@ -16,9 +16,7 @@ SWEP.FakeAng = Angle(0, 0, 0)
 SWEP.AttachmentPos = Vector(0,0,0)
 SWEP.AttachmentAng = Angle(0,0,90)
 
-
 SWEP.FakeAttachment = "silencer"
-
 
 SWEP.FakeReloadSounds = {
 	[0.22] = "weapons/universal/uni_crawl_l_03.wav",
@@ -83,7 +81,6 @@ SWEP.AnimList = {
 	["reload"] = "reload",
 	["reload_empty"] = "reload_empty",
 }
-
 
 SWEP.punchmul = 1.5
 SWEP.punchspeed = 3
@@ -159,9 +156,6 @@ SWEP.RHAng = Angle(0,-5,90)
 --local to rh
 SWEP.LHPos = Vector(6,-1,-2)
 SWEP.LHAng = Angle(0,25,-80)
-
-local finger1 = Angle(-15,0,5)
-local finger2 = Angle(-15,45,-5)
 
 function SWEP:AnimHoldPost(model)
 end

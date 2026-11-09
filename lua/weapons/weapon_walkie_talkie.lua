@@ -53,7 +53,6 @@ SWEP.Frequencies = {
 }
 
 local ST_TYPE_LOCALFILE = 0
-local ST_TYPE_URL = 1
 
 SWEP.FMStations = {
 	[97.5] = {ST_TYPE_LOCALFILE, function() return "radiorandom/radio" .. math.random(1,10) .. ".wav", 0 end},
@@ -298,7 +297,6 @@ function SWEP:Think()
 	if CLIENT then
 		local FMStations = self.FMStations[ math.Round(self:GetHudFrequency(),1) ]
 		if FMStations and self:GetIsOn() then
-			local Type = FMStations[1]
 			local Output = FMStations[2]
 			self.FM_EventCD = self.FM_EventCD or CurTime() + math.random(125,165)
 			if self.FM_EventCD < CurTime() then

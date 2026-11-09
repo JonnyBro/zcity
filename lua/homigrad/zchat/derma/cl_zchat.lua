@@ -141,8 +141,6 @@ function PANEL:Think()
 	end
 end
 
-local gradient_l = Material("vgui/gradient-l")
-
 function PANEL:Paint(w, h)
 	surface.SetDrawColor(43, 31, 31, 100)
 	surface.DrawRect(0, 0, w, h)

@@ -17,7 +17,6 @@ SWEP.AttachmentPos = Vector(0,0,-0.2)
 SWEP.AttachmentAng = Angle(0,0,90)
 SWEP.MagIndex = 53
 
-
 SWEP.FakeVPShouldUseHand = true
 SWEP.AnimList = {
 	["idle"] = "base_idle",
@@ -114,7 +113,6 @@ SWEP.IconOverride = "pwb2/vgui/weapons/usptactical.png"
 
 SWEP.CustomShell = "9x19"
 
-
 SWEP.weight = 1
 
 SWEP.punchmul = 1.5
@@ -194,13 +192,6 @@ SWEP.RHAng = Angle(0,-5,90)
 --local to rh
 SWEP.LHPos = Vector(-1.2,-1.4,-2.8)
 SWEP.LHAng = Angle(5,9,-100)
-
-local finger1 = Angle(-25,10,25)
-local finger2 = Angle(0,25,0)
-local finger3 = Angle(31,1,-25)
-local finger4 = Angle(-10,-5,-5)
-local finger5 = Angle(0,-65,-15)
-local finger6 = Angle(15,-5,-15)
 
 function SWEP:AnimHoldPost()
 end
@@ -292,7 +283,6 @@ SWEP.ReloadAnimWepAng = {
 	Angle(2,6,1),
 	Angle(0,0,0)
 }
-
 
 -- Inspect Assault
 

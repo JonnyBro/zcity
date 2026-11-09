@@ -113,13 +113,6 @@ SWEP.availableAttachments = {
 	}
 }
 
-local finger1 = Angle(-20, 40, 10)
-local finger2 = Angle(10, -15, 10)
-local finger3 = Angle(10, -70, 10)
-local finger4 = Angle(-10, -10, 30)
-local finger5 = Angle(10, -30, 10)
-local finger6 = Angle(-20, 0, -10)
-
 function SWEP:AnimHoldPost(model)
 	self:BoneSet("l_finger0", Vector(0.1, 0, 0), Angle(15, -40, 12))
 	self:BoneSet("l_finger02", Vector(0, 0, 0), Angle(0, 25, 0))

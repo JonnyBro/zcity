@@ -8,36 +8,7 @@ local mapsize = 7500
 
 local roundend = false
 
-local snds = {
-	"https://kappa.vgmsite.com/soundtracks/superfighters-deluxe-original-soundtrack-2018/ujuwzquyre/01.%20A%20Grim%20Feeling.mp3",
-	"https://kappa.vgmsite.com/soundtracks/superfighters-deluxe-original-soundtrack-2018/zgagxqybov/02.%20Alley%20.mp3",
-	"https://kappa.vgmsite.com/soundtracks/superfighters-deluxe-original-soundtrack-2018/qsoislqepd/17.%20Hazardous.mp3",
-	"https://kappa.vgmsite.com/soundtracks/superfighters-deluxe-original-soundtrack-2018/zqxkrixwbn/26.%20Rooftops.mp3",
-	"https://kappa.vgmsite.com/soundtracks/superfighters-deluxe-original-soundtrack-2018/kvlgywwwnt/13.%20Escape.mp3"
-}
-
 local deathmatch_nozone = ConVarExists("deathmatch_nozone") and GetConVar("deathmatch_nozone") or CreateConVar("deathmatch_nozone", 0, FCVAR_REPLICATED, "Allows to disable deathmatch mode zone.", 0, 1)
-
-local function restartMusic()
-	local snd = snds[math.random(#snds)]
-
-	if IsValid(dmmusic) then
-		dmmusic:Stop()
-		dmmusic = nil
-	end
-
-	sound.PlayURL(snd, "mono noblock noplay", function(station, errID, err)
-		if IsValid(station) then
-			station:EnableLooping(true)
-			station:SetVolume(0.1)
-
-			dmmusic = station
-		else
-			print(errID, err)
-		end
-	end)
-end
-
 
 net.Receive("dm_start",function()
 	roundend = false
@@ -105,7 +76,6 @@ function MODE:HUDPaint()
 		local ply = LocalPlayer()
 	end
 
-
 	if not lply:Alive() then return end
     if zb.ROUND_START + 8.5 < CurTime() then return end
 	zb.RemoveFade()
@@ -171,10 +141,6 @@ local col = Color(255,255,255,255)
 local colSpect1 = Color(75,75,75,255)
 local colSpect2 = Color(255,255,255)
 
-local colorBG = Color(55,55,55,255)
-local colorBGBlacky = Color(40,40,40,255)
-
-local blurMat = Material("pp/blurscreen")
 local Dynamic = 0
 
 BlurBackground = BlurBackground or hg.DrawBlur
@@ -266,7 +232,6 @@ CreateEndMenu = function()
 			surface.SetTextColor(col.r,col.g,col.b,col.a)
 			surface.SetTextPos(w / 2,h/2 - lengthY/2)
 			surface.DrawText(ply:GetPlayerName() or "He quited...")
-
 
 			local col = colSpect2
 			surface.SetFont( "ZB_InterfaceMediumLarge" )

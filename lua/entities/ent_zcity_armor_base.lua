@@ -185,7 +185,6 @@ end
 --\\ Render Equipment
     local developer = GetConVar("developer")
     ENT.ShouldRenderLocaly = true
-    local vec = Vector(1,1,1)
     function ENT:RenderOnBody(entDrawOn)
         local fem = ThatPlyIsFemale(entDrawOn)
         local ply = hg.RagdollOwner(entDrawOn) or entDrawOn:IsPlayer() and entDrawOn or nil
@@ -207,7 +206,6 @@ end
                 model.OffsetAng = data.OffsetAng
                 model:SetModelScale(data.ModelSize)
             end
-
 
             if data.ModelSubMaterials then
                 for k,v in pairs(data.ModelSubMaterials) do

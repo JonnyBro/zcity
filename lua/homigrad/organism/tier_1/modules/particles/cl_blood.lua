@@ -4,19 +4,15 @@ bloodparticles_hook = bloodparticles_hook or {}
 local tr = {
 }
 
-local col_red_darker = Color(122,0,0)
-local col_red = Color(200,0,0)
 local vecDown = Vector(0, 0, -40)
 local vecZero = Vector(0, 0, 0)
 local LerpVector = LerpVector
 local math_random = math.random
 local table_remove = table.remove
-local util_Decal = util.Decal
 local util_TraceLine = util.TraceLine
 local render_SetMaterial = render.SetMaterial
 local render_DrawSprite = render.DrawSprite
 local render_DrawBeam = render.DrawBeam
-local render_GetLightColor = render.GetLightColor
 
 local hg_blood_draw_distance = ConVarExists("hg_blood_draw_distance") and GetConVar("hg_blood_draw_distance") or CreateClientConVar("hg_blood_draw_distance", 1024, true, nil, "distance to draw blood", 0, 4096)
 local hg_blood_sprites = ConVarExists("hg_blood_sprites") and GetConVar("hg_blood_sprites") or CreateClientConVar("hg_blood_sprites", 1, true, nil, "blood is sprites or trails", 0, 1)
@@ -131,14 +127,6 @@ local function decalBlood(pos, normal, tr, artery, owner)
 	end
 end
 --дурак, просто смотри сколько ентити стоит в одном месте
-local tr2 = { collisiongroup = COLLISION_GROUP_WORLD, output = {} }
-
-function util.IsInWorld( pos )
-	tr2.start = pos
-	tr2.endpos = pos
-
-	return not util.TraceLine( tr2 ).HitWorld
-end
 
 local gravity = GetConVar("sv_gravity")
 
@@ -187,7 +175,6 @@ bloodparticles_hook[2] = function(mul)
 			table_remove(hg.bloodparticles1, i)
 			local dir = result.HitNormal
 			decalBlood(result.HitPos, dir, result, part.artery, part.owner)
-
 
 			continue
 		else

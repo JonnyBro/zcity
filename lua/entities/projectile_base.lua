@@ -18,7 +18,6 @@ ENT.IconOverride = "vgui/inventory/weapon_rpg7"
 ENT.BlastDamage = 80
 ENT.BlastDis = 30
 
-
 ENT.ThrustEffect = "eff_jack_rockettrust"
 ENT.TrailEffect = "eff_jack_rockettrail"
 ENT.ExplosionEffect = "pcf_jack_airsplode_medium"
@@ -163,7 +162,6 @@ if SERVER then
 			net.WriteString(self.SoundWater)
 		net.Broadcast()
 
-
 		local dis = self.BlastDis / 0.01905
 		local disorientation_dis = (self.BlastDis * 1.5) / 0.01905
 
@@ -178,7 +176,6 @@ if SERVER then
 			force:Div(len)
 			local frac = math.Clamp((disorientation_dis - len) / disorientation_dis, 0.1, 1)
 			local physics_frac = math.Clamp((dis - len) / dis, 0.5, 1)
-			local forceadd = force * physics_frac * 50000
 
 			if enta.organism then
 				local behindwall = tr.Entity != enta and tr.MatType != MAT_GLASS
@@ -224,7 +221,6 @@ if SERVER then
 			end
 		end)
 
-
 		local co
 
 		if not IsValid(self) then return end
@@ -237,8 +233,6 @@ if SERVER then
 				local LastShrapnel = SysTime()
 				local vecCone = Vector(5, 5, 0)
 				local forward = self:GetAngles():Forward()
-				local selfowner = self.owner
-				local selfFragmentation = self.Fragmentation
 				for i = 1, self.Fragmentation do
 						LastShrapnel = SysTime()
 

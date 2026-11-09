@@ -189,7 +189,6 @@ local current_option_select = 1
 local hook_Run = hook.Run
 
 local incoentCol = Color(128,0,0)
-local taitorCol = Color(155,0,0)
 
 local menuPanel
 
@@ -562,28 +561,6 @@ surface.CreateFont("HG_font", {
 
 local CurTime = CurTime
 
-local vector_one = Vector( 1, 1, 1 )
-
-local function CopyRight( text, font, x, y, color, ang, scale )
-
-	local m = Matrix()
-	m:Translate( Vector( x, y, 0 ) )
-	m:Rotate( Angle( 0, ang, 0 ) )
-	m:Scale( vector_one * ( scale or 1 ) )
-
-	surface.SetFont( font )
-	local w, h = surface.GetTextSize( text )
-
-	m:Translate( Vector( -(w / 2)-25, -h / 2, 0 ) )
-
-	cam.PushModelMatrix( m, true )
-		draw.RoundedBox(5,0,2,w+52,h+2,Color(0,0,0))
-		draw.RoundedBox(5,0,2,w+50,h,Color(255,0,0))
-		draw.DrawText( text, font, 25, 0, color )
-	cam.PopModelMatrix()
-
-end
-
 --hook.Add("HUDPaint","homigrad-copyright",function()
 	--local i = 1
 	--CopyRight("ЖДИ ДОКС ЖДИ СВАТ","HomigradFontBig",ScrW()/2 +(math.cos(CurTime()*1)*15*i),ScrH()/2+(math.sin(CurTime()*1)*55*i)+15,Color(255,255,255),math.cos(CurTime()*1)*1,2+math.sin(CurTime()*1)*0.5)
@@ -674,10 +651,6 @@ function hg.BasicHudHint(ent, trace)
 	end
 end
 
-local leg = Material("zbattle/medical/broken_bone.png", "")
-
-local white = Color(255, 255, 255, 255)
-local bkg = Color(43, 30, 30)
 hook.Add("HUDPaint","afflictionlist",function()
 end)
 

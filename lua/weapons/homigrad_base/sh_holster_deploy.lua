@@ -12,9 +12,6 @@ function SWEP:Step_HolsterDeploy(time)
 	if self.deploy and self.deploy < time then if self.Deploy_End then self:Deploy_End() end end
 end
 
-function SWEP:WeaponDeployPost()
-end
-
 if SERVER then return end
 
 function SWEP:Holster(wep)

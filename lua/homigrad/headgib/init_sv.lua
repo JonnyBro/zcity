@@ -1,7 +1,6 @@
 local net, hg, pairs, Vector, ents, IsValid, util = net, hg, pairs, Vector, ents, IsValid, util
 
 local vecZero = Vector(0,0,0)
-local vecInf = Vector(0,0,0) / 0
 
 local function removeBone(rag, bone, phys_bone, nohuys)
 	if !nohuys then rag:ManipulateBoneScale(bone, vecZero) end
@@ -42,7 +41,6 @@ gib_ragdols = gib_ragdols or {}
 local gib_ragdols = gib_ragdols
 
 local VectorRand, ents_Create = VectorRand, ents.Create
-local vector_up = Vector(0,0,1)
 local function PhysCallback( ent, data )
 	--data.HitPos -- data.HitNormal
 	if data.DeltaTime < 0.2 then return end

@@ -110,8 +110,6 @@ SWEP.RHAng = Angle(-7,-12,90)
 SWEP.LHPos = Vector(10,0.8,-3.7)
 SWEP.LHAng = Angle(-120,180,0)
 
-local finger1 = Angle(25,0, 40)
-
 SWEP.ShootAnimMul = 3
 function SWEP:DrawPost()
 	local wep = self:GetWeaponEntity()
@@ -237,7 +235,6 @@ SWEP.ReloadSlideAnim = {
 	0,
 	0
 }
-
 
 SWEP.ReloadAnimLHAng = {
 	Angle(0,0,0),

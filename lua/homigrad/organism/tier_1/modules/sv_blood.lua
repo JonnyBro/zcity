@@ -51,13 +51,6 @@ local internalbleed_phrases = {
 	"Oh shit... I don't feel good...",
 }
 
-local about_to_puke = {
-	"I feel like I'm gonna puke any second now...",
-	"Not feeling good...",
-	"Gonna puke right now...",
-	"I want to vomit...",
-}
-
 local vecZero = Vector(0, 0, 0)
 module[2] = function(owner, org, mulTime)
 	local adrenaline = math.min(org.adrenaline, 2)
@@ -135,9 +128,6 @@ module[2] = function(owner, org, mulTime)
 		bleedoutspeed = bleedoutspeed + mulTime * 100 * org.pulse / 70
 	end
 
-	if org.liver > 0.5 then
-	end
-
 	bleedoutspeed = bleedoutspeed / (beatsPerSecond + 2)
 
 	local bleedoutspeed2 = 0
@@ -182,8 +172,6 @@ module[2] = function(owner, org, mulTime)
 
 		org.wantToVomit = org.wantToVomit + math.Rand(0, org.internalBleed / 1000 + org.pneumothorax / 200) * mulTime * 5
 
-		if org.wantToVomit > 0.90 then
-		end
 	end
 
 	if org.wantToVomit > 1 then

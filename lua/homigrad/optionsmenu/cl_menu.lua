@@ -47,11 +47,6 @@ hg.AddOptionPanel( "hg_weaponshotblur_mul", "slider", {desc = "Multiplicates the
 hg.AddOptionPanel( "hg_maxsmoketrails", "slider", {desc = "Max amount of smoke trail effects (lags after 10)",min = 0,max = 30,decimals = 0}, "optimization" )
 hg.AddOptionPanel( "hg_optimise_scopes", "slider", {desc = "Enable this if scoping makes your fps cry (1 - lowers quality of props around you, 2 - \"disables\" main render)",min = 0,max = 2,decimals = 0}, "optimization" )
 
-local red = Color(75,25,25)
-local redselected = Color(150,0,0)
-
-local blurMat = Material("pp/blurscreen")
-local Dynamic = 0
 BlurBackground = BlurBackground or hg.DrawBlur
 
 local function CreateOptionsMenu()

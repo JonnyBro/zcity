@@ -71,7 +71,6 @@ hook.Add("PostCleanupMap", "CombineSquads_Reset", function()
     CombineSquads.usedCallsigns = {}
 end)
 
-
 local primary_weapons = {
     "weapon_osipr",
     "weapon_mp7",
@@ -234,7 +233,6 @@ function CLASS.Off(self)
     self.leader = nil
 	hook.Remove("OnEntityCreated", "relation_shipdo"..self:EntIndex())
 end
-
 
 CLASS.NoFreeze = true
 CLASS.CanEmitRNDSound = false
@@ -413,25 +411,17 @@ if CLIENT then
     local color_hp = Color(0,255,255,220)
     local color_ar = Color(0,255,255,220)
     local color_glow = Color(15,165,165,0)
-    local color_glow_ar = Color(15,165,165,0)
     local color_glow_ammo = Color(15,165,165,0)
-    local color_sight = Color(15,165,165,220)
-    local color_pulse = Color(15,165,165,220)
 
     local color_hp2 = Color(165,15,15)
     local color_ar2 = Color(165,15,15)
     local color_glow2 = Color(165,15,15)
-    local color_glow_ar2 = Color(165,15,15)
     local color_glow_ammo2 = Color(165,15,15)
-    local color_sight2 = Color(165,15,15)
-    local color_pulse2 = Color(165,15,15)
 
     local armor_txt, hp_txt, pulse_txt, stamina_txt, ammo_txt = 0,0,0,0,0
     local bloodlerp, ammolerp = 0,0
     local blood_old, old_hp_txt, old_ar_txt, old_ammo_txt = 5000,0,0,0
-    local pos_sight = Vector(ScrW(),ScrH(),0)
     local bg_color = Color(0,0,0,150)
-    local armorlerp = 0
 
     surface.CreateFont("CMBFontDefault",{
         font = "Roboto Light",
@@ -728,14 +718,6 @@ if SERVER then
         end
     end)
 
-    local hitgroups_sounds = {
-        [HITGROUP_STOMACH] = true,
-        [HITGROUP_CHEST]   = true,
-        [HITGROUP_LEFTARM] = true,
-        [HITGROUP_RIGHTARM] = true,
-        [HITGROUP_RIGHTLEG] = true,
-        [HITGROUP_LEFTLEG]  = true
-    }
     hook.Add("HomigradDamage","Combine_painsounds",function(ply, dmgInfo, hitgroup, ent)
     end)
 
@@ -756,10 +738,6 @@ if SERVER then
         end
     end)
 
-    util.AddNetworkString("CombineRadioStart")
-    util.AddNetworkString("CombineRadioEnd")
-    util.AddNetworkString("CombineChatMessage")
-
     hook.Add("HG_PlayerCanHearPlayersVoice","CombineRadio",function(listener,talker)
         if talker.PlayerClassName == "Combine" and listener.PlayerClassName == "Combine" and talker:Alive() then
             return true,false
@@ -772,7 +750,6 @@ if SERVER then
         end
     end)
 end
-
 
 if CLIENT then
     local radio_end_sound = Sound("npc/metropolice/vo/off4.wav")
@@ -927,6 +904,5 @@ if CLIENT then
         end
     end)
 end
-
 
 return CLASS

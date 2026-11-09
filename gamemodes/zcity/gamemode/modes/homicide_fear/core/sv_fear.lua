@@ -139,7 +139,6 @@ function MODE:Intermission()
 	local main_traitor = nil
 	local traitors = {}
 
-
 	for i, ply in RandomPairs(player.GetAll()) do
 		if ply.isTraitor or ply:Team() == TEAM_SPECTATOR then continue end
 
@@ -153,7 +152,6 @@ function MODE:Intermission()
 			//MODE.NextRoundMainTraitors[ply:SteamID()] = nil
 		end
 	end
-
 
 	for i, ply in RandomPairs(player.GetAll()) do
 		if ply.isTraitor or ply:Team() == TEAM_SPECTATOR then continue end
@@ -334,7 +332,6 @@ end
 
 function MODE:SelectTheBestVictim()
 	local alive = zb:CheckAlive()
-	local victims = {}
 	local victims_stats = {}
 
 	for i, ply in ipairs(alive) do

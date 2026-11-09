@@ -2,8 +2,6 @@ local MODE = MODE
 local vgui_color_main = Color(150, 80, 0, 255)
 local vgui_color_warning = Color(150, 0, 0, 255)
 local vgui_color_bg = Color(50, 50, 50, 255)
-local vgui_color_ready = Color(0, 150, 50, 255)
-local vgui_color_notready = Color(0, 50, 0, 255)
 local vgui_color_text_main = Color(150, 50, 0, 255)
 local vgui_color_text_shadow = Color(0, 0, 0, 255)
 
@@ -151,7 +149,6 @@ hook.Add("HUDPaint", "HMCD_SubRoles_Abilities", function()
 	end
 end)
 
-
 --// Я ебал это делать
 
 surface.CreateFont("TraitorPanelTitle", {
@@ -175,8 +172,6 @@ surface.CreateFont("TraitorPanelWords", {
 	antialias = true,
 	italic = false
 })
-
-
 
 local traitor_panel = {
     assistants = {},
@@ -209,14 +204,12 @@ local traitor_panel = {
     }
 }
 
-
 local function CreateAvatarPanel(steamid)
     if not steamid or steamid == "" then return nil end
 
     if traitor_panel.assistant_avatars[steamid] and IsValid(traitor_panel.assistant_avatars[steamid]) then
         return traitor_panel.assistant_avatars[steamid]
     end
-
 
     local avatar = vgui.Create("AvatarImage")
     avatar:SetSize(traitor_panel.avatar_size, traitor_panel.avatar_size)
@@ -231,11 +224,9 @@ local function CreateAvatarPanel(steamid)
     return avatar
 end
 
-
 hook.Add("PlayerButtonDown", "TraitorPanelToggle", function(ply, btn)
     if ply ~= LocalPlayer() or btn ~= KEY_F4 then return end
     if not LocalPlayer().isTraitor then return end
-
 
     local current_time = CurTime()
     if current_time - traitor_panel.last_toggle_time < traitor_panel.toggle_cooldown then
@@ -250,9 +241,6 @@ hook.Add("PlayerButtonDown", "TraitorPanelToggle", function(ply, btn)
     end
 end)
 
-
-
-
 net.Receive("HMCD_UpdateTraitorAssistants", function()
     local count = net.ReadUInt(8)
     MODE.TraitorsLocal = {}
@@ -265,7 +253,6 @@ net.Receive("HMCD_UpdateTraitorAssistants", function()
         table.insert(MODE.TraitorsLocal, {color, name, steamID})
     end
 end)
-
 
 net.Receive("HMCD_TraitorDeathState", function()
     local traitor_name = net.ReadString()
@@ -281,7 +268,6 @@ hook.Add("HUDPaint", "DrawTraitorPanel", function()
     if not ply.isTraitor or not ply:Alive() then
         traitor_panel.visible = false
 
-
         for steamid, avatar in pairs(traitor_panel.assistant_avatars) do
             if IsValid(avatar) then
                 avatar:SetVisible(false)
@@ -291,7 +277,6 @@ hook.Add("HUDPaint", "DrawTraitorPanel", function()
         return
     end
 
-
     local target = traitor_panel.visible and 0 or traitor_panel.width + 40
     traitor_panel.smooth_toggle = Lerp(FrameTime() * 10, traitor_panel.smooth_toggle, target)
 
@@ -299,7 +284,6 @@ hook.Add("HUDPaint", "DrawTraitorPanel", function()
     local height = is_main and traitor_panel.height or traitor_panel.assist_height
     local x = ScrW() - traitor_panel.width - 20 + traitor_panel.smooth_toggle
     local y = ScrH() / 2 - (height / 2)
-
 
     if traitor_panel.smooth_toggle > traitor_panel.width + 30 then
         for steamid, avatar in pairs(traitor_panel.assistant_avatars) do
@@ -310,22 +294,18 @@ hook.Add("HUDPaint", "DrawTraitorPanel", function()
         return
     end
 
-
     draw.RoundedBox(6, x, y, traitor_panel.width, height, traitor_panel.colors.bg)
     surface.SetDrawColor(traitor_panel.colors.border_inner)
     surface.DrawOutlinedRect(x + 3, y + 3, traitor_panel.width - 6, height - 6, 1)
     surface.SetDrawColor(traitor_panel.colors.border)
     surface.DrawOutlinedRect(x, y, traitor_panel.width, height, 2)
 
-
     local title = is_main and "MAIN TRAITOR" or "TRAITOR'S ASSISTANT"
     draw.SimpleText(title, "TraitorPanelTitle", x + traitor_panel.width/2, y + 15,
                     traitor_panel.colors.title, TEXT_ALIGN_CENTER, TEXT_ALIGN_CENTER)
 
-
     surface.SetDrawColor(traitor_panel.colors.border)
     surface.DrawLine(x + 15, y + 30, x + traitor_panel.width - 15, y + 30)
-
 
     draw.SimpleText("Press F4 to toggle panel", "TraitorPanelText", x + traitor_panel.width/2, y + 42,
                     Color(180, 180, 180, 220), TEXT_ALIGN_CENTER, TEXT_ALIGN_CENTER)
@@ -411,12 +391,10 @@ hook.Add("HUDPaint", "DrawTraitorPanel", function()
 
                 local status = is_alive and "" or " [DEAD]"
 
-
                 local display_name = name
                 if #name > 20 then
                     display_name = string.sub(name, 1, 18) .. ".."
                 end
-
 
                 if steamID and steamID ~= "" then
                     local avatar_player = player.GetBySteamID(steamID)
@@ -442,7 +420,6 @@ hook.Add("HUDPaint", "DrawTraitorPanel", function()
 
                 assist_y = assist_y + 25
 
-
                 if assist_y > y + height - 30 then
                     break
                 end
@@ -462,7 +439,6 @@ hook.Add("HUDPaint", "DrawTraitorPanel", function()
     end
 end)
 
-
 hook.Add("PostPlayerDeath", "ClearTraitorPanel", function(ply)
     if ply == LocalPlayer() then
         traitor_panel.dead_anim = {}
@@ -476,7 +452,6 @@ hook.Add("PostPlayerDeath", "ClearTraitorPanel", function(ply)
         end
     end
 end)
-
 
 hook.Add("Think", "UpdateTraitorAssistants", function()
 	if not LocalPlayer().isTraitor or not LocalPlayer().MainTraitor then return end
@@ -499,7 +474,6 @@ hook.Add("Think", "UpdateTraitorAssistants", function()
 		end
 	end
 end)
-
 
 hook.Add("Think", "RequestTraitorStatus", function()
 	if not LocalPlayer().isTraitor or not LocalPlayer().MainTraitor then return end

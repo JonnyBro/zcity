@@ -11,7 +11,6 @@ function hg.ClearArmorRestrictions(ply)
 	ply.ArmorRestrictions = nil
 end
 
-
 function hg.CanEquipArmorPiece(ply, equipment)
 	if not IsValid(ply) or not ply.ArmorRestrictions or not istable(ply.ArmorRestrictions) then
 		return true
@@ -91,7 +90,6 @@ function hg.AddArmor(ply, equipment, ent)
     end
 
     if ply.armors[placement] and ply:IsPlayer() then
-		local currentArmorData = hg.armor[placement] and hg.armor[placement][ply.armors[placement]]
 
         if not hg.DropArmor(ply, ply.armors[placement]) then return false end
     end
@@ -407,13 +405,11 @@ hg.organism.input_list.gordon_arm_armor_left = function(org, bone, dmg, dmgInfo,
 	return protect
 end
 
-
 hg.organism.input_list.gordon_arm_armor_right = function(org, bone, dmg, dmgInfo, ...)
 	force = true
 	local protect = protec(org, bone, dmg, dmgInfo, "arm", "gordon_arm_armor_right", 0.5, 0.3, false, ...)
 	return protect
 end
-
 
 hg.organism.input_list.gordon_leg_armor_left = function(org, bone, dmg, dmgInfo, ...)
 	force = true
@@ -427,13 +423,11 @@ hg.organism.input_list.gordon_leg_armor_right = function(org, bone, dmg, dmgInfo
 	return protect
 end
 
-
 hg.organism.input_list.gordon_calf_armor_left = function(org, bone, dmg, dmgInfo, ...)
 	force = true
 	local protect = protec(org, bone, dmg, dmgInfo, "leg", "gordon_calf_armor_left", 0.5, 0.3, false, ...)
 	return protect
 end
-
 
 hg.organism.input_list.gordon_calf_armor_right = function(org, bone, dmg, dmgInfo, ...)
 	force = true
@@ -462,13 +456,11 @@ hg.organism.input_list.cmb_arm_armor_left = function(org, bone, dmg, dmgInfo, ..
 	return protect
 end
 
-
 hg.organism.input_list.cmb_arm_armor_right = function(org, bone, dmg, dmgInfo, ...)
 	force = true
 	local protect = protec(org, bone, dmg, dmgInfo, "arm", "cmb_arm_armor_right", 0.9, 0.7, false, ...)
 	return protect
 end
-
 
 hg.organism.input_list.cmb_leg_armor_left = function(org, bone, dmg, dmgInfo, ...)
 	force = true

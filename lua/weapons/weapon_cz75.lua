@@ -17,7 +17,6 @@ SWEP.AttachmentPos = Vector(-1.5,-0.01,1.08)
 SWEP.AttachmentAng = Angle(0,0,90)
 SWEP.MagIndex = 53
 
-
 SWEP.FakeVPShouldUseHand = true
 SWEP.AnimList = {
 	["idle"] = "base_idle",
@@ -106,7 +105,6 @@ if CLIENT then
 	}
 end
 
-
 SWEP.WepSelectIcon2 = Material("pwb/sprites/cz75.png")
 SWEP.IconOverride = "entities/weapon_pwb_cz75.png"
 
@@ -182,13 +180,6 @@ SWEP.RHAng = Angle(0,-5,90)
 SWEP.LHPos = Vector(-1.2,-1.4,-2.8)
 SWEP.LHAng = Angle(5,9,-100)
 
-local finger1 = Angle(-25,10,25)
-local finger2 = Angle(0,25,0)
-local finger3 = Angle(31,1,-25)
-local finger4 = Angle(-10,-5,-5)
-local finger5 = Angle(0,-65,-15)
-local finger6 = Angle(15,-5,-15)
-
 function SWEP:AnimHoldPost()
 end
 
@@ -199,7 +190,6 @@ function SWEP:ModelCreated(model)
 end
 
 SWEP.ShootAnimMul = 5
-
 
 function SWEP:DrawPost()
 	local wep = self:GetWeaponEntity()
@@ -284,7 +274,6 @@ SWEP.ReloadAnimWepAng = {
 	Angle(2,6,1),
 	Angle(0,0,0)
 }
-
 
 -- Inspect Assault
 

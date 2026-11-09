@@ -74,8 +74,6 @@ hook.Add("CreateMove","Swarm",function(cmd)
 	end
 end)
 
-local SWARM_tex_flora = Material("vgui/swarm/flora")
-local SWARM_tex_blackout = Material("vgui/swarm/blackout")
 SWARM_Lerp_Perc = 0
 hook.Add("PostDrawHUD", "Swarm", function()
 

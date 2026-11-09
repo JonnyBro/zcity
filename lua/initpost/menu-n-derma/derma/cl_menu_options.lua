@@ -15,7 +15,6 @@ ybars = 30
 gradient_l = Material("vgui/gradient-l")
 
 local blur = Material("pp/blurscreen")
-local blur2 = Material("effects/shaders/zb_blur" )
 local sw, sh = ScrW(), ScrH()
 
 local font = function() -- hg_coolvetica:GetBool() and "Coolvetica" or "Bahnschrift"
@@ -45,7 +44,6 @@ surface.CreateFont("ZCity_setiings_category", {
 	size = ScreenScale(15),
 	weight = 100
 })
-
 
 hg.settings:AddOpt("Gameplay","hg_old_notificate", "Old Notifications")
 hg.settings:AddOpt("Gameplay","hg_cheats", "Enable Cheats")
@@ -118,7 +116,6 @@ hg.settings:AddOpt("View","hg_gun_cam", "Gun camera (WIP Admin only)")
   --hg_newfakecam
 hg.settings:AddOpt("Sound","hg_dmusic", "Dynamic Music")
 hg.settings:AddOpt("Sound","hg_quietshots", "Enable/Disable Quietshoot Sounds")
-
 
 function hg.CreateCategory(ctgName, ParentPanel, yPos)
     local pppanel = vgui.Create('DPanel', ParentPanel)
@@ -209,7 +206,6 @@ function hg.CreateButton(buttonData, convarName, ParentPanel, yPos)
         local toggle = vgui.Create('DButton', pppanel)
         toggle:SetSize(pppanel:GetWide() / 18, pppanel:GetTall() / 2)
 
-
         toggle:SetPos(pppanel:GetWide() - toggle:GetWide()*1.4 - pppanel:GetWide() / 20, pppanel:GetTall() / 2 - toggle:GetTall() / 2)
         toggle:SetText('')
 
@@ -295,7 +291,6 @@ function hg.CreateButton(buttonData, convarName, ParentPanel, yPos)
         textEntry:SetText(convar:GetString())
         textEntry:SetUpdateOnType(true)
         textEntry:SetFont('ZCity_Tiny')
-
 
         textEntry.Paint = function(self, w, h)
             surface.SetDrawColor(30, 30, 30, 255)

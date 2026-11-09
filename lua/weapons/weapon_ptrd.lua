@@ -25,7 +25,6 @@ SWEP.FakeViewBobBone = "ValveBiped.Bip01_L_Hand"
 SWEP.FakeViewBobBaseBone = "ValveBiped.Bip01_L_UpperArm"
 SWEP.ViewPunchDiv = 30
 
-
 SWEP.FakeVPShouldUseHand = false
 
 SWEP.WepSelectIcon2 = Material("vgui/wep_jack_hmcd_ptrd")
@@ -252,7 +251,6 @@ SWEP.stupidgun = false
 SWEP.GunCamPos = Vector(6,-12,-5)
 SWEP.GunCamAng = Angle(190,-5,-95)
 
-local vector_full = Vector(1,1,1)
 SWEP.FakeEjectBrassATT = "shell"
 -- Inspect Assault
 

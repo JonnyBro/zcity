@@ -5,7 +5,6 @@ if SERVER then
     return
 end
 
-
 function ClearDecalToEnt(ent)
 	if ent.decalshuy then
 		ent:SetSubMaterial()
@@ -49,7 +48,6 @@ function AddDecalToEnt(ent, id, --[[optional]] entIndex, tex, clear, x, y, rot, 
 	local sizew = basetexture:Width()
 	local sizeh = basetexture:Height()
 	local size = size or 512
-	local scale = 1
 
 	local tex = tex or matRepl
 
@@ -109,7 +107,6 @@ net.Receive("bloody_decal_1", function()
 		end
 	end
 end)
-
 
 -- local matat = Material("models/weapons/m4a1/weapon_m4a1_dm")
 -- local white = Material("vgui/white")

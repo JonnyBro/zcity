@@ -186,8 +186,6 @@
 					{0.00000,	0.00000,	0.00000,	1.00000},
 					}),
 
-
-
 			},
 			["pistol_hold"] = {
 				['ValveBiped.Anim_Attachment_LH'] = Matrix({
@@ -737,31 +735,8 @@
 			end
 		end
 
-		function hg.copy_hold(ply)
-			local lh = ply:LookupBone("ValveBiped.Bip01_L_Hand")
-			local lhmat = ply:GetBoneMatrix(lh)
-			print("\n")
-			for i,bone in pairs(hg.get_children(ply,lh)) do
-				local bon = ply:GetBoneName(bone)
-				print("['"..bon.."'] = Matrix({\n"..string.Replace(string.Replace(tostring(lhmat:GetInverse() * ply:GetBoneMatrix(bone)),"[","{"),"]","},").."\n}),")
-			end
-			print("\n")
-		end
-
-		function hg.copy_holdrh(ply)
-			local lh = ply:LookupBone("ValveBiped.Bip01_R_Hand")
-			local lhmat = ply:GetBoneMatrix(lh)
-			print("\n")
-			for i,bone in pairs(hg.get_children(ply,lh)) do
-				local bon = ply:GetBoneName(bone)
-				print("['"..bon.."'] = Matrix({\n"..string.Replace(string.Replace(tostring(lhmat:GetInverse() * ply:GetBoneMatrix(bone)),"[","{"),"]","},").."\n}),")
-			end
-			print("\n")
-		end
-
 		local hg_tpik_distance = ConVarExists("hg_tpik_distance") and GetConVar("hg_tpik_distance") or CreateClientConVar("hg_tpik_distance",1024,true,false,"The distance (in hammer units) at which the third person inverse kinematics enables, 0 = inf",0,2048)
 
-		local render_GetViewSetup = render.GetViewSetup
 		function hg.ShouldTPIK(ply)
 			local time = CurTime()
 			if (ply.cachedtpik or 0) > time then return ply.cachedval end

@@ -1,5 +1,4 @@
 hg.organism = hg.organism or {}
-local empty = {}
 local Vector = Vector --ыыы
 local vecZero, angZero = Vector(0, 0, 0), Angle(0, 0, 0)
 local box, _mins = Vector(0, 0, 0), Vector(0, 0, 0)
@@ -8,7 +7,6 @@ local center
 local LocalToWorld = LocalToWorld
 
 local util_IntersectRayWithOBB = util.IntersectRayWithOBB
-local util_IsOBBIntersectingOBB = util.IsOBBIntersectingOBB
 local math_ceil = math.ceil
 local stepDiv = 1
 local tracePos = Vector(0, 0, 0)

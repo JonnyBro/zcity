@@ -308,54 +308,10 @@ hook.Add("PlayerDeathThink","stoprespawning",function()
 end)
 
 --util.AddNetworkString("tracePosesSend")
---util.AddNetworkString("wound_debug")
 util.AddNetworkString("hg_bloodimpact")
 util.AddNetworkString("bloodsquirt")
 
 local hg_developer = ConVarExists("hg_developer") and GetConVar("hg_developer") or CreateConVar("hg_developer",0,FCVAR_SERVER_CAN_EXECUTE,"Toggle developer mode (enables damage traces)",0,1)
-
-local npcDmg = {
-	npc_combine_s = {
-		["ValveBiped.Bip01_Head1"] = 0.5,
-		["ValveBiped.Bip01_L_UpperArm"] = 0.5,
-		["ValveBiped.Bip01_L_Forearm"] = 0.5,
-		["ValveBiped.Bip01_L_Hand"] = 1,
-		["ValveBiped.Bip01_R_UpperArm"] = 0.5,
-		["ValveBiped.Bip01_R_Forearm"] = 0.5,
-		["ValveBiped.Bip01_R_Hand"] = 1,
-		["ValveBiped.Bip01_Pelvis"] = {0.1,{"MetalSpark"}},
-		["ValveBiped.Bip01_Spine2"] = {0.1,{"MetalSpark"}},
-		["ValveBiped.Bip01_L_Thigh"] = 0.5,
-		["ValveBiped.Bip01_L_Calf"] = 1,
-		["ValveBiped.Bip01_L_Foot"] = 1,
-		["ValveBiped.Bip01_R_Thigh"] = 0.5,
-		["ValveBiped.Bip01_R_Calf"] = 1,
-		["ValveBiped.Bip01_R_Foot"] = 1,
-	},
-	npc_hunter = 1,
-	npc_metropolice = {
-		["ValveBiped.Bip01_Head1"] = 1,
-		["ValveBiped.Bip01_L_UpperArm"] = 1,
-		["ValveBiped.Bip01_L_Forearm"] = 1,
-		["ValveBiped.Bip01_L_Hand"] = 1,
-		["ValveBiped.Bip01_R_UpperArm"] = 1,
-		["ValveBiped.Bip01_R_Forearm"] = 1,
-		["ValveBiped.Bip01_R_Hand"] = 1,
-		["ValveBiped.Bip01_Pelvis"] = {0.25,{"Impact",77}},
-		["ValveBiped.Bip01_Spine2"] = {0.25,{"Impact",77}},
-		["ValveBiped.Bip01_L_Thigh"] = 1,
-		["ValveBiped.Bip01_L_Calf"] = 1,
-		["ValveBiped.Bip01_L_Foot"] = 1,
-		["ValveBiped.Bip01_R_Thigh"] = 1,
-		["ValveBiped.Bip01_R_Calf"] = 1,
-		["ValveBiped.Bip01_R_Foot"] = 1,
-	},
-	npc_zombie = 1,
-	npc_zombie_torso = 1,
-	npc_zombine = 1,
-	npc_poisonzombie = 1,
-	npc_fastzombie = 1,
-}
 
 function hg.NPCDamage(ent,dmgInfo,npcdmg)
 	local tr = hg.GetTraceDamage(ent, dmgInfo:GetDamagePosition(), dmgInfo:GetDamageForce())
@@ -941,8 +897,6 @@ hook.Add("EntityTakeDamage", "homigrad-damage", function(ent, dmgInfo)
 		hook.Run("Org Think Call", ply, org)
 
 		if (not ply:Alive() or not org.alive) and (math.Round(ply:GetInfoNum("hg_deathfadeout", 1)) == 1) then// or org.otrub or hg.organism.paincheck(org) or (ply:Health() <= 0) then
-			if org.skull == 1 then
-			end
 
 			ply:ScreenFade(0, color_black, 1, 1)
 			ply:ConCommand("soundfade 100 99999")
@@ -1280,7 +1234,6 @@ local function velocityDamage(ent, data)
 		att.organism.fear = 0
 	end
 
-
 	local hitgroup
 	local bonename = ent:GetBoneName(ent:TranslatePhysBoneToBone(bone or 0))
 
@@ -1302,7 +1255,6 @@ local function velocityDamage(ent, data)
 
 		if hitgroup == HITGROUP_STOMACH and physAng:Forward():Dot(data.HitNormal) > 0.6 then hg.organism.input_list.spine1(org, bone, dmg * (math.random(3) > 1 and 1 or 0) * 3, dmgInfo) end -- | И В ПРАВДУ ПОЧЕМУ У НАС СПИНА ЛОМАЕТСЯ ОТ ПАДЕНИЯ НА ГРУДЬ ИЛИ ЖИВОТ...
 		if hitgroup == HITGROUP_CHEST and physAng:Forward():Dot(data.HitNormal) > 0.6 then hg.organism.input_list.spine2(org, bone, dmg * (math.random(3) > 1 and 1 or 0) * 3, dmgInfo) end
-
 
 		if surfaceType and surfaceType ~= nil and bleedSurfaces[surfaceType] and (dmg * 3 > 0.17) and math.random(2) == 2 then
 			hg.organism.AddWoundManual(ent,dmg*5,vector_origin,angle_zero,bone,CurTime() + (dmg * 250))
@@ -1349,8 +1301,6 @@ local function velocityDamage(ent, data)
 		hook.Run("Org Think Call", ply, org)
 
 		if (not ply:Alive() or not org.alive) and (math.Round(ply:GetInfoNum("hg_deathfadeout", 1)) == 1) then// or org.otrub or hg.organism.paincheck(org) or (ply:Health() <= 0) then
-			if org.skull == 1 then
-			end
 
 			ply:ScreenFade(0, color_black, 1, 1)
 			ply:ConCommand("soundfade 100 99999")
@@ -1533,7 +1483,6 @@ end
 
 local defaultEngineMins = Vector(-25, -35, -8)
 local defaultEngineMaxs = Vector(35, 35, 35)
-local defaultEngineOffset = Vector(65, 0, 0)
 hg.vehicledetails = {
 	["prop_vehicle_prisoner_pod"] = {},
 	["default"] = {

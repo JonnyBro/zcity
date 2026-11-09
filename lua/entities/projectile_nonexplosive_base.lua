@@ -117,7 +117,6 @@ if SERVER then
             local dir = data.HitPos - (data.HitPos + self:GetAngles():Forward() * -5)
             local hitNormal = data.HitNormal
             local ApproachAngle = math.deg(math.asin(hitNormal:DotProduct(dir:GetNormalized())))
-	        local MaxRicAngle = 10
 
             timer.Simple(.1,function()
                 local effectdata = EffectData()
@@ -156,7 +155,6 @@ if SERVER then
 		Phys:AddAngleVelocity(-Phys:GetAngleVelocity() * Mass / 1000)
 	end
 
-    local vecSmoke = Vector(255,255,255)
     function ENT:Think()
 		AeroDrag(self, self:GetAngles():Forward(), .6)
         self:NextThink(CurTime() + 0.1)

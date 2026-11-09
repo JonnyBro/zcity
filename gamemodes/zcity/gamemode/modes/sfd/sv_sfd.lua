@@ -11,9 +11,6 @@ MODE.GuiltDisabled = true
 MODE.ForBigMaps = false
 MODE.Chance = 0.04
 
-local radius = nil
-local mapsize = 7500
-
 util.AddNetworkString("supfight_start")
 util.AddNetworkString("supfight_end")
 

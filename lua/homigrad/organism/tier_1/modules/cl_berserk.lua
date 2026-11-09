@@ -230,12 +230,8 @@ local HM_sky_material = CreateMaterial("g_sky_HMFrf", "g_Sky", {
 	["$starlayers"]    = "4",
 })
 
-local maxs = Vector(64, 64, 64)
-local mins = -maxs
-
 local matGlow = Material("Sprites/light_glow02_add_noz")
 local red = Color(255, 58, 84)
-local blue = Color(47, 0, 255)
 
 hook.Add("PostDrawTranslucentRenderables", "berserkSky", function(depth, drawsky, sky3d)
 	if !hg.underberserk2 then return end
@@ -270,4 +266,3 @@ hook.Add("PostDrawTranslucentRenderables", "berserkSky", function(depth, drawsky
 		cam.End3D()
 	end
 end)
-

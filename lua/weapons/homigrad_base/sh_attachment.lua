@@ -1,5 +1,4 @@
 AddCSLuaFile()
-local angFull = Angle(-30, 30, 30)
 local angZero = Angle(0, 0, 0)
 hg.attachments = hg.attachments or {}
 SWEP.availableAttachments = {}
@@ -148,7 +147,6 @@ function SWEP:DrawAttachments()
 		return
 	end
 
-
 	if self.availableAttachments.mount then
 		if self.availableAttachments.mount then
 			if not self.attachments then return end
@@ -158,7 +156,6 @@ function SWEP:DrawAttachments()
 			end
 		end
 	end
-
 
 	self.modelAtt = self.modelAtt or {}
 	local flagRemovehuy = false
@@ -211,10 +208,7 @@ function SWEP:DrawAttachments()
 end
 
 if CLIENT then
-	local vec = Vector()
-	local addPos = Vector()
 	local vecZero = Vector()
-	local posa = Vector()
 	local newview = Vector()
 	function SWEP:GetCameraOverride(view)
 		local info = self:GetAttachmentInfo("sight")
@@ -411,7 +405,6 @@ if CLIENT then
 	local mat = Material("sprites/rollermine_shock")
 	local mat2 = Material("sprites/light_glow02_add_noz")
 	local mat3 = Material("effects/flashlight/soft")
-	local mat4 = Material("sprites/light_ignorez", "alphatest")
 	local colorTransparent = Color(0,0,0,0)
 	function SWEP:DrawLaser()
 		if not self.shouldTransmit then return end
@@ -442,8 +435,6 @@ if CLIENT then
 				filter = {self, self:GetOwner(), self:GetWeaponEntity(), model, LocalPlayer()},
 				mask = MASK_VISIBLE
 			})
-			if tr.Hit then
-			end
 			if self.flashlight and self.flashlight:IsValid() then
 				self.flashlight:SetTexture((attachmentData.mat or mat3):GetTexture("$basetexture"))
 				self.flashlight:SetFarZ(attachmentData.farZ or 1500)
@@ -594,20 +585,8 @@ if CLIENT then
 		antialias = true
 	})
 
-	local plyAttachments = {}
-	local weaponAttachments = {}
-	local drop = false
-	local gray = Color(200, 200, 200)
-	local red = Color(75,25,25)
-	local redselected = Color(150,0,0)
-	local blue = Color(200, 200, 255)
-	local black = Color(24,24,24)
-	local whitey = Color(255, 255, 255)
 	local chosen2
 	local doubleclick
-
-	local blurMat = Material("pp/blurscreen")
-    local Dynamic = 0
 
 	local function refreshtbl()
 		local tblcpy = {}

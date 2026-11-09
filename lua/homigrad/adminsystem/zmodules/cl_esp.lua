@@ -10,7 +10,6 @@ ESP.AllESP = false
 local ESPEye = CreateClientConVar("zb_espeye", "0", true, false, "Show admin ESP eye trace line")
 
 local col_default = Color(255, 0, 0)
-local col_white = Color(255, 255, 255)
 local col_gray = Color(180, 180, 180)
 local col_weapon = Color(255, 200, 100)
 local col_box_outline = Color(0, 0, 0, 200)

@@ -19,9 +19,6 @@ SWEP.AttachmentAng = Angle(0,0,0)
 
 SWEP.FakeEjectBrassATT = "2"
 
-
-
-
 SWEP.FakeVPShouldUseHand = true
 SWEP.AnimList = {
 	["idle"] = "base_idle",
@@ -182,9 +179,6 @@ SWEP.availableAttachments = {
 		["mountType"] = "picatinny",
 	}
 }
-
-local vector_one = Vector(1,1,1)
-local vector_zero = Vector(0,0,0)
 
 function SWEP:DrawPost()
 	local wep = self:GetWeaponEntity()

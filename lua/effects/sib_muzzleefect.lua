@@ -1,4 +1,3 @@
-local images_muzzle = {"effects/muzzleflash1", "effects/muzzleflash2", "effects/muzzleflash3", "effects/muzzleflash4"}
 local images_distort = {"sprites/heatwave"}
 local function TableRandomChoice(tbl)
 	return tbl[math.random(#tbl)]
@@ -6,9 +5,6 @@ end
 
 local SIB = {}
 SIB.SmokeImages = {"particle/smokesprites_0001", "particle/smokesprites_0002", "particle/smokesprites_0003", "particle/smokesprites_0004", "particle/smokesprites_0005", "particle/smokesprites_0006", "particle/smokesprites_0007", "particle/smokesprites_0008", "particle/smokesprites_0009", "particle/smokesprites_0010", "particle/smokesprites_0011", "particle/smokesprites_0012", "particle/smokesprites_0013", "particle/smokesprites_0014", "particle/smokesprites_0015", "particle/smokesprites_0016"}
-function SIB_GetSmokeImage()
-	return SIB.SmokeImages[math.random(#SIB.SmokeImages)]
-end
 
 function EFFECT:Init(data)
 	local quality = 3

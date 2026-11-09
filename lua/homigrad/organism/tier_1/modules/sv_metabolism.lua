@@ -9,7 +9,6 @@ module[1] = function(org)
     org.hungryDmgCd = 0
 end
 
-local colorRed = Color(125,25,25)
 module[2] = function(owner, org, timeValue)
     if org.satiety <= 0 and hg_hungersystem:GetBool() then
         org.hungry = min(max(org.hungry + timeValue * 0.01, 0),100)

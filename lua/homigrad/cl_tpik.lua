@@ -288,251 +288,9 @@ hg.TPIKBonesLH = TPIKBonesLH
 local math, Vector, Angle, util, IsValid, CurTime, game, FrameTime, LerpAngle = math, Vector, Angle, util, IsValid, CurTime, game, FrameTime, LerpAngle
 local math_Clamp = math.Clamp
 
-local developer = GetConVar("developer")
-
-local PrikolModel = {
-    ["models/male_09.mdl"] = true,
-    ["models/player/zcity/male_04.mdl"] = true
-}
-
 local vecUpX, vecUpZ, vecUpY, vecZero, angZero = Vector(1, 0, 0), Vector(0, 0, 1), Vector(0, 1, 0), Vector(0, 0, 0), Angle(0, 0, 0)
-function hg._DeprecatedDoTPIK(ply, ent, rhmat, lhmat)
-    local ent = IsValid(ent) and ent or ply
-    ply.lastTPIK = ply.lastTPIK or SysTime()
-    local dt = SysTime() - ply.lastTPIK
-
-    local shouldfullupdate = true
-    if dt > 0.01 then
-        ply.lastTPIK = SysTime()
-
-        shouldfullupdate = true
-    end
-
-    local ply_spine_index = ply:LookupBone("ValveBiped.Bip01_Spine4")
-    if !ply_spine_index then return end
-    local ply_spine_matrix = ent:GetBoneMatrix(ply_spine_index)
-
-    local ply_head_index = ply:LookupBone("ValveBiped.Bip01_Head1")
-    if !ply_head_index then return end
-    local ply_head_matrix = ent:GetBoneMatrix(ply_head_index)
-
-	local self = ply:GetActiveWeapon()
-    local lhik2 = ((IsValid(self) and self.lhandik) or ply:InVehicle()) and hg.CanUseLeftHand(ply)
-    local rhik2 = ((IsValid(self) and self.rhandik) or ply:InVehicle()) and hg.CanUseRightHand(ply)
-
-    ply.lerp_lh = LerpFT(0.1, ply.lerp_lh or 1, lhik2 and 1 or 0.001)
-    ply.lerp_rh = LerpFT(0.1, ply.lerp_rh or 1, rhik2 and 1 or 0.001)
-
-    local rhik = ply.lerp_rh > 0.01
-    local lhik = ply.lerp_lh > 0.01
-
-    if not rhik and not lhik then return end
-
-    local ply_l_upperarm_index = ply:LookupBone("ValveBiped.Bip01_L_UpperArm")
-    local ply_r_upperarm_index = ply:LookupBone("ValveBiped.Bip01_R_UpperArm")
-    local ply_l_forearm_index = ply:LookupBone("ValveBiped.Bip01_L_Forearm")
-    local ply_r_forearm_index = ply:LookupBone("ValveBiped.Bip01_R_Forearm")
-    local ply_l_hand_index = ply:LookupBone("ValveBiped.Bip01_L_Hand")
-    local ply_r_hand_index = ply:LookupBone("ValveBiped.Bip01_R_Hand")
-
-    if !ply_l_upperarm_index then return end
-    if !ply_r_upperarm_index then return end
-    if !ply_l_forearm_index then return end
-    if !ply_r_forearm_index then return end
-    if !ply_l_hand_index then return end
-    if !ply_r_hand_index then return end
-
-    local eyepos, eyeang = ply:EyePos(), ply:GetAimVector():Angle()
-    local headpos = ply_head_matrix:GetTranslation()
-
-    local ply_r_upperarm_matrix = ent:GetBoneMatrix(ply_r_upperarm_index)
-    local ply_r_forearm_matrix = ent:GetBoneMatrix(ply_r_forearm_index)
-    local ply_r_hand_matrix = ent:GetBoneMatrix(ply_r_hand_index)
-
-    local ply_l_upperarm_matrix = ent:GetBoneMatrix(ply_l_upperarm_index)
-    local ply_l_forearm_matrix = ent:GetBoneMatrix(ply_l_forearm_index)
-    local ply_l_hand_matrix = ent:GetBoneMatrix(ply_l_hand_index)
-
-    if not ply_r_hand_matrix or not ply_l_hand_matrix then return end
-
-    local limblength = ply:BoneLength(ply_l_forearm_index)
-    local limblength2 = ply:BoneLength(ply_l_upperarm_index)
-    if !limblength or limblength == 0 then limblength = 12 end
-
-    local r_upperarm_length = limblength
-    local r_forearm_length = limblength
-    local l_upperarm_length = limblength
-    local l_forearm_length = limblength
-
-    local ply_r_upperarm_pos, ply_r_forearm_pos, ply_r_upperarm_angle, ply_r_forearm_angle
-
-    if not rhik2 then
-        local lpos, _ = WorldToLocal(ply_r_hand_matrix:GetTranslation(), angle_zero, eyepos, eyeang)
-        ply.last_rh_pos = lpos
-
-        if ply.last_rh_pos2 then
-            local pos, _ = LocalToWorld(ply.last_rh_pos2, angle_zero, eyepos, eyeang)
-            ply_r_hand_matrix:SetTranslation(Lerp(ply.lerp_rh, ply_r_hand_matrix:GetTranslation(), pos))
-        end
-    else
-        local lpos, _ = WorldToLocal(ply_r_hand_matrix:GetTranslation(), angle_zero, eyepos, eyeang)
-        ply.last_rh_pos2 = lpos
-
-        if ply.last_rh_pos then
-            local pos, _ = LocalToWorld(ply.last_rh_pos, angle_zero, eyepos, eyeang)
-            ply_r_hand_matrix:SetTranslation(Lerp(ply.lerp_rh, pos, ply_r_hand_matrix:GetTranslation()))
-        end
-    end
-
-    local r_arm_startingpos = ply_r_upperarm_matrix:GetTranslation()
-    local offset = vector_origin
-    local r_arm_endpos = ply_r_hand_matrix:GetTranslation() + offset
-
-    local angasd = ent:GetBoneMatrix(ent:LookupBone("ValveBiped.Bip01_Head1")):GetAngles()
-    angasd:RotateAroundAxis(angasd:Up(), -90)
-    angasd:RotateAroundAxis(angasd:Forward(), -90)
-    --debugoverlay.Line(r_arm_startingpos + vector_up * 10, r_arm_startingpos + vector_up * 10 + angasd:Right() * 10, 1, color_white)
-    //local _, angasd = LocalToWorld(vector_origin, Angle(180, 90, 90), vector_origin, angasd)
-    if shouldfullupdate or !ply.ply_r_upperarm_pos then
-        ply_r_upperarm_pos, ply_r_forearm_pos, ply_r_upperarm_angle, ply_r_forearm_angle = hg.Solve2PartIK(r_arm_startingpos, r_arm_endpos, r_upperarm_length, r_forearm_length, ply_r_upperarm_matrix, ply_r_hand_matrix, -1, ply_spine_matrix, angasd, ply_r_hand_matrix:GetAngles())
-
-        ply.ply_r_upperarm_pos, ply.ply_r_upperarm_angle = WorldToLocal(ply_r_upperarm_pos, ply_r_upperarm_angle, headpos, eyeang)
-        ply.ply_r_forearm_pos, ply.ply_r_forearm_angle = WorldToLocal(ply_r_forearm_pos, ply_r_forearm_angle, headpos, eyeang)
-    else
-        ply_r_upperarm_pos, ply_r_upperarm_angle = LocalToWorld(ply.ply_r_upperarm_pos, ply.ply_r_upperarm_angle, headpos, eyeang)
-        ply_r_forearm_pos, ply_r_forearm_angle = LocalToWorld(ply.ply_r_forearm_pos, ply.ply_r_forearm_angle, headpos, eyeang)
-    end
-    ply_r_forearm_angle:RotateAroundAxis(ply_r_forearm_angle:Forward(), -45)
-
-    ply_r_upperarm_matrix:SetAngles(LerpAngle(ply.lerp_rh, ply_r_upperarm_matrix:GetAngles(), ply_r_upperarm_angle))
-    ply_r_forearm_matrix:SetAngles(LerpAngle(ply.lerp_rh, ply_r_forearm_matrix:GetAngles(), ply_r_forearm_angle))
-    ply_r_forearm_matrix:SetTranslation(LerpVector(ply.lerp_rh, ply_r_forearm_matrix:GetTranslation(), ply_r_upperarm_pos))
-
-    if rhik then
-        hg.bone_apply_matrix(ent, ply_r_upperarm_index, ply_r_upperarm_matrix, ply_r_forearm_index)
-        hg.bone_apply_matrix(ent, ply_r_forearm_index, ply_r_forearm_matrix, ply_r_hand_index)
-        ply_r_hand_matrix:SetTranslation(ply_r_forearm_pos - offset)
-        hg.bone_apply_matrix(ent, ply_r_hand_index, ply_r_hand_matrix)
-
-        if IsValid(ply.OldRagdoll) then
-            hg.bone_apply_matrix(ply, ply_r_upperarm_index, ply_r_upperarm_matrix, ply_r_forearm_index)
-            hg.bone_apply_matrix(ply, ply_r_forearm_index, ply_r_forearm_matrix, ply_r_hand_index)
-            hg.bone_apply_matrix(ply, ply_r_hand_index, ply_r_hand_matrix)
-        end
-
-        local wrst = ent:LookupBone("ValveBiped.Bip01_R_Wrist")
-        local wmat = wrst and ent:GetBoneMatrix(wrst)
-        if wrst and wmat then
-            wmat:SetAngles(ply_r_forearm_angle)
-            ent:SetBoneMatrix(wrst, wmat)
-        end
-
-        local wrst = ent:LookupBone("ValveBiped.Bip01_R_Ulna")
-        local wmat = wrst and ent:GetBoneMatrix(wrst)
-        if wrst and wmat then
-            wmat:SetAngles(ply_r_forearm_angle)
-            ent:SetBoneMatrix(wrst, wmat)
-        end
-    end
-
-    local ply_l_upperarm_pos, ply_l_forearm_pos, ply_l_upperarm_angle, ply_l_forearm_angle
-
-    if not lhik2 then
-        local lpos, _ = WorldToLocal(ply_l_hand_matrix:GetTranslation(), angle_zero, eyepos, eyeang)
-        ply.last_lh_pos = lpos
-
-        if ply.last_lh_pos2 then
-            local pos, _ = LocalToWorld(ply.last_lh_pos2, angle_zero, eyepos, eyeang)
-            ply_l_hand_matrix:SetTranslation(Lerp(ply.lerp_lh, ply_l_hand_matrix:GetTranslation(), pos))
-        end
-    else
-        local lpos, _ = WorldToLocal(ply_l_hand_matrix:GetTranslation(), angle_zero, eyepos, eyeang)
-        ply.last_lh_pos2 = lpos
-
-        if ply.last_lh_pos then
-            local pos, _ = LocalToWorld(ply.last_lh_pos, angle_zero, eyepos, eyeang)
-            ply_l_hand_matrix:SetTranslation(LerpVector(ply.lerp_lh, pos, ply_l_hand_matrix:GetTranslation()))
-        end
-    end
-
-    if IsValid(self.OwOmodel) and developer:GetBool() and lply:IsSuperAdmin() and self.lmagpos3 then
-        local hand = ply_l_hand_matrix
-        local pos, ang = LocalToWorld(self.lmagpos3, self.lmagang3, hand:GetTranslation(), hand:GetAngles())
-        self.OwOmodel:SetPos(pos)
-        self.OwOmodel:SetAngles(ang)
-        self.OwOmodel:SetupBones()
-        self.OwOmodel:DrawModel()
-    end
-
-    local l_arm_startingpos = ply_l_upperarm_matrix:GetTranslation()
-
-    local offset = vector_origin
-    local l_arm_endpos = ply_l_hand_matrix:GetTranslation() + offset
-
-    if shouldfullupdate or !ply.ply_l_upperarm_pos then
-        ply_l_upperarm_pos, ply_l_forearm_pos, ply_l_upperarm_angle, ply_l_forearm_angle = hg.Solve2PartIK(l_arm_startingpos, l_arm_endpos, l_upperarm_length, l_forearm_length, ply_l_upperarm_matrix, ply_l_hand_matrix, 1, ply_spine_matrix, angasd, ply_l_hand_matrix:GetAngles())
-
-        ply.ply_l_upperarm_pos, ply.ply_l_upperarm_angle = WorldToLocal(ply_l_upperarm_pos, ply_l_upperarm_angle, headpos, eyeang)
-        ply.ply_l_forearm_pos, ply.ply_l_forearm_angle = WorldToLocal(ply_l_forearm_pos, ply_l_forearm_angle, headpos, eyeang)
-    else
-        ply_l_upperarm_pos, ply_l_upperarm_angle = LocalToWorld(ply.ply_l_upperarm_pos, ply.ply_l_upperarm_angle, headpos, eyeang)
-        ply_l_forearm_pos, ply_l_forearm_angle = LocalToWorld(ply.ply_l_forearm_pos, ply.ply_l_forearm_angle, headpos, eyeang)
-    end
-    ply_l_forearm_angle:RotateAroundAxis(ply_l_forearm_angle:Forward(), -45)
-    if PrikolModel[ply:GetModel()] and ply:GetBodygroup(4) == 1 then
-        local prikolAng = ply_l_hand_matrix:GetAngles()
-        prikolAng[1] = 0
-        prikolAng[2] = 0
-        prikolAng[3] =  math.max(prikolAng[3],0)
-        ply_l_forearm_angle = ply_l_forearm_angle + prikolAng * 1.5
-        ply_l_upperarm_angle = ply_l_upperarm_angle + prikolAng * 1
-    end
-
-    ply_l_upperarm_matrix:SetAngles(LerpAngle(ply.lerp_lh, ply_l_upperarm_matrix:GetAngles(), ply_l_upperarm_angle))
-    ply_l_forearm_matrix:SetAngles(LerpAngle(ply.lerp_lh, ply_l_forearm_matrix:GetAngles(), ply_l_forearm_angle))
-    ply_l_forearm_matrix:SetTranslation(LerpVector(ply.lerp_lh, ply_l_forearm_matrix:GetTranslation(), ply_l_upperarm_pos))
-
-    //debugoverlay.Line(l_arm_startingpos, ply_l_upperarm_pos, 1, color_white)
-    //debugoverlay.Line(ply_l_upperarm_pos, ply_l_forearm_pos, 1, color_white)
-
-    if lhik then
-        hg.bone_apply_matrix(ent, ply_l_upperarm_index, ply_l_upperarm_matrix, ply_l_forearm_index)
-        hg.bone_apply_matrix(ent, ply_l_forearm_index, ply_l_forearm_matrix, ply_l_hand_index)
-        ply_l_hand_matrix:SetTranslation(ply_l_forearm_pos - offset)
-        hg.bone_apply_matrix(ent, ply_l_hand_index, ply_l_hand_matrix)
-
-        if IsValid(ply.OldRagdoll) then
-            hg.bone_apply_matrix(ply, ply_l_upperarm_index, ply_l_upperarm_matrix, ply_l_forearm_index)
-            hg.bone_apply_matrix(ply, ply_l_forearm_index, ply_l_forearm_matrix, ply_l_hand_index)
-            hg.bone_apply_matrix(ply, ply_l_hand_index, ply_l_hand_matrix)
-        end
-
-        local wrst = ent:LookupBone("ValveBiped.Bip01_L_Wrist")
-        local wmat = wrst and ent:GetBoneMatrix(wrst)
-        if wrst and wmat then
-            wmat:SetAngles(ply_l_forearm_angle)
-            ent:SetBoneMatrix(wrst, wmat)
-        end
-
-        local wrst = ent:LookupBone("ValveBiped.Bip01_L_Ulna")
-        local wmat = wrst and ent:GetBoneMatrix(wrst)
-        if wrst and wmat then
-           wmat:SetAngles(ply_l_forearm_angle)
-           ent:SetBoneMatrix(wrst, wmat)
-        end
-    end
-
-    self.lhandik = false
-    self.rhandik = false
-end
-
-local cached_huy = {}
-
-local vector_small = Vector(0,0,0)
-local vector_small2 = Vector(0.001,0.001,0.001)
 
 local hg, LocalToWorld = hg, LocalToWorld
-local durachok = "models/epangelmatikes/e3_elite_suit.mdl"
 
 local ang_head1, ang_head2 = Angle(-90, 0, 220), Angle(-90, 0, -30)
 function hg.MainTPIKFunction(ent, ply, wpn)
@@ -543,8 +301,6 @@ function hg.MainTPIKFunction(ent, ply, wpn)
     local should = hg.ShouldTPIK(ply)
 
     if should then
-        if ent != ply then
-        end
 
         if wpn.SetHandPos then
             wpn:SetHandPos()
@@ -615,84 +371,6 @@ function hg.MainTPIKFunction(ent, ply, wpn)
             hg.bone_apply_matrix(ent, lh, lhmat)
         end
     end
-end
-
-function hg.CoolGloves(ent, ply)
-    if not hg_coolgloves:GetBool() then return end
-
-    local huy = (GetViewEntity() == ply) or (not lply:Alive() and lply:GetNWEntity("spect") == ply and lply:GetNWInt("viewmode",0) == 1)
-
-    if ply.GetPlayerClass and ply:GetPlayerClass() and ply:GetPlayerClass().NoGloves or ThatPlyIsFemale(ply) then return end
-
-    if not huy then return end
-
-    if not IsValid(ply.c_hands) then
-        ply.c_hands = ClientsideModel(gloves[hg_change_gloves:GetInt()])
-        ply.c_hands:SetNoDraw(true)
-        ply.c_hands:SetPos(ply:EyePos())
-        ply.c_hands:SetParent(ply)
-        ply.c_hands.GetPlayerColor = function()
-            return ply:GetPlayerColor()
-        end
-    end
-    local mdl = ply.c_hands
-    mdl:SetSequence(2)
-    mdl:SetCycle(1)--TRI TOPORA
-    mdl:SetModel(gloves[hg_change_gloves:GetInt()])
-	if (mdl:GetModel() == durachok and mdl:GetBodygroup(1) ~= 1) then
-		mdl:SetBodygroup(1, 1)
-		mdl:SetBodygroup(2, 1)
-	elseif mdl:GetModel() ~= durachok then
-		mdl:SetBodygroup(1, 0)
-		mdl:SetBodygroup(2, 0)
-		mdl:SetSkin(blackmans[lply:GetModel()] and 1 or 0)
-	end
-    mdl:SetPos(ent:GetPos())
-    mdl:SetAngles(ent:GetAngles())
-    mdl:SetupBones()
-
-    local mdlmodel = mdl:GetModel()
-    cached_huy[mdlmodel] = cached_huy[mdlmodel] or {}
-
-    for bone1 = 0, mdl:GetBoneCount() - 1 do
-        if not cached_huy[mdlmodel][bone1] then cached_huy[mdlmodel][bone1] = mdl:GetBoneName(bone1) end
-        local bone = cached_huy[mdlmodel][bone1]
-
-        local wm_boneindex = mdl:LookupBone(bone)
-        if !wm_boneindex then continue end
-        local wm_bonematrix = mdl:GetBoneMatrix(wm_boneindex)
-        if !wm_bonematrix then continue end
-
-        local ply_boneindex = ent:LookupBone(bone) or TPIKBonesTranslate[bone] and ent:LookupBone(TPIKBonesTranslate[bone])
-        if !ply_boneindex then continue end
-        local ply_bonematrix = ent:GetBoneMatrix(ply_boneindex) or TPIKBonesTranslate[bone] and ent:GetBoneMatrix(ent:LookupBone(TPIKBonesTranslate[bone]))
-        if !ply_bonematrix then continue end
-
-        local bonepos = ply_bonematrix:GetTranslation()
-        local boneang = ply_bonematrix:GetAngles()
-        local scl = ply_bonematrix:GetScale()
-
-        if TPIKBonesTranslate[bone] == bone then
-            ply_bonematrix:SetScale(vector_small2)
-            ent:SetBoneMatrix(ent:LookupBone(bone), ply_bonematrix)
-            ply_bonematrix:SetScale(scl)
-        end
-
-        wm_bonematrix:SetTranslation(bonepos)
-        wm_bonematrix:SetAngles(boneang)
-        wm_bonematrix:SetScale(scl)
-
-        hg.bone_apply_matrix(mdl, wm_boneindex, wm_bonematrix)
-
-        if !TPIKBonesTranslate[bone] then
-            wm_bonematrix:SetScale(vector_small)
-            mdl:SetBoneMatrix(wm_boneindex, wm_bonematrix)
-		else
-			mdl:SetBoneMatrix(wm_boneindex, wm_bonematrix)
-		end
-    end
-
-    mdl:DrawModel()
 end
 
 local function backward(final, segments)
@@ -932,7 +610,6 @@ function hg.DoTPIK(ply, ent)
         ply_r_forearm_matrix:SetTranslation(segments[2].Pos)
         ply_r_hand_matrix:SetTranslation(new)
 
-
         local diff = (segments[2].Pos - segments[1].Pos):GetNormalized()
         local angrr = diff:Angle()
         local angle2 = math.deg(math.atan2(-math.sqrt(diff.x * diff.x + diff.y * diff.y), diff.z)) - 90
@@ -1139,68 +816,6 @@ function hg.DoTPIK(ply, ent)
 end
 
 hg.IKSolve = solve
-
-function hg.Solve2PartIK(start_p, end_p, length0, length1, mat0, mat1, sign, torsomat, angs, ang)
-    local length2 = (start_p - end_p):Length()
-
-    if length0 + length1 < length2 then
-        local add = length2 - length1 - length0
-    end
-
-    local prev_ang0 = Quaternion():SetMatrix(mat0)
-    local prev_ang1 = Quaternion():SetMatrix(mat1)
-    local angar = prev_ang1:Angle()
-
-    local cosAngle0 = math_Clamp(((length2 * length2) + (length0 * length0) - (length1 * length1)) / (2 * length2 * length0), -1, 1)
-    local angle0 = -math.deg(math.acos(cosAngle0))
-    local cosAngle1 = math_Clamp(((length1 * length1) + (length0 * length0) - (length2 * length2)) / (2 * length1 * length0), -1, 1)
-    local angle1 = -math.deg(math.acos(cosAngle1))
-    local diff = end_p - start_p-- + lply:EyeAngles():Forward() * 555
-    diff:Normalize()
-    local angle2 = math.deg(math.atan2(-math.sqrt(diff.x * diff.x + diff.y * diff.y), diff.z)) - 90
-    local angle3 = -math.deg(math.atan2(diff.x, diff.y)) - 90
-    angle3 = math.NormalizeAngle(angle3)
-
-    local diff2 = -torsomat:GetAngles():Forward()
-    --debugoverlay.Line(start_p,start_p + diff2 * 10,0.1,color_white,true)
-    --debugoverlay.Line(start_p,start_p + diff * 10,0.1,color_red,true)
-    local axis = diff * 1
-    axis:Normalize()
-
-    local torsoang = torsomat:GetAngles()
-
-    local Joint0 = Angle(angle0 + angle2, angle3, 0)
-
-    local asdot = -vector_up:Dot(torsoang:Up())
-    local diffa = math.deg(math.acos(asdot)) + (sign < 0 and -0 or 0)
-    local diffa2 = 90 + (sign > 0 and -30 or 30)--math.deg(math.acos(asdot))
-
-    local tors = torsoang:Up()
-    local torsoright = -math.deg(math.atan2(tors.x, tors.y)) - 180 - 60 * sign
-
-    torsoright = angs.y - angs.r + 120 * sign-- + (math.NormalizeAngle(angs.p) < 0 and math.NormalizeAngle(angs.p) or 0) * 1 * (sign < 0 and -0.5 or 0.5)// + 90// + -math.abs(math.NormalizeAngle(angs.p)) * sign * (angs.r - 90) / 90 * -2 + angs.r
-
-    Joint0:RotateAroundAxis(Joint0:Forward(), diffa2 + 15)
-    Joint0:RotateAroundAxis(axis, angle3 - torsoright)
-    prev_ang0:SetAngle(Joint0)
-
-    --debugoverlay.Line(start_p,start_p + -diff:Angle():Up() * 10,0.1,color_black,true)
-    --debugoverlay.Line(start_p,start_p + torsoang:Up() * sign * 10,0.1,color_red,true)
-
-    local Joint0 = prev_ang0:Angle():Forward() * length0
-
-    local Joint1 = Angle(angle0 + angle2 + 180 + angle1, angle3, 0)
-    Joint1:RotateAroundAxis(Joint1:Forward(), diffa2 + 30)// + angar[3] * (sign > 0 and 1 or 0) * (1 - math.abs(angar[1] / 90)))//+ ang[3] / 4 + 60)
-    Joint1:RotateAroundAxis(axis, angle3 - torsoright)
-    prev_ang1:SetAngle(Joint1)
-
-    local Joint1 = prev_ang1:Angle():Forward() * length1
-
-    local Joint0_F = start_p + Joint0
-    local Joint1_F = Joint0_F + Joint1
-
-    return Joint0_F, Joint1_F, prev_ang0:Angle(), prev_ang1:Angle()
-end
 
 function hg.FlashlightPos(ply)
     if not ply:GetNetVar("flashlight", false) then
@@ -1554,7 +1169,6 @@ function hg.DragHandsToPos(ply,self,pos,twohanded,twohanddist,norm,angrh,anglh)
             hg.bone_apply_matrix(ply,rh,rhmat)
             ply.oldposrh = pos - oldpos
         end
-
 
         local oldpos = lhmat:GetTranslation()
         pos.x = math_Clamp(pos.x, oldpos.x - 38, oldpos.x + 38)

@@ -2,7 +2,6 @@ local MODE = MODE
 
 util.AddNetworkString("defense_highlight_last_npcs")
 
-
 local npc_autoseek_timer = 0
 hook.Add("Think", "NPCAutoSeekPlayer", function()
     local currentRound = CurrentRound()
@@ -48,8 +47,6 @@ hook.Add("Think", "NPCAutoSeekPlayer", function()
                 end
             end
 
-
-
             if npc:IsUnreachable(npc:GetEnemy()) or npc:HasObstacles() then
                 for i, ent in pairs(ents.FindInSphere(npc:GetPos(), 64)) do
                     if ent:IsPlayer() or ent:IsNPC() then continue end
@@ -90,7 +87,6 @@ hook.Add("Think", "NPCAutoSeekPlayer", function()
 
             npc:ClearBlockingEntity()
         end
-
 
         local curPly
         local curPlyPos
@@ -143,7 +139,6 @@ hook.Add("Think", "NPCAutoSeekPlayer", function()
     end
 end)
 
-
 hook.Remove("EntityRemoved", "DefenseNPCRemoved")
 hook.Add("EntityRemoved", "DefenseNPCRemoved", function(ent)
     if not IsValid(ent) then return end
@@ -162,7 +157,6 @@ hook.Add("EntityRemoved", "DefenseNPCRemoved", function(ent)
                 MODE.NPCCount = math.max(0, MODE.NPCCount - 1)
                 print("[DEFENSE] NPC Count after removal: " .. MODE.NPCCount)
 
-
                 if MODE.NPCCount <= 0 and MODE:IsWaveActive() then
                     print("[DEFENSE] Wave Ended due to NPC removal!")
                     MODE:EndWave()
@@ -180,7 +174,6 @@ hook.Add("EntityRemoved", "DefenseNPCRemoved", function(ent)
     end
 end)
 
-
 hook.Remove("OnEntityCreated", "DefenseAddNewNPCs")
 hook.Add("OnEntityCreated", "DefenseAddNewNPCs", function(ent)
     local MODE = CurrentRound()
@@ -192,7 +185,6 @@ hook.Add("OnEntityCreated", "DefenseAddNewNPCs", function(ent)
         if not IsValid(ent) then return end
 
         local class = ent:GetClass() or ""
-
 
         if class == "zb_temporary_ent" then return end
 
@@ -215,12 +207,10 @@ hook.Add("OnEntityCreated", "DefenseAddNewNPCs", function(ent)
             ent.IsDefenseWaveNPC = true
             ent.DefenseEntityID = "defense_npc_" .. ent:EntIndex() .. "_" .. math.random(1000, 9999)
 
-
             MODE.DefenseWaveEntities[ent.DefenseEntityID] = ent
             MODE.NPCCount = MODE.NPCCount + 1
 
             print("[DEFENSE] NPC Created: " .. class .. ", EntIndex: " .. ent:EntIndex() .. ", Count: " .. MODE.NPCCount)
-
 
             if ent.IsZBaseNPC then
                 ent:CallOnRemove("DefenseZBaseNPCRemoved", function()
@@ -236,7 +226,6 @@ hook.Add("OnEntityCreated", "DefenseAddNewNPCs", function(ent)
     end)
 end)
 
-
 hook.Remove("OnNPCKilled", "DefenseNPCKilled")
 hook.Add("OnNPCKilled", "DefenseNPCKilled", function(npc, attacker, inflictor)
     local MODE = CurrentRound()
@@ -248,7 +237,6 @@ hook.Add("OnNPCKilled", "DefenseNPCKilled", function(npc, attacker, inflictor)
         if npc.IsDefenseWaveNPC then
             print("[DEFENSE] NPC Killed: " .. npc:GetClass() .. ", EntIndex: " .. npc:EntIndex())
 
-
             if not npc.DefenseNPCCountedAsDead then
                 npc.DefenseNPCCountedAsDead = true
                 MODE.NPCCount = math.max(0, MODE.NPCCount - 1)
@@ -258,7 +246,6 @@ hook.Add("OnNPCKilled", "DefenseNPCKilled", function(npc, attacker, inflictor)
                 end
 
                 print("[DEFENSE] NPC Count after kill: " .. MODE.NPCCount)
-
 
                 if MODE.NPCCount <= 0 and MODE:IsWaveActive() then
                     print("[DEFENSE] Wave Ended due to all NPCs killed!")
@@ -281,7 +268,6 @@ hook.Remove("EntityTakeDamage", "DefenseZombieDamageTrack")
 hook.Add("EntityTakeDamage", "DefenseZombieDamageTrack", function(ent, dmginfo)
     if not IsValid(ent) then return end
 
-
     local class = ent:GetClass() or ""
     if class == "zb_temporary_ent" then return end
 
@@ -290,11 +276,9 @@ hook.Add("EntityTakeDamage", "DefenseZombieDamageTrack", function(ent, dmginfo)
     local MODE = CurrentRound()
     if not MODE or MODE.name ~= "defense" then return end
 
-
     if dmginfo:GetDamage() >= ent:Health() and ent.IsDefenseWaveNPC then
         timer.Simple(0.1, function()
             if not IsValid(ent) then return end
-
 
             if ent:Health() <= 0 then
                 print("[DEFENSE] VJ NPC Died from damage: " .. class)
@@ -327,9 +311,6 @@ hook.Add("EntityTakeDamage", "DefenseZombieDamageTrack", function(ent, dmginfo)
     end
 end)
 
-
-
-local lastNPCUpdate = 0
 local lastNPCList = {}
 local lastSentTime = 0
 
@@ -371,7 +352,6 @@ hook.Add("Think", "DefenseNPCValidityCheck", function()
             end
         end
 
-
         if MODE.NPCCount <= 3 and MODE.NPCCount > 0 then
             local remainingNPCs = {}
             for id, npc in pairs(MODE.DefenseWaveEntities) do
@@ -379,7 +359,6 @@ hook.Add("Think", "DefenseNPCValidityCheck", function()
                     table.insert(remainingNPCs, npc:EntIndex())
                 end
             end
-
 
             local shouldSend = #remainingNPCs ~= #lastNPCList or CurTime() - lastSentTime > 5
 

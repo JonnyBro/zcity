@@ -83,7 +83,6 @@ function hg.AddAttachment(ply,wep,att)
 		return
 	end
 
-
 	wep:AttachAnim()
 	timer.Simple(0.5,function()
 		if wep:IsValid() then
@@ -212,8 +211,6 @@ net.Receive("ZB_AttachDrop", function(len, ply)
 end)
 
 util.AddNetworkString("sync_atts")
-util.AddNetworkString("sync_atts_ply")
-local PLAYER = FindMetaTable("Player")
 function SWEP:SyncAtts(ply)
 	self:SetNetVar("attachments",self.attachments)
 	self:SendNetVar("attachments")

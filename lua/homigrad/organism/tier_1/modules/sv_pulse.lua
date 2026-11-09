@@ -104,11 +104,7 @@ module[2] = function(owner, org, timeValue)
 
 	if org.heartstop then
 		org.heartstoptime = org.heartstoptime or CurTime()
-		if org.isPly then
-		end
 	else
-		if org.isPly then
-		end
 		org.heartstoptime = nil
 	end
 
@@ -116,17 +112,5 @@ module[2] = function(owner, org, timeValue)
 		org.owner:EmitSound("breathing/agonalbreathing_"..math.random(13)..".wav", 60)
 
 		org.lastsoundtime = CurTime() + math.random(25,35)
-	end
-end
-
-util.AddNetworkString("pulse")
-function hg.organism.Pulse(owner, org, timeValue)
-	local stamina = org.stamina
-	if org.o2[1] > 1 and org.alive and org.heart < 1 and org.brain < 0.6 then
-	end--brain damage is usually permanent
-
-	if owner:IsPlayer() and owner:Alive() then
-		net.Start("pulse")
-		net.Send(owner)
 	end
 end

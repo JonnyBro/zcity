@@ -3,9 +3,6 @@ local PANEL = {}
 local xbars = 17
 local ybars = 30
 
-local xbars2 = 0
-local ybars2 = 0
-
 local gradient_d = Material("vgui/gradient-d")
 local gradient_u = Material("vgui/gradient-u")
 local gradient_l = Material("vgui/gradient-l")

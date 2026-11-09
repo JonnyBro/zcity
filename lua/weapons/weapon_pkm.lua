@@ -70,8 +70,6 @@ SWEP.FakeAng = Angle(0, 0, 0)
 SWEP.AttachmentPos = Vector(1,0,0)
 SWEP.AttachmentAng = Angle(0,0,90)
 
-
-
 SWEP.FakeVPShouldUseHand = true
 SWEP.AnimList = {
 	["idle"] = "draw",
@@ -117,7 +115,6 @@ SWEP.FakeReloadEvents = {
 		end
 	end,
 }
-
 
 SWEP.ScrappersSlot = "Primary"
 SWEP.weight = 4.5
@@ -192,9 +189,6 @@ SWEP.RHAng = Angle(0,-12,90)
 --local to rh
 SWEP.LHPos = Vector(9,-4,-5)
 SWEP.LHAng = Angle(-10,10,-120)
-
-local ang1 = Angle(30, -15, 0)
-local ang2 = Angle(0, 10, 0)
 
 function SWEP:AnimHoldPost()
 end

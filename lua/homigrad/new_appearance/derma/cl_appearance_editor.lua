@@ -78,13 +78,11 @@ local function PrecacheAccessoryModels()
     end)
 end
 
-
 hook.Add("InitPostEntity", "HG_PrecacheAppearanceModels", function()
     timer.Simple(5, PrecacheAccessoryModels)
 end)
 
 hg.Appearance.PrecacheModels = PrecacheAccessoryModels
-
 
 local function CreateStyledScrollPanel(parent)
     local scroll = vgui.Create("DScrollPanel", parent)
@@ -276,18 +274,11 @@ local sizeX, sizeY = ScrW() * 1, ScrH() * 1
 local xbars = 17
 local ybars = 30
 
-local xbars2 = 0
-local ybars2 = 0
-
-local gradient_d = Material("vgui/gradient-d")
-local gradient_u = Material("vgui/gradient-u")
 local gradient_l = Material("vgui/gradient-l")
-local gradient_r = Material("vgui/gradient-r")
 
 local sw, sh = ScrW(), ScrH()
 
 function PANEL:Paint(w,h)
-
 
     surface.SetDrawColor(28,28,28,255)
     surface.DrawRect(0, 0, w, h)

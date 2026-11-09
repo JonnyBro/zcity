@@ -14,7 +14,6 @@ SWEP.WepSelectIcon2 = Material("pwb/sprites/xm1014.png")
 SWEP.IconOverride = "entities/weapon_pwb_xm1014.png"
 SWEP.WorldModelFake = "models/weapons/arccw/c_ud_m1014.mdl"
 
-
 --PrintTable(Entity(1):GetActiveWeapon():GetWM():GetAttachments())
 --uncomment for funny
 SWEP.FakePos = Vector(-10, 3.035, 3.45)
@@ -51,7 +50,6 @@ SWEP.FakeReloadEvents = {
 SWEP.FakeViewBobBone = "ValveBiped.Bip01_L_Hand"
 SWEP.FakeViewBobBaseBone = "ValveBiped.Bip01_L_UpperArm"
 SWEP.ViewPunchDiv = 10
-
 
 SWEP.availableAttachments = {
 	sight = {
@@ -111,8 +109,6 @@ SWEP.lengthSub = 18
 SWEP.handsAng = Angle(0, -2, 0)
 
 local finger1 = Angle(10, -12, -25)
-local finger2 = Angle(-10,30,0)
-local finger3 = Angle(0,-10,0)
 
 function SWEP:AnimHoldPost(model)
 	self:BoneSet("l_finger0", vector_zero, finger1)
@@ -148,7 +144,6 @@ function SWEP:ModelCreated(model)
 	end
 end
 
-
 function SWEP:InitializePost()
 	self.AnimStart_Insert = 0
 	self.AnimStart_Draw = 0
@@ -156,9 +151,6 @@ end
 
 function SWEP:AnimationPost()
 end
-
-local ang1 = Angle(0, -10, 0)
-local ang2 = Angle(0, -10, 0)
 
 function SWEP:DrawPost()
 	local wep = self:GetWeaponEntity()
@@ -198,7 +190,6 @@ local function cock(self,time)
 	self.reloadCoolDown = CurTime() + time
 end
 
-
 SWEP.GunCamPos = Vector(6,-12,-5)
 SWEP.GunCamAng = Angle(190,-5,-95)
 
@@ -221,7 +212,6 @@ local function reloadFunc(self)
 			reloadFunc(self)
 			return
 		end
-
 
 		self:PlayAnim(self.AnimList["finish"] or "sgreload_finish", 1,false,function(self) self:SetNetVar("shootgunReload",0) end,false,true)
 	end, false, true)
@@ -263,7 +253,6 @@ function SWEP:CanPrimaryAttack()
 	return not (self:GetNetVar("shootgunReload",0) > CurTime())
 end
 
-
 SWEP.AnimsEvents = {
 	["sgreload_start_empty"] = {
 		[0.2] = function(self)
@@ -295,7 +284,6 @@ SWEP.RHAng = Angle(0,-5,90)
 --local to rh
 SWEP.LHPos = Vector(15,-1,-3)
 SWEP.LHAng = Angle(-110,-90,-90)
-
 
 -- Inspect Assault
 

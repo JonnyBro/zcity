@@ -1,5 +1,4 @@
 --
-util.AddNetworkString("addpredictable")
 function SWEP:CreateWorldModel()
 	local model = ents.Create("prop_physics")--ents.Create("homigrad_gun")
 	model:SetNoDraw(not hg.show_weapons)
@@ -21,10 +20,7 @@ function SWEP:CreateWorldModel()
 	return model
 end
 
-local math_max = math.max
 local vecZero = Vector(0, 0, 0)
-local angZero = Angle(0, 0, 0)
-local hook_Run = hook.Run
 function SWEP:WorldModel_Transform(bNoApply, bNoAdditional)
 	local model, owner = self.worldModel, self:GetOwner()
 
@@ -102,4 +98,3 @@ concommand.Add("hg_show_weapons", function(ply, cmd, args)
 		wep.worldModel:SetNoDraw(not hg.show_weapons)
 	end
 end)
-

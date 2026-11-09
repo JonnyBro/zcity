@@ -1,16 +1,5 @@
 local MODE = MODE
 
-local function set_role(role, mode)
-	if mode == "soe" then
-		RunConsoleCommand(MODE.ConVarName_SubRole_Traitor_SOE, role)
-	else
-		RunConsoleCommand(MODE.ConVarName_SubRole_Traitor, role)
-	end
-end
-
-local glow = Material("zbattle/borderglow2.png")
-local red = Color(255, 0, 0)
-
 local rolesmaterials = {
 	["traitor_default_soe"] = Material("vgui/traitor_icons/traitor_icon.png", "smooth"),
 }
@@ -42,7 +31,6 @@ function PANEL:Init()
 
 	self:SetPos(sw * 0.4, sh * 0.4)
 	self:SetSize(sw * 0.6, sh * 0.6)
-
 
 	self:MakePopup()
 	self:RequestFocus()

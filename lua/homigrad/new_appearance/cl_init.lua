@@ -20,11 +20,6 @@ function hg.Appearance.LoadAppearanceFile(strFile_name)
 	return tblAppearance
 end
 
-function hg.Appearance.GetAppearanceList()
-	local files = file.Find( dir .. "*.json" )
-	return files
-end
-
 -- Send from client...
 net.Receive("Get_Appearance", function()
 	local forced_random = hg.Appearance.ForcedRandom:GetBool()

@@ -50,7 +50,6 @@ SWEP.FakeEmptyReloadSounds = {
 	[1.01] = "weapons/universal/uni_crawl_l_04.wav",
 }
 
-
 SWEP.MagModel = "models/weapons/arc9/darsu_eft/mods/mag_stanag_magpul_pmag_gen_m3_556x45_10.mdl"
 SWEP.lmagpos = Vector(0,0,0)
 SWEP.lmagang = Angle(0,0,0)
@@ -126,7 +125,6 @@ SWEP.FakeVPShouldUseHand = false
 
 SWEP.BurstNum = 0
 
-
 SWEP.weaponInvCategory = 1
 SWEP.CustomEjectAngle = Angle(0, 0, 90)
 SWEP.Primary.ClipSize = 20
@@ -135,7 +133,6 @@ SWEP.Primary.Automatic = false
 SWEP.Primary.Ammo = "5.56x45 mm"
 
 SWEP.CustomShell = "556x45"
-
 
 SWEP.ScrappersSlot = "Primary"
 SWEP.Primary.Cone = 0
@@ -189,8 +186,6 @@ SWEP.lengthSub = 25
 SWEP.handsAng = Angle(1, -1.5, 0)
 SWEP.DistSound = "weapons/mini14/mini14_dist.wav"
 
-
-
 SWEP.weight = 3
 
 --local to head
@@ -199,8 +194,6 @@ SWEP.RHAng = Angle(0,-12,90)
 --local to rh
 SWEP.LHPos = Vector(15,1,-3.3)
 SWEP.LHAng = Angle(-110,-180,0)
-
-local finger1 = Angle(25,0, 40)
 
 SWEP.ShootAnimMul = 3
 function SWEP:DrawPost()
@@ -219,11 +212,6 @@ function SWEP:DrawPost()
 	end
 end
 
-local lfang2 = Angle(0, -15, -1)
-local lfang1 = Angle(-5, -5, -5)
-local lfang0 = Angle(-12, -16, 20)
-local vec_zero = Vector(0,0,0)
-local ang_zero = Angle(0,0,0)
 function SWEP:AnimHoldPost()
 
 end
@@ -396,4 +384,3 @@ SWEP.InspectAnimWepAng = {
 	Angle(0,0,0),
 	Angle(0,0,0)
 }
-

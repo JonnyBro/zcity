@@ -199,7 +199,6 @@ function SWEP:ModelAnim(model, pos, ang)
 		self.lastAddPos = addPos
 	end
 
-
 	local hpos = (self.HoldPos or vector_origin) + vechuy
 	local hang = (self.HoldAng or angle_zero)
 
@@ -287,7 +286,6 @@ local ang2 = Angle(90,15,0)
 local ang4 = Angle(0,0,180)
 local ang5 = Angle(0,0,0)
 
-local ang3 = Angle(0,0,180)
 local clamp = math.Clamp
 
 function hg.handcuffedhands(ply)
@@ -328,8 +326,6 @@ function SWEP:SetHandPos(noset)
 	local ent = self:GetNWEntity("carryent")
 	self.rhandik = (self:GetFists()) or (IsValid(ent) and twohands)
 	self.lhandik = (self:GetFists() and hg.CanUseLeftHand(ply)) or IsValid(ent)
-
-	local bones2 = hg.TPIKBonesOther
 
 	local ply_spine_index = ply:LookupBone("ValveBiped.Bip01_Spine4")
 	if !ply_spine_index then return end
@@ -497,12 +493,7 @@ else
 	SWEP.WepSelectIcon = Material("vgui/wep_jack_hmcd_hands")
 	SWEP.IconOverride = "vgui/wep_jack_hmcd_hands.png"
 	local colWhite = Color(255, 255, 255, 255)
-	local colGray = Color(200, 200, 200, 200)
 	local lerpthing = 1
-	local lerpalpha = 0
-	local lerpalpha2 = 0
-	local colwhite = Color(0, 0, 0, 0)
-	local colred = Color(122, 0, 0, 0)
 
 	function SWEP:DrawHUD()
 		local owner = LocalPlayer()
@@ -544,7 +535,6 @@ local function WhomILookinAt(ply, cone, dist)
 
 	return
 end
-
 
 function SWEP:SetupDataTables()
 	self:NetworkVar("Float", 0, "NextIdle")
@@ -820,8 +810,6 @@ function SWEP:ApplyForce()
 							else
 							end
 
-							if org.isPly and not org.otrub then
-							end
 						end
 					end
 
@@ -1568,7 +1556,6 @@ function SWEP:Reload()
 end
 
 if SERVER then
-	local angZero = Angle(0, 0, 0)
 	hook.Add("Think", "held-entities", function()
 		heldents = heldents or {}
 		for i, tbl in pairs(heldents) do

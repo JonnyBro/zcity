@@ -116,7 +116,6 @@ SWEP.RHAng = Angle(0,-5,90)
 SWEP.LHPos = Vector(-1.2,-1.4,-2.8)
 SWEP.LHAng = Angle(5,9,-100)
 
-local vector_zero = Vector(0,0,0)
 SWEP.ShootAnimMul = 4
 
 function SWEP:DrawPost()
@@ -203,7 +202,6 @@ SWEP.ReloadAnimWepAng = {
 	Angle(2,6,1),
 	Angle(0,0,0)
 }
-
 
 -- Inspect Assault
 

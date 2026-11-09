@@ -2,9 +2,6 @@ local PANEL = {}
 
 local gradient_l = Material("vgui/gradient-l")
 
-local xbars = 17
-local ybars = 30
-
 surface.CreateFont("ZB_ProotOSLarge", {
 	font = "Ari-W9500",
 	size = ScreenScale(500),
@@ -49,7 +46,6 @@ surface.CreateFont("ZB_ProotOSMatrix2", {
 })
 
 local bluewhite = Color(187, 187, 255)
-local bluewhite2 = Color(213, 43, 43)
 
 local sw, sh = ScrW(), ScrH()
 
@@ -475,7 +471,6 @@ local tab = {
 	[ "$pp_colour_brightness" ] = 0,
 	[ "$pp_colour_contrast" ] = 1,
 }
-
 
 hook.Add("RenderScreenspaceEffects", "furload", function()
 	if IsValid(hg.furload) and hg.furload.alpha != 255 then

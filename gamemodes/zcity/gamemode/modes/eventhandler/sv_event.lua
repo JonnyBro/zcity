@@ -13,13 +13,9 @@ MODE.EndLogicType = 2
 MODE.EventersList = {}
 MODE.LootEnabled = false
 
-local radius = nil
-local mapsize = 7500
-
 util.AddNetworkString("event_start")
 util.AddNetworkString("event_end")
 util.AddNetworkString("event_eventers_update")
-util.AddNetworkString("event_loot_update")
 util.AddNetworkString("event_loot_sync")
 util.AddNetworkString("event_loot_add")
 util.AddNetworkString("event_loot_remove")

@@ -419,7 +419,6 @@ if CLIENT then
 end
 
 if SERVER then
-	util.AddNetworkString("ied_primary_attack")
 	util.AddNetworkString("ied_have_the_bomb")
 	SWEP.nextattackhuy = 0
 	SWEP.PlantedOnSelf = false
@@ -471,7 +470,6 @@ if SERVER then
 			self.HaveTheBomb = nil
 		end
 	end
-
 
 	function SWEP:Reload() -- hell nah
 	end

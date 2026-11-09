@@ -60,7 +60,6 @@ end)
 
 local function funca(ply, txt)
 	if !ply:Alive() or !ply.organism then return end
-	local starttxt = txt
 
 	if ply.organism.pain > 80 then
 		txt = table.Random(hg.sharp_pain)

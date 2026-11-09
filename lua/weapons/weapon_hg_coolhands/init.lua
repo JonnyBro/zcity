@@ -10,11 +10,6 @@ SWEP.SpecialTime = 0
 local math, util, Vector, Angle = math, util, Vector, Angle -- owo
 local math_random, math_Clamp, CurTime, Color = math.random, math.Clamp, CurTime, Color
 
-local ang4 = Angle(0,0,180)
-local ang5 = Angle(0,0,0)
-
-local ang3 = Angle(0,0,180)
-
 local function WhomILookinAt(ply, cone, dist)
 	local CreatureTr, ObjTr, OtherTr
 	for i = 1, 150 * cone do

@@ -1,7 +1,5 @@
 local PANEL = {}
 
-local gradient_u = Material("vgui/gradient-u")
-
 local function PaintPanel1(self,w,h)
 end
 
@@ -78,6 +76,5 @@ function PANEL:SetPlayer( ply )
         oldexp = ply.exp
     end
 end
-
 
 vgui.Register( "ZB_ExpPanel", PANEL, "DPanel" )

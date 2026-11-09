@@ -68,29 +68,3 @@ hg.afflictions = {}
 for i = 1, #afflictions do
 	hg.afflictions[afflictions[i][1]] = i
 end
-
-function hg.DrawAffliction(x, y, w, h, amt, index_or_name, alpha, text)
-	local index = isnumber(index_or_name) and index_or_name or hg.afflictions[index_or_name]
-	local affliction = afflictions[index]
-
-	if not affliction then return end
-
-	local r, g, b, a = affliction[3]:Unpack()
-	if affliction[4] then g = math.max((1 - amt) - 0.2, 0) * 255 end
-	if alpha then a = alpha end
-
-	surface.SetDrawColor(r, g, b, a)
-	surface.SetMaterial(affliction[2])
-	surface.DrawTexturedRect(x, y, w, h)
-
-	local cx, cy = input.GetCursorPos()
-
-	if cx > x and cx < x + w and cy > y and cy < y + h then
-		surface.SetFont("HomigradFontSmall")
-		surface.SetTextColor(255, 255, 255, a)
-		local txt = text or affliction[1]
-		local w1, h1 = surface.GetTextSize(txt)
-		surface.SetTextPos(x + w * 0.5 - w1 * 0.5, y + h + h1 * 0.5)
-		surface.DrawText(txt)
-	end
-end

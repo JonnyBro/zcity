@@ -82,10 +82,8 @@ local function DrawFirstPersonHelmet(ply, strModel, vecAdjust, fFov, setMat)
 	cam.End3D()
 end
 
-
 ---------ПОИНТЫ ЗАЩИТЫ БРОНИ ДЛЯ МОДОДЕЛОВ----------
 ---------II - 4 protection, IIIA - 8 protection, III - 12 protection, III+ - 16 protection, IV - 22 protection
-
 
 hg.armor.torso = {
 	["vest1"] = {
@@ -862,16 +860,5 @@ function hg.GetArmorPlacement(armor)
 	return found
 end
 
-local stringToNum = {
-	["torso"] = 1,
-	["head"] = 2,
-	["face"] = 3,
-}
-
-function hg.GetArmorPlacementNum(armor)
-	return stringToNum[hg.GetArmorPlacement(armor)]
-end
-
 initArmor()
 hook.Add("Initialize", "init-atts", initArmor)
-

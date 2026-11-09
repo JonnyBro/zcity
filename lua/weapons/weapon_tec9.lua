@@ -90,8 +90,6 @@ SWEP.RHAng = Angle(0,-5,90)
 SWEP.LHPos = Vector(5.9,1,-2.9)
 SWEP.LHAng = Angle(-15,-10,-80)
 
-local finger1 = Angle(0,0, 0)
-
 function SWEP:AnimHoldPost(model)
 	self:BoneSet("l_finger0", Vector(0.1, 0, 0), Angle(15, -40.3, 12))
 	self:BoneSet("l_finger02", Vector(0, 0, 0), Angle(-3, 25, 10))

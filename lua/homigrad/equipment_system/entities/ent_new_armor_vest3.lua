@@ -69,8 +69,6 @@ ENT.SlotOccupation = {                              -- Slots what armor occupate
 --//
 
     --\\ Plates
-    local FP = "FrontPlate"
-    local BP = "BackPlate"
     local FK = "FrontKevlar"
     local BK = "BackKevlar"
     local LK = "LeftKevlar"

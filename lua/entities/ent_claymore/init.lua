@@ -45,7 +45,6 @@ function ENT:Use(activator)
 	end
 end
 
-local vec_huy = Vector(0,0,0)
 function ENT:ActivateExplosive()
 	if self.Exploded then return end
 	self.Exploded = true
@@ -125,7 +124,6 @@ function ENT:ActivateExplosive()
 		net.WriteString(self.SoundWater)
 	net.Broadcast()
 	local normal = self:GetAngles():Right()
-	local blastdist = self.BlastDis
 	timer.Simple(0.3,function()
 		ParticleEffect("pcf_jack_groundsplode_medium",selfPos+vector_up*1,-normal:Angle())
 	end)

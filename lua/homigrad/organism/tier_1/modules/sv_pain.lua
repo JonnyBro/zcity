@@ -37,9 +37,6 @@ module[2] = function(owner, org, timeValue)
 
 	org.shock_turn = 10 * (!org.otrub and 1 or 0.1)
 
-	if org.shock > org.shock_turn * 1.5 * analgesiaMul * painkillerMul then
-	end
-
 	org.pain_turn = org.otrub and adrenalineMul * 80 or adrenalineMul * 90
 
 	local owner = org.owner
@@ -138,9 +135,6 @@ module[2] = function(owner, org, timeValue)
 
 	if org.larm < 1 then
 		org.larm = max(org.larm - timeValue / 240, 0)
-	end
-
-	if org.pain > 100 then
 	end
 
 	org.disorientation = math.Approach(org.disorientation, 0, timeValue / 5)

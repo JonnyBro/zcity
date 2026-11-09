@@ -29,7 +29,6 @@ local function SetRelPos(v, pos)
 	end
 end
 
-
 --[[-------------------------------------------------------------------------
 Add a fire to the cluster
 ---------------------------------------------------------------------------]]
@@ -112,7 +111,6 @@ function ENT:AddFire(fire)
 
 end
 
-
 --[[-------------------------------------------------------------------------
 Remove a fire from the cluster, likely to never be called but who knows
 ---------------------------------------------------------------------------]]
@@ -152,7 +150,6 @@ function ENT:RemFire(fire)
 end
 
 -- A function similar to think dedicated to checking wind flow via timers
-local windExposureCheckTime = 45
 function ENT:CalcWindExposure()
 	self.windExposure = 1
 end
@@ -175,7 +172,6 @@ if SERVER then
 		end)
 	end
 end
-
 
 function ENT:Initialize()
 	if not IsValid(self) then return end
@@ -224,8 +220,6 @@ function ENT:Initialize()
 	self.distMem = {}
 end
 
-
-
 if CLIENT then
 	function ENT:GetClusterMagnitude()
 		local maxState = 0
@@ -270,13 +264,11 @@ function ENT:OnRemove()
 		end
 	end
 
-
 	if SERVER then
 		-- Workaround: this is done to prevent a weird error that places cluster at bad origins on removal
 		-- the error does no harm, but it spams the console
 		self:SetPos(Vector())
 	end
-
 
 	local parent = self.parent
 	if parent == nil then

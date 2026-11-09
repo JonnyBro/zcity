@@ -2,31 +2,6 @@ hg.undernoradrenaline = hg.undernoradrenaline or false
 hg.noradrenalineStartTime = hg.noradrenalineStartTime or 0
 hg.noradrenalineStation = hg.noradrenalineStation or nil
 
-local tab = {
-	[ "$pp_colour_addr" ] = 0,
-	[ "$pp_colour_addg" ] = 0,
-	[ "$pp_colour_addb" ] = 0,
-	[ "$pp_colour_brightness" ] = 0,
-	[ "$pp_colour_contrast" ] = 1,
-	[ "$pp_colour_colour" ] = 1,
-	[ "$pp_colour_mulr" ] = 0,
-	[ "$pp_colour_mulg" ] = 0,
-	[ "$pp_colour_mulb" ] = 0
-}
-
-local tab2 = {
-	[ "$pp_colour_addr" ] = 0,
-	[ "$pp_colour_addg" ] = 0,
-	[ "$pp_colour_addb" ] = 0,
-	[ "$pp_colour_brightness" ] = 0,
-	[ "$pp_colour_contrast" ] = 1,
-	[ "$pp_colour_colour" ] = 1,
-	[ "$pp_colour_mulr" ] = 0,
-	[ "$pp_colour_mulg" ] = 0,
-	[ "$pp_colour_mulb" ] = 0
-}
-
-local cc = Material( "effects/shaders/merc_chromaticaberration" )
 hook.Add("RenderScreenspaceEffects", "noradrenalineEffect", function()
 	local organism = lply:Alive() and lply.organism
 

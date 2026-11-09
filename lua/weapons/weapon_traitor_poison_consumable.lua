@@ -182,13 +182,6 @@ function CleanChemicalsOfPlayer(ply)
 	ply.PassiveAbility_ChemicalAccumulation = {}
 end
 
-function GetChemicalOfPlayer(ply, chemical_name)
-	ply.PassiveAbility_ChemicalAccumulation = ply.PassiveAbility_ChemicalAccumulation or {}
-	ply.PassiveAbility_ChemicalAccumulation[chemical_name] = (ply.PassiveAbility_ChemicalAccumulation[chemical_name] or 0)
-
-	return ply.PassiveAbility_ChemicalAccumulation[chemical_name]
-end
-
 function SetChemicalToPlayer(ply, chemical_name, amt)
 	amt = amt or 1
 	ply.PassiveAbility_ChemicalAccumulation = ply.PassiveAbility_ChemicalAccumulation or {}

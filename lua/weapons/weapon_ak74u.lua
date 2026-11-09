@@ -122,7 +122,6 @@ end
 SWEP.ReloadHold = nil
 SWEP.FakeVPShouldUseHand = false
 
-
 SWEP.weaponInvCategory = 1
 SWEP.CustomEjectAngle = Angle(0, 0, 90)
 SWEP.Primary.ClipSize = 30
@@ -131,7 +130,6 @@ SWEP.Primary.Automatic = true
 SWEP.Primary.Ammo = "5.45x39 mm"
 
 SWEP.CustomShell = "545x39"
-
 
 SWEP.ScrappersSlot = "Primary"
 SWEP.Primary.Cone = 0
@@ -218,8 +216,6 @@ SWEP.RHAng = Angle(0,-12,90)
 SWEP.LHPos = Vector(14,1,-3.4)
 SWEP.LHAng = Angle(-110,-180,0)
 
-local finger1 = Angle(25,0, 40)
-
 SWEP.ShootAnimMul = 3
 
 function SWEP:DrawPost()
@@ -235,11 +231,6 @@ function SWEP:DrawPost()
 	end
 end
 
-local lfang2 = Angle(0, -15, -1)
-local lfang1 = Angle(-5, -5, -5)
-local lfang0 = Angle(-12, -16, 20)
-local vec_zero = Vector(0,0,0)
-local ang_zero = Angle(0,0,0)
 function SWEP:AnimHoldPost()
 
 end
@@ -396,7 +387,6 @@ SWEP.ReloadSlideAnim = {
 	0,
 	0
 }
-
 
 -- Inspect Assault
 

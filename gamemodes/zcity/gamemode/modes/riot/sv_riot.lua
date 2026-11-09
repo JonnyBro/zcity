@@ -36,11 +36,6 @@ local lawWeapons = {
     "weapon_handcuffs_key"
 }
 
-local lawArmor = {
-    "ent_armor_vest2",
-    "ent_armor_helmet3"
-}
-
 function MODE.GuiltCheck(Attacker, Victim, add, harm, amt)
     return 1, true
 end
@@ -61,7 +56,6 @@ function MODE:Intermission()
     net.Broadcast()
 end
 
-
 function MODE:CheckAlivePlayers()
     local swatPlayers = {}
     local banditPlayers = {}
@@ -81,14 +75,12 @@ function MODE:CheckAlivePlayers()
     return {swatPlayers, banditPlayers}
 end
 
-
 function MODE:EndRound()
     timer.Simple(2,function()
         net.Start("riot_roundend")
         net.Broadcast()
     end)
 end
-
 
 function MODE:ShouldRoundEnd()
     local endround, winner = zb:CheckWinner(self:CheckAlivePlayers())
@@ -97,7 +89,6 @@ end
 
 function MODE:RoundStart()
 end
-
 
 function MODE:GiveEquipment()
     local players = player.GetAll()
@@ -117,7 +108,6 @@ function MODE:GiveEquipment()
         ply:SetupTeam(0)
 
         ply:SetPlayerClass("terrorist")
-
 
         zb.GiveRole(ply, "Rioter", Color(190, 0, 0))
 
@@ -147,7 +137,6 @@ function MODE:GiveEquipment()
         end
     end
 
-
     for i = numRioters + 1, numPlayers do
         local ply = players[i]
         if ply:Team() == TEAM_SPECTATOR then continue end
@@ -161,10 +150,8 @@ function MODE:GiveEquipment()
         inv["Weapons"]["hg_sling"] = true
         ply:SetNetVar("Inventory", inv)
 
-
         local hands = ply:Give("weapon_hands_sh")
         ply:SelectWeapon(hands)
-
 
         for _, wepName in ipairs(lawWeapons) do
             ply:Give(wepName)
@@ -174,7 +161,6 @@ function MODE:GiveEquipment()
 
         hg.AddArmor(ply, "ent_armor_helmet3")
         hg.AddArmor(ply, "ent_armor_vest2")
-
 
         if i == numRioters + 1 then
             ply:Give("weapon_ram")
@@ -199,7 +185,6 @@ end
 
 function MODE:RoundThink()
 end
-
 
 function MODE:CanLaunch()
     local activePlayers = 0

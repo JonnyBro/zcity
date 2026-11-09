@@ -132,7 +132,6 @@ if SERVER then
 
         -- simplify path
         self.Path = {}
-        local skip = 0
         for i = 1, #path do
             if !hg.isVisible(self.Path[#self.Path], path[i + 1], {self.Victim}, MASK_SOLID_BRUSHONLY) then
                 self.Path[#self.Path + 1] = path[i]
@@ -251,7 +250,6 @@ if SERVER then
                     self:Remove()
                 end
             end
-
 
             if ent != owner then
                 local pos = self:GetPos() - vector_up * 16

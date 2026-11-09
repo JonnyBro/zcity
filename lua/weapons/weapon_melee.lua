@@ -366,8 +366,6 @@ end
 local addAng = Angle()
 local addPos = Vector()
 
-local vechuy = Vector()
-
 local addPosLerp = Vector()
 local addAngLerp = Angle()
 
@@ -508,16 +506,6 @@ SWEP.FakeViewBobBone = "ValveBiped.Bip01_R_Hand"
 SWEP.FakeVPShouldUseHand = false
 SWEP.FakeViewBobBaseBone = "ValveBiped.Bip01_R_Forearm"
 
-function hg.RenderMelees(ent, ply, wep)
-    if wep.DrawWorldModel2 then
-        wep:DrawWorldModel2()
-    else
-        wep:DrawWorldModel()
-    end
-end
-
-local host_timescale = game.GetTimeScale
-
 function SWEP:Camera(eyePos, eyeAng, view, vellen)
     self:DrawWorldModel2()
 
@@ -549,8 +537,6 @@ function SWEP:Camera(eyePos, eyeAng, view, vellen)
 
     view.origin = eyePos - (angle_difference_localvec * 150) - (position_difference * 0.5)
     view.angles = eyeAng
-
-    local lpos = self.lastAddPos or vector_origin
 
     return view
 end
@@ -876,19 +862,6 @@ function SWEP:PlayEffects(trace, attacktype)
     end
 end
 
-function SWEP:BreakGlass(ent)
-	if not IsValid(ent) then return end
-    if string.find(ent:GetClass(),"break") and ent:GetBrushSurfaces()[1] and string.find(ent:GetBrushSurfaces()[1]:GetMaterial():GetName(),"glass") then
-
-        if math.random(1, 4) == 4 and ent:Health() < 250 then
-        end
-
-        return true
-    else
-        return false
-    end
-end
-
 function SWEP:BehindAttack(ent)
     local owner = self:GetOwner()
 
@@ -977,7 +950,6 @@ function SWEP:BlockingLogic(ent, mul, attacktype, trace)
     return 1
 end
 
-local matBlood = Material("zbattle/blood")
 SWEP.blockSound = nil
 SWEP.ShouldAttackOnce = true
 
@@ -1381,7 +1353,6 @@ function SWEP:PrimaryAttack()
 
     local mul = 1 / math.Clamp((180 - self:GetOwner().organism.stamina[1]) / 90, 1, 2)
 
-
     self.HitEnts = nil
     self.FirstAttackTick = false
     self.AttackHitPlayed = false
@@ -1719,9 +1690,6 @@ function SWEP:NPCThink()
     if not IsValid(enemy) then return end
 
     local dist = enemy:GetPos():Distance(npc:GetPos())
-
-    if enemy and dist > 85 then
-    end
 
     if dist < 85 and (self.LastNPCAttack or 0) < CurTime() then
 		local timerId = (self:EntIndex() .. "_NPCAttack")

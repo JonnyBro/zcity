@@ -22,11 +22,6 @@ if SERVER then
 		ply.weaponInv[i] = tbl
 	end
 
-	function weaponInv.CreateLimitAmmo(ply, ammoType, count)
-		ammoType = game.GetAmmoID(ammoType)
-		ply.ammoInv[ammoType] = count
-	end
-
 	local function Remove(self, slot)
 		local id
 		for i = 1, #slot do

@@ -2,7 +2,6 @@ gs = {
 	random = include("minstd.lua") -- from https://github.com/Kefta/Lua-MINSTD
 }
 
-
 DEBUG_LENGTH = 3
 
 COORD_EXTENT = 2 * 16384
@@ -717,7 +716,6 @@ function ENTITY:FireLuaBullets(tInfo)
 				tries = tries - 1
 
 				local bonename = ent:GetBoneName(ent:TranslatePhysBoneToBone(tr.PhysicsBone))
-				local hitgroup = hg.bonetohitgroup[bonename]--( ent:IsPlayer() and tr.HitGroup or hg.bonetohitgroup[bonename])
 
 				if !(armsbones[bonename] and hg.RagdollOwner(tr.Entity) == pInflictor:GetOwner()) and !IsValid(tr.Entity.OldRagdoll) and (tr.PhysicsBone != 0 or !tr.StartSolid) and (!hg.amputeetable[bonename] or !ent.organism[hg.amputeetable[bonename].."amputated"]) then break end
 

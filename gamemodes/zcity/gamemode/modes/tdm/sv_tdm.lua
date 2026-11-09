@@ -61,24 +61,6 @@ local tblweps = {
 	},
 }
 
-local tblatts = {
-	[0] = {
-		{""},
-	},
-	[1] = {
-		{"holo14","laser2","grip3"},
-	},
-}
-
-local tblarmors = {
-	[0] = {
-		{"vest4","helmet1"},
-	},
-	[1] = {
-		{"vest4","helmet1"},
-	},
-}
-
 function MODE:GetPlySpawn(ply)
 end
 

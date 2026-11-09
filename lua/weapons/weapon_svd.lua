@@ -16,8 +16,6 @@ SWEP.FakeAng = Angle(0, 0, 0)
 SWEP.AttachmentPos = Vector(0.5,0.1,0.3)
 SWEP.AttachmentAng = Angle(0,0,0)
 
-
-
 SWEP.FakeReloadSounds = {
 	[0.32] = "weapons/tfa_nam_svd/svd_magout.wav",
 	[0.85] = "weapons/tfa_nam_svd/svd_magin.wav",
@@ -177,12 +175,9 @@ SWEP.FOVMax = 10
 SWEP.huyRotate = 25
 SWEP.FOVScoped = 40
 
-local vecZero = Vector(0, 0, 0)
-
 SWEP.DistSound = "weapons/tfa_ins2/sks/sks_dist.wav"
 
 SWEP.lengthSub = 15
-
 
 --local to head
 SWEP.RHPos = Vector(3,-6.5,4)
@@ -193,16 +188,9 @@ SWEP.LHAng = Angle(-110,-180,-5)
 
 SWEP.ShootAnimMul = 5
 
-local lfang2 = Angle(-2, -35, -1)
-local lfang21 = Angle(0, 35, 20)
-local lfang1 = Angle(5, -15,-20)
-local lfang0 = Angle(-0, -5, 0)
-local vec_zero = Vector(0,0,0)
-local ang_zero = Angle(0,0,0)
 function SWEP:AnimHoldPost()
 
 end
-
 
 function SWEP:DrawPost()
 	local wep = self:GetWeaponEntity()

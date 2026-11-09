@@ -239,22 +239,6 @@ local IsValid = IsValid
 			return vp_punch_angle4 * (1 - consmul)
 		end
 
-		function GetViewPunchVelocity()
-			return vp_punch_angle_velocity
-		end
-
-		function GetViewPunchVelocity2()
-			return vp_punch_angle_velocity2
-		end
-
-		function GetViewPunchVelocity3()
-			return vp_punch_angle_velocity3
-		end
-
-		function GetViewPunchVelocity4()
-			return vp_punch_angle_velocity4
-		end
-
 		local prev_on_ground,current_on_ground,speedPrevious,speed = false,false,0,0
 		local angle_hitground = Angle(0,0,0)
 		hook.Add("Think", "CP_detectland", function()

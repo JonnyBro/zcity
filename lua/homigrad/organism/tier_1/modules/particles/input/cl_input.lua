@@ -15,7 +15,6 @@ mat_huy:SetTexture("$basetexture",texture)
 local cloudmat = Material("effects/smoke_b")
 
 --оставь это лучше выглядит
-local countmats = #mats
 hg.bloodparticles1 = hg.bloodparticles1 or {}
 hg.bloodparticles2 = hg.bloodparticles2 or {}
 local vecZero = Vector(0, 0, 0)

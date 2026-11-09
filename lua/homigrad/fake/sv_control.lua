@@ -1,5 +1,4 @@
 
-local vecZero = Vector(0, 0, 0)
 local angZero = Angle(0, 0, 0)
 local shadowparams = {}
 
@@ -48,7 +47,6 @@ local function realPhysNum(ragdoll, physNumber)
 	end
 end
 
-
 hg.realPhysNum = realPhysNum
 local oldtime
 function hg.ShadowControl(ragdoll, physNumber, ss, ang, maxang, maxangdamp, pos, maxspeed, maxspeeddamp)
@@ -84,41 +82,17 @@ local tr = {
 local hg_fake_stamina = CreateConVar("hg_fake_stamina", "1", FCVAR_ARCHIVE + FCVAR_NOTIFY, "Enables stamina when ragdolled", 0, 1)
 
 local util_TraceLine, util_TraceHull = util.TraceLine, util.TraceHull
-local game_GetWorld = game.GetWorld
 local ang, ang2, ang3 = Angle(0, 0, 0), Angle(0, 0, 0),  Angle(0, 0, 0)
 local spine, time, rhand, lhand
 
-local height = Vector(0, 0, 72) --28 eye level if crouched
 local util_PointContents, bit_band, hook_Run = util.PointContents, bit.band, hook.Run
 local forceArm = 600
 local forceArm_dump = 450
-
-local models_female = {
-	["models/player/group01/female_01.mdl"] = true,
-	["models/player/group01/female_02.mdl"] = true,
-	["models/player/group01/female_03.mdl"] = true,
-	["models/player/group01/female_04.mdl"] = true,
-	["models/player/group01/female_05.mdl"] = true,
-	["models/player/group01/female_06.mdl"] = true,
-	["models/player/group03/female_01.mdl"] = true,
-	["models/player/group03/female_02.mdl"] = true,
-	["models/player/group03/female_03.mdl"] = true,
-	["models/player/group03/female_04.mdl"] = true,
-	["models/player/group03/female_05.mdl"] = true,
-	["models/player/group03/police_fem.mdl"] = true
-}
 
 local vector_zero = Vector(0,0,0)
 local vector_usehull = Vector(6, 6, 6)
 
 local hg_shitty_fake = CreateConVar("hg_shitty_fake", "1", FCVAR_ARCHIVE + FCVAR_NOTIFY, "enable shitty fake", 0, 1)
-
-local speedupbones = {
-	["ValveBiped.Bip01_L_Foot"] = true,
-	["ValveBiped.Bip01_R_Foot"] = true,
-}
-
-local vecfive = Vector(5,5,5)
 
 local player_GetHumans = player.GetHumans
 
@@ -342,7 +316,6 @@ hook.Add("Think", "Fake", function()
 						ang2:RotateAroundAxis(angles:Right(), lower and -20 or 0)
 						ang2:RotateAroundAxis(angles:Up(), lower and 20 or 10)
 						ang2:RotateAroundAxis(angles:Forward(), -45)
-
 
 						shadowControl(ragdoll, 3, 0.002, ang2, forceArm * force, forceArm_dump)
 						shadowControl(ragdoll, 4, 0.002, ang2, forceArm * force, forceArm_dump)

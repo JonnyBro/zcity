@@ -8,14 +8,11 @@ local tr = {
 local vecZero = Vector(0,0,0)
 local LerpVector = LerpVector
 
-local math_random = math.random
 local table_remove = table.remove
 
-local util_Decal = util.Decal
 local util_TraceLine = util.TraceLine
 local render_SetMaterial = render.SetMaterial
 local render_DrawSprite = render.DrawSprite
-local surface_SetDrawColor = surface.SetDrawColor
 
 local color = Color(90,0,0,122)
 
@@ -34,7 +31,6 @@ bloodparticles_hook[3] = function(anim_pos)
 end
 
 local gravity = GetConVar("sv_gravity")
-local vecDown = Vector(0, 0, -1)
 
 local radius = 20000
 local radiusSqr = radius * radius
@@ -60,8 +56,6 @@ bloodparticles_hook[4] = function(mul)
         result = util_TraceLine(tr)
 
         local hitPos = result.HitPos
-
-        local up = hitPos[3] - pos[3]
 
 		if radiusSqr < hitPos:LengthSqr() then table_remove(hg.bloodparticles2, i) continue end
 

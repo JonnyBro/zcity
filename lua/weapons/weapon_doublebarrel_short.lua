@@ -131,7 +131,6 @@ SWEP.AnimList = {
 	["reload"] = "reload",
 	["reload_empty"] = "reload_empty",
 }
-local vector_full = Vector(1,1,1)
 SWEP.FakeReloadEvents = {
 	[0.15] = function( self, timeMul )
 		if CLIENT then

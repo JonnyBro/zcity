@@ -6,13 +6,11 @@ MODE.randomSpawns = false
 MODE.ROUND_TIME = 9000
 hg.NextMap = ""
 
-
 local coop_rts = CreateConVar("zb_coop_rts", "1", FCVAR_PROTECTED, "Toggle NPC rebel possess in Half-Life 2 CO-OP mode", 0, 1)
 local coop_rts_cmb = CreateConVar("zb_coop_rts_cmb", "1", FCVAR_PROTECTED, "Toggle NPC combine possess in Half-Life 2 CO-OP mode if zb_coop_rts is enabled", 0, 1)
 local coop_rts_zmb = CreateConVar("zb_coop_rts_zmb", "0", FCVAR_PROTECTED, "Toggle NPC zombie possess in Half-Life 2 CO-OP mode if zb_coop_rts is enabled", 0, 1) --!! WIP
 
 MODE.LootSpawn = false
-
 
 MODE.Lootables = {}
 for model, data in pairs(hg.loot_boxes or {}) do
@@ -52,7 +50,6 @@ function MODE:GetLootTable()
     local lootData = mapData.PlayerEqipment == "rebel" and self.LootTable[2] or self.LootTable[1]
     return lootData[2]
 end
-
 
 MODE.LootTable = {
 	[1] = {1, {
@@ -101,9 +98,6 @@ MODE.LootTable = {
         {6,"ent_ammo_14.5x114mm"},
         {2,"weapon_hg_rpg"},
         {6,"ent_ammo_rpg7"},
-
-
-
 
 		{6,"ent_armor_vest3"},
 		{5,"ent_armor_helmet1"},
@@ -166,25 +160,9 @@ function hg.AddMapToTable(map)
     end
 end
 
-function hg.CheckMapCompleted(map, shouldAdd)
-    map = map or game.GetMap()
-    sql.Query("CREATE TABLE IF NOT EXISTS coop_maps ( map TEXT, completed BOOL );")
-    local data = sql.Query("SELECT * FROM coop_maps WHERE map = " .. sql.SQLStr(map) .. ";")
-
-    if data then
-        return true
-    else
-        if shouldAdd then
-            hg.AddMapToTable(map)
-        end
-        return false
-    end
-end
-
 function MODE:Intermission()
     self.LootTimer = CurTime() + 2
     game.CleanUpMap()
-
 
     self.COOPPoints = zb.GetMapPoints("HMCD_COOP_SPAWN")
 
@@ -214,7 +192,6 @@ function MODE:ShouldRoundEnd()
         if ply.PlayerClassName == "Combine" or ply.PlayerClassName == "Metrocop" or ply.PlayerClassName == "headcrabzombie" then continue end
         lives = lives + 1
     end
-
 
     if (lives <= 0) and (hg.MapCompleted or false) then
         timer.Simple(5, function()
@@ -343,7 +320,6 @@ function MODE:GiveEquipment()
                     local savedRoleColor = data.RoleColor and Color(data.RoleColor[1], data.RoleColor[2], data.RoleColor[3]) or clr_rebel
                     local savedSubClass = data.SubClass
 
-
                     if savedPlayerClass == "Gordon" or savedRole == "Freeman" then
 
                         ply:SetPlayerClass("Gordon", {bRestored = true})
@@ -352,7 +328,6 @@ function MODE:GiveEquipment()
                     elseif savedSubClass == "medic" then
                         ply.subClass = "medic"
                         medicCount = medicCount + 1
-
 
                         if savedPlayerClass == "Refugee" then
                             ply:SetPlayerClass("Refugee", {bNoEquipment = true})
@@ -364,7 +339,6 @@ function MODE:GiveEquipment()
                         ply.subClass = "grenadier"
                         grenadierCount = grenadierCount + 1
 
-
                         if savedPlayerClass == "Refugee" then
                             ply:SetPlayerClass("Refugee", {bNoEquipment = true})
                         else
@@ -373,7 +347,6 @@ function MODE:GiveEquipment()
                         zb.GiveRole(ply, "Grenadier", clr_grenadier)
                     else
                         ply.subClass = nil
-
 
                         if savedPlayerClass == "Refugee" then
                             ply:SetPlayerClass("Refugee", {bNoEquipment = true})

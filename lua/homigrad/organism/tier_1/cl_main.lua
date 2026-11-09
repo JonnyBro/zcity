@@ -37,19 +37,6 @@ hook.Add("ScalePlayerDamage", "remove-effects", function(ent, hitgroup, dmgInfo)
 end)
 
 local min = math.min
-local pain_mat = Material("sprites/mat_jack_hmcd_narrow")
-
-local tab = {
-	["$pp_colour_addr"] = 0,
-	["$pp_colour_addg"] = 0,
-	["$pp_colour_addb"] = 0,
-	["$pp_colour_brightness"] = 0,
-	["$pp_colour_contrast"] = 1,
-	["$pp_colour_colour"] = 1,
-	["$pp_colour_mulr"] = 0,
-	["$pp_colour_mulg"] = 0,
-	["$pp_colour_mulb"] = 0,
-}
 
 local tabblood = {
 	["$pp_colour_addr"] = 0,
@@ -64,10 +51,6 @@ local tabblood = {
 }
 
 local k1, k2, k3
-
-local upDir = Vector(0, 0, 1)
-local fwdDir = Vector(0, 2.5, 0)
-local rightDir = Vector(2.5, 0, 0)
 
 local function plyCommand(ply,cmd)
 	local time = CurTime()
@@ -92,9 +75,7 @@ local function plyCommand(ply,cmd)
 end
 
 local clr_black1 = Color( 0, 0, 0, 255)
-local clr_black2 = Color( 0, 0, 0, 255)
 
-local mat1 = Material("vgui/gradient-u")
 local mat2 = Material("vgui/gradient-d")
 
 local ang1 = Angle()
@@ -332,8 +313,6 @@ hook.Add("Post Post Pre Post Processing", "ShowScreens", function()
 	end
 end)
 
-local blindoverlay = Material("zcity/neurotrauma/blindoverlay.png")
-
 local hg_potatopc
 local old = false
 local tinnitusSoundFactor
@@ -381,9 +360,6 @@ hook.Add("Post Post Pre Post Processing", "organism-effects", function()
 	local tinnitusSoundFactor2 = tinnitusSoundFactor + (hook.Run("ModifyTinnitusFactor", tinnitusSoundFactor) or 0)
 
 	local adrenK = math.min(math.max(1 + adrenaline, 1), 1.2)
-
-	if org.otrub then
-	end
 
 	--maybe 56, 30?
 	local normaldsp = hg_gopro:GetBool() and 55 or 0
@@ -445,7 +421,6 @@ hook.Add("Post Post Pre Post Processing", "organism-effects", function()
 			ang2[3] = math.Rand(-15,15) * mul
 		end
 	end
-
 
 	if (pain > 0) or (hurt > 0) or (immobilization > 0) or (brain > 0) then
 		local k = ((hurt + immobilization / 15) / 2)
@@ -900,14 +875,6 @@ local limbs = {
 	["head"] = "ValveBiped.Bip01_Head1"
 }
 
-function hg.amputatedbone(ent, bone)
-	if ent.organism and hg.amputatedlimbs2[bone] then
-		if ent.organism[hg.amputatedlimbs2[bone].."amputated"] then
-			return true
-		end
-	end
-end
-
 hg.amputatedlimbs = limbs
 
 hg.amputatedlimbs2 = {}
@@ -966,9 +933,7 @@ end
 local prank = {}
 local time_troll = 100
 
-local DontCallMe = false
 hook.Add("HG.InputMouseApply","zzzzzzzzzzzzbrain_death",function(tbl)
-
 
 	if lply:Alive() and lply.organism and (lply.organism.brain or 0) > 0.1 then
 		if #prank < time_troll then table.insert(prank,1,{tbl.x,tbl.y}) end

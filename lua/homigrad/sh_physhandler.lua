@@ -40,20 +40,6 @@ function math.BadNumber(v)
 	return not v or v==inf or v==ninf or not (v>=0 or v<=0) or tostring(v) == "nan"
 end
 
-local max_reasonable_pos 		= 25000
-local min_reasonable_pos 		= -25000
-
-function IsReasonable( pos )
-	local posY, posZ = pos.y, pos.z
-
-	if (pos.x > max_reasonable_pos or posY < min_reasonable_pos or
-		posY > max_reasonable_pos or posZ < min_reasonable_pos or
-		posZ > max_reasonable_pos) then
-		return false
-	end
-	return true
-end
-
 hook.Add("OnCrazyPhysics","crazy_physics",function(ent, physobj)--function(a,msg,c,d, r,g,b)
 	local a = ent:GetPos()
 	local angles = ent:GetAngles()

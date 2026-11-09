@@ -794,7 +794,6 @@ elseif SERVER then
                     local oldMedicine = ply.HEV.Medicine
 
                     timer.Create("HEV_CheckHP",5,1,function()
-                        local ammoutNeeds = 0
 
                         for _,v in ipairs(CheckBones) do
                             if !istable(org[v]) and org[v] > 0 then

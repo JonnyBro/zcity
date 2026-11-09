@@ -84,8 +84,6 @@ SWEP.PainMultiplier = 1.65
 SWEP.PenetrationSizePrimary = 1
 SWEP.StaminaPrimary = 25
 
-local setmodevpang = Angle(0, 0, 5)
-
 local weppos1, wepang1, weppos2, wepang2 = Vector(-2, 4.5, -11), Angle(14, -90, 90), Vector(0.7, -0.5, -12), Angle(-15, 90, 96)
 function SWEP:ThinkAdd()
 	local ply = self:GetOwner()

@@ -46,27 +46,6 @@ end
 
 CLASS.CanUseDefaultPhrase = true
 
-local SubMaterials = {
-    -- Male
-    ["models/player/group01/male_01.mdl"] = 3,
-    ["models/player/group01/male_02.mdl"] = 2,
-    ["models/player/group01/male_03.mdl"] = 4,
-    ["models/player/group01/male_04.mdl"] = 4,
-    ["models/player/group01/male_05.mdl"] = 4,
-    ["models/player/group01/male_06.mdl"] = 0,
-    ["models/player/group01/male_07.mdl"] = 4,
-    ["models/player/group01/male_08.mdl"] = 0,
-    ["models/player/group01/male_09.mdl"] = 2,
-    -- FEMKI
-    ["models/player/group01/female_01.mdl"] = 2,
-    ["models/player/group01/female_02.mdl"] = 3,
-    ["models/player/group01/female_03.mdl"] = 3,
-    ["models/player/group01/female_04.mdl"] = 1,
-    ["models/player/group01/female_05.mdl"] = 2,
-    ["models/player/group01/female_06.mdl"] = 4
-}
-
-
 local commander_models = {
     ["Male 01"]   = "models/player/group03/male_01.mdl",
     ["Male 02"]   = "models/player/group03/male_02.mdl",
@@ -84,7 +63,6 @@ local commander_models = {
     ["Female 05"] = "models/player/group03/female_05.mdl",
     ["Female 06"] = "models/player/group03/female_06.mdl"
 }
-
 
 local commander_submaterials = {
     ["models/player/group03/male_01.mdl"] = 0,
@@ -142,37 +120,6 @@ local vest = {
     "",
 }
 
-local commanderModels = {
-    "models/humans/group03/male_01.mdl",
-    "models/humans/group03/male_02.mdl",
-    "models/humans/group03/male_03.mdl",
-    "models/humans/group03/male_04.mdl",
-    "models/humans/group03/male_05.mdl",
-    "models/humans/group03/male_06.mdl",
-    "models/humans/group03/male_07.mdl",
-    "models/humans/group03/male_08.mdl",
-    "models/humans/group03/male_09.mdl"
-}
-
-local medic = {
-    ["models/1000shells/hl2rp/rebels/rebels_standart/van.mdl"] = "models/humans/group03m/male_01.mdl",
-    ["models/1000shells/hl2rp/rebels/rebels_standart/ted.mdl"] = "models/humans/group03m/male_02.mdl",
-    ["models/1000shells/hl2rp/rebels/rebels_standart/joe.mdl"] = "models/humans/group03m/male_03.mdl",
-    ["models/1000shells/hl2rp/rebels/rebels_standart/eric.mdl"] = "models/humans/group03m/male_04.mdl",
-    ["models/1000shells/hl2rp/rebels/rebels_standart/art.mdl"] = "models/humans/group03m/male_05.mdl",
-    ["models/1000shells/hl2rp/rebels/rebels_standart/sandro.mdl"] ="models/humans/group03m/male_06.mdl",
-    ["models/1000shells/hl2rp/rebels/rebels_standart/mike.mdl"] = "models/humans/group03m/male_07.mdl",
-    ["models/1000shells/hl2rp/rebels/rebels_standart/vance.mdl"] = "models/humans/group03m/male_08.mdl",
-    ["models/1000shells/hl2rp/rebels/rebels_standart/erdim.mdl"] = "models/humans/group03m/male_09.mdl",
-
-    ["models/player/group01/female_01.mdl"] = "models/Humans/group03m/female_01.mdl",
-    ["models/player/group01/female_02.mdl"] = "models/player/group03m/female_02.mdl",
-    ["models/player/group01/female_03.mdl"] = "models/player/group03m/female_03.mdl",
-    ["models/player/group01/female_04.mdl"] = "models/player/group03m/female_04.mdl",
-    ["models/player/group01/female_05.mdl"] = "models/player/group03m/female_05.mdl",
-    ["models/player/group01/female_06.mdl"] = "models/player/group03m/female_06.mdl"
-}
-
 function CLASS.GiveEquipment(self, class)
     local currentRound = CurrentRound and CurrentRound()
     if currentRound and currentRound.name == "defense" then
@@ -186,9 +133,6 @@ function CLASS.GiveEquipment(self, class)
 
     local wep = ply:Give(secondary[math.random(#secondary)])
     ply:GiveAmmo(wep:GetMaxClip1() * 2, wep:GetPrimaryAmmoType(), true)
-
-    if class ~= "medic" then
-    end
 
     ply.armors = {}
     local vesta = vest[math.random(#vest)]
@@ -213,7 +157,6 @@ end
 
 function CLASS.On(self, data)
     if CLIENT then return end
-
 
     if type(data) == "table" then
         bNoEquipment = data.bNoEquipment
@@ -260,8 +203,6 @@ function CLASS.On(self, data)
     end
 
     if self.subClass then
-        if self.subClass == "medic" then
-        end
 
         self.subClass = nil
     end

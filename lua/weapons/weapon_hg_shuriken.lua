@@ -111,10 +111,6 @@ function SWEP:BoneSet(layerID, lookup_name, vec, ang)
 	hg.bone.Set(self:GetOwner(), layerID, lookup_name, vec, ang)
 end
 
-function SWEP:BoneGet(lookup_name)
-	return hg.bone.Get(self:GetOwner(), lookup_name)
-end
-
 function SWEP:Animation()
 	self:SetHold(self.HoldType)
 
